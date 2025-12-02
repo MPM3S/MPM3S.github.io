@@ -20,15 +20,15 @@
 
 # Project information
 site_name: MPM for Net Zero
-site_url: https://example.com/
-site_author: Durham University Engineering Department
+site_url: https://durhamarc.github.io/mpm-netzero
+site_author: Durham University
 site_description: >-
   Leveraging the Material Point Method for large deformation soil-structure
   interaction to realise Net Zero through offshore renewable energy
 
 # Repository
 repo_name: mpm-netzero
-repo_url: https://github.com/yourusername/mpm-netzero
+repo_url: https://github.com/DurhamARC/mpm-netzero
 
 # Copyright
 copyright: Copyright &copy; 2025 Durham University | UKRI Project Reference UKRI788
