@@ -1,17 +1,5 @@
   Formulation - AMPLE - A Material Point Learning Environment                     
 
-*   [Homepage](/)
-*   [MPM](/mpm)
-*   [Development](/principles)
-*   [Formulation](/formulation)
-*   [Code Structure](/structure)
-*   [Test Cases](/tests)
-*   [Publications](/publications)
-*   [Versions](/versions)
-*   [acknowledgements](/acknowledgements)
-*   [Download](/download)
-*   [About](/about)
-
 [AMPLE: A Material Point Learning Environment](/)
 
 Formulation
