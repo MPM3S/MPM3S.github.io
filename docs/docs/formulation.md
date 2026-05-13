@@ -12,9 +12,9 @@ Equilibrium
 
 AMPLE adopts an updated Lagrangian weak statement of equilibrium for quasi-static analysis. The Galerkin form of the weak statement of equilibrium over each background grid element, E, can be expressed as
 
-$$\int_{\varphi\_t(E)}\[\\nabla\_x S\_{vp}\]^{T}\\{\\sigma\\} \\text{d}v - \\int\_{\\varphi\_t(E)}\[S\_{vp}\]^{T}\\{b\\} \\text{d}v - \\int\_{\\varphi\_t(\\partial E)}\[S\_{vp}\]^{T}\\{t\\} \\text{d}s = \\{0\\}$$
+$$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(E)}[S_{vp}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial E)}[S_{vp}]^{T}\{t\} \text{d}s = \{0\}$$
 
-where $\\varphi\_t$ is the motion of the material body which is subjected to tractions, $\\{t\\}$, on its boundary, $\\partial E$ with surface, $s$, and body forces, $\\{b\\}$, acting over its volume, $v$. These external forces lead to a Cauchy stress field, $\\{\\sigma\\}$, through the body. $\[\\nabla\_x S\_{vp}\]$ is the tensorial form of the strain-displacement matrix containing derivatives of the basis functions, $\[S\_{vp}\]$, with respect to the updated coordinates, $\\{x\\}$. The first term in the equilibrium equation is the internal force within an element and the combination of the second (body forces) and third (tractions) terms is the external force vector. The equilibrium equation is non-linear in terms of the unknown nodal displacements and can be efficiently solved using the standard implicit Newton-Raphson procedure (see below).
+where $\varphi_t$ is the motion of the material body which is subjected to tractions, $\{t\}$, on its boundary, $\partial E$ with surface, $s$, and body forces, $\{b\}$, acting over its volume, $v$. These external forces lead to a Cauchy stress field, $\{\sigma\}$, through the body. $[\nabla_x S_{vp}]$ is the tensorial form of the strain-displacement matrix containing derivatives of the basis functions, $[S_{vp}]$, with respect to the updated coordinates, $\{x\}$. The first term in the equilibrium equation is the internal force within an element and the combination of the second (body forces) and third (tractions) terms is the external force vector. The equilibrium equation is non-linear in terms of the unknown nodal displacements and can be efficiently solved using the standard implicit Newton-Raphson procedure (see below).
 
 Large deformation mechanics
 ---------------------------
@@ -38,13 +38,13 @@ In material point methods the physical domain is discretised by a number of mate
 
 The internal force contribution of a single material point to the background mesh can be expressed as
 
-$$\\{f^p\\} = \[\\nabla\_x S\_{vp}\]^{T}\\{\\sigma\\}v\_p$$
+$$\{f^p\} = [\nabla_x S_{vp}]^{T}\{\sigma\}v_p$$
 
 where v\_p the volume associated with the material point. Linearising the internal force with respect to the unknown nodal displacements gives the stiffness contribution of a single material point to the background mesh as
 
-$$\[k^p\] = \[\\nabla\_x S\_{vp}\]^{T}\[D\]\[\\nabla\_x S\_{vp}\]v\_p$$
+$$[k^p] = [\nabla_x S_{vp}]^{T}[D][\nabla_x S_{vp}]v_p$$
 
-where $\[D\]$ is the stiffness associated with the material point. Note the constitutive models included within AMPLE return the algorithmic consistent tangent that ensures optimum convergence of the Newton process that minimises the global out of balance forces. As with the finite element method, in the material point method the individual contributions of the material points must be assembled into a global stiffness matrix and internal force vector.
+where $[D]$ is the stiffness associated with the material point. Note the constitutive models included within AMPLE return the algorithmic consistent tangent that ensures optimum convergence of the Newton process that minimises the global out of balance forces. As with the finite element method, in the material point method the individual contributions of the material points must be assembled into a global stiffness matrix and internal force vector.
 
 Boundary conditions
 -------------------
@@ -75,9 +75,9 @@ Computational procedure
 
 The applied body forces and/or tractions are split into a number of loadsteps and for each of these steps the following process is adopted:
 
-1.  calculate the stiffness contribution, $\[k^p\]$, of all of the material points and assemble the individual contribution of each material point into the global stiffness matrix;
+1.  calculate the stiffness contribution, $[k^p]$, of all of the material points and assemble the individual contribution of each material point into the global stiffness matrix;
     
-2.  calculate the internal force contribution, $\\{f^p\\}$, of all of the material points and assemble the contributions into the global internal force vector;
+2.  calculate the internal force contribution, $\{f^p\}$, of all of the material points and assemble the contributions into the global internal force vector;
     
 3.  increment the external tractions and/or body forces and solve for the nodal displacements within a loadstep, using the Newton-Raphson process until the out-of-balance force converges within a specified tolerance;
     
