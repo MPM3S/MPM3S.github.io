@@ -88,7 +88,7 @@ The applied body forces and/or tractions are split into a number of loadsteps an
 
 These steps are shown schematically below.
 
-![MPM steps](/assets/img/MPMsteps.jpg)
+![MPM steps](../img/MPMsteps.jpg)
 
 * * *
 
