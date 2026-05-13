@@ -5,7 +5,7 @@
 Formulation
 ===========
 
-AMPLE is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper \[1\] provides the scientific basis of AMPLE. Key aspects of the formulation are described below.
+AMPLE is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper[^charlton2017] provides the scientific basis of AMPLE. Key aspects of the formulation are described below.
 
 Equilibrium
 -----------
@@ -77,7 +77,7 @@ The applied body forces and/or tractions are split into a number of loadsteps an
 
 1.  calculate the stiffness contribution, $[k^p]$, of all of the material points and assemble the individual contribution of each material point into the global stiffness matrix;
     
-2.  calculate the internal force contribution, $\{f^p\}$, of all of the material points and assemble the contributions into the global internal force vector;
+2.  calculate the internal force contribution, $\\{f^p\\}$, of all of the material points and assemble the contributions into the global internal force vector;
     
 3.  increment the external tractions and/or body forces and solve for the nodal displacements within a loadstep, using the Newton-Raphson process until the out-of-balance force converges within a specified tolerance;
     
@@ -92,7 +92,7 @@ These steps are shown schematically below.
 
 * * *
 
-\[1\] TJ Charlton, WM Coombs & CE Augarde, [iGIMP: an implicit Generalised Interpolation Material Point Method for large deformations](https://www.sciencedirect.com/science/article/pii/S0045794917303395?via%3Dihub), Computers and Structures, 190 (2017), 108-125. _Gold open access_
+[^charlton2017]: TJ Charlton, WM Coombs & CE Augarde, [iGIMP: an implicit Generalised Interpolation Material Point Method for large deformations](https://www.sciencedirect.com/science/article/pii/S0045794917303395?via%3Dihub), Computers and Structures, 190 (2017), 108-125. _Gold open access_
 
 ![AMPLE:  A Material Point Learning Environment](/assets/img/plate.jpg)
 
