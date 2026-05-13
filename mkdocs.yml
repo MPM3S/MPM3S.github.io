@@ -61,7 +61,7 @@ nav:
   - Partners: partners.md
   - Documentation:
     - Getting Started: docs/getting-started.md
-    - Fundamentals: docs/test_CEA.md
+    - Fundamentals: docs/formulation.md
   - Contact: contact.md
 
 # Plugins
