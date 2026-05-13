@@ -99,21 +99,10 @@ These steps are shown schematically below.
 AMPLE: A Material Point Learning Environment
 --------------------------------------------
 
-AMPLE was developed to address the sevEre learning curve for researchers wishing to understand, and start using, the material point method. The software was developed at Durham University between 2014 and 2018 by Dr Will Coombs as a platform to test our new research ideas and understand the impact of adopting different material point variants. AMPLE was first released in January 2019 at the 2nd International Conference on the Material Point Method held at Cambridge University, UK.
+AMPLE was developed to address the severe learning curve for researchers wishing to understand, and start using, the material point method. The software was developed at Durham University between 2014 and 2018 by Dr Will Coombs as a platform to test our new research ideas and understand the impact of adopting different material point variants. AMPLE was first released in January 2019 at the 2nd International Conference on the Material Point Method held at Cambridge University, UK.
 
-*   [](mailto:w.m.coombs@durham.ac.uk)
-*   [](http://www.dur.ac.uk/engineering)
-*   [](https://twitter.com/@DU_comp_mech)
+*   [Prof. Will Coombs](mailto:w.m.coombs@durham.ac.uk)
+*   [Department of Engineering](http://www.dur.ac.uk/engineering)
+*   [DU Computational mechanics on X](https://twitter.com/@DU_comp_mech)
 
 2020 © AMPLE: A Material Point Learning Environment
-
-*   [](mailto:w.m.coombs@durham.ac.uk)
-*   [](http://www.dur.ac.uk/engineering)
-*   [](https://in.linkedin.com/in/william-coombs-1a0a5852)
-*   [](https://twitter.com/@DU_comp_mech)
-*   [](https://www.researchgate.net/profile/William_Coombs3)
-*   [](https://scholar.google.co.uk/citations?user=s_IQ4rAAAAAJ)
-*   [](https://orcid.org/0000-0003-2099-1676)
-*   [](https://www.researcherid.com/rid/C-3288-2012)
-
-\--> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('results-container'), json: '/search.json', searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>', noResultsText: 'No results found', fuzzy: false, exclude: \['Welcome'\] }); (function(i,s,o,g,r,a,m){i\['GoogleAnalyticsObject'\]=r;i\[r\]=i\[r\]||function(){ (i\[r\].q=i\[r\].q||\[\]).push(arguments)},i\[r\].l=1\*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)\[0\];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', '', 'auto'); ga('send', 'pageview');
