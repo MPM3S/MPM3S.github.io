@@ -10,15 +10,6 @@ Euler's identity, $e^{i\pi} + 1 = 0$, links five fundamental constants.
 
 ## Display math
 
-The Gaussian integral:
+An integral:
 
-$$\int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}$$
-
-A matrix-vector equation:
-
-$$
-\begin{bmatrix} a & b \\ c & d \end{bmatrix}
-\begin{bmatrix} x \\ y \end{bmatrix}
-=
-\begin{bmatrix} ax + by \\ cx + dy \end{bmatrix}
-$$
+$$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}{\sigma} \text{d}v -  \int_{\varphi_t(E)}[S_{vp}]^{T}{b} \text{d}v - \int_{\varphi_t(\partial  E)}[S_{vp}]^{T}{t} \text{d}s = {0}$$
