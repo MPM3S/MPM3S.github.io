@@ -19,7 +19,7 @@ where $\\varphi\_t$ is the motion of the material body which is subjected to tra
 Large deformation mechanics
 ---------------------------
 
-In large deformation analysis the deformation gradient provides the fundamental link between the original and the deformed states of a body. For elasto-plasticity this deformation gradient can be multiplicatively decomposed into elastic and plastic components. In AMPLE, this multiplicative decomposition is combined with a linear relationship between elastic logarithmic (or Henky) strains and Kirchhoff stress. This allows any small strain constitutive model to be included within the code without modification.
+In large deformation analysis the deformation gradient provides the fundamental link between the original and the deformed states of a body. For elasto-plasticity this deformation gradient can be multiplicatively decomposed into elastic and plastic components. In AMPLE, this multiplicative decomposition is combined with a linear relationship between elastic logarithmic (or Hencky) strains and Kirchhoff stress. This allows any small strain constitutive model to be included within the code without modification.
 
 Constitutive model
 ------------------
@@ -38,13 +38,13 @@ In material point methods the physical domain is discretised by a number of mate
 
 The internal force contribution of a single material point to the background mesh can be expressed as
 
-\\{f^p\\} = \[\\nabla\_x S\_{vp}\]^{T}\\{\\sigma\\}v\_p
+$$\\{f^p\\} = \[\\nabla\_x S\_{vp}\]^{T}\\{\\sigma\\}v\_p$$
 
 where v\_p the volume associated with the material point. Linearising the internal force with respect to the unknown nodal displacements gives the stiffness contribution of a single material point to the background mesh as
 
-\[k^p\] = \[\\nabla\_x S\_{vp}\]^{T}\[D\]\[\\nabla\_x S\_{vp}\]v\_p
+$$\[k^p\] = \[\\nabla\_x S\_{vp}\]^{T}\[D\]\[\\nabla\_x S\_{vp}\]v\_p$$
 
-where \[D\] is the stiffness associated with the material point. Note the constitutive models included within AMPLE return the algorithmic consistent tangent that ensures optimum convergence of the Newton process that minimises the global out of balance forces. As with the finite element method, in the material point method the individual contributions of the material points must be assembled into a global stiffness matrix and internal force vector.
+where $\[D\]$ is the stiffness associated with the material point. Note the constitutive models included within AMPLE return the algorithmic consistent tangent that ensures optimum convergence of the Newton process that minimises the global out of balance forces. As with the finite element method, in the material point method the individual contributions of the material points must be assembled into a global stiffness matrix and internal force vector.
 
 Boundary conditions
 -------------------
@@ -75,9 +75,9 @@ Computational procedure
 
 The applied body forces and/or tractions are split into a number of loadsteps and for each of these steps the following process is adopted:
 
-1.  calculate the stiffness contribution, \[k^p\], of all of the material points and assemble the individual contribution of each material point into the global stiffness matrix;
+1.  calculate the stiffness contribution, $\[k^p\]$, of all of the material points and assemble the individual contribution of each material point into the global stiffness matrix;
     
-2.  calculate the internal force contribution, \\{f^p\\}, of all of the material points and assemble the contributions into the global internal force vector;
+2.  calculate the internal force contribution, $\\{f^p\\}$, of all of the material points and assemble the contributions into the global internal force vector;
     
 3.  increment the external tractions and/or body forces and solve for the nodal displacements within a loadstep, using the Newton-Raphson process until the out-of-balance force converges within a specified tolerance;
     
@@ -94,14 +94,12 @@ These steps are shown schematically below.
 
 \[1\] TJ Charlton, WM Coombs & CE Augarde, [iGIMP: an implicit Generalised Interpolation Material Point Method for large deformations](https://www.sciencedirect.com/science/article/pii/S0045794917303395?via%3Dihub), Computers and Structures, 190 (2017), 108-125. _Gold open access_
 
-Share:[](https://twitter.com/intent/tweet?text=Formulation&url=http://localhost:4000/formulation/ "Share on Twitter")[](https://facebook.com/sharer.php?u=http://localhost:4000/formulation/ "Share on Facebook")[](https://plus.google.com/share?url=http://localhost:4000/formulation/ "Share on Google+")
-
 ![AMPLE:  A Material Point Learning Environment](/assets/img/plate.jpg)
 
 AMPLE: A Material Point Learning Environment
 --------------------------------------------
 
-AMPLE was developed to address the sevre learning curve for researchers wishing to understand, and start using, the material point method. The software was developed at Durham University between 2014 and 2018 by Dr Will Coombs as a platform to test our new research ideas and understand the impact of adopting different material point variants. AMPLE was first released in January 2019 at the 2nd International Conference on the Material Point Method held at Cambridge University, UK.
+AMPLE was developed to address the sevEre learning curve for researchers wishing to understand, and start using, the material point method. The software was developed at Durham University between 2014 and 2018 by Dr Will Coombs as a platform to test our new research ideas and understand the impact of adopting different material point variants. AMPLE was first released in January 2019 at the 2nd International Conference on the Material Point Method held at Cambridge University, UK.
 
 *   [](mailto:w.m.coombs@durham.ac.uk)
 *   [](http://www.dur.ac.uk/engineering)
