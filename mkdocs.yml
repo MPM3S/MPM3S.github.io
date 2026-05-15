@@ -59,7 +59,7 @@ nav:
     - Technical Approach: about/approach.md
     - Applications: about/applications.md
   - Partners: partners.md
-  - Documentation:
+  - AMPSSIE:
     - Getting Started: docs/getting-started.md
     - Fundamentals: docs/formulation.md
     - BirdMathTest: docs/birdtest.md
