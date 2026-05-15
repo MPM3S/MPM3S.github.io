@@ -254,6 +254,8 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--durham-purple);
 }
 
+.md-nav__item--nested .md-nav__link { flex-direction: row-reverse}
+
 /* Buttons and links */
 .md-button {
   background-color: var(--durham-purple);
