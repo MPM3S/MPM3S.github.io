@@ -60,12 +60,12 @@ nav:
     - Applications: about/applications.md
   - Partners: partners.md
   - AMPSSIE:
-    - Introduction:
+    - Introduction: docs/getting-started.md
     - Getting Started: docs/getting-started.md
-    - Using the software: 
-    - Tutorial problems:
+    - Using the software: docs/getting-started.md
+    - Tutorial problems: docs/getting-started.md
     - Understanding and developing the software:
-    - Technical reference:
+    - Technical reference: docs/getting-started.md
   - Contact: contact.md
 
 # Plugins
