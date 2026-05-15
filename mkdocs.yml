@@ -60,7 +60,7 @@ nav:
     - Applications: about/applications.md
   - Partners: partners.md
   - AMPSSIE:
-    - Introduction: docs/formulation.md
+    - Introduction: docs/Introduction.md
     - Getting Started: docs/birdtest.md
     - Using the software: docs/formulation.md
     - Tutorial problems: docs/birdtest.md
