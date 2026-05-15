@@ -60,9 +60,12 @@ nav:
     - Applications: about/applications.md
   - Partners: partners.md
   - AMPSSIE:
+    - Introduction:
     - Getting Started: docs/getting-started.md
-    - Fundamentals: docs/formulation.md
-    - BirdMathTest: docs/birdtest.md
+    - Using the software: 
+    - Tutorial problems:
+    - Understanding and developing the software:
+    - Technical reference:
   - Contact: contact.md
 
 # Plugins
