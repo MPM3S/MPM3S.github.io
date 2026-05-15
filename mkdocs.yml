@@ -61,9 +61,9 @@ nav:
   - Partners: partners.md
   - AMPSSIE:
     - Introduction: docs/formulation.md
-    - Getting Started: docs/formulation.md
+    - Getting Started: docs/birdtest.md
     - Using the software: docs/formulation.md
-    - Tutorial problems: docs/formulation.md
+    - Tutorial problems: docs/birdtest.md
     - Understanding and developing the software: docs/formulation.md
     - Technical reference: docs/birdtest.md
   - Contact: contact.md
