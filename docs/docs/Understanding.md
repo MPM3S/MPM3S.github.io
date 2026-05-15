@@ -1,4 +1,3 @@
-## Understand and developing the software
 
 --- 
 - High-level structure

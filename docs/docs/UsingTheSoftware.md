@@ -1,4 +1,3 @@
-## Using the software
 
 ---
 
