@@ -1,4 +1,3 @@
-## Contributors and acknowledgements
 
 ---
 
