@@ -64,9 +64,9 @@ nav:
     - Getting Started: docs/GettingStarted.md
     - Using the software: docs/UsingTheSoftware.md
     - Tutorial problems: docs/TutorialProblems.md
-    - Understanding and developing the software: docs/Understanding.md
+    - Understanding the software: docs/Understanding.md
     - Technical reference: docs/TechnicalReference.md
-    - Contributors and acknowledgements: docs/Contributors.md
+    - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md
   - Contact: contact.md
 
