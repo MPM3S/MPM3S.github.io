@@ -1,8 +1,5 @@
-# Getting Started
-
-## Software Documentation - Coming Soon
-
-This section will host comprehensive documentation for the MPM software tool as it is developed through the project. The documentation will be added progressively as software features are completed and validated.
+# Coming Soon
+This page is a summary of plans for the site and for the code
 
 ## What to Expect
 
