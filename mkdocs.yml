@@ -49,7 +49,7 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
-    - toc.follow
+    - toc.integrate
 
 # Navigation
 nav:
