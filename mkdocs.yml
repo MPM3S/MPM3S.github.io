@@ -61,11 +61,11 @@ nav:
   - Partners: partners.md
   - AMPSSIE:
     - Introduction: docs/Introduction.md
-    - Getting Started: docs/birdtest.md
-    - Using the software: docs/formulation.md
-    - Tutorial problems: docs/birdtest.md
-    - Understanding and developing the software: docs/formulation.md
-    - Technical reference: docs/birdtest.md
+    - Getting Started: docs/GettingStarted.md
+    - Using the software: docs/UsingTheSoftware.md
+    - Tutorial problems: docs/TutorialProblems.md
+    - Understanding and developing the software: docs/Understanding.md
+    - Technical reference: docs/TechnicalReference.md
   - Contact: contact.md
 
 # Plugins
