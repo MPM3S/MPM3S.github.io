@@ -1,1 +1,13 @@
-This is a placeholder for the md file for this section
+## Understand and developing the software
+
+--- 
+- High-level structure
+
+- Code documentation
+
+- Adding new features
+
+  - Implement a new material model
+
+  - Change the contact formulation
+

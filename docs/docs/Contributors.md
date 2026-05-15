@@ -1,1 +1,7 @@
-This is a placeholder for the md file for this section
+## Contributors and acknowledgements
+
+---
+
+- People
+
+- Funding

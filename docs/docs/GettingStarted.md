@@ -1,1 +1,7 @@
-This is a placeholder for the md file for this section
+## Getting started
+
+---
+
+- Installation instructions (included system requirements)
+
+- Quick start tutorial

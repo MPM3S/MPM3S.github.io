@@ -1,1 +1,7 @@
-This is a placeholder for the md file for this section
+# Introduction
+
+--- 
+
+- What is AMPSSIE?
+
+- An introduction to the Material Point Method
