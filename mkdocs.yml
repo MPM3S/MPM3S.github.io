@@ -60,7 +60,7 @@ nav:
     - Applications: about/applications.md
   - Partners: partners.md
   - AMPSSIE:
-    - Introduction: docs/docs/formulation.md
+    - Introduction: docs/formulation.md
     - Getting Started: docs/formulation.md
     - Using the software: docs/formulation.md
     - Tutorial problems: docs/formulation.md
