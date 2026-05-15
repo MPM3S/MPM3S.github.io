@@ -60,7 +60,7 @@ nav:
     - Applications: about/applications.md
   - Partners: partners.md
   - AMPSSIE:
-    - Introduction: docs/getting-started.md
+    - Introduction: docs/docs/getting-started.md
     - Getting Started: docs/getting-started.md
     - Using the software: docs/getting-started.md
     - Tutorial problems: docs/getting-started.md
