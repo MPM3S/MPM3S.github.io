@@ -46,7 +46,6 @@ theme:
     - content.code.copy
     - content.tooltips
     - navigation.tabs
-    - navigation.sections
     - navigation.top
     - toc.integrate
 
@@ -63,7 +62,7 @@ nav:
       - Getting Started:
           - Overview: docs/GettingStarted/GettingStarted.md
           - Installation: docs/GettingStarted/Installation.md
-          - Quick Start: docs/GettingStarted/QuickStart.md
+          - Quick Start: docs/GettingStarted/Quickstart.md
       - Using the software: docs/UsingTheSoftware.md
       - Tutorial problems: docs/TutorialProblems.md
       - Understanding the software: docs/Understanding.md
