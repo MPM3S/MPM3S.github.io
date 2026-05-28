@@ -47,7 +47,6 @@ theme:
     - content.tooltips
     - navigation.tabs
     - navigation.sections
-    - navigation.expand
     - navigation.top
     - toc.integrate
 
@@ -55,18 +54,21 @@ theme:
 nav:
   - Home: index.md
   - About:
-    - Project Overview: about/overview.md
-    - Technical Approach: about/approach.md
-    - Applications: about/applications.md
+      - Project Overview: about/overview.md
+      - Technical Approach: about/approach.md
+      - Applications: about/applications.md
   - Partners: partners.md
   - AMPSSIE:
-    - Introduction: docs/Introduction.md
-    - Getting Started: docs/GettingStarted.md
-    - Using the software: docs/UsingTheSoftware.md
-    - Tutorial problems: docs/TutorialProblems.md
-    - Understanding the software: docs/Understanding.md
-    - Technical reference: docs/TechnicalReference.md
-    - Contributors: docs/Contributors.md
+      - Introduction: docs/Introduction.md
+      - Getting Started:
+          - Overview: docs/GettingStarted/GettingStarted.md
+          - Installation: docs/GettingStarted/Installation.md
+          - Quick Start: docs/GettingStarted/QuickStart.md
+      - Using the software: docs/UsingTheSoftware.md
+      - Tutorial problems: docs/TutorialProblems.md
+      - Understanding the software: docs/Understanding.md
+      - Technical reference: docs/TechnicalReference.md
+      - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md
   - Contact: contact.md
 
