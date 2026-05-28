@@ -59,8 +59,8 @@ nav:
   - Partners: partners.md
   - AMPSSIE:
       - Introduction: docs/Introduction.md
-      - Getting Started:
-          - Overview: docs/GettingStarted/GettingStarted.md
+      - Getting Started:docs/GettingStarted/GettingStarted.md
+          - Overview: 
           - Installation: docs/GettingStarted/Installation.md
           - Quick Start: docs/GettingStarted/Quickstart.md
       - Using the software: docs/UsingTheSoftware.md
