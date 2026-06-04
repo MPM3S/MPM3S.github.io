@@ -59,8 +59,8 @@ nav:
   - Partners: partners.md
   - AMPSSIE:
       - Introduction: docs/Introduction.md
-      - Getting Started:docs/GettingStarted/GettingStarted.md
-          - Overview: 
+      - Getting Started:
+          - Overview: docs/GettingStarted/GettingStarted.md
           - Installation: docs/GettingStarted/Installation.md
           - Quick Start: docs/GettingStarted/Quickstart.md
       - Using the software: docs/UsingTheSoftware.md
@@ -74,6 +74,9 @@ nav:
 # Plugins
 plugins:
   - search
+  - caption
+  - bibtex:
+      bib_file: "docs/refs.bib"
 
 # Custom CSS
 extra_css:
@@ -88,6 +91,7 @@ extra_javascript:
 markdown_extensions:
   - admonition
   - attr_list
+  - md_in_html
   - footnotes
   - toc:
       permalink: true

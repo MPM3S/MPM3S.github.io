@@ -337,6 +337,19 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(165, 200, 208, 0.1);
 }
 
+.md-typeset table:not([class]) {
+  font-size: inherit;
+}
+
+.md-typeset .centered-table {
+  text-align: center;
+}
+
+.md-typeset .centered-table table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Horizontal rules */
 .md-typeset hr {
   border-bottom: 1px solid var(--durham-concrete);
