@@ -1,9 +1,5 @@
 
-
-
 ---
-
-## Deploying the software
 
 #### Local system requirements (including advice, with some examples)
 
