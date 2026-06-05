@@ -1,5 +1,3 @@
-Formulation
-===========
 
 AMPLE is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper \[1\] provides the scientific basis of AMPLE. Key aspects of the formulation are described below.
 
