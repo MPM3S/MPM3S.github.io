@@ -1,7 +1,3 @@
-Formulation - AMPLE - A Material Point Learning Environment                     
-
-[AMPLE: A Material Point Learning Environment](/)
-
 Formulation
 ===========
 
