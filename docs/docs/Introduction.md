@@ -1,9 +1,9 @@
 
 --- 
 
-## What is **AMPSSIE**?
+## What is AMPSSIE?
 
-AMPSSIE stands for A Material Point Soil Structure Interaction Environment. It is software for the analysis of soil-structure interactions problems using the Material Point Method which was develoedat Durham University in the project [Leveraging The Material Point Method For Large Deformation Soil-Structure Interaction To Realise Net Zero](https://ampssie.github.io/), 2025-7
+AMPSSIE stands for A Material Point Soil Structure Interaction Environment. It is software for the analysis of soil-structure interactions problems using the Material Point Method which was developed at Durham University between 2025-7 in the project [Leveraging The Material Point Method For Large Deformation Soil-Structure Interaction To Realise Net Zero](https://ampssie.github.io/).
 
 ## What is the Material Point Method?
 
