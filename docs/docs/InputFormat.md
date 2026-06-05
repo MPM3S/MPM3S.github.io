@@ -1,7 +1,8 @@
 
-## Input format
+---
 
 #### `.json` files
+
 AMPSSIE uses `.json` files which contain the details of the analysis in a form readable to you and interpretable by the software. 
 
 It is possible to create your own `.json` file from scratch following the syntax used in the code which is detailed elsewhere however an easier way for selected soil-structure interaction problems is to use AMPSSIE's user interface.
