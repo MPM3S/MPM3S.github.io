@@ -1,8 +1,6 @@
 
 --- 
 
-## Obtaining results
-
 #### Output information (vtk, vtu, csv)
 
 #### VTK & VTU file format
