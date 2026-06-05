@@ -62,11 +62,15 @@ nav:
       - Getting Started:
           - Overview: docs/GettingStarted/GettingStarted.md
           - Installation: docs/GettingStarted/Installation.md
-          - Quick Start: docs/GettingStarted/Quickstart.md
+      - Tutorial problems:
+          - Overview: docs/TutorialProblems.md
+          - Tutorial 1: docs/TutorialProblems/Tutorial_1.md
+          - Tutorial 2: docs/TutorialProblems/Tutorial_2.md
       - Using the software: docs/UsingTheSoftware.md
-      - Tutorial problems: docs/TutorialProblems.md
+      - Technical reference:
+          - Overview: docs/TechnicalReference.md
+          - Formulation: docs/formulation.md
       - Understanding the software: docs/Understanding.md
-      - Technical reference: docs/TechnicalReference.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md
   - Contact: contact.md
