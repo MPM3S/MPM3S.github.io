@@ -66,10 +66,13 @@ nav:
           - Overview: docs/TutorialProblems.md
           - Tutorial 1: docs/TutorialProblems/Tutorial_1.md
           - Tutorial 2: docs/TutorialProblems/Tutorial_2.md
-      - Using the software: docs/UsingTheSoftware.md
+      - Using the software: 
+          - Input format: docs/InputFormat.md
+          - Deploying the software: docs/DeployingTheSoftware.md
+          - Obtaining results: docs/ObtainingResults.md 
       - Technical reference:
           - Overview: docs/TechnicalReference.md
-          - Formulation: 'docs/Formulation.md'
+          - Formulation: docs/Formulation.md
       - Understanding the software: docs/Understanding.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md
