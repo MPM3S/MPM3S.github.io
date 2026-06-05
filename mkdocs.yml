@@ -69,7 +69,7 @@ nav:
       - Using the software: docs/UsingTheSoftware.md
       - Technical reference:
           - Overview: docs/TechnicalReference.md
-          - Formulation: docs/Formulation.md
+          - Formulation: 'docs/Formulation.md'
       - Understanding the software: docs/Understanding.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md
