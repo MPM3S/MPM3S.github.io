@@ -1,10 +1,4 @@
 
----
-
-**This section covers how to use AMPSSIE from input to visualising output.**
-
----
-
 ## Input format
 
 #### `.json` files
