@@ -89,7 +89,7 @@ These steps are shown schematically below.
 
 \[1\] TJ Charlton, WM Coombs & CE Augarde, [iGIMP: an implicit Generalised Interpolation Material Point Method for large deformations](https://www.sciencedirect.com/science/article/pii/S0045794917303395?via%3Dihub), Computers and Structures, 190 (2017), 108-125. _Gold open access_
 
-![AMPLE:  A Material Point Learning Environment](/assets/img/plate.jpg)
+![AMPLE:  A Material Point Learning Environment](../img/plate.jpg)
 
 AMPLE: A Material Point Learning Environment
 --------------------------------------------

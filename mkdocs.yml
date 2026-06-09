@@ -66,13 +66,15 @@ nav:
           - Overview: docs/TutorialProblems.md
           - Self-weight column convergence: docs/TutorialProblems/Tutorial_1.md
           - Tutorial 2: docs/TutorialProblems/Tutorial_2.md
+          - Reference input data:
+              - Self-weight column convergence: docs/TutorialProblems/Tutorial_1_input_data.md
       - Using the software: 
           - Input format: docs/UsingTheSoftware/InputFormat.md
           - Deploying the software: docs/UsingTheSoftware/DeployingTheSoftware.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - Technical reference:
-          - Overview: docs/TechnicalReference.md
-          - Formulation: docs/Formulation.md
+          - Overview: docs/TechnicalReference/TechnicalReference.md
+          - Formulation: docs/TechnicalReference/Formulation.md
       - Understanding the software: docs/Understanding.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md

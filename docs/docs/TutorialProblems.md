@@ -3,8 +3,7 @@
 
 - Static
 
-  - Static compaction under self weight
-
+  - [Self-weight column convergence](TutorialProblems/Tutorial_1.md)
   - Static compaction via a rigid body
 
   - Static vertical penetration: cone penetration test

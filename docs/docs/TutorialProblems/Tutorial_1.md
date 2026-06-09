@@ -3,9 +3,10 @@
 ## Introduction
 This quick start tutorial walks through the steps of running your first AMPSSIE problem. 
 
-The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses nearly all aspects of the code, apart from contact and rigid body interactions.
+The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses all componets of the code that are used to create the [deformable body's equations to be solved.](../TechnicalReferences/Formulation.md)
 
 This tutorial has four sections:
+
 - [Problem description](#problem-description)
 - [Input setup](#input-setup)
 - [Deploying and running the problem](#deploying-and-running-the-problem)
@@ -19,9 +20,15 @@ The values below give you a column that deforms significantly under self-weight.
 
 
 
-![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.svg){ #fig-example-mesh width="90%" }
+<div class="grid" markdown>
 
-**Problem Domain:** Set the geometry to a $h \times h \times 0.8$ m column, i.e. $(x,y,z)\in[0,h]\times[0,h]\times[0,0.8]$ m. Start with $h = 0.4$ m. For the convergence study you will halve $h$ at each refinement step (see [](#fig-example-mesh)). The element *size* $h$ is what you will plot later against the stress error:
+![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.svg){ #fig-example-mesh width="100%" }
+
+![Compression under self-weight, example of GIMP distrubition in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.svg){ #fig-example-mesh-gimp width="100%" }
+
+</div>
+
+**Mesh:** Set the geometry to a $h \times h \times 0.8$ m column, i.e. $(x,y,z)\in[0,h]\times[0,h]\times[0,0.8]$ m. Start with $h = 0.4$ m. For the convergence study you will halve $h$ at each refinement step (see [](#fig-example-mesh)). The element *size* $h$ is what you will plot later against the stress error:
 
 $$
 e_{\sigma} = \frac{1}{\sigma_g\, V_\Omega} \sum_{p \in P} \left| \sigma^z(z^0_p) - \sigma_p^z \right| V_p ,
@@ -35,7 +42,7 @@ where:
 - $z_p^0$ is the vertical position of the material point at time $t = 0$
 - $V_p$ is the GIMP volume
 
-**Initial GIMP layout:** The problem and material domain at $t=0$ do not normally coincide, however for this problem the GIMPs will be distributed in the volume $V_\Omega = [0,h]\times[0,h]\times[0,0.8]$ m.
+**Initial GIMP distribution:** The mesh and initial GIMP distribution at $t=0$ do not normally coincide; however, for this problem the GIMPs will be distributed in the volume $V_\Omega = [0,h]\times[0,h]\times[0,0.8]$ m.
 
 **Boundary conditions:** Apply roller boundaries on the four sides and the base. Leave the top as a free surface. Fix every node in $x$ and $y$ so the problem stays one-dimensional.
 
@@ -58,31 +65,46 @@ These properties differ slightly from Charlton et al. [@charlton_implicit_2018] 
 **Solver:** Use Newton-Raphson and ramp the load on incrementally over 20 load steps.
 
 ## Input setup
-The input file is a single JSON object with five top-level sections, broken out below alongside the [Problem description](#problem-description). Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified.
+The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_1_input_data.md).
+
+This problem has six top-level sections, broken out below alongside the [Problem description](#problem-description). 
+
+Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
 ### Mesh data
 
-The geometry matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the first run. The `Initial GIMP distribution` is set to fill the whole domain, so a GIMP exists at every initial location. `dx refined` sets the locally-refined cell size used near the hanging nodes; `Refinement type` selects the column-validation refinement preset.
-
+The mesh matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the first run.
 ```json
-"mesh data": {
+ "Mesh": {
     "domain size x": 0.4,
     "domain size y": 0.4,
     "domain size z": 0.8,
-    "Initial GIMP distribution x": 0.4,
-    "Initial GIMP distribution y": 0.4,
-    "Initial GIMP distribution z": 0.8,
     "dx refined": 0.2,
     "Refinement type": "column validation"
 }
 ```
+`dx refined` always gives the smallest elements in the domain.
+
+`Refinement type` is set to `column validation` for the bespoke refinement scheme for this problem; see [](#fig-example-mesh).
+
+### Initial GIMP distribution
+
+The `Initial GIMP distribution` is set to fill the whole domain and so is given the same parameters as the `Mesh data`.
+```json
+"Initial GIMP distribution": {
+    "Initial GIMP distribution x": 0.4,
+    "Initial GIMP distribution y": 0.4,
+    "Initial GIMP distribution z": 0.8,
+    "Specialised distribution": "column validation"
+    }
+```
+The default initial GIMP distribution is $2\times2\times2$ within each element. However, for this problem larger elements will have $4\times4\times4$ whilst the smaller elements have $2\times2\times2$. `Specialised distribution` is used to set up this distribution with `column validation`.
 
 ### Boundary conditions
 
 Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface, which is the default and so does not appear in the file. Every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional.
-
 ```json
-"boundary conditions": {
+"Boundary conditions": {
     "neg x-plane": "roller",
     "neg y-plane": "roller",
     "neg z-plane": "roller",
@@ -98,7 +120,7 @@ Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$)
 The column is homogeneous, so a single layer is specified with the Hencky elastic model and the parameters from the Problem description ($E = 10^3$ Pa, $\nu = 0$, $\rho = 50$ kg/m$^3$).
 
 ```json
-"material": {
+"Material": {
     "number of layers": 1,
     "layers": [
         {
@@ -117,16 +139,17 @@ The self-weight load is ramped on quasi-statically over 20 increments using a Ne
 ```json
 "Solver": {
     "solve type": "static",
+    "load type": "force",
     "number of increments": 20
 }
 ```
 
 ### Output data
 
-VTU and VTK output is enabled for visualisation in ParaView (or VisIt). The `text data` field tags the run as `column validation` for post-processing.
+VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field tags the run as `column validation` for post-processing.
 
 ```json
-"OutputData": {
+"Output Data": {
     "vtu data": "yes",
     "vtk data": "yes",
     "text data": "column validation"
@@ -135,6 +158,9 @@ VTU and VTK output is enabled for visualisation in ParaView (or VisIt). The `tex
 
 
 ## Deploying and running the problem
+There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). 
+
+
 ## Viewing the results
 <!--
 The implicit GIMPM (iGIMPM) convergence was first demonstrated by Charlton \emph{et al.} \cite{charlton_implicit_2018} on the 1D self-weight column. In the paper it was shown that the error in the stress solution, normalised with respect to the volume, converges with uniform refinement for a conforming mesh. Here the same general problem and GIMP domain update is considered as in Charlton \emph{et al.} \cite{charlton_implicit_2018}. The initial mesh, and a refinement step, are shown in Figure \ref{fig:example mesh}. 

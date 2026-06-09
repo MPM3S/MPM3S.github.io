@@ -552,7 +552,28 @@ h1, h2, h3, h4, h5, h6 {
     direction: ltr;
     display: flex;
     justify-content: flex-end;
+    text-align: right;
   }
+}
+
+/* Fix .grid layout when figures are wrapped in <p> by python-markdown.
+   Browsers auto-close the <p> before the block-level <figure>, leaving stray
+   empty <p> elements as grid items. Hide them so only the figures count. */
+.md-typeset .grid > p:empty {
+  display: none;
+}
+
+/* Tighten figure spacing inside grids so the two cells align cleanly. */
+.md-typeset .grid > figure {
+  margin: 0;
+}
+
+/* Force images in a grid to a uniform height regardless of aspect ratio.
+   object-fit: contain preserves aspect ratio and centres the SVG in the box. */
+.md-typeset .grid > figure img {
+  width: 100%;
+  height: 18rem;
+  object-fit: contain;
 }
 
 /* Archive notice styling (for future use) */
