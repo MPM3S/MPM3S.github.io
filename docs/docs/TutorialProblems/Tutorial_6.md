@@ -16,11 +16,13 @@ This tutorial has four sections:
 
 You will define the geometry, mesh, boundary conditions, material, rigid body (anchor + truss frame) and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
-Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The full $19$ m horizontal drag is achieved with a partitioned domain that travels with the anchor rather than meshing all $19$ m at once.
+Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The full $19$ m horizontal drag is achieved with a partitioned domain that travels with the anchor rather than meshing all $19$ m at once. The domain dimensions and the truss-frame abstraction of the anchor are shown in [](#fig-anchor-setup).
 
 ![Top: domain dimensions for the anchor penetration problem. Bottom: the truss frame used to model the anchor (shank + fluke, hinged) and the pull wire, with the pull point marked.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="70%" }
 
-**Mesh:** Domain side lengths $L_y = L_z = 10$ m with $L_x = 100$ m. Adaptive octree refinement is driven by the anchor position. The smallest element size near the anchor is $dx_{\min}$, with a buffer region of size $dx_{\min}^{region}$. The paper sweeps $dx_{\min} \in \{0.1,\, 0.2\}$ m and $dx_{\min}^{region} \in \{dx_{\min},\, 2dx_{\min},\, 3dx_{\min}\}$ to demonstrate convergence; $dx_{\min} = 0.1$ m with $dx_{\min}^{region} = 0.2$ m gives the best compromise of accuracy and run time. To avoid meshing the entire $100$ m domain, a **partitioned domain** is used: only $1.5\, L_a$ of soil ahead of the anchor and $0.5\, L_a$ behind are kept active, where $L_a$ is the total anchor length.
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+
+**Mesh:** Domain side lengths $L_y = L_z = 10$ m with $L_x = 100$ m. Adaptive octree refinement is driven by the anchor position. The smallest element size near the anchor is $dx_{\min}$, with a buffer region of size $dx_{\min}^{region}$. Try sweeping $dx_{\min} \in \{0.1,\, 0.2\}$ m and $dx_{\min}^{region} \in \{dx_{\min},\, 2dx_{\min},\, 3dx_{\min}\}$ to see how the trajectory converges; $dx_{\min} = 0.1$ m with $dx_{\min}^{region} = 0.2$ m is a good first choice that balances accuracy and run time. To avoid meshing the entire $100$ m domain, a **partitioned domain** is used: only $1.5\, L_a$ of soil ahead of the anchor and $0.5\, L_a$ behind are kept active, where $L_a$ is the total anchor length.
 
 **Initial GIMP distribution:** $2\times2\times2$ material points within each element of the active partition.
 
@@ -28,7 +30,13 @@ Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The ful
 
 **Material:** Identical to [Tutorial 3](Tutorial_3.md) - Hencky hyperelastic-perfectly plastic, calibrated to $R_D = 32\%$ Congleton sand via the Brinkgreve correlations [@brinkgreve2010validation]. The $E_{50}$ field varies with initial depth as in Tutorial 3 and does not evolve during the simulation. See Tutorial 3 for the parameter values.
 
-**Rigid body:** The anchor comprises two parts hinged together: a **shank** and a **fluke**. They are modelled with a truss frame (each truss member: stiffness $10^9$ N/m, nominal nodal mass $10$ kg). The mass and rotational inertia of each component are given below. Because of the half-symmetry, both mass and rotational inertia are **halved** in the analysis:
+**Rigid body:** The anchor used in this tutorial is the AC-14 design - see [](#fig-anchor-design) - comprising two parts hinged together: a **shank** and a **fluke**. They are modelled with a truss frame (each truss member: stiffness $10^9$ N/m, nominal nodal mass $10$ kg), with the hinge represented by a penalty truss between the shank and fluke centres of mass.
+
+![Anchor design: top-down schematic of the AC-14 anchor in (a), the truss-frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/anchor_design.png){ #fig-anchor-design width="70%" }
+
+*Figure reproduced from [@birdanchors2026].*
+
+The total mass and rotational inertia of each component are given below. Because of the half-symmetry, both are **halved** in the analysis:
 
 <div class="centered-table" markdown>
 
@@ -218,12 +226,16 @@ Newton-Raphson; the time-integration scheme switches per stage based on `mode`.
 ## Deploying and running the problem
 ## Viewing the results
 
-The octree background mesh and GIMP distribution around the anchor at $19$ m of drag, with elements coloured by refinement age (oldest blue, youngest red):
+The octree background mesh and GIMP distribution around the anchor at $19$ m of drag, with elements coloured by refinement age (oldest blue, youngest red), is shown in [](#fig-anchor-example):
 
 ![Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.](../../img/anchor_example.png){ #fig-anchor-example width="70%" }
 
-Anchor trajectories (penetration depth versus horizontal travel) compared across the six adaptivity configurations, the structured-mesh reference solution of Bird et al. [@birdanchors2026] and the experimental data of Sharif et al. [@sharif]:
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+
+After post-processing your runs, plot the anchor trajectory (penetration depth versus horizontal travel) and compare it to the structured-mesh reference [@birdanchors2026] and the experimental data [@sharif] - see [](#fig-anchor-results):
 
 ![Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.](../../img/anchor_results.png){ #fig-anchor-results width="70%" }
+
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 Simulations A and B (both at $dx_{\min} = 0.1$ m) match or exceed the structured-mesh accuracy. Simulation B is $5.5$ times faster than the structured-mesh reference and emits approximately $21$ times less CO$_2$e. The trajectory becomes insensitive to the buffer-region size once $dx_{\min}^{region} \geq 2\, dx_{\min}$, demonstrating that the octree refinement is well-converged in the near field.

@@ -29,7 +29,7 @@ Only half of the domain is modelled, exploiting the symmetry of the plough in $x
 
 </div>
 
-**Mesh:** Half-symmetric domain dimensions $L_x = 20$ m, $L_y = 10$ m, $L_z = 7.5$ m. As in [Tutorial 3](Tutorial_3.md), adaptive octree refinement is driven by the rigid body position. The smallest element size near the plough surface is $dx_{\min}$, and the surrounding "buffer" region uses elements of size $2\, dx_{\min}$. For a quick first run set $dx_{\min} = 0.2$ m; for a high-accuracy comparison against the experimental data drop to $dx_{\min} = 0.075$ m. The paper [@robinson2021cone] reports validation runs at $dx_{\min} \in \{0.075,\, 0.15,\, 0.2\}$ m.
+**Mesh:** Half-symmetric domain dimensions $L_x = 20$ m, $L_y = 10$ m, $L_z = 7.5$ m. As in [Tutorial 3](Tutorial_3.md), adaptive octree refinement is driven by the rigid body position. The smallest element size near the plough surface is $dx_{\min}$, and the surrounding "buffer" region uses elements of size $2\, dx_{\min}$. For a quick first run set $dx_{\min} = 0.2$ m; for a high-accuracy comparison against the experimental data drop to $dx_{\min} = 0.075$ m. Try the values $dx_{\min} \in \{0.075,\, 0.15,\, 0.2\}$ m to reproduce the validation envelope reported in [@robinson2021cone].
 
 **Initial GIMP distribution:** $2\times2\times2$ material points within each element, filling the soil domain.
 
@@ -37,7 +37,7 @@ Only half of the domain is modelled, exploiting the symmetry of the plough in $x
 
 **Material:** Hencky hyperelastic-perfectly plastic dry sand with a non-associated Drucker-Prager flow potential, calibrated to the Robinson 2019 centrifuge sand via the Brinkgreve correlations [@brinkgreve2010validation]. Use the same parameters as [Tutorial 3](Tutorial_3.md) and adjust the relative density to match your target. Per [@robinson2021cone], the simulation runs at full scale with $1g$ gravity (the $50g$ centrifuge scaling collapses to identical $1g$ behaviour when length and time are scaled equally [@robinson2019centrifuge]).
 
-**Rigid body:** The plough geometry includes a forward wedge, a main share and an angled mouldboard. To prevent rigid-body penetration of GIMPs, all convex edges sharper than $90^\circ$ are filleted to a radius equal to half the minimum GIMP side length (~10 fillet segments per $90^\circ$). Frictional contact uses the same penalty parameters as [Tutorial 2](Tutorial_2.md): $\epsilon_N = 50\,E_p A_p$ and $\epsilon_T = 25\,E_p A_p$.
+**Rigid body:** The plough geometry includes a forward wedge, a main share and an angled mouldboard (see [](#fig-plough_schematic)). The side view of the Signorini boundary condition arrangement is shown in [](#fig-plough-setup-BCs). To prevent rigid-body penetration of GIMPs, all convex edges sharper than $90^\circ$ are filleted to a radius equal to half the minimum GIMP side length (~10 fillet segments per $90^\circ$). Frictional contact uses the same penalty parameters as [Tutorial 2](Tutorial_2.md): $\epsilon_N = 50\,E_p A_p$ and $\epsilon_T = 25\,E_p A_p$.
 
 **Loading:** A two-stage pseudo-static solution:
 
@@ -192,12 +192,16 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 ## Deploying and running the problem
 ## Viewing the results
 
-The deformed soil state at $10$ m plough travel, with the GIMPs coloured by $x$-displacement (red 3 m, blue 0 m), shows how material flows around the wedge and is pushed forward:
+The deformed soil state at $10$ m plough travel, with the GIMPs coloured by $x$-displacement (red 3 m, blue 0 m), shows how material flows around the wedge and is pushed forward (see [](#fig-plough-final)):
 
 ![Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.](../../img/at_10_m_plough.png){ #fig-plough-final width="70%" }
 
-The horizontal pull force as a function of plough position is compared against the centrifuge data of Robinson et al. [@robinson2021cone] for the three mesh refinements:
+*Figure reproduced from [@bird_dynamic_2025].*
+
+After post-processing each run, plot the horizontal pull force as a function of plough position and overlay the centrifuge data of [@robinson2021cone] for the three mesh refinements - see [](#fig-plough-results):
 
 ![Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.](../../img/plough_result.png){ #fig-plough-results width="70%" }
+
+*Figure reproduced from [@bird_dynamic_2025].*
 
 The first $7.45$ m of travel is the embedment phase, during which the force oscillates as different parts of the plough engage with the soil. Beyond that the force reaches a steady-state regime - this is the regime to compare against the experimental measurement. Refinement consistently moves the numerical result towards the experimental data; $dx \in \{0.075,\, 0.15\}$ m give good agreement with no parameter tuning.

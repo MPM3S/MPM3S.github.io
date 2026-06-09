@@ -18,7 +18,9 @@ You will define the geometry, mesh, boundary conditions, material, rigid body an
 
 Only a quarter of the domain is modelled, exploiting the two-fold symmetry of the CPT in the $xz$ and $yz$ planes. The cone is pushed $4$ m into the sand over 300 quasi-static load steps. The deformation is large enough that GIMPs traverse multiple octree levels around the cone tip.
 
-![Initial geometry and mesh for the CPT problem. The cone sits just above the soil surface; the mesh is refined around the rigid body and coarsens with distance.](../../img/CPT_domain.png){ #fig-cpt-domain width="70%" }
+![Initial geometry and mesh for the CPT problem. The cone sits just above the soil surface; the mesh is refined around the rigid body and coarsens with distance.](../../img/CPT_domain.png){ #fig-cpt-domain width="30%" }
+
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 **Mesh:** Domain dimensions $L_x = L_y = 12.8$ m and $L_z = 24.6$ m, with only a quarter modelled by symmetry. Adaptive octree refinement is driven by the rigid body position. The smallest element size near the cone surface is $dx_{\min}$, and the surrounding "buffer" region uses elements of size $2\, dx_{\min}$. For a quick first run set $dx_{\min} = 0.1$ m; for a high-accuracy comparison against the experimental data drop to $dx_{\min} = 0.05$ m.
 
@@ -26,7 +28,7 @@ Only a quarter of the domain is modelled, exploiting the two-fold symmetry of th
 
 **Boundary conditions:** Roller boundaries on the two symmetry planes ($-x$ and $-y$), on the two remaining lateral faces ($+x$ and $+y$) and on the base ($-z$). The top face ($+z$) is left as a free surface (homogeneous Neumann). Every node has its $x$ and $y$ degrees of freedom unconstrained on the symmetry planes by the roller condition, so the cone tip can drive vertical settlement freely.
 
-**Material:** Hencky hyperelastic-perfectly plastic, with a Willam-Warnke deviatoric yield surface and a non-associated Drucker-Prager flow potential. Properties are calibrated to a relative density of $R_D = 32\%$ via the Brinkgreve empirical correlations [@brinkgreve2010validation], a procedure established in Bird et al. [@birdanchors2026]: reference Young's modulus $E^{ref}_{50} = 19\,200$ kPa, density $\rho = 16.3$ kN/m$^3$, Poisson's ratio $\nu = 0.25$, friction angle $\phi = 32^\circ$, dilation angle $\psi = 2^\circ$, apparent cohesion $c = 0.3$ kPa, earth pressure coefficient at rest $K_0 = 0.47$ and stiffness exponent $m_E = 0.60$.
+**Material:** Use a Hencky hyperelastic-perfectly plastic model with a Willam-Warnke deviatoric yield surface and a non-associated Drucker-Prager flow potential. The properties below are calibrated to a relative density of $R_D = 32\%$ via the Brinkgreve empirical correlations [@brinkgreve2010validation], following the procedure originally established in [@birdanchors2026]: reference Young's modulus $E^{ref}_{50} = 19\,200$ kPa, density $\rho = 16.3$ kN/m$^3$, Poisson's ratio $\nu = 0.25$, friction angle $\phi = 32^\circ$, dilation angle $\psi = 2^\circ$, apparent cohesion $c = 0.3$ kPa, earth pressure coefficient at rest $K_0 = 0.47$ and stiffness exponent $m_E = 0.60$.
 
 The Young's modulus varies with confining pressure but is fixed at each material point's initial position:
 
@@ -199,8 +201,12 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 
 The deformed mesh and GIMP displacement field at $1.2$ m penetration is shown below: the displacement magnitude rises from $0$ m (blue) at the far field to roughly $0.5$ m (red) immediately under the cone tip.
 
-![CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.](../../img/CPT_result.png){ #fig-cpt-final width="70%" }
+![CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.](../../img/CPT_result.png){ #fig-cpt-final width="50%" }
+
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 The cone-tip resistance $q_c$ is normalised by the cone radius $r$ to compare against the centrifuge measurements of Davidson et al. [@davidson2022physical] and Cerfontaine et al. [@Cerfontaine2020]. Convergence with mesh refinement is monitored by halving $dx_{\min}$.
 
 ![Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below.](../../img/cpt_results.png){ #fig-cpt-results width="70%" }
+
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*

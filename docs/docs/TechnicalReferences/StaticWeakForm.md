@@ -100,7 +100,7 @@ AMPLE was developed to address the severe learning curve for researchers wishing
 
 *   [Prof. Will Coombs](mailto:w.m.coombs@durham.ac.uk)
 *   [Department of Engineering](http://www.dur.ac.uk/engineering)
-*   [DU Computational mechanics on X](https://twitter.com/@DU_comp_mech)
+*   [DU Computational mechanics on X](https://twitter.com/DU_comp_mech)
 
 2020 © AMPLE: A Material Point Learning Environment
 

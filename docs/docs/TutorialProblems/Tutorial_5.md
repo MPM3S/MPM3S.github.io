@@ -16,9 +16,11 @@ This tutorial has four sections:
 
 You will define the geometry, mesh, boundary conditions, material, rigid body and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
-To keep the contact vertices aligned with the slope boundary as the sphere travels, the slope is kept horizontal and gravity is tilted to $45^\circ$ instead. The sphere then rolls along $+x$ under the in-plane gravity component.
+To keep the contact vertices aligned with the slope boundary as the sphere travels, the slope is kept horizontal and gravity is tilted to $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane gravity component.
 
 ![Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.](../../img/sphere_slope.png){ #fig-sphere-setup width="70%" }
+
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 **Mesh:** Slope dimensions $L_x = 50$ m and $L_y = L_z = 1$ m. Adaptive octree refinement is driven by the rigid body position. The maximum element size away from the sphere is $0.5$ m; at the contact point the smallest element size is $dx_{\min} = 0.1$ m.
 
@@ -28,7 +30,7 @@ To keep the contact vertices aligned with the slope boundary as the sphere trave
 
 **Material:** The slope is modelled as a very stiff Hencky elastic block (Young's modulus $E = 10^9$ Pa, Poisson's ratio $\nu = 0$) rather than a true rigid body. The stiffness is high enough that the slope deforms negligibly, but treating it as a deformable continuum is what exercises the hanging-node + contact formulation - the point of the test.
 
-**Rigid body:** The sphere has diameter $d_p = 2.0$ m, mass $m = 10^4$ kg and rotational inertia $I = 4000$ kg$\cdot$m$^2$. Its surface is discretised as 3120 triangles arranged on a latitude-longitude grid with the poles aligned to the rolling plane (so the finest triangles contact the GIMPs). The friction coefficient $\mu$ is the parameter you sweep - the paper considers $\mu \in \{0,\, 0.1,\, 0.2,\, 0.4,\, 1.0\}$, covering both slipping ($\tan\theta > 3.5\mu$) and sticking regimes. The penalty parameters are
+**Rigid body:** The sphere has diameter $d_p = 2.0$ m, mass $m = 10^4$ kg and rotational inertia $I = 4000$ kg$\cdot$m$^2$. Its surface is discretised as 3120 triangles arranged on a latitude-longitude grid with the poles aligned to the rolling plane (so the finest triangles contact the GIMPs). The friction coefficient $\mu$ is the parameter you sweep - try $\mu \in \{0,\, 0.1,\, 0.2,\, 0.4,\, 1.0\}$ to cover both slipping ($\tan\theta > 3.5\mu$) and sticking regimes. The penalty parameters are
 
 $$
 \epsilon_N = 50\, E_p A_p, \qquad \epsilon_T = 25\, E_p A_p,
@@ -188,7 +190,7 @@ Newton-Raphson, implicit dynamic.
 ## Deploying and running the problem
 ## Viewing the results
 
-Below, the deformed slope and GIMP positions show how the refinement follows the sphere down the slope (left), and the simulated $d_x(t)$ traces are overlaid on the analytical solution for each friction coefficient, exercising both slipping and sticking regimes (right).
+Below, the deformed slope and GIMP positions show how the refinement follows the sphere down the slope (left, [](#fig-sphere-3d)), and the simulated $d_x(t)$ traces are overlaid on the analytical solution for each friction coefficient, exercising both slipping and sticking regimes (right, [](#fig-sphere-results)).
 
 <div class="grid" markdown>
 
@@ -197,5 +199,7 @@ Below, the deformed slope and GIMP positions show how the refinement follows the
 ![Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.](../../img/sphere_error.png){ #fig-sphere-results width="100%" }
 
 </div>
+
+*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 The agreement is excellent across the full friction range and across the slip/stick boundary at $\tan(45^\circ)/3.5 \approx 0.286$, validating the dynamic frictional contact formulation in the presence of hanging nodes.

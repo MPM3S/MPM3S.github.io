@@ -3,7 +3,7 @@
 ## Introduction
 This quick start tutorial walks through the steps of running your first AMPSSIE problem. 
 
-The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses all componets of the code that are used to create the [deformable body's equations to be solved.](../TechnicalReferences/Formulation.md)
+The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses all componets of the code that are used to create the [deformable body's equations to be solved.](../TechnicalReferences/StaticWeakForm.md)
 
 This tutorial has four sections:
 
@@ -28,7 +28,9 @@ The values below give you a column that deforms significantly under self-weight.
 
 </div>
 
-**Mesh:** Set the geometry to a $h \times h \times 0.8$ m column, i.e. $(x,y,z)\in[0,h]\times[0,h]\times[0,0.8]$ m. Start with $h = 0.4$ m. For the convergence study you will halve $h$ at each refinement step (see [](#fig-example-mesh)). The element *size* $h$ is what you will plot later against the stress error:
+*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+
+**Mesh:** Set the geometry to a $h \times h \times 0.8$ m column, i.e. $(x,y,z)\in[0,h]\times[0,h]\times[0,0.8]$ m. Start with $h = 0.4$ m. For the convergence study you will halve $h$ at each refinement step (see [](#fig-example-mesh)). The initial GIMP layout filling that mesh is shown in [](#fig-example-mesh-gimp). The element *size* $h$ is what you will plot later against the stress error:
 
 $$
 e_{\sigma} = \frac{1}{\sigma_g\, V_\Omega} \sum_{p \in P} \left| \sigma^z(z^0_p) - \sigma_p^z \right| V_p ,

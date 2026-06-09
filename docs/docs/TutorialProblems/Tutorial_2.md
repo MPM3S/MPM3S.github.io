@@ -3,7 +3,7 @@
 ## Introduction
 This tutorial walks through the second AMPSSIE quick start, which validates the GIMPM penalty-based contact formulation between a rigid body and a deformable column.
 
-The problem is a vertical compression of a cube under a prescribed displacement applied through a rigid body. It is a stiff problem (elastic, heavily constrained) that exercises normal contact, large deformation and the hanging-node formulation simultaneously, originally presented by Bird et al. [@bird_dynamic_2025] and reapplied here with hanging nodes.
+You will compress a cube vertically by pushing a rigid plate down through 25% of its original height. It is a stiff problem (elastic, heavily constrained) that lets you exercise normal contact, large deformation and the hanging-node formulation simultaneously. The original contact validation is from [@bird_dynamic_2025]; this tutorial reapplies it to a mesh with hanging nodes.
 
 This tutorial has four sections:
 
@@ -26,11 +26,13 @@ The values below give you a cube whose top surface is compressed by a rigid plat
 
 </div>
 
+*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+
 **Mesh:** Set the geometry to a $0.8 \times 0.8 \times 0.8$ m cube, i.e. $(x,y,z)\in[0,0.8]^3$ m. The mesh is kept constant throughout this study; refinement is concentrated near the contact face so the hanging-node formulation is exercised in the contact region (see [](#fig-cube-mesh)).
 
 **Initial GIMP distribution:** $2\times2\times2$ material points within each element, filling the cube.
 
-**Boundary conditions:** Roller boundaries on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface (homogeneous Neumann), since the load is delivered by the rigid body rather than a traction. Every node has its $x$ and $y$ degrees of freedom fixed so the problem stays one-dimensional in compression.
+**Boundary conditions:** Roller boundaries on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface (homogeneous Neumann), since the load is delivered by the rigid body rather than a traction (see [](#fig-cube-bcs)). Every node has its $x$ and $y$ degrees of freedom fixed so the problem stays one-dimensional in compression.
 
 **Material:** Use a Hencky elastic model with constant parameters: Young's modulus $E = 10^6$ Pa and Poisson's ratio $\nu = 0$.
 
@@ -159,7 +161,7 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 ## Deploying and running the problem
 ## Viewing the results
 
-The numerical solution should reproduce a uniform vertical stress field through the cube and a flat contact interface with the rigid body, despite the GIMPs spanning hanging-node elements (see [](#fig-cube-stress)). Convergence of the stress and displacement errors with the penalty factor $p_f$ confirms the formulation.
+The numerical solution should reproduce a uniform vertical stress field through the cube and a flat contact interface with the rigid body, despite the GIMPs spanning hanging-node elements (see [](#fig-cube-stress)). The deformed mesh and GIMP positions at the end of the simulation are shown in [](#fig-cube-final). Convergence of the stress and displacement errors with the penalty factor $p_f$ - plotted in [](#fig-cube-convergence) - confirms the formulation.
 
 <div class="grid" markdown>
 
@@ -169,4 +171,8 @@ The numerical solution should reproduce a uniform vertical stress field through 
 
 </div>
 
-![Uniform vertical stress field (Pa) through the deformed cube at the end of the simulation.](../../img/contact_stress.png){ #fig-cube-stress width="70%" }
+*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+
+![Uniform vertical stress field (Pa) through the deformed cube at the end of the simulation.](../../img/contact_stress.png){ #fig-cube-stress width="30%" }
+
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
