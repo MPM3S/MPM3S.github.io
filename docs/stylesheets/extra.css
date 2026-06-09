@@ -254,6 +254,24 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--durham-purple);
 }
 
+/* Sub-page nav items: progressively smaller and more indented at each
+   nesting level so hierarchy reads visually.
+   Depth count: .md-sidebar--primary > .md-nav (primary) > .md-nav (inside
+   AMPSSIE tab) is the visible top level — left alone. Each extra .md-nav
+   in the selector is one level deeper. */
+
+/* Level 2 (e.g. Overview, Tutorial 2, Reference input data) */
+.md-sidebar--primary .md-nav .md-nav .md-nav .md-nav__link {
+  font-size: 0.85em;
+  padding-right: 1.5rem;
+}
+
+/* Level 3 (e.g. pages nested under Reference input data) */
+.md-sidebar--primary .md-nav .md-nav .md-nav .md-nav .md-nav__link {
+  font-size: 0.78em;
+  padding-right: 3rem;
+}
+
 /* Buttons and links */
 .md-button {
   background-color: var(--durham-purple);
@@ -574,6 +592,54 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: 18rem;
   object-fit: contain;
+}
+
+/* Side-by-side image + text block. The image stretches to match the text
+   column's height; aspect ratio is preserved via object-fit. Stacks on
+   narrow viewports. */
+.md-typeset .image-text-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+  margin: 1em 0;
+}
+
+.md-typeset .image-text-row > .ir-image {
+  flex: 0 1 40%;
+  max-width: 40%;
+  min-width: 0;
+}
+
+.md-typeset .image-text-row > .ir-image figure,
+.md-typeset .image-text-row > .ir-image p {
+  margin: 0;
+  height: 100%;
+}
+
+.md-typeset .image-text-row > .ir-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.md-typeset .image-text-row > .ir-text {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Stack columns on phone-portrait viewports only. */
+@media screen and (max-width: 30em) {
+  .md-typeset .image-text-row {
+    flex-direction: column;
+  }
+  .md-typeset .image-text-row > .ir-image {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+  .md-typeset .image-text-row > .ir-image img {
+    height: auto;
+  }
 }
 
 /* Archive notice styling (for future use) */

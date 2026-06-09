@@ -36,6 +36,8 @@ copyright: Copyright &copy; 2025 Durham University | UKRI Project Reference UKRI
 # Theme
 theme:
   name: material
+  logo: img/logo.png
+  favicon: img/logo.png
   palette:
     primary: custom
     accent: custom
@@ -47,8 +49,7 @@ theme:
     - content.tooltips
     - navigation.tabs
     - navigation.top
-    - toc.integrate
-
+    
 # Navigation
 nav:
   - Home: index.md
@@ -63,7 +64,7 @@ nav:
           - Overview: docs/GettingStarted/GettingStarted.md
           - Installation: docs/GettingStarted/Installation.md
       - Tutorial problems:
-          - Overview: docs/TutorialProblems.md
+          - Overview: docs/TutorialProblems/TutorialProblems.md
           - Self-weight column convergence: docs/TutorialProblems/Tutorial_1.md
           - Tutorial 2: docs/TutorialProblems/Tutorial_2.md
           - Reference input data:
@@ -73,8 +74,8 @@ nav:
           - Deploying the software: docs/UsingTheSoftware/DeployingTheSoftware.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - Technical reference:
-          - Overview: docs/TechnicalReference/TechnicalReference.md
-          - Formulation: docs/TechnicalReference/Formulation.md
+          - Overview: docs/TechnicalReferences/TechnicalReference.md
+          - Formulation: docs/TechnicalReferences/Formulation.md
       - Understanding the software: docs/Understanding.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md

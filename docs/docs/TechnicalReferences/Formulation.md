@@ -1,6 +1,6 @@
 ---
 
-AMPLE is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper \[1\] provides the scientific basis of AMPLE. Key aspects of the formulation are described below.
+AMPLE is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper [@charlton2017igimp] provides the scientific basis of AMPLE. Key aspects of the formulation are described below.
 
 Equilibrium
 ---
@@ -83,13 +83,15 @@ The applied body forces and/or tractions are split into a number of loadsteps an
 
 These steps are shown schematically below.
 
-![MPM steps](../img/MPMsteps.jpg)
+![MPM steps](../../img/MPMsteps.jpg)
 
 * * *
 
-\[1\] TJ Charlton, WM Coombs & CE Augarde, [iGIMP: an implicit Generalised Interpolation Material Point Method for large deformations](https://www.sciencedirect.com/science/article/pii/S0045794917303395?via%3Dihub), Computers and Structures, 190 (2017), 108-125. _Gold open access_
-
-![AMPLE:  A Material Point Learning Environment](../img/plate.jpg)
+<div class="image-text-row" markdown>
+<div class="ir-image">
+<img src="../../../img/plate.jpg" alt="AMPLE: A Material Point Learning Environment">
+</div>
+<div class="ir-text" markdown>
 
 AMPLE: A Material Point Learning Environment
 --------------------------------------------
@@ -101,3 +103,6 @@ AMPLE was developed to address the severe learning curve for researchers wishing
 *   [DU Computational mechanics on X](https://twitter.com/@DU_comp_mech)
 
 2020 © AMPLE: A Material Point Learning Environment
+
+</div>
+</div>
