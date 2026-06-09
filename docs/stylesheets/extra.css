@@ -346,14 +346,58 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Code blocks */
+
+/* Inline code chips (`` `text` ``) - keep the pale Durham-purple chip */
 .md-typeset code {
   background-color: rgba(104, 36, 109, 0.05);
   color: var(--durham-purple);
   border: 1px solid rgba(104, 36, 109, 0.1);
 }
 
+/* Fenced code blocks - light Durham-purple-tinted background */
 .md-typeset pre > code {
-  background-color: var(--durham-ink);
+  background-color: #faf7fb;
+  color: var(--durham-ink);
+  border: 1px solid rgba(104, 36, 109, 0.15);
+}
+
+/* Syntax token colours (Pygments) on the light block background */
+.md-typeset .highlight .nt {           /* JSON keys / HTML tag names */
+  color: var(--durham-purple);
+  font-weight: 600;
+}
+
+.md-typeset .highlight .s,
+.md-typeset .highlight .s1,
+.md-typeset .highlight .s2,
+.md-typeset .highlight .sd {            /* strings */
+  color: #2f6b3a;
+}
+
+.md-typeset .highlight .mi,
+.md-typeset .highlight .mf,
+.md-typeset .highlight .mh,
+.md-typeset .highlight .il {            /* numbers (int, float, hex) */
+  color: var(--durham-ink);
+}
+
+.md-typeset .highlight .kc,
+.md-typeset .highlight .kn,
+.md-typeset .highlight .kr,
+.md-typeset .highlight .k {             /* keywords, true/false/null */
+  color: #b6500e;
+  font-weight: 600;
+}
+
+.md-typeset .highlight .c,
+.md-typeset .highlight .c1,
+.md-typeset .highlight .cm {            /* comments */
+  color: rgba(0, 42, 65, 0.5);
+  font-style: italic;
+}
+
+.md-typeset .highlight .p {             /* punctuation: braces, commas, colons */
+  color: rgba(0, 42, 65, 0.7);
 }
 
 /* Footer */
@@ -685,3 +729,5 @@ h1, h2, h3, h4, h5, h6 {
     height: 100px;
   }
 }
+
+/*Code pl*/

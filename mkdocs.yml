@@ -41,7 +41,7 @@ theme:
     accent: custom
   font:
     text: Open Sans
-    code: Roboto Mono
+    code: JetBrains Mono
   features:
     - content.code.copy
     - content.tooltips
@@ -64,7 +64,7 @@ nav:
           - Installation: docs/GettingStarted/Installation.md
       - Tutorial problems:
           - Overview: docs/TutorialProblems.md
-          - Tutorial 1: docs/TutorialProblems/Tutorial_1.md
+          - Self-weight column convergence: docs/TutorialProblems/Tutorial_1.md
           - Tutorial 2: docs/TutorialProblems/Tutorial_2.md
       - Using the software: 
           - Input format: docs/UsingTheSoftware/InputFormat.md
@@ -112,6 +112,7 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.superfences
   - pymdownx.keys
   - pymdownx.tabbed:
       alternate_style: true
