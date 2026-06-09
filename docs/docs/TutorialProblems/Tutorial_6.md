@@ -18,7 +18,7 @@ You will define the geometry, mesh, boundary conditions, material, rigid body (a
 
 Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The full $19$ m horizontal drag is achieved with a partitioned domain that travels with the anchor rather than meshing all $19$ m at once. The domain dimensions and the truss-frame abstraction of the anchor are shown in [](#fig-anchor-setup).
 
-![Top: domain dimensions for the anchor penetration problem. Bottom: the truss frame used to model the anchor (shank + fluke, hinged) and the pull wire, with the pull point marked.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="70%" }
+![Top: domain dimensions for the anchor penetration problem. Bottom: the truss frame used to model the anchor (shank + fluke, hinged) and the pull wire, with the pull point marked.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="50%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
