@@ -7,7 +7,7 @@
 
   - Kinematics
   - Stress and strain measures
-  - [Static strong and weak forms](SaticSF_WF.md)
+  - [Static strong and weak forms](StaticWeakForm.md)
   - Dynamic strong and weak forms
 
 ## Meshing
