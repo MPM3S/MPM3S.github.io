@@ -1,11 +1,13 @@
 
 ---
 
-#### `.json` files
+## `.json` files
 
-AMPSSIE uses `.json` files which contain the details of the analysis in a form readable to you and interpretable by the software. 
+AMPSSIE uses `.json` (files)[https://en.wikipedia.org/wiki/JSON] which contain the details of the analysis in a form readable and editable to you and interpretable by the software. 
 
 It is possible to create your own `.json` file from scratch following the syntax used in the code which is detailed elsewhere however an easier way for selected soil-structure interaction problems is to use AMPSSIE's user interface.
+
+There are six components to the AMPSSIE `.json` file format, each component has their own default settings and mimum requirements.
 
 
 #### Kinematics: static or dynamic?

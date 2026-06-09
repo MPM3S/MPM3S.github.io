@@ -46,7 +46,7 @@ where:
 
 **Boundary conditions:** Apply roller boundaries on the four sides and the base. Leave the top as a free surface. Fix every node in $x$ and $y$ so the problem stays one-dimensional.
 
-**Material:** Use a Hencky elastic model with constant parameters: Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$~kg/m$^3$.
+**Material:** Use a Hencky elastic model with constant parameters: Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$.
 
 These properties differ slightly from Charlton et al. [@charlton_implicit_2018] on purpose - they produce large enough deformation for GIMPs to span elements of different sizes, which is the point of the test.
 

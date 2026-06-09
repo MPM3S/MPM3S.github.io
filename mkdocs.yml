@@ -75,7 +75,7 @@ nav:
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - Technical reference:
           - Overview: docs/TechnicalReferences/TechnicalReference.md
-          - Static weak form: docs/TechnicalReferences/SaticSF_WF.md
+          - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
       - Understanding the software: docs/Understanding.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md
