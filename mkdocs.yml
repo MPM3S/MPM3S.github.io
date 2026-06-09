@@ -66,7 +66,9 @@ nav:
       - Tutorial problems:
           - Overview: docs/TutorialProblems/TutorialProblems.md
           - Self-weight column convergence: docs/TutorialProblems/Tutorial_1.md
-          - Tutorial 2: docs/TutorialProblems/Tutorial_2.md
+          - compaction via a rigid body: docs/TutorialProblems/Tutorial_2.md
+          - vertical penetration: docs/TutorialProblems/Tutorial_3.md
+          - horizontal penetration: docs/TutorialProblems/Tutorial_4.md
           - Reference input data:
               - Self-weight column convergence: docs/TutorialProblems/Tutorial_1_input_data.md
       - Using the software: 

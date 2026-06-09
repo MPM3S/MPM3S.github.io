@@ -1,9 +1,9 @@
 ## Static
 
   - [Self-weight column convergence](Tutorial_1.md)
-  - Static compaction via a rigid body
-  - Static vertical penetration: cone penetration test
-  - Static horizontal penetration: cable plough
+  - [compaction via a rigid body](Tutorial_2.md)
+  - [vertical penetration: cone penetration test](Tutorial_3.md)
+  - [horizontal penetration: cable plough](Tutorial_4.md)
 
 ## Dynamic
 
