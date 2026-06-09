@@ -628,6 +628,16 @@ h1, h2, h3, h4, h5, h6 {
   min-width: 0;
 }
 
+/* Full-bleed figure: lets an image extend past the article column to the
+   full width of the page grid. Apply via .full-bleed on the image attr. */
+.md-typeset .full-bleed {
+  display: block;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
 /* Stack columns on phone-portrait viewports only. */
 @media screen and (max-width: 30em) {
   .md-typeset .image-text-row {

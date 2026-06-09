@@ -1,7 +1,7 @@
 
 ---
 
-**People**
+**Current contributors**
 
 [Will Coombs](https://www.durham.ac.uk/staff/w-m-coombs/), [Dept of Engineering](https://www.durham.ac.uk/departments/academic/engineering/), Durham University
 
@@ -10,6 +10,12 @@
 [Samantha Finnigan](https://www.durham.ac.uk/staff/samantha-finnigan/), [Advanced Research Computing](https://www.durham.ac.uk/research/institutes-and-centres/advanced-research-computing/), Durham University
 
 [Robert Bird](https://www.durham.ac.uk/staff/robert-e-bird/), [Dept of Engineering](https://www.durham.ac.uk/departments/academic/engineering/), Durham University
+
+
+**Previous contributors**
+
+[Giuliano Pretti](https://civmin.utoronto.ca/home/about-us/directory/professors/giuliano-pretti/), [Department of Civil & Mineral Engineering](https://civmin.utoronto.ca/), University of Toronto
+
 
 **Funding**
 

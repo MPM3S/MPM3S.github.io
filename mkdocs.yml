@@ -65,12 +65,21 @@ nav:
           - Installation: docs/GettingStarted/Installation.md
       - Tutorial problems:
           - Overview: docs/TutorialProblems/TutorialProblems.md
-          - Self-weight column convergence: docs/TutorialProblems/Tutorial_1.md
-          - compaction via a rigid body: docs/TutorialProblems/Tutorial_2.md
-          - vertical penetration: docs/TutorialProblems/Tutorial_3.md
-          - horizontal penetration: docs/TutorialProblems/Tutorial_4.md
+          - Static:
+              - Self-weight column convergence: docs/TutorialProblems/Tutorial_1.md
+              - compaction via a rigid body: docs/TutorialProblems/Tutorial_2.md
+              - vertical penetration: docs/TutorialProblems/Tutorial_3.md
+              - plough: docs/TutorialProblems/Tutorial_4.md
+          - Dynamic:
+              - sphere: docs/TutorialProblems/Tutorial_5.md
+              - anchor: docs/TutorialProblems/Tutorial_6.md
           - Reference input data:
               - Self-weight column convergence: docs/TutorialProblems/Tutorial_1_input_data.md
+              - Compaction via a rigid body: docs/TutorialProblems/Tutorial_2_input_data.md
+              - Vertical penetration: docs/TutorialProblems/Tutorial_3_input_data.md
+              - Plough: docs/TutorialProblems/Tutorial_4_input_data.md
+              - Rolling sphere: docs/TutorialProblems/Tutorial_5_input_data.md
+              - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
       - Using the software: 
           - Input format: docs/UsingTheSoftware/InputFormat.md
           - Deploying the software: docs/UsingTheSoftware/DeployingTheSoftware.md
