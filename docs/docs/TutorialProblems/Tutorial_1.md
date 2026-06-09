@@ -1,23 +1,21 @@
-# Quick start tutorial 1
+# Tutorial 1: Self-weight column convergence
 
 ## Introduction
-This quick start tutorial walks through the steps of running your first AMPSSIE problem.
-The problem is a convergence analysis of a column deforming under self-weight.
-It is a simple problem that runs quickly and uses nearly all aspects of the code, apart from contact and rigid body interactions.
+This quick start tutorial walks through the steps of running your first AMPSSIE problem. 
 
-The convergence of the implicit Generlised Interpolation Materail Point Method (iGIMPM) was first demonstrated by Charlton *et al.* [@charlton_implicit_2018] on the 1D self-weight column, it is used to validate the material point code with a background mesh with hanging nodes against an analytical solution.
+The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses nearly all aspects of the code, apart from contact and rigid body interactions.
 
-By the end of this tutorial, you will have:
-
-- Set up the input .json file
-- Run the analysis for a series of problems
-- Visualised the results
+This tutorial has four sections:
+- [Problem description](#problem-description)
+- [Input setup](#input-setup)
+- [Deploying and running the problem](#deploying-and-running-the-problem)
+- [Viewing the results](#viewing-the-results)
 
 ## Problem description
 
 You will define the geometry, mesh, boundary conditions, material, and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
-The values below give you a column that deforms significantly under self-weight. The deformation is large enough that the Generlised Interpolation Material Points (GIMPs) will trasverse several elements and will interact with hanging nodes.
+The values below give you a column that deforms significantly under self-weight. The deformation is large enough that the Generalised Interpolation Material Points (GIMPs) will traverse several elements and will interact with hanging nodes.
 
 
 
@@ -37,7 +35,7 @@ where:
 - $z_p^0$ is the vertical position of the material point at time $t = 0$
 - $V_p$ is the GIMP volume
 
-**Material domain:** The problem and material domain at $t=0$ do not normally conincide, however for this problem the GIMPs will be distributed in the volume $V_\Omega = [0,h]\times[0,h]\times[0,0.8]$ m.
+**Initial GIMP layout:** The problem and material domain at $t=0$ do not normally coincide, however for this problem the GIMPs will be distributed in the volume $V_\Omega = [0,h]\times[0,h]\times[0,0.8]$ m.
 
 **Boundary conditions:** Apply roller boundaries on the four sides and the base. Leave the top as a free surface. Fix every node in $x$ and $y$ so the problem stays one-dimensional.
 
@@ -53,13 +51,91 @@ where:
 
 </div>
 
-These properties differ slightly from Charlton et al. [@charlton_implicit_2018] on purpose — they produce large enough deformation for GIMPs to span elements of different sizes, which is the point of the test.
+These properties differ slightly from Charlton et al. [@charlton_implicit_2018] on purpose - they produce large enough deformation for GIMPs to span elements of different sizes, which is the point of the test.
 
 **Loading:** Apply gravity as a body force, $g_i = [0,\,0,\,-9.81]$ m/s$^2$.
 
 **Solver:** Use Newton-Raphson and ramp the load on incrementally over 20 load steps.
 
+## Input setup
+The input file is a single JSON object with five top-level sections, broken out below alongside the [Problem description](#problem-description). Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified.
 
+### Mesh data
+
+The geometry matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the first run. The `Initial GIMP distribution` is set to fill the whole domain, so a GIMP exists at every initial location. `dx refined` sets the locally-refined cell size used near the hanging nodes; `Refinement type` selects the column-validation refinement preset.
+
+```json
+"mesh data": {
+    "domain size x": 0.4,
+    "domain size y": 0.4,
+    "domain size z": 0.8,
+    "Initial GIMP distribution x": 0.4,
+    "Initial GIMP distribution y": 0.4,
+    "Initial GIMP distribution z": 0.8,
+    "dx refined": 0.2,
+    "Refinement type": "column validation"
+}
+```
+
+### Boundary conditions
+
+Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface, which is the default and so does not appear in the file. Every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional.
+
+```json
+"boundary conditions": {
+    "neg x-plane": "roller",
+    "neg y-plane": "roller",
+    "neg z-plane": "roller",
+    "pos x-plane": "roller",
+    "pos y-plane": "roller",
+    "x dof": "fixed",
+    "y dof": "fixed"
+}
+```
+
+### Material
+
+The column is homogeneous, so a single layer is specified with the Hencky elastic model and the parameters from the Problem description ($E = 10^3$ Pa, $\nu = 0$, $\rho = 50$ kg/m$^3$).
+
+```json
+"material": {
+    "number of layers": 1,
+    "layers": [
+        {
+            "type": "Elastic",
+            "emperical data": "homogeneous elastic",
+            "assigned material properties": {"E": 1000.0, "nu": 0.0, "rho": 50.0}
+        }
+    ]
+}
+```
+
+### Solver
+
+The self-weight load is ramped on quasi-statically over 20 increments using a Newton-Raphson scheme.
+
+```json
+"Solver": {
+    "solve type": "static",
+    "number of increments": 20
+}
+```
+
+### Output data
+
+VTU and VTK output is enabled for visualisation in ParaView (or VisIt). The `text data` field tags the run as `column validation` for post-processing.
+
+```json
+"OutputData": {
+    "vtu data": "yes",
+    "vtk data": "yes",
+    "text data": "column validation"
+}
+```
+
+
+## Deploying and running the problem
+## Viewing the results
 <!--
 The implicit GIMPM (iGIMPM) convergence was first demonstrated by Charlton \emph{et al.} \cite{charlton_implicit_2018} on the 1D self-weight column. In the paper it was shown that the error in the stress solution, normalised with respect to the volume, converges with uniform refinement for a conforming mesh. Here the same general problem and GIMP domain update is considered as in Charlton \emph{et al.} \cite{charlton_implicit_2018}. The initial mesh, and a refinement step, are shown in Figure \ref{fig:example mesh}. 
 \begin{figure}[ht!]
