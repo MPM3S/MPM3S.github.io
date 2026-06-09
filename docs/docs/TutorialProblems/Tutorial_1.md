@@ -5,7 +5,7 @@ This quick start tutorial walks through the steps of running your first AMPSSIE 
 The problem is a convergence analysis of a column deforming under self-weight.
 It is a simple problem that runs quickly and uses nearly all aspects of the code, apart from contact and rigid body interactions.
 
-The convergence of the implicit Generlised Interpolation Materail Point Method (iGIMPM) was first demonstrated by Charlton \emph{et al.} [@charlton_implicit_2018] on the 1D self-weight column, it is used to validate the material point code with a background mesh with hanging nodes against an analytical solution.
+The convergence of the implicit Generlised Interpolation Materail Point Method (iGIMPM) was first demonstrated by Charlton *et al.* [@charlton_implicit_2018] on the 1D self-weight column, it is used to validate the material point code with a background mesh with hanging nodes against an analytical solution.
 
 By the end of this tutorial, you will have:
 
@@ -15,7 +15,11 @@ By the end of this tutorial, you will have:
 
 ## Problem description
 
-You will define the geometry, mesh, boundary conditions, material, and solver in the input file. The values below give you a column that deforms significantly under self-weight. The deformation is large enough that the Generlised Interpolation Material Points (GIMPs) will trasverse several elements and will interact with hanging nodes.
+You will define the geometry, mesh, boundary conditions, material, and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+
+The values below give you a column that deforms significantly under self-weight. The deformation is large enough that the Generlised Interpolation Material Points (GIMPs) will trasverse several elements and will interact with hanging nodes.
+
+
 
 ![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.svg){ #fig-example-mesh width="90%" }
 

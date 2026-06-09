@@ -219,14 +219,6 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 2px solid var(--durham-gold);
 }
 
-.md-nav__list {
-  position: relative;
-}
-
-.md-nav__item {
-  position: relative;
-}
-
 .md-tabs__link {
   font-weight: 500;
   opacity: 0.85;
@@ -261,8 +253,6 @@ h1, h2, h3, h4, h5, h6 {
 .md-nav__link:hover {
   color: var(--durham-purple);
 }
-
-.md-nav__item--nested .md-nav__link { flex-direction: row-reverse}
 
 /* Buttons and links */
 .md-button {
@@ -442,8 +432,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.5rem 1rem;
 }
 
-/* Navigation icons */
-.md-nav__icon {
+/* Navigation icons — hide only the expand chevron on nested items,
+   not the back-arrow icon in the drill-down sub-drawer. */
+.md-nav__item--nested > .md-nav__link .md-nav__icon {
   display: none;
 }
 
