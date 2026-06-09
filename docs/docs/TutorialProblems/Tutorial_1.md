@@ -154,3 +154,12 @@ There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftwa
 
 
 ## Viewing the results
+
+<div class="grid" markdown>
+
+![Compression under self-weight, displacement plot of the GIMPs and mesh for steps 1, 10 and 20, of 20.](../../img/gravity_result.png){ #fig-example-mesh width="100%" }
+
+![Compression under self-weight, convergence of the error with mesh refinement.](../../img/convergence_gravity.png){ #fig-example-mesh-gimp width="100%" }
+
+</div>
+*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*

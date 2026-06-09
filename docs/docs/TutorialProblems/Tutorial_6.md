@@ -16,9 +16,9 @@ This tutorial has four sections:
 
 You will define the geometry, mesh, boundary conditions, material, rigid body (anchor + truss frame) and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
-Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The full $19$ m horizontal drag is achieved with a partitioned domain that travels with the anchor rather than meshing all $19$ m at once. The domain dimensions and the truss-frame abstraction of the anchor are shown in [](#fig-anchor-setup).
+Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The full $19$ m horizontal drag is achieved with a partitioned domain that travels with the anchor rather than meshing all $19$ m at once. The domain dimensions are shown in [](#fig-anchor-setup), and the truss-frame abstraction of the anchor is shown in [](#fig-anchor-design).
 
-![Top: domain dimensions for the anchor penetration problem. Bottom: the truss frame used to model the anchor (shank + fluke, hinged) and the pull wire, with the pull point marked.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="50%" }
+![Domain dimensions for the anchor penetration problem, with the half-symmetric soil block and the AC-14 anchor positioned at the surface.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="50%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
@@ -32,7 +32,8 @@ Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The ful
 
 **Rigid body:** The anchor used in this tutorial is the AC-14 design - see [](#fig-anchor-design) - comprising two parts hinged together: a **shank** and a **fluke**. They are modelled with a truss frame (each truss member: stiffness $10^9$ N/m, nominal nodal mass $10$ kg), with the hinge represented by a penalty truss between the shank and fluke centres of mass.
 
-![Anchor design: top-down schematic of the AC-14 anchor in (a), the truss-frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/anchor_design.png){ #fig-anchor-design width="70%" }
+![Anchor design: top-down schematic of the AC-14 anchor in (a), the truss-frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/anchor_design.png){ #fig-anchor-design width="100%" }
+
 
 *Figure reproduced from [@birdanchors2026].*
 
