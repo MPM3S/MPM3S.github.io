@@ -18,7 +18,7 @@ You will define the geometry, mesh, boundary conditions, material, rigid body (a
 
 Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The full $19$ m horizontal drag is achieved with a partitioned domain that travels with the anchor rather than meshing all $19$ m at once.
 
-![Top: domain dimensions for the anchor penetration problem. Bottom: the truss frame used to model the anchor (shank + fluke, hinged) and the pull wire, with the pull point marked.](../../img/anchor_schematic_combined.svg){ #fig-anchor-setup width="60%" }
+![Top: domain dimensions for the anchor penetration problem. Bottom: the truss frame used to model the anchor (shank + fluke, hinged) and the pull wire, with the pull point marked.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="70%" }
 
 **Mesh:** Domain side lengths $L_y = L_z = 10$ m with $L_x = 100$ m. Adaptive octree refinement is driven by the anchor position. The smallest element size near the anchor is $dx_{\min}$, with a buffer region of size $dx_{\min}^{region}$. The paper sweeps $dx_{\min} \in \{0.1,\, 0.2\}$ m and $dx_{\min}^{region} \in \{dx_{\min},\, 2dx_{\min},\, 3dx_{\min}\}$ to demonstrate convergence; $dx_{\min} = 0.1$ m with $dx_{\min}^{region} = 0.2$ m gives the best compromise of accuracy and run time. To avoid meshing the entire $100$ m domain, a **partitioned domain** is used: only $1.5\, L_a$ of soil ahead of the anchor and $0.5\, L_a$ behind are kept active, where $L_a$ is the total anchor length.
 
@@ -220,10 +220,10 @@ Newton-Raphson; the time-integration scheme switches per stage based on `mode`.
 
 The octree background mesh and GIMP distribution around the anchor at $19$ m of drag, with elements coloured by refinement age (oldest blue, youngest red):
 
-![Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.](../../img/anchor_example.png){ #fig-anchor-example width="100%" }
+![Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.](../../img/anchor_example.png){ #fig-anchor-example width="70%" }
 
 Anchor trajectories (penetration depth versus horizontal travel) compared across the six adaptivity configurations, the structured-mesh reference solution of Bird et al. [@birdanchors2026] and the experimental data of Sharif et al. [@sharif]:
 
-![Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.](../../img/anchor_results.png){ #fig-anchor-results width="100%" }
+![Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.](../../img/anchor_results.png){ #fig-anchor-results width="70%" }
 
 Simulations A and B (both at $dx_{\min} = 0.1$ m) match or exceed the structured-mesh accuracy. Simulation B is $5.5$ times faster than the structured-mesh reference and emits approximately $21$ times less CO$_2$e. The trajectory becomes insensitive to the buffer-region size once $dx_{\min}^{region} \geq 2\, dx_{\min}$, demonstrating that the octree refinement is well-converged in the near field.

@@ -18,7 +18,16 @@ You will define the geometry, mesh, boundary conditions, material, rigid body an
 
 Only half of the domain is modelled, exploiting the symmetry of the plough in $x$. The plough is held at a fixed embedment depth of $D = 1.85$ m and is dragged through the soil over a total horizontal travel of $20$ m at a step size of $0.025$ m.
 
-![Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).](../../img/plough_setup.svg){ #fig-plough-setup width="100%" }
+
+<div class="grid" markdown>
+
+![Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).](../../img/plough_figure_1.png){ #fig-plough-setup width="100%" }
+
+![Side view of Signorini boundary conditions.](../../img/plough_figure_2.png){ #fig-plough-setup-BCs width="100%" }
+
+![Schematic of the plough](../../img/plough_schematic.png){ #fig-plough_schematic width="100%" }
+
+</div>
 
 **Mesh:** Half-symmetric domain dimensions $L_x = 20$ m, $L_y = 10$ m, $L_z = 7.5$ m. As in [Tutorial 3](Tutorial_3.md), adaptive octree refinement is driven by the rigid body position. The smallest element size near the plough surface is $dx_{\min}$, and the surrounding "buffer" region uses elements of size $2\, dx_{\min}$. For a quick first run set $dx_{\min} = 0.2$ m; for a high-accuracy comparison against the experimental data drop to $dx_{\min} = 0.075$ m. The paper [@robinson2021cone] reports validation runs at $dx_{\min} \in \{0.075,\, 0.15,\, 0.2\}$ m.
 
@@ -185,10 +194,10 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 
 The deformed soil state at $10$ m plough travel, with the GIMPs coloured by $x$-displacement (red 3 m, blue 0 m), shows how material flows around the wedge and is pushed forward:
 
-![Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.](../../img/at_10_m_plough.svg){ #fig-plough-final width="100%" }
+![Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.](../../img/at_10_m_plough.png){ #fig-plough-final width="70%" }
 
 The horizontal pull force as a function of plough position is compared against the centrifuge data of Robinson et al. [@robinson2021cone] for the three mesh refinements:
 
-![Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.](../../img/plough_result.png){ #fig-plough-results width="100%" }
+![Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.](../../img/plough_result.png){ #fig-plough-results width="70%" }
 
 The first $7.45$ m of travel is the embedment phase, during which the force oscillates as different parts of the plough engage with the soil. Beyond that the force reaches a steady-state regime - this is the regime to compare against the experimental measurement. Refinement consistently moves the numerical result towards the experimental data; $dx \in \{0.075,\, 0.15\}$ m give good agreement with no parameter tuning.

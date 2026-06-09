@@ -20,9 +20,9 @@ The values below give you a cube whose top surface is compressed by a rigid plat
 
 <div class="grid" markdown>
 
-![Initial mesh for the contact-cube problem, with hanging nodes visible at the refined contact face.](../../img/column_compression_series.svg){ #fig-cube-mesh width="80%" }
+![Initial mesh for the contact-cube problem, with hanging nodes visible at the refined contact face.](../../img/column_compression_series.png){ #fig-cube-mesh width="100%" }
 
-![Boundary conditions and rigid-body imposition: the red line marks the 0.2 m compression imposed by the rigid body across 20 load steps.](../../img/column_compression_series_2.svg){ #fig-cube-bcs width="100%" }
+![Boundary conditions and rigid-body imposition: the red line marks the 0.2 m compression imposed by the rigid body across 20 load steps.](../../img/column_compression_series_2.png){ #fig-cube-bcs width="100%" }
 
 </div>
 
@@ -163,10 +163,10 @@ The numerical solution should reproduce a uniform vertical stress field through 
 
 <div class="grid" markdown>
 
-![Convergence of the stress and displacement error with the penalty factor $p_f$.](../../img/cube_summary.svg){ #fig-cube-convergence width="100%" }
+![Convergence of the stress and displacement error with the penalty factor $p_f$.](../../img/cube_summary.png){ #fig-cube-convergence width="100%" }
 
 ![Final rigid body and GIMP positions for $p_f=100$, mesh shown in pink.](../../img/contact_cube_3d_plot.png){ #fig-cube-final width="100%" }
 
 </div>
 
-![Uniform vertical stress field (Pa) through the deformed cube at the end of the simulation.](../../img/contact_stress.png){ #fig-cube-stress width="25%" }
+![Uniform vertical stress field (Pa) through the deformed cube at the end of the simulation.](../../img/contact_stress.png){ #fig-cube-stress width="70%" }

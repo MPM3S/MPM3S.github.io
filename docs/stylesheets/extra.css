@@ -574,6 +574,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Centre items horizontally within their grid cells so figures sized smaller
+   than the cell don't hug the cell edge. */
+.md-typeset .grid {
+  justify-items: center;
+}
+
 /* Fix .grid layout when figures are wrapped in <p> by python-markdown.
    Browsers auto-close the <p> before the block-level <figure>, leaving stray
    empty <p> elements as grid items. Hide them so only the figures count. */

@@ -18,7 +18,7 @@ You will define the geometry, mesh, boundary conditions, material, rigid body an
 
 To keep the contact vertices aligned with the slope boundary as the sphere travels, the slope is kept horizontal and gravity is tilted to $45^\circ$ instead. The sphere then rolls along $+x$ under the in-plane gravity component.
 
-![Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.](../../img/sphere_slope.svg){ #fig-sphere-setup width="80%" }
+![Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.](../../img/sphere_slope.png){ #fig-sphere-setup width="70%" }
 
 **Mesh:** Slope dimensions $L_x = 50$ m and $L_y = L_z = 1$ m. Adaptive octree refinement is driven by the rigid body position. The maximum element size away from the sphere is $0.5$ m; at the contact point the smallest element size is $dx_{\min} = 0.1$ m.
 
@@ -192,9 +192,9 @@ Below, the deformed slope and GIMP positions show how the refinement follows the
 
 <div class="grid" markdown>
 
-![GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.](../../img/rolling_sphere_3D.svg){ #fig-sphere-3d width="100%" }
+![GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.](../../img/rolling_sphere_3D.png){ #fig-sphere-3d width="100%" }
 
-![Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.](../../img/sphere_error.svg){ #fig-sphere-results width="100%" }
+![Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.](../../img/sphere_error.png){ #fig-sphere-results width="100%" }
 
 </div>
 
