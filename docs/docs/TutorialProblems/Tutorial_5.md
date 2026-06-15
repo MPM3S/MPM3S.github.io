@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Tutorial 5: Rolling sphere
 
 ## Introduction
@@ -67,7 +72,22 @@ This problem has seven top-level sections, broken out below alongside the [Probl
 
 Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Mesh data
+
+`dx refined` is the smallest element size, applied to elements intersecting the sphere. `dx coarse` is the maximum element size far from the sphere. `Refinement type` is `rigid body adaptive` so the refined patch follows the sphere along the slope.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Mesh": {
@@ -81,9 +101,19 @@ Defaults (a face being free, a DOF being unconstrained, etc.) are not included i
 }
 ```
 
-`dx refined` is the smallest element size, applied to elements intersecting the sphere. `dx coarse` is the maximum element size far from the sphere. `Refinement type` is `rigid body adaptive` so the refined patch follows the sphere along the slope.
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Initial GIMP distribution
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Initial GIMP distribution": {
@@ -93,9 +123,21 @@ Defaults (a face being free, a DOF being unconstrained, etc.) are not included i
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Boundary conditions
 
 Rollers on all lateral and bottom faces. All nodes have their $x$ and $y$ DOFs fixed so the slope does not translate.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Boundary conditions": {
@@ -109,9 +151,21 @@ Rollers on all lateral and bottom faces. All nodes have their $x$ and $y$ DOFs f
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Material
 
 A single very-stiff Hencky elastic layer representing the slope.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Material": {
@@ -126,9 +180,21 @@ A single very-stiff Hencky elastic layer representing the slope.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Rigid body
 
 The sphere geometry is loaded from an external mesh file; the kinematic parameters (mass, inertia, initial position) and the friction coefficient $\mu$ are listed inline. Vary `friction coefficient` between runs to reproduce the slip/stick sweep.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Rigid body": {
@@ -144,9 +210,23 @@ The sphere geometry is loaded from an external mesh file; the kinematic paramete
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Loading
 
 A single dynamic stage with tilted gravity. The tilt encodes the $45^\circ$ slope.
+
+The two non-zero components are $9.81 / \sqrt{2} \approx 6.9367$ m/s$^2$ each.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Loading": {
@@ -162,11 +242,21 @@ A single dynamic stage with tilted gravity. The tilt encodes the $45^\circ$ slop
 }
 ```
 
-The two non-zero components are $9.81 / \sqrt{2} \approx 6.9367$ m/s$^2$ each.
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Solver
 
 Newton-Raphson, implicit dynamic.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Solver": {
@@ -176,7 +266,19 @@ Newton-Raphson, implicit dynamic.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Output data
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Output Data": {
@@ -186,6 +288,9 @@ Newton-Raphson, implicit dynamic.
 }
 ```
 
+</div>
+
+</div>
 
 ## Deploying and running the problem
 ## Viewing the results

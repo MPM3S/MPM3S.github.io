@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Tutorial 4: Plough (horizontal penetration)
 
 ## Introduction
@@ -17,7 +22,6 @@ This tutorial has four sections:
 You will define the geometry, mesh, boundary conditions, material, rigid body and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 Only half of the domain is modelled, exploiting the symmetry of the plough in $x$. The plough is held at a fixed embedment depth of $D = 1.85$ m and is dragged through the soil over a total horizontal travel of $20$ m at a step size of $0.025$ m.
-
 
 <div class="grid" markdown>
 
@@ -53,9 +57,26 @@ This problem has eight top-level sections, broken out below alongside the [Probl
 
 Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Mesh data
 
 The half-symmetric domain, with octree refinement driven by the rigid body.
+
+`dx refined` is the smallest element size, used on elements intersecting the plough surface. `buffer multiplier` sets the element size in the surrounding region as a multiple of `dx refined`.
+
+`Refinement type` is `rigid body adaptive` so the mesh re-refines as the plough advances through the soil, matching the scheme used in [Tutorial 3](Tutorial_3.md).
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Mesh": {
@@ -68,13 +89,21 @@ The half-symmetric domain, with octree refinement driven by the rigid body.
 }
 ```
 
-`dx refined` is the smallest element size, used on elements intersecting the plough surface. `buffer multiplier` sets the element size in the surrounding region as a multiple of `dx refined`.
+</div>
 
-`Refinement type` is `rigid body adaptive` so the mesh re-refines as the plough advances through the soil, matching the scheme used in [Tutorial 3](Tutorial_3.md).
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Initial GIMP distribution
 
 The default $2\times2\times2$ distribution per element, filling the soil domain.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Initial GIMP distribution": {
@@ -84,9 +113,21 @@ The default $2\times2\times2$ distribution per element, filling the soil domain.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Boundary conditions
 
 Rollers everywhere except the top face (default free surface) and the exit face which uses Signorini contact.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Boundary conditions": {
@@ -98,9 +139,21 @@ Rollers everywhere except the top face (default free surface) and the exit face 
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Material
 
 A single layer of hyperelastic-perfectly plastic sand, calibrated to the Robinson 2019 sand via the Brinkgreve correlations - use the same property block as [Tutorial 3](Tutorial_3.md), adjusting the relative density to match the experimental sand.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Material": {
@@ -124,9 +177,21 @@ A single layer of hyperelastic-perfectly plastic sand, calibrated to the Robinso
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Rigid body
 
 The plough geometry is loaded from an external mesh file. Convex edges sharper than $90^\circ$ are filleted to a radius equal to half the minimum GIMP side length.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Rigid body": {
@@ -140,9 +205,21 @@ The plough geometry is loaded from an external mesh file. Convex edges sharper t
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Loading
 
 The two stages: gravity plus initial embedment, then horizontal drag. The drag step size is reduced by half on a failed convergence.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Loading": {
@@ -165,9 +242,21 @@ The two stages: gravity plus initial embedment, then horizontal drag. The drag s
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Solver
 
 Newton-Raphson, quasi-static. The same solver is applied to both stages.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Solver": {
@@ -176,9 +265,21 @@ Newton-Raphson, quasi-static. The same solver is applied to both stages.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Output data
 
 VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field tags the run as `plough` for post-processing.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Output Data": {
@@ -188,6 +289,9 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 }
 ```
 
+</div>
+
+</div>
 
 ## Deploying and running the problem
 ## Viewing the results

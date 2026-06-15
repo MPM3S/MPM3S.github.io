@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Tutorial 2: Compaction via a rigid body
 
 ## Introduction
@@ -57,9 +62,26 @@ This problem has seven top-level sections, broken out below alongside the [Probl
 
 Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Mesh data
 
 The mesh matches the $0.8 \times 0.8 \times 0.8$ m cube, with refinement at the contact face.
+
+`dx refined` gives the smallest elements in the domain, used near the rigid-body contact face.
+
+`Refinement type` selects the bespoke refinement scheme for this validation; see [](#fig-cube-mesh).
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Mesh": {
@@ -71,13 +93,21 @@ The mesh matches the $0.8 \times 0.8 \times 0.8$ m cube, with refinement at the 
 }
 ```
 
-`dx refined` gives the smallest elements in the domain, used near the rigid-body contact face.
+</div>
 
-`Refinement type` selects the bespoke refinement scheme for this validation; see [](#fig-cube-mesh).
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Initial GIMP distribution
 
 The initial GIMP distribution is the default $2\times2\times2$ per element, filling the entire cube.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Initial GIMP distribution": {
@@ -87,9 +117,21 @@ The initial GIMP distribution is the default $2\times2\times2$ per element, fill
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Boundary conditions
 
 Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface (default) and does not appear in the file. Every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional in compression.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Boundary conditions": {
@@ -103,9 +145,21 @@ Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$)
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Material
 
 The cube is homogeneous, so a single Hencky elastic layer is specified.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Material": {
@@ -120,9 +174,21 @@ The cube is homogeneous, so a single Hencky elastic layer is specified.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Rigid body
 
 A flat rigid plate is positioned above the cube and given a prescribed downward displacement of $0.2$ m. The normal penalty factor `pf` is the parameter you vary to study convergence (try $p_f = 50, 100, 1000, 10000$).
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Rigid body": {
@@ -133,9 +199,21 @@ A flat rigid plate is positioned above the cube and given a prescribed downward 
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Solver
 
 The rigid-body displacement is ramped on quasi-statically over 20 increments using a Newton-Raphson scheme.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Solver": {
@@ -145,9 +223,21 @@ The rigid-body displacement is ramped on quasi-statically over 20 increments usi
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Output data
 
 VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field tags the run as `contact cube` for post-processing.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Output Data": {
@@ -157,6 +247,9 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 }
 ```
 
+</div>
+
+</div>
 
 ## Deploying and running the problem
 ## Viewing the results

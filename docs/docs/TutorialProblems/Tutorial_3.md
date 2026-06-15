@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Tutorial 3: Vertical penetration (Cone Penetration Test)
 
 ## Introduction
@@ -60,9 +65,26 @@ This problem has eight top-level sections, broken out below alongside the [Probl
 
 Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Mesh data
 
 The quarter-symmetric domain matches the $12.8 \times 12.8 \times 24.6$ m setup, with refinement driven by the rigid body.
+
+`dx refined` is the smallest element size, used on elements intersecting the cone surface. `buffer multiplier` sets the element size in the surrounding region as a multiple of `dx refined`.
+
+`Refinement type` is `rigid body adaptive` so the mesh re-refines as the cone descends.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Mesh": {
@@ -75,13 +97,21 @@ The quarter-symmetric domain matches the $12.8 \times 12.8 \times 24.6$ m setup,
 }
 ```
 
-`dx refined` is the smallest element size, used on elements intersecting the cone surface. `buffer multiplier` sets the element size in the surrounding region as a multiple of `dx refined`.
+</div>
 
-`Refinement type` is `rigid body adaptive` so the mesh re-refines as the cone descends.
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Initial GIMP distribution
 
 The default $2\times2\times2$ distribution per element, filling the soil domain.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Initial GIMP distribution": {
@@ -91,9 +121,21 @@ The default $2\times2\times2$ distribution per element, filling the soil domain.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Boundary conditions
 
 Rollers on the symmetry planes ($-x$, $-y$), the remaining lateral faces ($+x$, $+y$) and the base ($-z$). The top face is left as a free surface (default).
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Boundary conditions": {
@@ -105,9 +147,21 @@ Rollers on the symmetry planes ($-x$, $-y$), the remaining lateral faces ($+x$, 
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Material
 
 A single layer of hyperelastic-perfectly plastic sand, calibrated to $R_D = 32\%$ Congleton sand via the Brinkgreve correlations.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Material": {
@@ -131,9 +185,21 @@ A single layer of hyperelastic-perfectly plastic sand, calibrated to $R_D = 32\%
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Rigid body
 
 A cone with radius $0.4$ m and apex angle $60^\circ$, initially positioned just above the soil surface, given a prescribed downward displacement of $4$ m over the 300 load steps of step 2.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Rigid body": {
@@ -148,9 +214,21 @@ A cone with radius $0.4$ m and apex angle $60^\circ$, initially positioned just 
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Loading
 
 The two stages are processed in order: a single gravity step generates the initial stress field, then the cone is displaced over 300 load steps.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Loading": {
@@ -172,9 +250,21 @@ The two stages are processed in order: a single gravity step generates the initi
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Solver
 
 Newton-Raphson, quasi-static. The same solver is applied to both stages.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Solver": {
@@ -183,9 +273,21 @@ Newton-Raphson, quasi-static. The same solver is applied to both stages.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Output data
 
 VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field tags the run as `cone penetration test` for post-processing.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Output Data": {
@@ -195,6 +297,9 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 }
 ```
 
+</div>
+
+</div>
 
 ## Deploying and running the problem
 ## Viewing the results

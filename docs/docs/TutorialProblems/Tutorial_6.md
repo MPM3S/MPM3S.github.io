@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Tutorial 6: Drag anchor
 
 ## Introduction
@@ -34,7 +39,6 @@ Only half of the anchor is modelled, exploiting the $xz$-symmetry plane. The ful
 
 ![Anchor design: top-down schematic of the AC-14 anchor in (a), the truss-frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/anchor_design.png){ #fig-anchor-design width="100%" }
 
-
 *Figure reproduced from [@birdanchors2026].*
 
 The total mass and rotational inertia of each component are given below. Because of the half-symmetry, both are **halved** in the analysis:
@@ -65,9 +69,24 @@ This problem has eight top-level sections, broken out below alongside the [Probl
 
 Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Mesh data
 
 The long, narrow domain with octree refinement following the anchor. The partitioned-domain extents are set relative to the anchor length $L_a$.
+
+`partitioned domain` activates the moving-window method so only a small portion of the $100$ m domain is meshed and solved at each time step.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Mesh": {
@@ -84,9 +103,19 @@ The long, narrow domain with octree refinement following the anchor. The partiti
 }
 ```
 
-`partitioned domain` activates the moving-window method so only a small portion of the $100$ m domain is meshed and solved at each time step.
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Initial GIMP distribution
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Initial GIMP distribution": {
@@ -96,7 +125,19 @@ The long, narrow domain with octree refinement following the anchor. The partiti
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Boundary conditions
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Boundary conditions": {
@@ -108,9 +149,21 @@ The long, narrow domain with octree refinement following the anchor. The partiti
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Material
 
 Same Brinkgreve-calibrated sand as Tutorial 3.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Material": {
@@ -134,9 +187,21 @@ Same Brinkgreve-calibrated sand as Tutorial 3.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Rigid body
 
 The anchor is two hinged parts whose kinematics are tracked by a truss frame. Masses and inertias are halved here for the $xz$-symmetric setup.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Rigid body": {
@@ -169,9 +234,21 @@ The anchor is two hinged parts whose kinematics are tracked by a truss frame. Ma
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Loading
 
 The three-stage solution. Stage 1 is a single pseudo-static gravity step; stages 2 and 3 are dynamic.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Loading": {
@@ -203,9 +280,21 @@ The three-stage solution. Stage 1 is a single pseudo-static gravity step; stages
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Solver
 
 Newton-Raphson; the time-integration scheme switches per stage based on `mode`.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Solver": {
@@ -213,7 +302,19 @@ Newton-Raphson; the time-integration scheme switches per stage based on `mode`.
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Output data
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Output Data": {
@@ -223,6 +324,9 @@ Newton-Raphson; the time-integration scheme switches per stage based on `mode`.
 }
 ```
 
+</div>
+
+</div>
 
 ## Deploying and running the problem
 ## Viewing the results

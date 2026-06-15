@@ -833,4 +833,95 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/*Code pl*/
+/* ============================================================
+   JSON side-by-side layout: text on the left, JSON snippet on
+   the right. Each `### subsection` in a tutorial's Input setup
+   wraps its body in `<div class="json-side">` to share a grid row.
+   A `<div class="json-side-header">` above the first row labels
+   the columns ("Description" / `input_data.json`).
+   ============================================================ */
+
+.md-typeset .json-side,
+.md-typeset .json-side-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.md-typeset .json-side {
+  margin: 1.5rem 0;
+}
+
+.md-typeset .json-side .js-code {
+  min-width: 0;
+}
+
+.md-typeset .json-side .js-code .highlight,
+.md-typeset .json-side .js-code pre {
+  margin: 0;
+}
+
+/* Smaller prose in the left column so the JSON dominates the row. */
+.md-typeset .json-side .js-text {
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.md-typeset .json-side .js-text h3 {
+  font-size: 1rem;
+  margin: 0 0 0.4rem;
+}
+
+.md-typeset .json-side .js-text > :first-child {
+  margin-top: 0;
+}
+.md-typeset .json-side .js-text > :last-child {
+  margin-bottom: 0;
+}
+
+/* Column-header row above the first .json-side block. */
+.md-typeset .json-side-header {
+  margin: 2rem 0 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--durham-gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+  color: var(--durham-purple);
+}
+
+.md-typeset .json-side-header code {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--durham-ink);
+}
+
+/* Stack on narrow viewports, and hide the header (labels would orphan). */
+@media (max-width: 76.25em) {
+  .md-typeset .json-side {
+    grid-template-columns: 1fr;
+  }
+  .md-typeset .json-side-header {
+    display: none;
+  }
+}
+
+/* ============================================================
+   TOC-less pages (tutorials use `hide: [toc]` frontmatter):
+   when Material omits the secondary sidebar, let the content
+   fill the freed space instead of stopping at the centred
+   1400px cap. `:has()` detects the missing sidebar.
+   ============================================================ */
+@media screen and (min-width: 76.25em) {
+  .md-main:not(:has(.md-sidebar--secondary)) > .md-main__inner,
+  .md-main:not(:has(.md-sidebar--secondary)) .md-content {
+    max-width: none;
+  }
+}

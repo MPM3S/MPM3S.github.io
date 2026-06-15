@@ -1,9 +1,14 @@
+---
+hide:
+  - toc
+---
+
 # Tutorial 1: Self-weight column convergence
 
 ## Introduction
 This quick start tutorial walks through the steps of running your first AMPSSIE problem. 
 
-The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses all componets of the code that are used to create the [deformable body's equations to be solved.](../TechnicalReferences/StaticWeakForm.md)
+The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses all components of the code that are used to create the [deformable body's equations to be solved.](../TechnicalReferences/StaticWeakForm.md)
 
 This tutorial has four sections:
 
@@ -18,13 +23,11 @@ You will define the geometry, mesh, boundary conditions, material, and solver in
 
 The values below give you a column that deforms significantly under self-weight. The deformation is large enough that the Generalised Interpolation Material Points (GIMPs) will traverse several elements and will interact with hanging nodes.
 
-
-
 <div class="grid" markdown>
 
-![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.svg){ #fig-example-mesh width="100%" }
+![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.png){ #fig-example-mesh width="100%" }
 
-![Compression under self-weight, example of GIMP distrubition in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.svg){ #fig-example-mesh-gimp width="100%" }
+![Compression under self-weight, example of GIMP distribution in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.png){ #fig-example-mesh-gimp width="100%" }
 
 </div>
 
@@ -63,9 +66,27 @@ This problem has six top-level sections, broken out below alongside the [Problem
 
 Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Mesh data
 
 The mesh matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the first run.
+
+`dx refined` always gives the smallest elements in the domain.
+
+`Refinement type` is set to `column validation` for the bespoke refinement scheme for this problem; see [](#fig-example-mesh).
+
+</div>
+
+<div class="js-code" markdown>
+
 ```json
  "Mesh": {
     "domain size x": 0.4,
@@ -75,13 +96,25 @@ The mesh matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the 
     "Refinement type": "column validation"
 }
 ```
-`dx refined` always gives the smallest elements in the domain.
 
-`Refinement type` is set to `column validation` for the bespoke refinement scheme for this problem; see [](#fig-example-mesh).
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Initial GIMP distribution
 
 The `Initial GIMP distribution` is set to fill the whole domain and so is given the same parameters as the `Mesh data`.
+
+The default initial GIMP distribution is $2\times2\times2$ within each element. However, for this problem larger elements will have $4\times4\times4$ whilst the smaller elements have $2\times2\times2$. `Specialised distribution` is used to set up this distribution with `column validation`.
+
+</div>
+
+<div class="js-code" markdown>
+
 ```json
 "Initial GIMP distribution": {
     "Initial GIMP distribution x": 0.4,
@@ -90,11 +123,23 @@ The `Initial GIMP distribution` is set to fill the whole domain and so is given 
     "Specialised distribution": "column validation"
     }
 ```
-The default initial GIMP distribution is $2\times2\times2$ within each element. However, for this problem larger elements will have $4\times4\times4$ whilst the smaller elements have $2\times2\times2$. `Specialised distribution` is used to set up this distribution with `column validation`.
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
 
 ### Boundary conditions
 
 Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface, which is the default and so does not appear in the file. Every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional.
+
+</div>
+
+<div class="js-code" markdown>
+
 ```json
 "Boundary conditions": {
     "neg x-plane": "roller",
@@ -107,9 +152,21 @@ Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$)
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Material
 
 The column is homogeneous, so a single layer is specified with the Hencky elastic model and the parameters from the Problem description ($E = 10^3$ Pa, $\nu = 0$, $\rho = 50$ kg/m$^3$).
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Material": {
@@ -124,9 +181,21 @@ The column is homogeneous, so a single layer is specified with the Hencky elasti
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Solver
 
 The self-weight load is ramped on quasi-statically over 20 increments using a Newton-Raphson scheme.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Solver": {
@@ -136,9 +205,21 @@ The self-weight load is ramped on quasi-statically over 20 increments using a Ne
 }
 ```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
 ### Output data
 
 VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field tags the run as `column validation` for post-processing.
+
+</div>
+
+<div class="js-code" markdown>
 
 ```json
 "Output Data": {
@@ -148,18 +229,21 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 }
 ```
 
+</div>
+
+</div>
 
 ## Deploying and running the problem
 There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). 
-
 
 ## Viewing the results
 
 <div class="grid" markdown>
 
-![Compression under self-weight, displacement plot of the GIMPs and mesh for steps 1, 10 and 20, of 20.](../../img/gravity_result.png){ #fig-example-mesh width="100%" }
+![Compression under self-weight, displacement plot of the GIMPs and mesh for steps 1, 10 and 20, of 20.](../../img/gravity_result.png){ #fig-gravity-displacement width="100%" }
 
-![Compression under self-weight, convergence of the error with mesh refinement.](../../img/convergence_gravity.png){ #fig-example-mesh-gimp width="100%" }
+![Compression under self-weight, convergence of the error with mesh refinement.](../../img/convergence_gravity.png){ #fig-gravity-convergence width="100%" }
 
 </div>
+
 *Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
