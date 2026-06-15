@@ -33,7 +33,7 @@ The complete reference `input_data.json` for [Tutorial 2](Tutorial_2.md), with e
         "layers": [
             {
                 "type": "Elastic",
-                "emperical data": "homogeneous elastic",
+                "empirical data": "homogeneous elastic",
                 "assigned material properties": {"E": 1000000.0, "nu": 0.0}
             }
         ]

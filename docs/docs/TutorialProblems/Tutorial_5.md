@@ -173,7 +173,7 @@ A single very-stiff Hencky elastic layer representing the slope.
     "layers": [
         {
             "type": "Elastic",
-            "emperical data": "homogeneous elastic",
+            "empirical data": "homogeneous elastic",
             "assigned material properties": {"E": 1000000000.0, "nu": 0.0}
         }
     ]

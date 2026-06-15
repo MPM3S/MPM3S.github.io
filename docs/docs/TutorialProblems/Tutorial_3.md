@@ -169,7 +169,7 @@ A single layer of hyperelastic-perfectly plastic sand, calibrated to $R_D = 32\%
     "layers": [
         {
             "type": "DruckerPrager",
-            "emperical data": "Brinkgreve sand",
+            "empirical data": "Brinkgreve sand",
             "assigned material properties": {
                 "E_50_ref": 19200000.0,
                 "rho": 1630.0,

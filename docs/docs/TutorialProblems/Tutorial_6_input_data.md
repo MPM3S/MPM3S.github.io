@@ -36,7 +36,7 @@ The complete reference `input_data.json` for [Tutorial 6](Tutorial_6.md), with e
         "layers": [
             {
                 "type": "DruckerPrager",
-                "emperical data": "Brinkgreve sand",
+                "empirical data": "Brinkgreve sand",
                 "assigned material properties": {
                     "E_50_ref": 19200000.0,
                     "rho": 1630.0,

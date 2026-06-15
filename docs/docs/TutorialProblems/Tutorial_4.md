@@ -161,7 +161,7 @@ A single layer of hyperelastic-perfectly plastic sand, calibrated to the Robinso
     "layers": [
         {
             "type": "DruckerPrager",
-            "emperical data": "Brinkgreve sand",
+            "empirical data": "Brinkgreve sand",
             "assigned material properties": {
                 "E_50_ref": 19200000.0,
                 "rho": 1630.0,

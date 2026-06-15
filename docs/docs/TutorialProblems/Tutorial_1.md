@@ -174,7 +174,7 @@ The column is homogeneous, so a single layer is specified with the Hencky elasti
     "layers": [
         {
             "type": "Elastic",
-            "emperical data": "homogeneous elastic",
+            "empirical data": "homogeneous elastic",
             "assigned material properties": {"E": 1000.0, "nu": 0.0, "rho": 50.0}
         }
     ]

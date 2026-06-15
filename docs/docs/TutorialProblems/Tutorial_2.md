@@ -167,7 +167,7 @@ The cube is homogeneous, so a single Hencky elastic layer is specified.
     "layers": [
         {
             "type": "Elastic",
-            "emperical data": "homogeneous elastic",
+            "empirical data": "homogeneous elastic",
             "assigned material properties": {"E": 1000000.0, "nu": 0.0}
         }
     ]
