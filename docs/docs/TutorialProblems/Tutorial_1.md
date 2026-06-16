@@ -10,55 +10,38 @@ This quick start tutorial walks through the steps of running your first AMPSSIE 
 
 This tutorial analyses a column deforming under self-weight and solves the static weak-form [equations](../TechnicalReferences/StaticWeakForm.md). It is simple but introduces you to all components of the code: setting up, running and viewing the output data.
 
-This tutorial has four sections:
+This tutorial has three sections:
 
-- [Problem description](#problem-description)
 - [Input setup](#input-setup)
 - [Deploying and running the problem](#deploying-and-running-the-problem)
 - [Viewing the results](#viewing-the-results)
 
-## Problem description
-The Generalised Interpolation Material Point Method (GIMPM) can be classed a fictious domain method. This means that the mesh and boundary conditions do not necessarily align with the material domain, the thing that is being modelled. This enables the GIMPM to avoiding distorted mesh issues normally associated with finite elements. 
+The Generalised Interpolation Material Point Method (GIMPM) can be classed as a fictitious domain method. This means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements. 
 
 The GIMPM broadly works in three steps:
 ![The three steps to a GIMPM solution step.](../../img/GIMP_example.png){ #fig-example-GIMPM width="100%" }
 
 - (a) initial state which loads the material point data on the background mesh
 - (b) deforming the mesh and the material points together
-- (c) reseting the mesh but not the material points, distorting the body relative to the mesh
+- (c) resetting the mesh but not the material points, distorting the body relative to the mesh
 
-This framework means that you have to define the `Mesh` and the `Initial GIMP distribution`, the latter corressponds to the body being modelled. 
+This framework means that you have to define the `Mesh` and the `Initial GIMP distribution`, the latter corresponds to the modelled body. 
 
+The `Boundary conditions`, such as fixed or rolling nodes are applied to the `Mesh`, whereas force loads, such as gravity are applied to the material points directly. The  material points also contains all the material information
 
+## Input setup
 
-**Mesh:** The column is $0.4 \times 0.4 \times 0.8$ m see [](#fig-example-mesh).
-
-**Initial GIMP distribution:** A $2\times2\times2$ grid of GIMPs is placed in each element; see [](#fig-example-mesh-gimp).
-
-**Boundary conditions:** Apply roller boundaries on the four sides and the base. Leave the top as a free surface. Fix every node in $x$ and $y$ so the problem stays one-dimensional.
-
-**Material:** Use a Hencky elastic model with constant parameters: Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$.
-
-**Loading:** Apply gravity as a body force, $g_i = [0,\,0,\,-9.81]$ m/s$^2$.
-
-**Solver:** Use Newton-Raphson and ramp the load on incrementally over 20 load steps.
-
-**Analytical solution:** This problem has an analytical stress solution you can use to validate the numerical result:
+**Problem summary:** The aim is to recover the vertical stress field that develops through a column that deforms vertically and compare the stress solution against the analytical one
 
 $$
 \sigma_g = \rho g (L - z_p),
 $$
 
-where:
+where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m). The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This problem is a load-controlled problem so the `Solver` divides the gravitational load into 20 increments, with each increment solved with a Newton-Raphson solver.
 
-- $g = 9.81$ m/s$^2$ is the acceleration due to gravity
-- $L = 0.8$ m is the initial height of the domain
-- $z_p$ is the vertical position of the material point (m)
 
-## Input setup
+
 The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
-
-You will define the geometry, mesh, boundary conditions, material, loading and solver in the input file. A reference for all input data can be found in the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 <div class="grid" markdown>
 
@@ -67,7 +50,6 @@ You will define the geometry, mesh, boundary conditions, material, loading and s
 ![Compression under self-weight, example of GIMP distribution in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.png){ #fig-example-mesh-gimp width="100%" }
 </div>
 
-This problem has six top-level sections, broken out below alongside the [Problem description](#problem-description). 
 
 <div class="json-side-header">
 <div>Description</div>
@@ -230,7 +212,8 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 </div>
 
 ## Deploying and running the problem
-There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). However as this problem is small, runs quickly and 
+There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). However, as this problem is small, runs quickly and has modest resource requirements, running it locally on your own machine is sufficient.
+
 
 ## Viewing the results
 
