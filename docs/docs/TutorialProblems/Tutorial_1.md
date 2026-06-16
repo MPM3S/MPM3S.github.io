@@ -37,7 +37,7 @@ $$
 \sigma_g = \rho g (L - z_p),
 $$
 
-where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m). The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This problem is a load-controlled problem so the `Solver` divides the gravitational load into 20 increments, with each increment solved with a Newton-Raphson solver.
+where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m). The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This is a load-controlled problem so the gravitational load is divided into 20 increments, with each increment applied and then solved with a Newton-Raphson scheme.
 
 
 
@@ -169,7 +169,7 @@ The column is homogeneous, so a single layer is specified with the Hencky elasti
 
 ### Solver
 
-The self-weight load is ramped on quasi-statically over 20 increments using a Newton-Raphson scheme.
+The self-weight load is ramped quasi-statically over 20 increments using a Newton-Raphson scheme.
 
 </div>
 
