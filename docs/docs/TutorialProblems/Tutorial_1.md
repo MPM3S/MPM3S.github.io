@@ -3,12 +3,12 @@ hide:
   - toc
 ---
 
-# Tutorial 1: Self-weight column convergence
+# Tutorial 1: Self-weight column
 
 ## Introduction
-This quick start tutorial walks through the steps of running your first AMPSSIE problem. 
+This quick start tutorial walks through the steps of running your first AMPSSIE problem.
 
-The problem is a convergence analysis of a column deforming under self-weight. It is a simple problem that runs quickly and uses all components of the code that are used to create the [deformable body's equations to be solved.](../TechnicalReferences/StaticWeakForm.md)
+This tutorial analyses a column deforming under self-weight and solves the static weak-form [equations](../TechnicalReferences/StaticWeakForm.md). It is simple but introduces you to all components of the code: setting up, running and viewing the output data.
 
 This tutorial has four sections:
 
@@ -19,9 +19,7 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will define the geometry, mesh, boundary conditions, material, and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
-
-The values below give you a column that deforms significantly under self-weight. The deformation is large enough that the Generalised Interpolation Material Points (GIMPs) will traverse several elements and will interact with hanging nodes.
+You will define the geometry, mesh, boundary conditions, material, loading and solver in the input file. A reference for all input data can be found in the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 <div class="grid" markdown>
 
@@ -31,40 +29,34 @@ The values below give you a column that deforms significantly under self-weight.
 
 </div>
 
-*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+**Mesh:** The column is $0.4 \times 0.4 \times 0.8$ m see [](#fig-example-mesh).
 
-**Mesh:** Set the geometry to a $h \times h \times 0.8$ m column, i.e. $(x,y,z)\in[0,h]\times[0,h]\times[0,0.8]$ m. Start with $h = 0.4$ m. For the convergence study you will halve $h$ at each refinement step (see [](#fig-example-mesh)). The initial GIMP layout filling that mesh is shown in [](#fig-example-mesh-gimp). The element *size* $h$ is what you will plot later against the stress error:
-
-$$
-e_{\sigma} = \frac{1}{\sigma_g\, V_\Omega} \sum_{p \in P} \left| \sigma^z(z^0_p) - \sigma_p^z \right| V_p ,
-$$
-
-where:
-
-- $\sigma_g = \rho g L$ is the characteristic stress at the bottom of the domain, with $L = 0.8$ m the column height
-- $V_\Omega = L h^2$ is the total domain volume
-- $\sigma^z(z_p^0) = \rho g (L - z_p)$ is the analytical vertical stress
-- $z_p^0$ is the vertical position of the material point at time $t = 0$
-- $V_p$ is the GIMP volume
-
-**Initial GIMP distribution:** The mesh and initial GIMP distribution at $t=0$ do not normally coincide; however, for this problem the GIMPs will be distributed in the volume $V_\Omega = [0,h]\times[0,h]\times[0,0.8]$ m.
+**Initial GIMP distribution:** A $2\times2\times2$ grid of GIMPs is placed in each element; see [](#fig-example-mesh-gimp).
 
 **Boundary conditions:** Apply roller boundaries on the four sides and the base. Leave the top as a free surface. Fix every node in $x$ and $y$ so the problem stays one-dimensional.
 
 **Material:** Use a Hencky elastic model with constant parameters: Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$.
 
-These properties differ slightly from Charlton et al. [@charlton_implicit_2018] on purpose - they produce large enough deformation for GIMPs to span elements of different sizes, which is the point of the test.
-
 **Loading:** Apply gravity as a body force, $g_i = [0,\,0,\,-9.81]$ m/s$^2$.
 
 **Solver:** Use Newton-Raphson and ramp the load on incrementally over 20 load steps.
 
+**Analytical solution:** This problem has an analytical stress solution you can use to validate the numerical result:
+
+$$
+\sigma_g = \rho g (L - z_p),
+$$
+
+where:
+
+- $g = 9.81$ m/s$^2$ is the acceleration due to gravity
+- $L = 0.8$ m is the initial height of the domain
+- $z_p$ is the vertical position of the material point (m)
+
 ## Input setup
-The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_1_input_data.md).
+The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 This problem has six top-level sections, broken out below alongside the [Problem description](#problem-description). 
-
-Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
 
 <div class="json-side-header">
 <div>Description</div>
@@ -77,11 +69,7 @@ Defaults (a face being free, a DOF being unconstrained, etc.) are not included i
 
 ### Mesh data
 
-The mesh matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the first run.
-
-`dx refined` always gives the smallest elements in the domain.
-
-`Refinement type` is set to `column validation` for the bespoke refinement scheme for this problem; see [](#fig-example-mesh).
+The mesh matches the $0.4 \times 0.4 \times 0.8$ m column. The element size is defined with `dx refined` which gives the dimensions of the smallest elements.
 
 </div>
 
@@ -92,8 +80,7 @@ The mesh matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the 
     "domain size x": 0.4,
     "domain size y": 0.4,
     "domain size z": 0.8,
-    "dx refined": 0.2,
-    "Refinement type": "column validation"
+    "dx refined": 0.4,
 }
 ```
 
@@ -107,9 +94,7 @@ The mesh matches the $h \times h \times 0.8$ m column, with $h = 0.4$ m for the 
 
 ### Initial GIMP distribution
 
-The `Initial GIMP distribution` is set to fill the whole domain and so is given the same parameters as the `Mesh data`.
-
-The default initial GIMP distribution is $2\times2\times2$ within each element. However, for this problem larger elements will have $4\times4\times4$ whilst the smaller elements have $2\times2\times2$. `Specialised distribution` is used to set up this distribution with `column validation`.
+The `Initial GIMP distribution` is set to fill the whole domain and so is given the same parameters as the `Mesh data`. The default initial GIMP distribution is a grid of 8 GIMPs, $2\times2\times2$ within each element, this is set with `number GIMP`.
 
 </div>
 
@@ -120,7 +105,7 @@ The default initial GIMP distribution is $2\times2\times2$ within each element. 
     "Initial GIMP distribution x": 0.4,
     "Initial GIMP distribution y": 0.4,
     "Initial GIMP distribution z": 0.8,
-    "Specialised distribution": "column validation"
+    "number GIMP": 2
     }
 ```
 
@@ -134,7 +119,7 @@ The default initial GIMP distribution is $2\times2\times2$ within each element. 
 
 ### Boundary conditions
 
-Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface, which is the default and so does not appear in the file. Every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional.
+Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface. Edges of the domain are by default free so `pos z-plane` does not appear in the file. Every node also has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional, the default is for the degree of freedom to be `free` so $z$ is not set.
 
 </div>
 
@@ -200,7 +185,7 @@ The self-weight load is ramped on quasi-statically over 20 increments using a Ne
 ```json
 "Solver": {
     "solve type": "static",
-    "load type": "force",
+    "load type": "body force",
     "number of increments": 20
 }
 ```
@@ -215,7 +200,7 @@ The self-weight load is ramped on quasi-statically over 20 increments using a Ne
 
 ### Output data
 
-VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field tags the run as `column validation` for post-processing.
+VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field outputs the vertical stress GIMP data with the deformed and initial height.
 
 </div>
 
@@ -225,7 +210,7 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 "Output Data": {
     "vtu data": "yes",
     "vtk data": "yes",
-    "text data": "column validation"
+    "text data": "self-weight column"
 }
 ```
 
@@ -238,12 +223,8 @@ There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftwa
 
 ## Viewing the results
 
-<div class="grid" markdown>
+The deformed column under self-weight is shown in [](#fig-gravity-displacement) at load steps 1, 10 and 20 of 20. The vertical displacement reaches its maximum at the top, as expected for a column compressed under its own weight; the stress field through the column can be compared against the analytical solution introduced above to validate the simulation.
 
-![Compression under self-weight, displacement plot of the GIMPs and mesh for steps 1, 10 and 20, of 20.](../../img/gravity_result.png){ #fig-gravity-displacement width="100%" }
+![Compression under self-weight: displacement plot of the GIMPs and mesh for steps 1, 10 and 20 of 20.](../../img/gravity_result.png){ #fig-gravity-displacement width="70%" }
 
-![Compression under self-weight, convergence of the error with mesh refinement.](../../img/convergence_gravity.png){ #fig-gravity-convergence width="100%" }
-
-</div>
-
-*Figures reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*

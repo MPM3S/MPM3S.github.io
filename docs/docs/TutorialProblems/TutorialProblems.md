@@ -8,7 +8,7 @@ The recommended order is top to bottom - each tutorial reuses material settings,
 
 Quasi-static problems solved with Newton-Raphson over a small number of load increments.
 
-- **[Tutorial 1 - Self-weight column convergence](Tutorial_1.md)** - A homogeneous elastic column compressed by gravity. The simplest problem in the set: no contact, no plasticity, no adaptive refinement following a body. Exercises the static weak form, the GIMP discretisation and the convergence behaviour with mesh refinement.
+- **[Tutorial 1 - Self-weight column](Tutorial_1.md)** - A homogeneous elastic column compressed by gravity. The simplest problem in the set: no contact, no plasticity, no adaptive refinement following a body. Exercises the static weak form and the GIMP discretisation, with an analytical stress solution to validate the numerical result against.
 - **[Tutorial 2 - Compaction via a rigid body](Tutorial_2.md)** - A cube compressed by a rigid plate through 25% of its height. Introduces normal-contact penalty enforcement and the hanging-node formulation around the contact face, with elasticity holding everything else constant.
 - **[Tutorial 3 - Vertical penetration (CPT)](Tutorial_3.md)** - A quarter-symmetric cone penetration test in dry sand. Adds adaptive octree refinement that follows the cone, frictional contact and a Hencky hyperelastic-perfectly plastic constitutive model calibrated to centrifuge data.
 - **[Tutorial 4 - Plough (horizontal penetration)](Tutorial_4.md)** - A seabed cable plough dragged through dry sand. The most geometrically complex problem: a non-convex rigid body, a Signorini exit-face condition, and adaptive refinement that travels with the plough across 20 m of horizontal travel.
