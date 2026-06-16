@@ -18,16 +18,18 @@ This tutorial has four sections:
 - [Viewing the results](#viewing-the-results)
 
 ## Problem description
+The Generalised Interpolation Material Point Method (GIMPM) can be classed a fictious domain method. This means that the mesh and boundary conditions do not necessarily align with the material domain, the thing that is being modelled. This enables the GIMPM to avoiding distorted mesh issues normally associated with finite elements. 
 
-You will define the geometry, mesh, boundary conditions, material, loading and solver in the input file. A reference for all input data can be found in the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+The GIMPM broadly works in three steps:
+![The three steps to a GIMPM solution step.](../../img/GIMP_example.png){ #fig-example-GIMPM width="100%" }
 
-<div class="grid" markdown>
+- (a) initial state which loads the material point data on the background mesh
+- (b) deforming the mesh and the material points together
+- (c) reseting the mesh but not the material points, distorting the body relative to the mesh
 
-![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.png){ #fig-example-mesh width="100%" }
+This framework means that you have to define the `Mesh` and the `Initial GIMP distribution`, the latter corressponds to the body being modelled. 
 
-![Compression under self-weight, example of GIMP distribution in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.png){ #fig-example-mesh-gimp width="100%" }
 
-</div>
 
 **Mesh:** The column is $0.4 \times 0.4 \times 0.8$ m see [](#fig-example-mesh).
 
@@ -55,6 +57,15 @@ where:
 
 ## Input setup
 The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+
+You will define the geometry, mesh, boundary conditions, material, loading and solver in the input file. A reference for all input data can be found in the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+
+<div class="grid" markdown>
+
+![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.png){ #fig-example-mesh width="100%" }
+
+![Compression under self-weight, example of GIMP distribution in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.png){ #fig-example-mesh-gimp width="100%" }
+</div>
 
 This problem has six top-level sections, broken out below alongside the [Problem description](#problem-description). 
 
@@ -219,7 +230,7 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 </div>
 
 ## Deploying and running the problem
-There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). 
+There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). However as this problem is small, runs quickly and 
 
 ## Viewing the results
 
