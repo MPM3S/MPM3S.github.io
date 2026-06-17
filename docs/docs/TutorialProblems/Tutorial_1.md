@@ -27,7 +27,7 @@ The GIMPM broadly works in three steps:
 - (b) deforming the mesh and the material points together
 - (c) resetting the mesh but not the material points, distorting the body relative to the mesh
 
-Under this framework you define two things: the `Mesh` - the discretisation on which the equations are solved - and the `Initial GIMP distribution` - the modelled body that carries all the material and kinematic data. Boundary conditions (fixed or rolling nodes) are applied to the vertices of the `Mesh`, whereas body forces such as gravity are applied to the material points directly.
+Under this framework you define two things: the `Mesh` - the discretisation on which the equations are solved - and the `Initial GIMP distribution` - the modelled body that carries all the material and kinematic data at the Generlaised Interpolation Material Points (GIMPs). Boundary conditions (fixed or rolling nodes) are applied to the vertices of the `Mesh`, whereas body forces such as gravity are applied to the material points directly.
 
 ## Input setup
 
@@ -512,11 +512,11 @@ Simulation complete!
 
 ## Viewing the results
 
-The simulation results appear as the simulation runs, so you do not need to wait until it has finished. When the problem is run using your local Julia installation, the `.csv`, `.vtk` and `.vtu` files are stored in `MaterialPoints/src/output` (as configured in the [`output data`](#output-data) section of the input file).
+The simulation results appear as the simulation runs, so you do not need to wait until it has finished to view the results. When the problem is run using your local Julia installation, the `.csv`, `.vtk` and `.vtu` files are stored in `MaterialPoints/src/output` (as configured in the [`output data`](#output-data) section of the input file).
 
 ### Visualising the output in ParaView
 
-The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and the stress field. The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region, colours the GIMPs by displacement, and finally shows the vertical stress.
+The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and any data assocaited with the GIMPs (stress, strain, material properties, velcicty etv). The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region and colours the GIMPs by displacement. Last a comparison of the numerical stress solution with the analytical is presented.
 
 <div class="walkthrough" markdown>
 <div markdown>
@@ -565,7 +565,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**6. Colour the GIMPs by displacement.** Select `mpDataV..vtu`, change *Coloring* to `displacement` → `Magnitude`. At the end of step 0 (undeformed) the GIMPs are only marginally displaced.
+**6. Colour the GIMPs by displacement.** Select `mpDataV..vtu`, change *Coloring* to `displacement` → `Magnitude`. At the end of step 0 the GIMPs are only marginally displaced.
 </div>
 <div markdown>
 ![GIMP data coloured by displacement magnitude at the initial step.](../../img/screen_shot_6.png){ #fig-paraview-6 width="100%" }
@@ -574,16 +574,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Advance to the final step.** Use the time controls at the top, marked by the red box, abd set time to the maximum, `19`, for the last of the 20 increments. The GIMPs shift to the high end of the colour bar, showing the maximum self-weight deformation.
-</div>
-<div markdown>
-![GIMP data at the final step - column fully deformed.](../../img/screen_shot_7.png){ #fig-paraview-7 width="100%" }
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**8. View the vertical displacement.** Switch *Coloring* to `displacement magnitude`. Then press the green arrow marked with the red ring to advance to the final output, and scale the colours with the icon shown by the dashed ring. 
+**7. Advance and view the final step.** Switch *Coloring* to `displacement magnitude`. Then press the green arrow marked with the red ring to advance to the final output, and scale the colours with the icon shown by the dashed ring. 
 </div>
 <div markdown>
 ![Final vertical displacement visualisation of the deformed column.](../../img/screen_shot_9.png){ #fig-paraview-9 width="100%" }
@@ -619,7 +610,7 @@ where `x`, `y` and `z` are the initial positions of the GIMPs and `abs_sig_zz` i
 
 ![Numerical GIMP stress magnitudes from `mp_data_dx_0.4.csv` plotted against the analytical self-weight stress solution from the Problem summary.](../../img/self_weight_stress_validation.png){ #fig-stress-validation width="70%" }
 
-This is a very coarse mesh, so the numerical points do not sit close to the analytical line. Refining the mesh closes that gap quickly: setting `dx refined` in [Mesh data](#mesh-data) to `0.025` gives 32 elements in the vertical direction instead of 2. The result is the numerical stress is much closer to the analytical solution.
+This is a very coarse mesh, so the numerical stress solution is not close to the analytical solution. Refining the mesh reduces the difference, known as the numercial error. To do this set `dx refined` in [Mesh data](#mesh-data) to `0.025`, this will increase the number of elements and GIMPs in the vertical direction improving the solution accuracy.
 
 
 
