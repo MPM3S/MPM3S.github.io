@@ -10,13 +10,13 @@ This quick start tutorial walks through the steps of running your first AMPSSIE 
 
 This tutorial analyses a column deforming under self-weight and solves the static weak-form [equations](../TechnicalReferences/StaticWeakForm.md). It is simple but introduces you to all components of the code: setting up, running and viewing the output data.
 
-This tutorial has three sections:
+This tutorial has three main sections after the introduction:
 
 - [Input setup](#input-setup)
 - [Deploying and running the problem](#deploying-and-running-the-problem)
 - [Viewing the results](#viewing-the-results)
 
-This tool introduces you to the Generalised Interpolation Material Point Method (GIMPM), and how it is different to methods such as finite element analysis. the GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements. 
+This tool introduces you to the Generalised Interpolation Material Point Method (GIMPM), and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
 ![The three steps to a GIMPM solution step.](../../img/GIMP_example.png){ #fig-example-GIMPM width="100%" }
@@ -35,10 +35,12 @@ $$
 \sigma_g = \rho g (L - z_p),
 $$
 
-where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m). The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This is a load-controlled problem so the gravitational load is divided into 20 increments, with each increment applied and then solved with a Newton-Raphson scheme.
+where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m).
+
+The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This is a load-controlled problem, so the gravitational load is divided into 20 increments, with each increment solved by a Newton-Raphson scheme.
 
 
-To get this information into the code requires the creation of a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 <div class="grid" markdown>
 
@@ -70,7 +72,7 @@ The mesh matches the $0.4 \times 0.4 \times 0.8$ m column. The element size is d
     "domain size x": 0.4,
     "domain size y": 0.4,
     "domain size z": 0.8,
-    "dx refined": 0.4,
+    "dx refined": 0.4
 }
 ```
 
@@ -109,7 +111,7 @@ The `Initial GIMP distribution` is set to fill the whole domain and so is given 
 
 ### Boundary conditions
 
-Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface. Edges of the domain are by default free so `pos z-plane` does not appear in the file. Every node also has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional, the default is for the degree of freedom to be `free` so $z$ is not set.
+Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface. Faces of the domain are by default free so `pos z-plane` does not appear in the file. Every node also has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional, the default is for the degree of freedom to be `free` so $z$ is not set.
 
 </div>
 
@@ -226,11 +228,11 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language, 
 
 Once Julia is installed, download the AMPSSIE package from GitHub - the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) covers how to do this. The commands below work the same on Windows, macOS and Linux.
 
-The first step is to copy the `input_data.json` into the top-level AMPSSIE directory, provided [here](Tutorial_1_input_data.md). If you do this on the command line it will look this
+The first step is to copy the `input_data.json` into the top-level AMPSSIE directory, provided [here](Tutorial_1_input_data.md). If you do this on the command line it will look like this
 ```
 cp path/to/input_data_location/input_data.json path/to/AMPSSIE/MaterialPoints
 ```
-where `path/to/input_data_location` and `path/to/AMPSSIE/` are where you have respectively stored in the `input_data.json` file and the top-level AMPSSIE directory.
+where the first path is the location of your `input_data.json` and the second is the top-level AMPSSIE directory.
 
 The next steps are for starting julia and loading up the AMPSSIE package. Open a terminal (command line or PowerShell on Windows) and start Julia with the command:
 ```
@@ -244,11 +246,11 @@ cd("path/to/AMPSSIE/MaterialPoints")
 
 and run
 ```
- include("setup_workers.jl")
+include("setup_workers.jl")
 ```
-to install the AMPSSIE package and start multiple parallel works. 
+to install the AMPSSIE package and start multiple parallel workers.
 
-If it works correctly the output should match something similar to the corresponding terminal window. If there are issues please see the [error page](../UsingTheSoftware/DeployingTheSoftware.md).
+If it works correctly the output should match something similar to the corresponding terminal window. If there are issues, see the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) for troubleshooting.
 
 
 </div>
@@ -298,6 +300,17 @@ free memory  17.81 GB
 
 With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes the VTU output files for ParaView visualisation.
 
+**Reading the output.** Each `time …` block in the terminal corresponds to one of the 20 load increments. For a static problem AMPSSIE uses a pseudo-time that runs from $t = 0$ to $t = 1$, with the increment size `dt` calculated automatically as $1 / \text{number of increments}$ (so `dt` $= 0.05$ for this run). For each step the solver prints:
+
+- `time X.XXXXXe+XX ----` - the pseudo-time at the start of the step.
+- `number of isolated material points` - a connectivity check; should stay at `0` for this problem.
+- `minimum ghost value` - the ghost-stabilisation parameter in use.
+- `Iteration N | Error: … | dt: …` - the Newton-Raphson iteration number, the residual norm and the step size. The error should drop sharply (quadratic convergence) until it falls below the solver tolerance.
+- `solve time X.XXX s` - wall-clock time spent on that iteration.
+- `vtk storage start … complete` - the per-step results being written to disk.
+
+When all 20 increments are finished the simulation prints `Simulation complete!`.
+
 </div>
 
 <div class="js-code" markdown>
@@ -305,15 +318,11 @@ With the `input_data.json` in the correct place and Julia running with the AMPSS
 <div class="terminal" markdown>
 
 ```console
-julia> Ampse.run("input_data");
+julia> Ampse.run("input_data.json");
 
 time 0.00000e+00 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 1.000000e+00 | dt: 5.000e-02
 solve time 0.053 s | Iteration   1 | Error: 1.373106e-02 | dt: 5.000e-02
 solve time 0.005 s | Iteration   2 | Error: 2.461949e-06 | dt: 5.000e-02
@@ -322,11 +331,7 @@ vtk storage start  ... complete
 
 time 5.00000e-02 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 5.000054e-01 | dt: 5.000e-02
 solve time 0.006 s | Iteration   1 | Error: 6.732525e-03 | dt: 5.000e-02
 solve time 0.007 s | Iteration   2 | Error: 1.161798e-06 | dt: 5.000e-02
@@ -335,11 +340,7 @@ vtk storage start  ... complete
 
 time 1.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 3.333494e-01 | dt: 5.000e-02
 solve time 0.007 s | Iteration   1 | Error: 4.403240e-03 | dt: 5.000e-02
 solve time 0.009 s | Iteration   2 | Error: 7.318912e-07 | dt: 5.000e-02
@@ -347,11 +348,7 @@ vtk storage start  ... complete
 
 time 1.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 2.500237e-01 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 3.241109e-03 | dt: 5.000e-02
 solve time 0.005 s | Iteration   2 | Error: 5.192950e-07 | dt: 5.000e-02
@@ -359,11 +356,7 @@ vtk storage start  ... complete
 
 time 2.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 2.000223e-01 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 2.545782e-03 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 3.934660e-07 | dt: 5.000e-02
@@ -371,11 +364,7 @@ vtk storage start  ... complete
 
 time 2.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 1.667068e-01 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 2.083781e-03 | dt: 5.000e-02
 solve time 0.006 s | Iteration   2 | Error: 3.108938e-07 | dt: 5.000e-02
@@ -383,11 +372,7 @@ vtk storage start  ... complete
 
 time 3.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 1.429193e-01 | dt: 5.000e-02
 solve time 0.005 s | Iteration   1 | Error: 1.755140e-03 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 2.529541e-07 | dt: 5.000e-02
@@ -395,11 +380,7 @@ vtk storage start  ... complete
 
 time 3.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 1.250602e-01 | dt: 5.000e-02
 solve time 0.006 s | Iteration   1 | Error: 1.509764e-03 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 2.103297e-07 | dt: 5.000e-02
@@ -407,11 +388,7 @@ vtk storage start  ... complete
 
 time 4.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 1.111562e-01 | dt: 5.000e-02
 solve time 0.003 s | Iteration   1 | Error: 1.319980e-03 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 1.778906e-07 | dt: 5.000e-02
@@ -419,11 +396,7 @@ vtk storage start  ... complete
 
 time 4.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 1.000674e-01 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 1.168819e-03 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 1.524495e-07 | dt: 5.000e-02
@@ -431,11 +404,7 @@ vtk storage start  ... complete
 
 time 5.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 9.102898e-02 | dt: 5.000e-02
 solve time 0.003 s | Iteration   1 | Error: 1.046259e-03 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 1.321833e-07 | dt: 5.000e-02
@@ -443,11 +412,7 @@ vtk storage start  ... complete
 
 time 5.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 8.350890e-02 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 9.447820e-04 | dt: 5.000e-02
 solve time 0.012 s | Iteration   2 | Error: 1.156868e-07 | dt: 5.000e-02
@@ -455,11 +420,7 @@ vtk storage start  ... complete
 
 time 6.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 7.708897e-02 | dt: 5.000e-02
 solve time 0.003 s | Iteration   1 | Error: 8.594043e-04 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 1.020430e-07 | dt: 5.000e-02
@@ -467,11 +428,7 @@ vtk storage start  ... complete
 
 time 6.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 7.163774e-02 | dt: 5.000e-02
 solve time 0.006 s | Iteration   1 | Error: 7.868987e-04 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 9.069380e-08 | dt: 5.000e-02
@@ -479,11 +436,7 @@ vtk storage start  ... complete
 
 time 7.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 6.696646e-02 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 7.244346e-04 | dt: 5.000e-02
 solve time 0.006 s | Iteration   2 | Error: 8.105128e-08 | dt: 5.000e-02
@@ -491,11 +444,7 @@ vtk storage start  ... complete
 
 time 7.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 6.280416e-02 | dt: 5.000e-02
 solve time 0.005 s | Iteration   1 | Error: 6.705482e-04 | dt: 5.000e-02
 solve time 0.005 s | Iteration   2 | Error: 7.288976e-08 | dt: 5.000e-02
@@ -503,11 +452,7 @@ vtk storage start  ... complete
 
 time 8.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 5.919429e-02 | dt: 5.000e-02
 solve time 0.003 s | Iteration   1 | Error: 6.230913e-04 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 6.580529e-08 | dt: 5.000e-02
@@ -515,11 +460,7 @@ vtk storage start  ... complete
 
 time 8.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 5.597731e-02 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 5.815146e-04 | dt: 5.000e-02
 solve time 0.007 s | Iteration   2 | Error: 5.977072e-08 | dt: 5.000e-02
@@ -527,11 +468,7 @@ vtk storage start  ... complete
 
 time 9.00000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 5.309161e-02 | dt: 5.000e-02
 solve time 0.004 s | Iteration   1 | Error: 5.439947e-04 | dt: 5.000e-02
 solve time 0.004 s | Iteration   2 | Error: 5.428270e-08 | dt: 5.000e-02
@@ -539,11 +476,7 @@ vtk storage start  ... complete
 
 time 9.50000e-01 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 5.058659e-02 | dt: 5.000e-02
 solve time 0.003 s | Iteration   1 | Error: 5.123367e-04 | dt: 5.000e-02
 solve time 0.003 s | Iteration   2 | Error: 4.983456e-08 | dt: 5.000e-02
@@ -551,11 +484,7 @@ vtk storage start  ... complete
 
 time 1.00000e+00 ----------------------------------
 number of isolated material points: 0
-kinematic integration start...  complete
-kinematic solve start ... complete
-Pre NR contact search start ... complete
 minimum ghost value 1000.0
-Contact sparse start ... complete
 Iteration   0 | Error: 4.824111e-02 | dt: 5.000e-02
 solve time 0.003 s | Iteration   1 | Error: 4.828890e-04 | dt: 5.000e-02
 solve time 0.011 s | Iteration   2 | Error: 4.577559e-08 | dt: 5.000e-02
