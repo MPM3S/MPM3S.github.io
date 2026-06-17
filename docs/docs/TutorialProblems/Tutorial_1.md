@@ -16,6 +16,8 @@ This tutorial has three main sections after the introduction:
 - [Deploying and running the problem](#deploying-and-running-the-problem)
 - [Viewing the results](#viewing-the-results)
 
+### Background: the GIMPM
+
 This tool introduces you to the Generalised Interpolation Material Point Method (GIMPM), and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
@@ -25,11 +27,13 @@ The GIMPM broadly works in three steps:
 - (b) deforming the mesh and the material points together
 - (c) resetting the mesh but not the material points, distorting the body relative to the mesh
 
-This framework means that you have to define the `Mesh`, the discretisation on which the equations are solved, and the `Initial GIMP distribution`, the modelled body that carries all the material and kinematic data. This means that the `Boundary conditions`, such as fixed or rolling nodes are applied to the vertices of the `Mesh`, whereas force loads such as gravity are applied to the material points directly. 
+Under this framework you define two things: the `Mesh` - the discretisation on which the equations are solved - and the `Initial GIMP distribution` - the modelled body that carries all the material and kinematic data. Boundary conditions (fixed or rolling nodes) are applied to the vertices of the `Mesh`, whereas body forces such as gravity are applied to the material points directly.
 
 ## Input setup
 
-**Problem summary:** The aim is to recover the vertical stress field that develops through a column that deforms vertically and compare the stress solution against the analytical one
+### Problem summary
+
+The aim is to recover the vertical stress field that develops through a column that deforms vertically and compare the stress solution against the analytical one
 
 $$
 \sigma_g = \rho g (L - z_p),
@@ -192,7 +196,7 @@ The self-weight load is ramped quasi-statically over 20 increments using a Newto
 
 ### Output data
 
-VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field outputs the vertical stress GIMP data with the deformed and initial height.
+VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field writes a CSV of the vertical stress at each GIMP, listed against both its initial and deformed heights.
 
 </div>
 
@@ -298,9 +302,11 @@ free memory  17.81 GB
 
 ### Running the problem
 
-With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes the `.vtu`, or `vtk`, output files for ParaView visualisation and a `.csv` file specific for this validation problem.
+With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem.
 
-**Reading the output.** Each `time …` block in the terminal corresponds to one of the 20 load increments. For a static problem AMPSSIE uses a pseudo-time that runs from $t = 0$ to $t = 1$, with the increment size `dt` calculated automatically as $1 / \text{number of increments}$ (so `dt` $= 0.05$ for this run). For each step the solver prints:
+#### Reading the output
+
+Each `time …` block in the terminal corresponds to one of the 20 load increments. For a static problem AMPSSIE uses a pseudo-time that runs from $t = 0$ to $t = 1$, with the increment size `dt` calculated automatically as $1 / \text{number of increments}$ (so `dt` $= 0.05$ for this run). For each step the solver prints:
 
 - `time X.XXXXXe+XX ----` - the pseudo-time at the start of the step.
 - `number of isolated material points` - a connectivity check; should stay at `0` for this problem.
@@ -592,24 +598,28 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 ## Analysing the stress variation with height
 
 As this is a validation problem, the option `"text data": "self-weight column"` in [Output data](#output-data) will provide the final stress magnitude with the original height in the text file `MaterialPoints/src/output/mp_data_dx_0.4.csv`. The minimum element size of `0.4` m is encoded in the file name. The result for this problem looks like:
+
+!!! note "Floating-point spellings in the raw CSV"
+    Coordinates that should be `0.3` appear as `0.30000000000000004` and `0.7` as `0.7000000000000001` - these are the exact binary representations Julia stores for those decimals. The position values have been simplified below for readability. The stress values are shown verbatim, but their trailing digits are floating-point noise.
+
 ```text
-x                  , y                  , z                  , abs_sig_zz
-0.1                , 0.1                , 0.1                , 309.6846764994379
-0.30000000000000004, 0.1                , 0.1                , 309.6846764994377
-0.1                , 0.30000000000000004, 0.1                , 309.68467649943767
-0.30000000000000004, 0.30000000000000004, 0.1                , 309.6846764994379
-0.1                , 0.1                , 0.30000000000000004, 309.6846764994379
-0.30000000000000004, 0.1                , 0.30000000000000004, 309.6846764994377
-0.1                , 0.30000000000000004, 0.30000000000000004, 309.68467649943767
-0.30000000000000004, 0.30000000000000004, 0.30000000000000004, 309.6846764994379
-0.1                , 0.1                , 0.5                , 110.43544439893448
-0.30000000000000004, 0.1                , 0.5                , 110.43544439893448
-0.1                , 0.30000000000000004, 0.5                , 110.43544439893448
-0.30000000000000004, 0.30000000000000004, 0.5                , 110.43544439893454
-0.1                , 0.1                , 0.7000000000000001 , 57.352732639336985
-0.30000000000000004, 0.1                , 0.7000000000000001 , 57.35273263933691
-0.1                , 0.30000000000000004, 0.7000000000000001 , 57.35273263933712
-0.30000000000000004, 0.30000000000000004, 0.7000000000000001 , 57.352732639337134
+x  , y  , z   , abs_sig_zz
+0.1, 0.1, 0.1 , 309.6846764994379
+0.3, 0.1, 0.1 , 309.6846764994377
+0.1, 0.3, 0.1 , 309.68467649943767
+0.3, 0.3, 0.1 , 309.6846764994379
+0.1, 0.1, 0.3 , 309.6846764994379
+0.3, 0.1, 0.3 , 309.6846764994377
+0.1, 0.3, 0.3 , 309.68467649943767
+0.3, 0.3, 0.3 , 309.6846764994379
+0.1, 0.1, 0.5 , 110.43544439893448
+0.3, 0.1, 0.5 , 110.43544439893448
+0.1, 0.3, 0.5 , 110.43544439893448
+0.3, 0.3, 0.5 , 110.43544439893454
+0.1, 0.1, 0.7 , 57.352732639336985
+0.3, 0.1, 0.7 , 57.35273263933691
+0.1, 0.3, 0.7 , 57.35273263933712
+0.3, 0.3, 0.7 , 57.352732639337134
 ```
 where `x`, `y` and `z` are the initial positions of the GIMPs and `abs_sig_zz` is the magnitude of the Cauchy stress in the $z$-direction. When plotted as point data against the analytical solution from [Output data](#output-data), the result looks like [](#fig-stress-validation):
 
