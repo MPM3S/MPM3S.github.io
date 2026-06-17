@@ -853,13 +853,21 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1.5rem 0;
 }
 
-.md-typeset .json-side .js-code {
+.md-typeset .json-side .js-code,
+.md-typeset .json-side .js-text {
   min-width: 0;
 }
 
 .md-typeset .json-side .js-code .highlight,
 .md-typeset .json-side .js-code pre {
   margin: 0;
+}
+
+/* Long code blocks inside the .js-text column (e.g. shell `cp` lines)
+   need to scroll horizontally rather than stretch the column. */
+.md-typeset .json-side .js-text pre {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 /* Smaller prose in the left column so the JSON dominates the row. */

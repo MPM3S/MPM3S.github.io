@@ -574,7 +574,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Advance to the final step.** Use the time controls at the top, maked by the red box, abd set time to the maximum, `19`, for the last of the 20 increments. The GIMPs shift to the high end of the colour bar, showing the maximum self-weight deformation.
+**7. Advance to the final step.** Use the time controls at the top, marked by the red box, abd set time to the maximum, `19`, for the last of the 20 increments. The GIMPs shift to the high end of the colour bar, showing the maximum self-weight deformation.
 </div>
 <div markdown>
 ![GIMP data at the final step - column fully deformed.](../../img/screen_shot_7.png){ #fig-paraview-7 width="100%" }
