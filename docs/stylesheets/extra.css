@@ -914,6 +914,90 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
+   Terminal-window styling for shell / console examples.
+   Wrap a code block in `<div class="terminal" markdown>` to get
+   a dark window with macOS-style traffic-light chrome. Pure
+   visual treatment — no actual execution. Use the `console`
+   Pygments lexer inside to dim `$` prompts vs output.
+   ============================================================ */
+.md-typeset .terminal {
+  background: #1e1f29;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Title bar with the three traffic-light dots, drawn with
+   radial-gradients so we don't need extra HTML or SVG assets. */
+.md-typeset .terminal::before {
+  content: "";
+  display: block;
+  height: 28px;
+  background:
+    radial-gradient(circle 6px at 18px 14px, #ff5f57 50%, transparent 52%),
+    radial-gradient(circle 6px at 38px 14px, #febc2e 50%, transparent 52%),
+    radial-gradient(circle 6px at 58px 14px, #28c840 50%, transparent 52%),
+    linear-gradient(180deg, #3a3a44 0%, #2d2e36 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+/* Strip Material's code-block chrome inside the terminal so the
+   dark background carries through edge-to-edge. */
+.md-typeset .terminal .highlight,
+.md-typeset .terminal pre,
+.md-typeset .terminal pre > code {
+  background: transparent;
+  border: none;
+  margin: 0;
+  color: #f8f8f2;
+}
+
+.md-typeset .terminal pre > code {
+  display: block;
+  padding: 0.9rem 1.1rem;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+/* console-lexer prompts (gp = generic prompt) and outputs (go = generic output) */
+.md-typeset .terminal .highlight .gp {
+  color: #8be9fd;
+  user-select: none;
+  margin-right: 0.5em;
+}
+
+.md-typeset .terminal .highlight .go {
+  color: #b8b8b8;
+}
+
+/* Recolour the standard bash/shell tokens inside the dark window. */
+.md-typeset .terminal .highlight .nb,
+.md-typeset .terminal .highlight .nf,
+.md-typeset .terminal .highlight .nc { color: #50fa7b; }
+.md-typeset .terminal .highlight .s,
+.md-typeset .terminal .highlight .s1,
+.md-typeset .terminal .highlight .s2 { color: #f1fa8c; }
+.md-typeset .terminal .highlight .k,
+.md-typeset .terminal .highlight .kc { color: #ff79c6; }
+.md-typeset .terminal .highlight .c,
+.md-typeset .terminal .highlight .c1 { color: #6272a4; font-style: italic; }
+.md-typeset .terminal .highlight .mi,
+.md-typeset .terminal .highlight .mf { color: #bd93f9; }
+.md-typeset .terminal .highlight .o { color: #ff79c6; }
+
+/* Copy-code button — keep visible on the dark background. */
+.md-typeset .terminal .md-clipboard {
+  color: rgba(248, 248, 242, 0.55);
+}
+
+.md-typeset .terminal .md-clipboard:hover {
+  color: #f8f8f2;
+}
+
+/* ============================================================
    TOC-less pages (tutorials use `hide: [toc]` frontmatter):
    when Material omits the secondary sidebar, let the content
    fill the freed space instead of stopping at the centred

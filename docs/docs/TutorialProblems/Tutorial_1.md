@@ -16,7 +16,7 @@ This tutorial has three sections:
 - [Deploying and running the problem](#deploying-and-running-the-problem)
 - [Viewing the results](#viewing-the-results)
 
-The Generalised Interpolation Material Point Method (GIMPM) can be classed as a fictitious domain method. This means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements. 
+This tool introduces you to the Generalised Interpolation Material Point Method (GIMPM), and how it is different to methods such as finite element analysis. the GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements. 
 
 The GIMPM broadly works in three steps:
 ![The three steps to a GIMPM solution step.](../../img/GIMP_example.png){ #fig-example-GIMPM width="100%" }
@@ -25,9 +25,7 @@ The GIMPM broadly works in three steps:
 - (b) deforming the mesh and the material points together
 - (c) resetting the mesh but not the material points, distorting the body relative to the mesh
 
-This framework means that you have to define the `Mesh` and the `Initial GIMP distribution`, the latter corresponds to the modelled body. 
-
-The `Boundary conditions`, such as fixed or rolling nodes are applied to the `Mesh`, whereas force loads, such as gravity are applied to the material points directly. The  material points also contains all the material information
+This framework means that you have to define the `Mesh`, the discretisation on which the equations are solved, and the `Initial GIMP distribution`, the modelled body that carries all the material and kinematic data. This means that the `Boundary conditions`, such as fixed or rolling nodes are applied to the vertices of the `Mesh`, whereas force loads such as gravity are applied to the material points directly. 
 
 ## Input setup
 
@@ -40,8 +38,7 @@ $$
 where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m). The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This is a load-controlled problem so the gravitational load is divided into 20 increments, with each increment applied and then solved with a Newton-Raphson scheme.
 
 
-
-The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+To get this information into the code requires the creation of a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 <div class="grid" markdown>
 
@@ -212,7 +209,55 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 </div>
 
 ## Deploying and running the problem
-There are several methods for [deploying](../UsingTheSoftware/DeployingTheSoftware.md). However, as this problem is small, runs quickly and has modest resource requirements, running it locally on your own machine is sufficient.
+
+AMPSSIE is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial will use Julia directly; see the [installation guide](../GettingStarted/Installation.md) for instructions on installing Julia and the AMPSSIE library.
+
+
+<div class="json-side-header">
+<div>Deployment instructions</div>
+<div><code>terminal</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Setting up and running the problem
+Once Julia is installed you need download the AMPPSIE package from github, please see the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) for how to do this. If Julia is installed correctly the following commands will be the same for all OS archectures that Julia is designed for (Windows, Mac OS, Linux).
+
+Julia runs in a terminal window (command line or powershell for windows), therefore first open a terminal window and start Julia with the command `julia`.
+
+Next change directory into the top folder of AMPSSIE
+
+
+ you must open a terminal window to run Julia and change directory to the . 
+
+Once installed, point Julia at the project directory and run the entry point against the `input_data.json` you set up above.
+
+</div>
+
+<div class="js-code" markdown>
+
+<div class="terminal" markdown>
+
+```console
+$ julia
+julia> using AMPSSIE
+julia> AMPSSIE.run("input_data.json")
+✓ loaded input
+✓ mesh: 1 element, 8 GIMPs
+✓ solving 20 increments
+  [1/20]  ‖R‖ = 1.2e-4
+  [20/20] ‖R‖ = 8.3e-9
+done. output written to results/
+```
+
+</div>
+
+</div>
+
+</div>
+
 
 
 ## Viewing the results
