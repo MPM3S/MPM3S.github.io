@@ -579,16 +579,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**8. Show element edges.** Change the representation to *Surface With Edges* to see the individual GIMP cells.
-</div>
-<div markdown>
-![Surface With Edges representation reveals the individual GIMP cells.](../../img/screen_shot_8.png){ #fig-paraview-8 width="100%" }
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**9. View the vertical stress.** Switch *Coloring* to `displacement magnitude`. Then press the green arrow marked with the red ring to advance to the final output, and scale the colours with the icon shown by the dashed ring. 
+**8. View the vertical displacement.** Switch *Coloring* to `displacement magnitude`. Then press the green arrow marked with the red ring to advance to the final output, and scale the colours with the icon shown by the dashed ring. 
 </div>
 <div markdown>
 ![Final vertical displacement visualisation of the deformed column.](../../img/screen_shot_9.png){ #fig-paraview-9 width="100%" }
@@ -597,11 +588,10 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 ## Analysing the stress variation with height
 
-As this is a validation problem, the option `"text data": "self-weight column"` in [Output data](#output-data) will provide the final stress magnitude with the original height in the text file `MaterialPoints/src/output/mp_data_dx_0.4.csv`. The minimum element size of `0.4` m is encoded in the file name. The result for this problem looks like:
+As this is a validation problem, the option `"text data": "self-weight column"` in [Output data](#output-data) will provide the final stress magnitude in the $z$-direction with the corresponding original GIMP centre height in the text file `MaterialPoints/src/output/mp_data_dx_0.4.csv`. The minimum element size of `0.4` m is encoded in the file name. The result for this problem looks like:
 
 !!! note "Floating-point spellings in the raw CSV"
     Coordinates that should be `0.3` appear as `0.30000000000000004` and `0.7` as `0.7000000000000001` - these are the exact binary representations Julia stores for those decimals. The position values have been simplified below for readability. The stress values are shown verbatim, but their trailing digits are floating-point noise.
-
 ```text
 x  , y  , z   , abs_sig_zz
 0.1, 0.1, 0.1 , 309.6846764994379
@@ -623,7 +613,7 @@ x  , y  , z   , abs_sig_zz
 ```
 where `x`, `y` and `z` are the initial positions of the GIMPs and `abs_sig_zz` is the magnitude of the Cauchy stress in the $z$-direction. When plotted as point data against the analytical solution from [Output data](#output-data), the result looks like [](#fig-stress-validation):
 
-![Numerical GIMP stress magnitudes from `mp_data_dx_0.4.csv` plotted against the analytical solution $\sigma_g = \rho g (L - z_p)$ from the Problem summary.](../../img/self_weight_stress_validation.png){ #fig-stress-validation width="70%" }
+![Numerical GIMP stress magnitudes from `mp_data_dx_0.4.csv` plotted against the analytical self-weight stress solution from the Problem summary.](../../img/self_weight_stress_validation.png){ #fig-stress-validation width="70%" }
 
 This is a very coarse mesh, so the numerical points do not sit close to the analytical line. Refining the mesh closes that gap quickly: setting `dx refined` in [Mesh data](#mesh-data) to `0.025` gives 32 elements in the vertical direction instead of 2. The result is the numerical stress is much closer to the analytical solution.
 
