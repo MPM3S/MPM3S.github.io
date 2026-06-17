@@ -504,12 +504,6 @@ Simulation complete!
 
 The simulation results appear as the simulation runs, so you do not need to wait until it has finished. When the problem is run using your local Julia installation, the `.csv`, `.vtk` and `.vtu` files are stored in `MaterialPoints/src/output` (as configured in the [`output data`](#output-data) section of the input file).
 
-The deformed column under self-weight is shown in [](#fig-gravity-displacement) at load steps 1, 10 and 20 of 20. The vertical displacement reaches its maximum at the top, as expected for a column compressed under its own weight; the stress field through the column can be compared against the analytical solution introduced above to validate the simulation.
-
-![Compression under self-weight: displacement plot of the GIMPs and mesh for steps 1, 10 and 20 of 20.](../../img/gravity_result.png){ #fig-gravity-displacement width="70%" }
-
-*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
-
 ### Visualising the output in ParaView
 
 The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and the stress field. The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region, colours the GIMPs by displacement, and finally shows the vertical stress.
