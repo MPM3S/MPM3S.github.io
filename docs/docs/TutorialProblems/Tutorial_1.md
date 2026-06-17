@@ -501,14 +501,51 @@ Simulation complete!
 
 
 ## Viewing the results
-The simulation results will appear as the simulation is running, so it is not necessary to wait until the simulation has finished. When the problem is run using your local Julia installiation the `.csv`, `.vtk` and `.vtu` files are all stored in `MaterialPoints/src/output`. 
 
-In the [`output data`](#output-data) 
-
-
+The simulation results appear as the simulation runs, so you do not need to wait until it has finished. When the problem is run using your local Julia installation, the `.csv`, `.vtk` and `.vtu` files are stored in `MaterialPoints/src/output` (as configured in the [`output data`](#output-data) section of the input file).
 
 The deformed column under self-weight is shown in [](#fig-gravity-displacement) at load steps 1, 10 and 20 of 20. The vertical displacement reaches its maximum at the top, as expected for a column compressed under its own weight; the stress field through the column can be compared against the analytical solution introduced above to validate the simulation.
 
 ![Compression under self-weight: displacement plot of the GIMPs and mesh for steps 1, 10 and 20 of 20.](../../img/gravity_result.png){ #fig-gravity-displacement width="70%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+
+### Visualising the output in ParaView
+
+The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and the stress field. The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region, colours the GIMPs by displacement, and finally shows the vertical stress.
+
+**1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
+
+![ParaView on launch - empty render view.](../../img/screen_shot_1.png){ #fig-paraview-1 width="80%" }
+
+**2. Open the output files.** *File → Open* and navigate to `MaterialPoints/src/output`. Select `mpDataV..vtu` (the GIMP data) and `Octree..vtu` (the background mesh) - hold `Ctrl` to select both - then click *OK*.
+
+![Open File dialog with `mpDataV..vtu` and `Octree..vtu` selected from the output directory.](../../img/screen_shot_2.png){ #fig-paraview-2 width="80%" }
+
+**3. Apply the readers.** Click *Apply* in the Properties panel for each reader. The full GIMP domain appears as a solid grey cube and the cell/point arrays `displacement`, `strain`, `E` and `rho` become available.
+
+![Both VTU files loaded; the solid grey cube is the full GIMP domain.](../../img/screen_shot_3.png){ #fig-paraview-3 width="80%" }
+
+**4. Threshold to the active region.** With the Octree mesh selected, *Filters → Common → Threshold*. Set the scalar to `Sim active`, lower threshold `0.73`, upper `1.0`, then *Apply*. This hides the inactive padding cells outside the column.
+
+![Threshold filter on the Octree mesh, keeping only cells with `Sim active` between 0.73 and 1.0.](../../img/screen_shot_4.png){ #fig-paraview-4 width="80%" }
+
+**5. Switch to Wireframe.** Set the representation of the threshold to *Wireframe* so the active mesh edges are visible.
+
+![Wireframe representation of the thresholded background mesh.](../../img/screen_shot_5.png){ #fig-paraview-5 width="80%" }
+
+**6. Colour the GIMPs by displacement.** Select `mpDataV..vtu`, change *Coloring* to `displacement` → `Magnitude`. At step 0 (undeformed) the GIMPs sit near the low end of the colour bar.
+
+![GIMP data coloured by displacement magnitude at the initial step.](../../img/screen_shot_6.png){ #fig-paraview-6 width="80%" }
+
+**7. Advance to the final step.** Use the time controls at the top (set time to the maximum, `19`, for the last of the 20 increments). The GIMPs shift to the high end of the colour bar, showing the maximum self-weight deformation.
+
+![GIMP data at the final step - column fully deformed.](../../img/screen_shot_7.png){ #fig-paraview-7 width="80%" }
+
+**8. Show element edges.** Change the representation to *Surface With Edges* to see the individual GIMP cells.
+
+![Surface With Edges representation reveals the individual GIMP cells.](../../img/screen_shot_8.png){ #fig-paraview-8 width="80%" }
+
+**9. View the vertical stress.** Switch *Coloring* from `displacement` to the vertical stress component. The result should match the analytical solution $\sigma_g = \rho g (L - z_p)$ from the [Problem summary](#input-setup) - linearly varying from zero at the top to a compressive maximum at the base.
+
+![Final vertical stress visualisation of the deformed column, matching the analytical solution.](../../img/screen_shot_9.png){ #fig-paraview-9 width="80%" }
