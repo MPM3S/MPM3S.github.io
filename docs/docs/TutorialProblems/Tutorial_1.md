@@ -223,16 +223,33 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language, 
 <div class="js-text" markdown>
 
 ### Setting up and running the problem
-Once Julia is installed you need download the AMPPSIE package from github, please see the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) for how to do this. If Julia is installed correctly the following commands will be the same for all OS archectures that Julia is designed for (Windows, Mac OS, Linux).
 
-Julia runs in a terminal window (command line or powershell for windows), therefore first open a terminal window and start Julia with the command `julia`.
+Once Julia is installed, download the AMPSSIE package from GitHub - the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) covers how to do this. The commands below work the same on Windows, macOS and Linux.
 
-Next change directory into the top folder of AMPSSIE
+The first step is to copy the `input_data.json` into the top-level AMPSSIE directory, provided [here](Tutorial_1_input_data.md). If you do this on the command line it will look this
+```
+cp path/to/input_data_location/input_data.json path/to/AMPSSIE/MaterialPoints
+```
+where `path/to/input_data_location` and `path/to/AMPSSIE/` are where you have respectively stored in the `input_data.json` file and the top-level AMPSSIE directory.
 
+The next steps are for starting julia and loading up the AMPSSIE package. Open a terminal (command line or PowerShell on Windows) and start Julia with the command:
+```
+julia
+``` 
 
- you must open a terminal window to run Julia and change directory to the . 
+Then change into the top-level AMPSSIE directory
+```
+cd("path/to/AMPSSIE/MaterialPoints")
+```
 
-Once installed, point Julia at the project directory and run the entry point against the `input_data.json` you set up above.
+and run
+```
+ include("setup_workers.jl")
+```
+to install the AMPSSIE package and start multiple parallel works. 
+
+If it works correctly the output should match something similar to the corresponding terminal window. If there are issues please see the [error page](../UsingTheSoftware/DeployingTheSoftware.md).
+
 
 </div>
 
@@ -242,14 +259,29 @@ Once installed, point Julia at the project directory and run the entry point aga
 
 ```console
 $ julia
-julia> using AMPSSIE
-julia> AMPSSIE.run("input_data.json")
-✓ loaded input
-✓ mesh: 1 element, 8 GIMPs
-✓ solving 20 increments
-  [1/20]  ‖R‖ = 1.2e-4
-  [20/20] ‖R‖ = 8.3e-9
-done. output written to results/
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.12.4 (2026-01-06)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org release
+|__/                   |
+
+julia> cd("path/to/AMPSSIE/MaterialPoints")
+
+julia> include("setup_workers.jl")
+   Resolving package versions...
+  Activating project at `path/to/AMPSSIE/MaterialPoints`
+      From worker 2:    Activating project at `path/to/AMPSSIE/MaterialPoints`
+      From worker 3:    Activating project at `path/to/AMPSSIE/MaterialPoints`
+starting sim
+total memory 30.66 GB
+free memory  17.81 GB
+      From worker 2:    total memory 30.66 GB
+      From worker 2:    free memory  17.81 GB
+      From worker 3:    total memory 30.66 GB
+      From worker 3:    free memory  17.81 GB
 ```
 
 </div>
@@ -258,6 +290,285 @@ done. output written to results/
 
 </div>
 
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Running the problem
+
+With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes the VTU output files for ParaView visualisation.
+
+</div>
+
+<div class="js-code" markdown>
+
+<div class="terminal" markdown>
+
+```console
+julia> Ampse.run("input_data");
+
+time 0.00000e+00 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 1.000000e+00 | dt: 5.000e-02
+solve time 0.053 s | Iteration   1 | Error: 1.373106e-02 | dt: 5.000e-02
+solve time 0.005 s | Iteration   2 | Error: 2.461949e-06 | dt: 5.000e-02
+solve time 0.003 s | Iteration   3 | Error: 7.164958e-12 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 5.00000e-02 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 5.000054e-01 | dt: 5.000e-02
+solve time 0.006 s | Iteration   1 | Error: 6.732525e-03 | dt: 5.000e-02
+solve time 0.007 s | Iteration   2 | Error: 1.161798e-06 | dt: 5.000e-02
+solve time 0.005 s | Iteration   3 | Error: 3.522579e-12 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 1.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 3.333494e-01 | dt: 5.000e-02
+solve time 0.007 s | Iteration   1 | Error: 4.403240e-03 | dt: 5.000e-02
+solve time 0.009 s | Iteration   2 | Error: 7.318912e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 1.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 2.500237e-01 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 3.241109e-03 | dt: 5.000e-02
+solve time 0.005 s | Iteration   2 | Error: 5.192950e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 2.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 2.000223e-01 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 2.545782e-03 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 3.934660e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 2.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 1.667068e-01 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 2.083781e-03 | dt: 5.000e-02
+solve time 0.006 s | Iteration   2 | Error: 3.108938e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 3.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 1.429193e-01 | dt: 5.000e-02
+solve time 0.005 s | Iteration   1 | Error: 1.755140e-03 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 2.529541e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 3.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 1.250602e-01 | dt: 5.000e-02
+solve time 0.006 s | Iteration   1 | Error: 1.509764e-03 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 2.103297e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 4.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 1.111562e-01 | dt: 5.000e-02
+solve time 0.003 s | Iteration   1 | Error: 1.319980e-03 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 1.778906e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 4.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 1.000674e-01 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 1.168819e-03 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 1.524495e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 5.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 9.102898e-02 | dt: 5.000e-02
+solve time 0.003 s | Iteration   1 | Error: 1.046259e-03 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 1.321833e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 5.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 8.350890e-02 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 9.447820e-04 | dt: 5.000e-02
+solve time 0.012 s | Iteration   2 | Error: 1.156868e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 6.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 7.708897e-02 | dt: 5.000e-02
+solve time 0.003 s | Iteration   1 | Error: 8.594043e-04 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 1.020430e-07 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 6.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 7.163774e-02 | dt: 5.000e-02
+solve time 0.006 s | Iteration   1 | Error: 7.868987e-04 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 9.069380e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 7.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 6.696646e-02 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 7.244346e-04 | dt: 5.000e-02
+solve time 0.006 s | Iteration   2 | Error: 8.105128e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 7.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 6.280416e-02 | dt: 5.000e-02
+solve time 0.005 s | Iteration   1 | Error: 6.705482e-04 | dt: 5.000e-02
+solve time 0.005 s | Iteration   2 | Error: 7.288976e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 8.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 5.919429e-02 | dt: 5.000e-02
+solve time 0.003 s | Iteration   1 | Error: 6.230913e-04 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 6.580529e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 8.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 5.597731e-02 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 5.815146e-04 | dt: 5.000e-02
+solve time 0.007 s | Iteration   2 | Error: 5.977072e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 9.00000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 5.309161e-02 | dt: 5.000e-02
+solve time 0.004 s | Iteration   1 | Error: 5.439947e-04 | dt: 5.000e-02
+solve time 0.004 s | Iteration   2 | Error: 5.428270e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 9.50000e-01 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 5.058659e-02 | dt: 5.000e-02
+solve time 0.003 s | Iteration   1 | Error: 5.123367e-04 | dt: 5.000e-02
+solve time 0.003 s | Iteration   2 | Error: 4.983456e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+time 1.00000e+00 ----------------------------------
+number of isolated material points: 0
+kinematic integration start...  complete
+kinematic solve start ... complete
+Pre NR contact search start ... complete
+minimum ghost value 1000.0
+Contact sparse start ... complete
+Iteration   0 | Error: 4.824111e-02 | dt: 5.000e-02
+solve time 0.003 s | Iteration   1 | Error: 4.828890e-04 | dt: 5.000e-02
+solve time 0.011 s | Iteration   2 | Error: 4.577559e-08 | dt: 5.000e-02
+vtk storage start  ... complete
+
+Simulation complete!
+```
+
+</div>
+
+</div>
+
+</div>
 
 
 ## Viewing the results

@@ -962,31 +962,58 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.55;
 }
 
-/* console-lexer prompts (gp = generic prompt) and outputs (go = generic output) */
+/* Cap the terminal's visible height and scroll internally when the
+   session is longer. ~16 visible lines at the font-size + line-height
+   above; raise/lower `max-height` to taste. */
+.md-typeset .terminal pre {
+  max-height: 22rem;
+  overflow-y: auto;
+  /* Slim scrollbar themed for the dark window (Firefox). */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(248, 248, 242, 0.25) transparent;
+}
+
+/* WebKit / Chromium scrollbar styling. */
+.md-typeset .terminal pre::-webkit-scrollbar {
+  width: 8px;
+}
+.md-typeset .terminal pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+.md-typeset .terminal pre::-webkit-scrollbar-thumb {
+  background: rgba(248, 248, 242, 0.22);
+  border-radius: 4px;
+}
+.md-typeset .terminal pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(248, 248, 242, 0.4);
+}
+
+/* Force every token-coloured span inside the terminal to inherit the body
+   foreground colour. The `console` lexer otherwise applies Julia/Pkg/Bash
+   syntax colours to output that should read as plain terminal text. */
+.md-typeset .terminal .highlight code * {
+  color: inherit;
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Only the prompt (gp = generic prompt) is given a colour, so commands
+   stand out from the surrounding output. Julia brand green from
+   julialang.org/assets/infra/logo.svg — matches the colour used for
+   `julia>` in the real Julia REPL. */
 .md-typeset .terminal .highlight .gp {
-  color: #8be9fd;
+  color: #389826;
   user-select: none;
   margin-right: 0.5em;
 }
 
-.md-typeset .terminal .highlight .go {
-  color: #b8b8b8;
-}
-
-/* Recolour the standard bash/shell tokens inside the dark window. */
-.md-typeset .terminal .highlight .nb,
-.md-typeset .terminal .highlight .nf,
-.md-typeset .terminal .highlight .nc { color: #50fa7b; }
-.md-typeset .terminal .highlight .s,
-.md-typeset .terminal .highlight .s1,
-.md-typeset .terminal .highlight .s2 { color: #f1fa8c; }
-.md-typeset .terminal .highlight .k,
-.md-typeset .terminal .highlight .kc { color: #ff79c6; }
-.md-typeset .terminal .highlight .c,
-.md-typeset .terminal .highlight .c1 { color: #6272a4; font-style: italic; }
-.md-typeset .terminal .highlight .mi,
-.md-typeset .terminal .highlight .mf { color: #bd93f9; }
-.md-typeset .terminal .highlight .o { color: #ff79c6; }
+/* Julia REPL keyword colours, applied by docs/javascripts/julia-repl-colors.js
+   to match the colours users see in a real Julia session. Brand colours from
+   julialang.org/assets/infra/logo.svg. */
+.md-typeset .terminal .highlight .repl-green  { color: #389826; }
+.md-typeset .terminal .highlight .repl-red    { color: #CB3C33; }
+.md-typeset .terminal .highlight .repl-purple { color: #9558B2; }
+.md-typeset .terminal .highlight .repl-cyan   { color: #5cbeff; }
 
 /* Copy-code button — keep visible on the dark background. */
 .md-typeset .terminal .md-clipboard {

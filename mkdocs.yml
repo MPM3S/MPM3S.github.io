@@ -103,9 +103,10 @@ plugins:
 extra_css:
   - stylesheets/extra.css
 
-# MathJax
+# MathJax + per-page enhancements
 extra_javascript:
   - javascripts/mathjax.js
+  - javascripts/julia-repl-colors.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 # Extensions
