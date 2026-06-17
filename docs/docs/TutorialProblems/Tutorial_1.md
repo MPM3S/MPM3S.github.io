@@ -534,10 +534,10 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**3. Apply the readers.** Click *Apply* in the Properties panel for each reader. The full GIMP domain appears as a solid grey cube and the cell/point arrays `displacement`, `strain`, `E` and `rho` become available.
+**3. Apply the readers.** Click *Apply* in the Properties panel for each reader. The full mesh domain appears as a solid grey cube which covers all the GIMPM data under it.
 </div>
 <div markdown>
-![Both VTU files loaded; the solid grey cube is the full GIMP domain.](../../img/screen_shot_3.png){ #fig-paraview-3 width="100%" }
+![Both VTU files loaded; the solid grey cube is the full mesh domain.](../../img/screen_shot_3.png){ #fig-paraview-3 width="100%" }
 </div>
 </div>
 
@@ -561,7 +561,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**6. Colour the GIMPs by displacement.** Select `mpDataV..vtu`, change *Coloring* to `displacement` → `Magnitude`. At step 0 (undeformed) the GIMPs sit near the low end of the colour bar.
+**6. Colour the GIMPs by displacement.** Select `mpDataV..vtu`, change *Coloring* to `displacement` → `Magnitude`. At the end of step 0 (undeformed) the GIMPs are only marginally displaced.
 </div>
 <div markdown>
 ![GIMP data coloured by displacement magnitude at the initial step.](../../img/screen_shot_6.png){ #fig-paraview-6 width="100%" }
@@ -570,7 +570,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Advance to the final step.** Use the time controls at the top (set time to the maximum, `19`, for the last of the 20 increments). The GIMPs shift to the high end of the colour bar, showing the maximum self-weight deformation.
+**7. Advance to the final step.** Use the time controls at the top, maked by the red box, abd set time to the maximum, `19`, for the last of the 20 increments. The GIMPs shift to the high end of the colour bar, showing the maximum self-weight deformation.
 </div>
 <div markdown>
 ![GIMP data at the final step - column fully deformed.](../../img/screen_shot_7.png){ #fig-paraview-7 width="100%" }
