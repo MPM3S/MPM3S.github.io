@@ -914,6 +914,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
+   Walkthrough rows: small text block on the left (~1/4), large
+   picture on the right (~3/4). Used for screenshot-driven
+   step-by-step guides such as the ParaView walkthrough.
+   ============================================================ */
+.md-typeset .walkthrough {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.md-typeset .walkthrough > div > :first-child { margin-top: 0; }
+.md-typeset .walkthrough > div > :last-child  { margin-bottom: 0; }
+
+.md-typeset .walkthrough img {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 76.25em) {
+  .md-typeset .walkthrough {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    Terminal-window styling for shell / console examples.
    Wrap a code block in `<div class="terminal" markdown>` to get
    a dark window with macOS-style traffic-light chrome. Pure
