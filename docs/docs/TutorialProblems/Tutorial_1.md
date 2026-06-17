@@ -302,7 +302,11 @@ free memory  17.81 GB
 
 ### Running the problem
 
-With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem.
+With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point.
+```
+Ampse.run("input_data.json");
+```
+This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem.
 
 #### Reading the output
 
