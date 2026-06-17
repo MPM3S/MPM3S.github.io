@@ -298,7 +298,7 @@ free memory  17.81 GB
 
 ### Running the problem
 
-With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes the VTU output files for ParaView visualisation.
+With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point. This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes the `.vtu`, or `vtk`, output files for ParaView visualisation and a `.csv` file specific for this validation problem.
 
 **Reading the output.** Each `time …` block in the terminal corresponds to one of the 20 load increments. For a static problem AMPSSIE uses a pseudo-time that runs from $t = 0$ to $t = 1$, with the increment size `dt` calculated automatically as $1 / \text{number of increments}$ (so `dt` $= 0.05$ for this run). For each step the solver prints:
 
@@ -501,6 +501,11 @@ Simulation complete!
 
 
 ## Viewing the results
+The simulation results will appear as the simulation is running, so it is not necessary to wait until the simulation has finished. When the problem is run using your local Julia installiation the `.csv`, `.vtk` and `.vtu` files are all stored in `MaterialPoints/src/output`. 
+
+In the [`output data`](#output-data) 
+
+
 
 The deformed column under self-weight is shown in [](#fig-gravity-displacement) at load steps 1, 10 and 20 of 20. The vertical displacement reaches its maximum at the top, as expected for a column compressed under its own weight; the stress field through the column can be compared against the analytical solution introduced above to validate the simulation.
 
