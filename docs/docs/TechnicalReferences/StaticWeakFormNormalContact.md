@@ -1,13 +1,14 @@
 ---
 
-This page extends the [Static weak form](StaticWeakForm.md) used in AMPLE/AMPSSIE to include a normal-contact contribution between the deformable material and a rigid body. The presentation here is deliberately minimal - only the ingredients needed to state and penalise the normal-contact constraint are reproduced - and follows the static restriction of the dynamic 3D contact approach of Bird _et al._ [@bird_dynamic_2025].
+This page extends the [Static weak form](StaticWeakForm.md) used in AMPSSIE to include the normal-contact forces being imposed on the material points, following the approach of Bird _et al._ [@bird_dynamic_2025].
 
 Weak statement of equilibrium with normal contact
 ---
 
-The Galerkin weak statement of equilibrium given on the [Static weak form](StaticWeakForm.md) page is augmented with a contact term that collects the normal tractions exerted by the rigid body on the boundary of the material:
+The Galerkin weak statement of equilibrium given on the [Static weak form](StaticWeakForm.md) is extended with a normal contact term which imposes a load on the material points. The weak form which includes contact is defined:
 
-$$\int_{\varphi_t(K)}[\nabla_x S_{vp}]^{T}\{\sigma\}\,\text{d}v - \int_{\varphi_t(K)}[S_{vp}]^{T}\{b\}\,\text{d}v - \int_{\varphi_t(\partial\Omega)}\{F_{N,v}^{\partial\Omega}\}\,\text{d}s = \{0\}$$
+$$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(E)}[S_{vp}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial E)}[S_{vp}]^{T}\{t\} \text{d}s- \int_{\varphi_t(\partial\Omega)}\{F_{N,v}^{\partial\Omega}\}\,\text{d}s  = \{0\}$$
+
 
 where $\{F_{N,v}^{\partial\Omega}\}$ is the normal contact traction applied on the part of the material boundary, $\partial\Omega$, that is in contact with the rigid body. The first two terms remain the internal force from the Cauchy stress field $\{\sigma\}$ and the body force $\{b\}$; the third is the new contact contribution. Tangential (frictional) contact is omitted here; see Bird _et al._ [@bird_dynamic_2025] for the full normal-and-tangential formulation.
 

@@ -8,6 +8,7 @@
   - Kinematics
   - Stress and strain measures
   - [Static strong and weak forms](StaticWeakForm.md)
+  - [Static weak form with contact](StaticWeakFormNormalContact.md)
   - Dynamic strong and weak forms
 
 ## Meshing
