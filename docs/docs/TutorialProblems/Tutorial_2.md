@@ -56,7 +56,7 @@ $$
 
 where $L_0 = 0.8$ m is the initial cube height, $\Delta z = -0.2$ m is the prescribed compression and $L = L_0 + \Delta z = 0.6$ m is the final height after the $25\%$ axial compression.
 
-As in [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is a homogeneous Hencky elastic ($E = 10^6$ Pa, $\nu = 0$) discretised by a uniform $0.4$ m mesh ($2 \times 2 \times 2 = 8$ elements) with a $2 \times 2 \times 2$ grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, the top face is left as a free surface, and every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional in compression.
+As in [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is homogeneous Hencky elastic ($E = 10^6$ Pa, $\nu = 0$) and is discretised by a uniform $0.4$ m mesh ($2 \times 2 \times 2 = 8$ elements) with a $2 \times 2 \times 2$ grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, the top face is left as a free surface, and every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional in compression.
 
 For this problem the position of the rigid body cube is set up correctly so the user only has to import the file. A future tutorial will cover the details of designing the rigid body, making it accessible to the code and positioning it correctly.
 
@@ -189,7 +189,7 @@ The cube is homogeneous, so a single layer is specified with the Hencky elastic 
 
 ### Rigid body
 
-The rigid body geometry is loaded from `cube.stl` and placed with its lower face at the top of the deformable cube (`initial position z` $= 0.8$ m). It is then given a prescribed downward displacement of $\Delta z = -0.2$ m, applied uniformly over the 20 load increments. The `normal penalty factor` `pf` is set to $1000$, the value identified in the [Background](#background-rigid-body-contact) as giving a stress error of around $3\%$ for this stiff problem.
+The rigid body geometry is loaded from `cube.stl` and it is automatically placed with its lower face at the top of the deformable cube. It is then given a prescribed downward displacement of $\Delta z = -0.2$ m, applied uniformly over the 20 load increments. The `normal penalty factor` `pf` is set to $1000$, the value identified in the [Background](#background-rigid-body-contact) as giving a stress error of around $3\%$ for this stiff problem.
 
 </div>
 
@@ -198,7 +198,6 @@ The rigid body geometry is loaded from `cube.stl` and placed with its lower face
 ```json
 "Rigid body": {
     "geometry": "cube.stl",
-    "initial position z": 0.8,
     "prescribed displacement z": -0.2,
     "normal penalty factor": 1000
 }

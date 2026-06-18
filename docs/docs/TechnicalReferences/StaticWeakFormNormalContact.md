@@ -15,13 +15,16 @@ where $\{F_{N,v}^{\partial\Omega}\}$ is the normal contact traction applied on t
 Gap function
 ---
 
+The _gap function_ is used to both detect contact and measure the overlap between contact surfaces. Here a point-to-surface formulation is used, see Wriggers [@wriggers2006computational] and the work of Curnier and coworkers [@pietrzak1999large; @curnier1995continuum] for exceptional pieces of literature.
+
+
 The geometric measure of overlap between the deformable material and the rigid body is the _normal gap function_, $g_N$, defined as the signed projection of a material-point position, $\mathbf{x}$, onto its closest point, $\mathbf{x}'$, on the rigid-body surface along the outward surface normal, $\mathbf{n}$:
 
 $$g_N = (\mathbf{x} - \mathbf{x}') \cdot \mathbf{n}.$$
 
 The closest point, $\mathbf{x}'$, is obtained by Closest Point Projection (CPP) of $\mathbf{x}$ onto the discretised rigid-body surface. With this sign convention $g_N > 0$ corresponds to separation, $g_N = 0$ to a closed contact and $g_N < 0$ to penetration.
 
-Non-penetration and complementarity between the gap and the normal contact pressure, $p_N$, are expressed through the Signorini-Hertz-Moreau conditions
+The gap function and the normal contact pressure values are governed by the Signorini-Hertz-Moreau conditions
 
 $$g_N \geq 0, \quad p_N \leq 0, \quad g_N\, p_N = 0,$$
 
@@ -30,7 +33,7 @@ i.e. the gap can only open ($g_N > 0$) when there is no compressive contact pres
 Penalty regularisation
 ---
 
-The hard inequality $g_N \geq 0$ is regularised by a penalty method: when a material point penetrates the rigid body, the normal contact pressure is taken to be linear in the (negative) gap,
+The penalty regulation softens the Signorini-Hertz-Moreau conditions as a small amount of penetration is needed to generate a contact force to resist contact. The penalty force is calculated like this,
 
 $$p_N = \epsilon_N\, g_N,$$
 
