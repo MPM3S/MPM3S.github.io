@@ -9,7 +9,7 @@ AMPSSIE is a Julia package and runs anywhere Julia is supported.
 
 **Julia version:** 1.12 or newer. Earlier releases may work but are not actively tested.
 
-**Hardware:** A typical desktop or laptop is sufficient for the tutorial problems. For larger 3D problems with refined meshes it is recommend to use a HPc with at least 10 cores, allow at least 60Gb GB of RAM and 10 GB of free disk for outputs.
+**Hardware:** A typical desktop or laptop is sufficient for the tutorial problems. For larger 3D problems with refined meshes it is recommended to use an HPC with at least 10 cores, at least 60 GB of RAM and 10 GB of free disk for outputs.
 
 **Required tooling:**
 
@@ -20,7 +20,7 @@ AMPSSIE is a Julia package and runs anywhere Julia is supported.
 **Optional:**
 
 - [Git](https://git-scm.com/) for cloning the source repository.
-- [Docker] *(coming soon)* if you'd rather not install Julia directly - see [Deploying via Docker](#deploying-via-docker).
+- [Docker](https://www.docker.com/) *(coming soon)* if you'd rather not install Julia directly - see [Deploying via Docker](#deploying-via-docker).
 
 ## Direct interaction with Julia
 
@@ -41,18 +41,22 @@ git clone [insert here]
 cd [insert here]
 ```
 
-**3. Instantiate the project environment.** This installs the exact dependencies recorded in `Manifest.toml` into a local environment:
+**3. Start Julia and install the AMPSSIE package.** Open a Julia REPL, change into the `MaterialPoints` directory of the cloned repository and `include` the setup script. This installs the exact dependencies recorded in `Manifest.toml` and starts the parallel workers that AMPSSIE uses:
 
-```bash
-julia --project=. -e 'using Pkg; Pkg.instantiate()'
+```julia-repl
+julia> cd("path/to/AMPSSIE/MaterialPoints")
+
+julia> include("setup_workers.jl")
 ```
 
-**4. Run a problem.** The cloned repository includes its own example input file, so you can run a problem straight away:
+If everything succeeds the REPL prints the package versions being resolved, the activated project path and a `starting sim` line; see the [Tutorial 1 terminal output](../TutorialProblems/Tutorial_1.md#setting-up-and-running-the-problem) (or [Tutorial 2](../TutorialProblems/Tutorial_2.md#setting-up-and-running-the-problem)) for the expected console.
 
-```bash
-julia --project=. [insert here]
+**4. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md) or [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md)) into the `MaterialPoints` directory and call the AMPSSIE entry point from the same Julia REPL:
+
+```julia-repl
+julia> Ampse.run("input_data.json");
 ```
 
-Output is written to the same directory as the input file. Open the resulting VTU files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and stress fields.
+This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files to `MaterialPoints/src/output`. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
 
 

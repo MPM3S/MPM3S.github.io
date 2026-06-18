@@ -24,7 +24,7 @@ This tutorial has three main sections after the introduction:
 
 This tutorial extends [Tutorial 1](Tutorial_1.md#background-the-gimpm) to include normal contact. A brief overview is provided here for context; see the [normal-contact weak form](../TechnicalReferences/StaticWeakFormNormalContact.md) for the full technical details. [](#fig-contact-schematic) provides a schematic overview of how the contact between the rigid body and the material points works. 
 
-When contact is detected between a GIMP and the rigid body - (a) initial state - a normal contact force is applied at the corners of the GIMP to resist the overlap. This force is proportional to the amount of overlap and can be thought of as a spring whose stiffness resists the overlap. The spring stiffness is a function of the GIMP size and material properties, calculated as
+When contact is detected between a GIMP and the rigid body, (a) initial state, a normal contact force is applied at the corners of the GIMP to resist the overlap. This force is proportional to the amount of overlap and can be thought of as a spring whose stiffness resists the overlap. The spring stiffness is a function of the GIMP size and material properties, calculated as
 
 $$
 \epsilon_N = p_f\, E_p\, A_p^0,
@@ -32,7 +32,7 @@ $$
 
 where $E_p$ is the Young's modulus of the GIMP in contact, $A_p^0 = (V_p^0)^{2/3}$ is a representation of the contact area with $V_p^0$ the initial GIMP volume, and $p_f$ is the penalty factor. The penalty factor controls how stiffly the contact constraint is enforced; for this stiff problem $p_f = 1000$ gives a stress error of around $3\%$ (see [Analysing the stress variation with height](#analysing-the-stress-variation-with-height)) and is used throughout this tutorial. For less constrained problems $p_f = 50$ is typically sufficient.
 
-After the spring has been activated the GIMPs and the mesh deform due to the contact forces created by the springs - (b) deformed state - and once convergence is obtained the mesh is reset - (c) mesh reset.
+After the spring has been activated the GIMPs and the mesh deform due to the contact forces created by the springs, (b) deformed state, and once convergence is obtained the mesh is reset, (c) mesh reset.
 
 </div>
 
