@@ -24,7 +24,7 @@ This tutorial has three main sections after the introduction:
 
 This tutorial extends [Tutorial 1](Tutorial_1.md#background-the-gimpm) to include normal contact. A brief overview is provided here for context; see the [normal-contact weak form](../TechnicalReferences/StaticWeakFormNormalContact.md) for the full technical details. [](#fig-contact-schematic) provides a schematic overview of how the contact between the rigid body and the material points works. 
 
-When contact is detected between a GIMP and the rigid body, (a) initial state, a normal contact force is applied at the corners of the GIMP to resist the overlap. This force is proportional to the amount of overlap and can be thought of as a spring whose stiffness resists the overlap. The spring stiffness is a function of the GIMP size and material properties, calculated as
+When contact is detected between a GIMP and the rigid body - (a) initial state - a normal contact force is applied at the corners of the GIMP to resist the overlap. This force is proportional to the amount of overlap and can be thought of as a spring whose stiffness resists the overlap. The spring stiffness is a function of the GIMP size and material properties, calculated as
 
 $$
 \epsilon_N = p_f\, E_p\, A_p^0,
@@ -32,7 +32,7 @@ $$
 
 where $E_p$ is the Young's modulus of the GIMP in contact, $A_p^0 = (V_p^0)^{2/3}$ is a representation of the contact area with $V_p^0$ the initial GIMP volume, and $p_f$ is the penalty factor. The penalty factor controls how stiffly the contact constraint is enforced; for this stiff problem $p_f = 1000$ gives a stress error of around $3\%$ (see [Analysing the stress variation with height](#analysing-the-stress-variation-with-height)) and is used throughout this tutorial. For less constrained problems $p_f = 50$ is typically sufficient.
 
-After the spring has been activated the GIMPs and the mesh deform due to the contact forces created by the springs, (b) deformed state, and once convergence is obtained the mesh is reset, (c) mesh reset.
+After the spring has been activated the GIMPs and the mesh deform due to the contact forces created by the springs - (b) deformed state - and once convergence is obtained the mesh is reset - (c) mesh reset.
 
 </div>
 
@@ -54,11 +54,11 @@ $$
 \sigma_{zz} = E \ln\!\left(\frac{L}{L_0}\right) \frac{L_0}{L} = \frac{10^6}{0.75} \ln(0.75) \approx -3.84 \times 10^5 \text{ Pa},
 $$
 
-where $L_0 = 0.8$ m is the initial cube height, $\Delta z = -0.2$ is how much the cube is deformed, $L = L_0 + \Delta z = 0.6$ m is the final height after the $25\%$ axial compression. 
+where $L_0 = 0.8$ m is the initial cube height, $\Delta z = -0.2$ m is the prescribed compression and $L = L_0 + \Delta z = 0.6$ m is the final height after the $25\%$ axial compression.
 
-Similar to [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is  homogeneous Hencky elastic material ($E = 10^6$ Pa, $\nu = 0$) discretised by a uniform $0.4$ m mesh ($2 \times 2 \times 2 = 8$ elements) with a $2 \times 2 \times 2$ grid of GIMPs per element. The boundary conditions on the mesh are imposed as roller boundaries are imposed on the four side faces and the base, the top face is left as a free surface, and every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional in compression.
+As in [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is a homogeneous Hencky elastic ($E = 10^6$ Pa, $\nu = 0$) discretised by a uniform $0.4$ m mesh ($2 \times 2 \times 2 = 8$ elements) with a $2 \times 2 \times 2$ grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, the top face is left as a free surface, and every node has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional in compression.
 
-For this problem the position of the rigid body cube is setup correctly so the user only has to import the file. A future tutorial will over the details of designing the rigid body, making it accesible to the code and positioning it correctly.
+For this problem the position of the rigid body cube is set up correctly so the user only has to import the file. A future tutorial will cover the details of designing the rigid body, making it accessible to the code and positioning it correctly.
 
 
 <div class="grid" markdown>
@@ -69,7 +69,7 @@ For this problem the position of the rigid body cube is setup correctly so the u
 
 </div>
 
-The simulation is configured through a single JSON object - a human-readable, editable text file, it is extended from [Tutorial 1](Tutorial_1.md#background-the-gimpm) to also contain the rigid body information and boundary conditions. The complete file for this problem can be found [`here`](Tutorial_2_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+The simulation is configured through a single JSON object - a human-readable, editable text file. It is extended from [Tutorial 1](Tutorial_1.md#input-setup) to also contain the rigid body information and boundary conditions. The complete file for this problem can be found [`here`](Tutorial_2_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
 
 <div class="json-side-header">
@@ -214,7 +214,7 @@ The rigid body geometry is loaded from `cube.stl` and placed with its lower face
 
 ### Solver
 
-The rigid-body displacement is ramped on quasi-statically over 20 increments using a Newton-Raphson scheme.
+The rigid-body displacement is ramped quasi-statically over 20 increments using a Newton-Raphson scheme.
 
 </div>
 
@@ -280,7 +280,7 @@ cp path/to/input_data_location/input_data.json path/to/AMPSSIE/MaterialPoints
 ```
 where the first path is the location of your `input_data.json` and the second is the top-level AMPSSIE directory.
 
-The next steps are for starting julia and loading up the AMPSSIE package. Open a terminal (command line or PowerShell on Windows) and start Julia with the command:
+The next steps are to start Julia and load the AMPSSIE package. Open a terminal (command line or PowerShell on Windows) and start Julia with the command:
 ```
 julia
 ```
@@ -296,7 +296,7 @@ include("setup_workers.jl")
 ```
 to install the AMPSSIE package and start multiple parallel workers.
 
-If it works correctly the output should match something similar to the corresponding terminal window. If there are issues, see the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) for troubleshooting.
+If it works correctly the output should resemble the corresponding terminal window. If there are issues, see the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) for troubleshooting.
 
 </div>
 
@@ -623,7 +623,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 
 <div class="walkthrough" markdown>
 <div markdown>
-**3. Apply the readers.** Click *Apply* in the Properties panel for each reader. The deformable cube appears as a solid grey block with the rigid cube sitting directly on top of it. In the current view it is difficult to see which body is which, try rotating by click-and-drag inside the *Layout #1* render view to inspect the geometry.
+**3. Apply the readers.** Click *Apply* in the Properties panel for each reader. The deformable cube appears as a solid grey block with the rigid cube sitting directly on top of it. In the current view it is difficult to see which body is which; try rotating by click-and-drag inside the *Layout #1* render view to inspect the geometry.
 </div>
 <div markdown>
 ![All three datasets loaded; the rigid cube sits on top of the deformable cube.](../../img/compress_4.png){ #fig-compress-4 width="100%" }
@@ -643,7 +643,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 <div markdown>
 **5. Make the mesh a Wireframe.** Change the representation of the `Threshold1` filter to *Wireframe* so the active mesh edges are drawn as lines instead of filled surfaces. This lets the GIMPs underneath become visible. 
 
-Additionally try pressing the `Reset` button, marked by the red circle, to obtain a better view.
+Additionally, try pressing the `Reset` button, marked by the red circle, to obtain a better view.
 </div>
 <div markdown>
 ![Wireframe representation of the thresholded background mesh.](../../img/compress_6.png){ #fig-compress-6 width="100%" }
@@ -696,8 +696,8 @@ pen_factor,       final_height,      avg_stress_zz,         min_rb_pos
       1000, 0.6037299414518334, -372994.2487099074, 0.5999999989999916
 ```
 
-Each time you run this problem with different parameters the results will be appended to the bottom row of the file.
+Each time you run this problem with different parameters a new row will be appended to the bottom of the file.
 
 For these results the simulated stress $\bar{\sigma}_{zz}^{\text{sim}} \approx -3.73 \times 10^{5}$ Pa matches the analytical Hencky-Cauchy value $-3.84 \times 10^{5}$ Pa from the [Problem summary](#problem-summary) to within $\approx 2.8\%$. The contact overlap `final_height - min_rb_pos` $\approx 3.7 \times 10^{-3}$ m ($\approx 0.6\%$ of the cube height) shows that the penalty spring is doing a good job at minimising the overlap between the two bodies.
 
-Raise `normal penalty factor` in the [Rigid body](#rigid-body) JSON block to reduce both these errors further and observe the additions to the text file.
+Raise `normal penalty factor` in the [Rigid body](#rigid-body) JSON block to reduce both of these errors further and observe the additions to the text file.

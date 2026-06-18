@@ -10,7 +10,7 @@ The Galerkin weak statement of equilibrium given on the [Static weak form](Stati
 $$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(E)}[S_{vp}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial E)}[S_{vp}]^{T}\{t\} \text{d}s- \int_{\varphi_t(\partial\Omega)}\{F_{N,v}^{\partial\Omega}\}\,\text{d}s  = \{0\}$$
 
 
-where $\{F_{N,v}^{\partial\Omega}\}$ is the normal contact traction applied on the part of the material boundary, $\partial\Omega$, that is in contact with the rigid body. The first two terms remain the internal force from the Cauchy stress field $\{\sigma\}$ and the body force $\{b\}$; the third is the new contact contribution. Tangential (frictional) contact is omitted here; see Bird _et al._ [@bird_dynamic_2025] for the full normal-and-tangential formulation.
+where $\{F_{N,v}^{\partial\Omega}\}$ is the normal contact traction applied on the part of the material boundary, $\partial\Omega$, that is in contact with the rigid body. The first three are terms are repeated and described on the [Static weak form](StaticWeakForm.md) page. 
 
 Gap function
 ---
@@ -39,3 +39,7 @@ with $\epsilon_N$ the _normal penalty stiffness_. In AMPSSIE the penalty stiffne
 $$\epsilon_N = p_f\, E_p\, A_p^0,$$
 
 where $E_p$ is the GIMP's Young's modulus, $A_p^0 = (V_p^0)^{2/3}$ is a representative undeformed contact area constructed from the initial GIMP volume, $V_p^0$, and $p_f$ is a user-controlled penalty factor that trades off interpenetration against conditioning of the global stiffness matrix. This penalty pressure is the contact force per unit area that enters the weak form above through $\{F_{N,v}^{\partial\Omega}\}$. A worked study of $p_f$ on a stiff penalty problem is presented in [Tutorial 2](../TutorialProblems/Tutorial_2.md).
+
+Computational proceedure
+---
+(_coming soon_)

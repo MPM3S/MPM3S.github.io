@@ -1,6 +1,6 @@
 # The `input_data.json` format
 
-AMPSSIE drives every analysis from a single [JSON](https://en.wikipedia.org/wiki/JSON) file, named `input_data.json`. The file is one JSON object whose top-level keys correspond to the components of the model: the [mesh](#mesh), the [initial material-point distribution](#initial-gimp-distribution), the [boundary conditions](#boundary-conditions), the [constitutive description](#material), the [rigid body](#rigid-body), the [solver settings](#solver) and the [requested outputs](#output-data).
+AMPSSIE drives every analysis from a single [JSON](https://en.wikipedia.org/wiki/JSON) file, named `input_data.json`. The file is one JSON object whose top-level keys correspond to the components of the model: the [Mesh](#mesh), the [Initial GIMP distribution](#initial-gimp-distribution), the [Boundary conditions](#boundary-conditions), the [Material](#material) properties and models, the [Rigid body](#rigid-body), the [Solver](#solver) and the [Output data](#output-data).
 
 This page describes each of the sections in turn and gives a description of each of the options available for each section. This page is designed to act as a reference for constructing your own simulations, however for worked examples please see the [tutorial page](../TutorialProblems/TutorialProblems.md).
 
@@ -55,7 +55,7 @@ These appear as headings in the [JSON](https://en.wikipedia.org/wiki/JSON) file:
     ...
 }
 ```
-where the ```...``` indicating text.
+where the ```...``` indicates text.
 ## Mesh
 
 The `Mesh` object sets the size of the background grid and the element size.
@@ -94,10 +94,10 @@ Example:
 
 <div class="small-table" markdown>
 
-| Field                                                                                             | Type       | Description                                                          |
-|---------------------------------------------------------------------------------------------------|------------|----------------------------------------------------------------------|
-| `"Initial GIMP distribution x"`, `"Initial GIMP distribution y"`, `"Initial GIMP distribution z"` | number (m) | Extent of the GIMP-filled volume along each axis.                    |
-| `"number GIMP"`                                                                                   | number     | Optional, defines the number of GIMPs in each direction per element. |
+| Field                                                                                             | Type       |Default| Description                                                          |
+|---------------------------------------------------------------------------------------------------|------------||----------------------------------------------------------------------|
+| `"Initial GIMP distribution x"`, `"Initial GIMP distribution y"`, `"Initial GIMP distribution z"` | number (m) || Extent of the GIMP-filled volume along each axis.                    |
+| `"number GIMP"`                                                                                   | number     |2| Optional, defines the number of GIMPs in each direction per element. |
 
 </div>
 

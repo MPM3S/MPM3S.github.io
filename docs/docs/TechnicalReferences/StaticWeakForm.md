@@ -85,6 +85,7 @@ These steps are shown schematically below.
 
 ![MPM steps](../../img/MPMsteps.jpg)
 
+<!--
 * * *
 
 <div class="image-text-row" markdown>
@@ -106,3 +107,4 @@ AMPLE was developed to address the severe learning curve for researchers wishing
 
 </div>
 </div>
+-->
