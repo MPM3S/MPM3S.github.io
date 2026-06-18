@@ -2,19 +2,13 @@
 
 AMPSSIE drives every analysis from a single [JSON](https://en.wikipedia.org/wiki/JSON) file, named `input_data.json`. The file is one JSON object whose top-level keys correspond to the components of the model: the [mesh](#mesh), the [initial material-point distribution](#initial-gimp-distribution), the [boundary conditions](#boundary-conditions), the [constitutive description](#material), the [rigid body](#rigid-body), the [solver settings](#solver) and the [requested outputs](#output-data).
 
-This page describes each section in turn. The authoritative working examples are the two tutorial inputs:
+This page describes each of the sections in turn and gives a description of each of the options available for each section. This page is designed to act as a reference for constructing your own simulations, however for worked examples please see the [tutorial page](../TutorialProblems/TutorialProblems.md).
 
-- [Tutorial 1 - Self-weight column](../TutorialProblems/Tutorial_1_input_data.md)
-- [Tutorial 2 - Compaction via a rigid body](../TutorialProblems/Tutorial_2_input_data.md)
 
-## How the file is interpreted
 
-- The file is a single JSON object. Keys are quoted strings and order is not significant.
-- Keys are case-sensitive and many contain spaces (e.g. `"domain size x"`, `"Initial GIMP distribution"`). Copy them verbatim from this page or from a tutorial example.
-- Anything not listed in the file falls back to AMPSSIE's built-in defaults. For example, a face that is not named under `"Boundary conditions"` is treated as a free surface, and an unspecified per-element GIMP layout defaults to $2 \times 2 \times 2$.
-- `"Rigid body"` is optional - it is present in [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md) but absent from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md).
+## Overall file format
 
-## Top-level keys
+The `input_data.json` file is split into seven section provided in the table below:
 
 <div class="small-table" markdown>
 
@@ -30,6 +24,38 @@ This page describes each section in turn. The authoritative working examples are
 
 </div>
 
+These appear as headings in the [JSON](https://en.wikipedia.org/wiki/JSON) file:
+```json
+"Mesh":
+{
+    ...
+},
+"Initial GIMP distribution":
+{
+...
+},
+"Boundary conditions":
+{
+...
+},
+"Material":
+{
+...
+},
+"Rigid body":
+{
+...
+},
+"Solver":
+{
+    ...
+},
+"Output Data":
+{
+    ...
+}
+```
+where the ```...``` indicating text.
 ## Mesh
 
 The `Mesh` object sets the size of the cuboidal background grid and the element size.
@@ -75,27 +101,29 @@ Specifies the volume in which material points are initially placed. Each element
 
 ## Boundary conditions
 
-Per-face kinematic conditions and optional per-DOF fixes. Faces that are not listed are treated as free surfaces - in particular the top (+z) face is never written and is always free.
+Per-face kinematic conditions and optional per-DOF fixes. Faces or DOFs that are not listed fall back to their default (`"free"` for faces, `"free"` for DOFs).
 
 ```json
 "Boundary conditions": {
     "neg x-plane": "roller",
     "neg y-plane": "roller",
-    "neg z-plane": "roller",
+    "neg z-plane": "free",
     "pos x-plane": "roller",
     "pos y-plane": "roller",
+    "pos z-plane": "fixed",
     "x dof": "fixed",
-    "y dof": "fixed"
+    "y dof": "fixed",
+    "z dof": "free"
 }
 ```
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `neg x-plane`, `pos x-plane`, `neg y-plane`, `pos y-plane` | string | Condition on each lateral face. Both tutorials use `"roller"`, which fixes the displacement normal to the face and leaves in-plane motion free. |
-| `neg z-plane` | string | Condition on the base. Both tutorials use `"roller"`. |
-| `x dof`, `y dof` | string | Optional global DOF constraint applied to every node. Both tutorials set these to `"fixed"` to keep the problem one-dimensional in compression. |
+| Field | Type | Options | Description |
+|---|---|---|---|
+| `neg x-plane`, `pos x-plane`, `neg y-plane`, `pos y-plane` | string | `"roller"`, `"free"`, `"fixed"` | Condition on each lateral face. `"roller"` fixes the displacement normal to the face and leaves in-plane motion free. |
+| `neg z-plane`, `pos z-plane` | string | `"roller"`, `"free"`, `"fixed"` | Condition on the base and top face. Faces default to `"free"` if omitted from the JSON. |
+| `x dof`, `y dof` | string | `"fixed"`, `"free"` | Optional global DOF constraint applied to every node. Useful for keeping the problem one-dimensional in compression. |
 
 </div>
 
