@@ -12,15 +12,15 @@ The `input_data.json` file is split into seven section provided in the table bel
 
 <div class="small-table" markdown>
 
-| Key | Type | Purpose | Required |
-|---|---|---|---|
-| `Mesh` | object | Domain extents and the background-grid element size. | Yes |
-| `Initial GIMP distribution` | object | Extent of the initial material-point fill. | Yes |
-| `Boundary conditions` | object | Per-face kinematic conditions and optional per-DOF fixes. | Yes |
-| `Material` | object | Constitutive type and properties for each soil layer. | Yes |
-| `Rigid body` | object | Geometry, kinematics and contact parameters for the rigid body. | Optional |
-| `Solver` | object | Solve type, load type and the number of increments. | Yes |
-| `Output Data` | object | VTU / VTK switches and a stem string for text output. | Yes |
+| Key                           | Type   | Purpose                                                         | Required |
+|-------------------------------|--------|-----------------------------------------------------------------|----------|
+| `"Mesh"`                      | object | Domain extents and the background-grid element size.            | Yes      |
+| `"Initial GIMP distribution"` | object | Extent of the initial material-point fill.                      | Yes      |
+| `"Boundary conditions"`       | object | Per-face kinematic conditions and optional per-DOF fixes.       | Yes      |
+| `"Material"`                  | object | Constitutive type and properties for each soil layer.           | Yes      |
+| `"Rigid body"`                | object | Geometry, kinematics and contact parameters for the rigid body. | Optional |
+| `"Solver"`                    | object | Solve type, load type and the number of increments.             | Yes      |
+| `"Output Data"`               | object | VTU / VTK switches and a stem string for text output.           | Yes      |
 
 </div>
 
@@ -58,8 +58,9 @@ These appear as headings in the [JSON](https://en.wikipedia.org/wiki/JSON) file:
 where the ```...``` indicating text.
 ## Mesh
 
-The `Mesh` object sets the size of the cuboidal background grid and the element size.
+The `Mesh` object sets the size of the background grid and the element size.
 
+Example:
 ```json
 "Mesh": {
     "domain size x": 0.8,
@@ -71,11 +72,10 @@ The `Mesh` object sets the size of the cuboidal background grid and the element 
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `domain size x`, `y`, `z` | number (m) | Length of the computational domain along each axis. |
-| `dx refined` | number (m) | Element size. Used uniformly unless `Refinement type` is set. |
-| `Refinement type` | string | Optional bespoke refinement scheme. Tutorial 1 uses `"column validation"` for the self-weight column convergence study; Tutorial 2 omits the key and runs on a uniform mesh. |
+| Field                                                   | Type       | Description                                         |
+|---------------------------------------------------------|------------|-----------------------------------------------------|
+| `"domain size x"`, `"domain size y"`, `"domain size z"` | number (m) | Length of the computational domain along each axis. |
+| `"dx refined"`                                          | number (m) | Element size, uniform in $x$, $y$ and $z$.          |
 
 </div>
 
@@ -83,6 +83,7 @@ The `Mesh` object sets the size of the cuboidal background grid and the element 
 
 Specifies the volume in which material points are initially placed. Each element contains a $2 \times 2 \times 2$ grid of GIMPs by default.
 
+Example:
 ```json
 "Initial GIMP distribution": {
     "Initial GIMP distribution x": 0.8,
@@ -93,16 +94,18 @@ Specifies the volume in which material points are initially placed. Each element
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `Initial GIMP distribution x`, `y`, `z` | number (m) | Extent of the GIMP-filled volume along each axis. In both tutorials this matches `Mesh.domain size *`, i.e. the GIMPs fill the whole domain. |
+| Field                                                                                             | Type       | Description                                                          |
+|---------------------------------------------------------------------------------------------------|------------|----------------------------------------------------------------------|
+| `"Initial GIMP distribution x"`, `"Initial GIMP distribution y"`, `"Initial GIMP distribution z"` | number (m) | Extent of the GIMP-filled volume along each axis.                    |
+| `"number GIMP"`                                                                                   | number     | Optional, defines the number of GIMPs in each direction per element. |
 
 </div>
 
 ## Boundary conditions
 
-Per-face kinematic conditions and optional per-DOF fixes. Faces or DOFs that are not listed fall back to their default (`"free"` for faces, `"free"` for DOFs).
+Mesh face and DOF boundary conditions. If the faces or DOFs are not listed, the default for both is `"free"`.
 
+Example:
 ```json
 "Boundary conditions": {
     "neg x-plane": "roller",
@@ -119,11 +122,11 @@ Per-face kinematic conditions and optional per-DOF fixes. Faces or DOFs that are
 
 <div class="small-table" markdown>
 
-| Field | Type | Options | Description |
-|---|---|---|---|
-| `neg x-plane`, `pos x-plane`, `neg y-plane`, `pos y-plane` | string | `"roller"`, `"free"`, `"fixed"` | Condition on each lateral face. `"roller"` fixes the displacement normal to the face and leaves in-plane motion free. |
-| `neg z-plane`, `pos z-plane` | string | `"roller"`, `"free"`, `"fixed"` | Condition on the base and top face. Faces default to `"free"` if omitted from the JSON. |
-| `x dof`, `y dof` | string | `"fixed"`, `"free"` | Optional global DOF constraint applied to every node. Useful for keeping the problem one-dimensional in compression. |
+| Field                                             | Type   | Options                         | Default  | Description                                                                                                                  |
+|---------------------------------------------------|--------|---------------------------------|----------|------------------------------------------------------------------------------------------------------------------------------|
+| `"neg x-plane"`, `"neg y-plane"`, `"neg z-plane"` | string | `"roller"`, `"free"`, `"fixed"` | `"free"` | Optional condition on each negative mesh face; the face location is set by the `domain size x/y/z` extents in [Mesh](#mesh). |
+| `"pos x-plane"`, `"pos y-plane"`, `"pos z-plane"` | string | `"roller"`, `"free"`, `"fixed"` | `"free"` | Optional condition on each positive mesh face. Faces default to `"free"` if omitted from the JSON.                           |
+| `"x dof"`, `"y dof"`, `"z dof"`                   | string | `"fixed"`, `"free"`             | `"free"` | Optional global DOF constraint applied to every node. Useful for keeping the problem one-dimensional in compression.         |
 
 </div>
 
@@ -131,6 +134,7 @@ Per-face kinematic conditions and optional per-DOF fixes. Faces or DOFs that are
 
 Specifies how many soil layers the model contains and, for each layer, the constitutive type and properties.
 
+Example:
 ```json
 "Material": {
     "number of layers": 1,
@@ -146,22 +150,23 @@ Specifies how many soil layers the model contains and, for each layer, the const
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `number of layers` | integer | Number of distinct material layers. Both tutorials use `1`. |
-| `layers` | array of objects | One object per layer; the sub-fields below apply to each entry. |
-| `type` | string | Constitutive model. Both tutorials use `"Elastic"`. |
-| `empirical data` | string | Preset that supplies any empirically-calibrated parameters not listed below. Both tutorials use `"homogeneous elastic"`. |
-| `assigned material properties.E` | number (Pa) | Young's modulus. Tutorial 1: `1000.0`. Tutorial 2: `1.0e6`. |
-| `assigned material properties.nu` | number | Poisson's ratio. Both tutorials use `0.0`. |
-| `assigned material properties.rho` | number (kg/m³) | Density. Tutorial 1: `50.0` (gravity-driven). Omitted in Tutorial 2 (no gravity). |
+| Field                                | Type             | Description                                                                  |
+|--------------------------------------|------------------|------------------------------------------------------------------------------|
+| `"number of layers"`                 | integer          | Number of distinct material layers.                                          |
+| `"layers"`                           | array of objects | One object per layer; the sub-fields below apply to each entry.              |
+| `"type"`                             | string           | Constitutive model.                                                          |
+| `"empirical data"`                   | string           | Preset that supplies any empirically-calibrated parameters not listed below. |
+| `"assigned material properties.E"`   | number (Pa)      | Young's modulus. (Pa)                                                        |
+| `"assigned material properties.nu"`  | number           | Poisson's ratio.                                                             |
+| `"assigned material properties.rho"` | number (kg/m³)   | Density (kg/m$^3$).                                                          |
 
 </div>
 
 ## Rigid body
 
-Optional. Describes the geometry, position and contact parameters of a rigid body in contact with the deformable material. Used by [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md) only.
+Optional. Describes the geometry, position and contact parameters of a rigid body.
 
+Example:
 ```json
 "Rigid body": {
     "geometry": "cube.stl",
@@ -173,12 +178,12 @@ Optional. Describes the geometry, position and contact parameters of a rigid bod
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `geometry` | string | Path to the STL describing the body, relative to the input file. Tutorial 2 uses `"cube.stl"`. |
-| `initial position z` | number (m) | Initial z-position of the rigid body's lower face. |
-| `prescribed displacement z` | number (m) | Total vertical displacement applied over `Solver.number of increments` steps. |
-| `normal penalty factor` | number | Penalty stiffness scaling that enforces non-penetration. Definition and tuning discussed in [Tutorial 2's Background](../TutorialProblems/Tutorial_2.md#background-rigid-body-contact) and the [normal-contact weak form](../TechnicalReferences/StaticWeakFormNormalContact.md). |
+| Field                                                                                       | Type       | Default            | Description                                                                                |
+|---------------------------------------------------------------------------------------------|------------|--------------------|--------------------------------------------------------------------------------------------|
+| `"geometry"`                                                                                | string     |                    | .stl file name, relative to the top-level AMPPSIE folder.                                  |
+| `"initial position min x"`, `"initial position min y"`, `"initial position min z"`          | number (m) | .stl file location | Initial x/y/z-position of the rigid body's lowest point in the $x$, $y$ and $z$ direction. |
+| `"prescribed displacement x"`, `"prescribed displacement y"`, `"prescribed displacement z"` | number (m) |                    | Total vertical displacement applied over `Solver.number of increments` steps.              |
+| `"normal penalty factor"`                                                                   | number     |                    | Penalty stiffness scaling that enforces non-penetration.                                   |
 
 </div>
 
@@ -196,11 +201,11 @@ Selects the solve type, how the loading is applied and the number of load increm
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `solve type` | string | Both tutorials use `"static"`. |
-| `load type` | string | How the load is applied. Tutorial 1: `"force"` (gravity body force). Tutorial 2: `"rigid body displacement"`. |
-| `number of increments` | integer | Number of pseudo-time / load increments. Both tutorials use `20`. |
+| Field                    | Type    | Options                    | Description                              |
+|--------------------------|---------|----------------------------|------------------------------------------|
+| `"solve type"`           | string  | `"static"`                 | Turns on and off interia terms           |
+| `"load type"`            | string  | `"force"`,`"displacement"` | How the load is applied.                 |
+| `"number of increments"` | integer |                            | Number of pseudo-time / load increments. |
 
 </div>
 
@@ -218,10 +223,10 @@ Switches the supported output streams on or off and supplies a stem string used 
 
 <div class="small-table" markdown>
 
-| Field | Type | Description |
-|---|---|---|
-| `vtu data` | string | Set to `"yes"` to write VTU files for visualisation in ParaView / VisIt. |
-| `vtk data` | string | Set to `"yes"` to write VTK files. |
-| `text data` | string | Stem used for tabulated text output. Tutorial 1: `"column validation"`. Tutorial 2: `"contact cube"`. |
+| Field         | Type   | Options                                  | Description                                                                                                                                                                                           |
+|---------------|--------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `"vtu data"`  | string | `"yes"`, `"no"`                          | Set to `"yes"` to write VTU files.                                                                                                                                                                    |
+| `"vtk data"`  | string | `"yes"`, `"no"`                          | Set to `"yes"` to write VTK files.                                                                                                                                                                    |
+| `"text data"` | string | `"contact cube"`, `"self-weight column"` | Stem used for tabulated text output. [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md): `"column validation"`. [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md): `"contact cube"`. |
 
 </div>
