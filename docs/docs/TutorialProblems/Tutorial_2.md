@@ -63,7 +63,7 @@ For this problem the position of the rigid body cube is set up correctly so the 
 
 <div class="grid" markdown>
 
-![Initial uniform mesh for the contact-cube problem, with $0.4$ m elements giving a $2 \times 2 \times 2$ discretisation of the cube.](../../img/example_mesh_ref_GIMPM_contact.png){ #fig-cube-mesh style="width: 100%; height: 30em; object-fit: contain;" }
+![Initial uniform mesh for the contact-cube problem, with 0.4 m elements discretisating the cube.](../../img/example_mesh_ref_GIMPM_contact.png){ #fig-cube-mesh style="width: 100%; height: 30em; object-fit: contain;" }
 
 ![Boundary conditions and rigid-body imposition: the red line marks the 0.2 m compression imposed by the rigid body across 20 load steps.](../../img/example_mesh_ref_GIMP_cube.png){ #fig-cube-bcs style="width: 100%; height: 20em; object-fit: contain;" }
 
