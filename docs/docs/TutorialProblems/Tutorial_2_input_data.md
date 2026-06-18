@@ -8,8 +8,7 @@ The complete reference `input_data.json` for [Tutorial 2](Tutorial_2.md), with e
         "domain size x": 0.8,
         "domain size y": 0.8,
         "domain size z": 0.8,
-        "dx refined": 0.1,
-        "Refinement type": "contact cube"
+        "dx refined": 0.4
     },
 
     "Initial GIMP distribution": {
@@ -40,7 +39,7 @@ The complete reference `input_data.json` for [Tutorial 2](Tutorial_2.md), with e
     },
 
     "Rigid body": {
-        "geometry": "plate",
+        "geometry": "cube.stl",
         "initial position z": 0.8,
         "prescribed displacement z": -0.2,
         "normal penalty factor": 1000
@@ -48,7 +47,7 @@ The complete reference `input_data.json` for [Tutorial 2](Tutorial_2.md), with e
 
     "Solver": {
         "solve type": "static",
-        "load type": "displacement",
+        "load type": "rigid body displacement",
         "number of increments": 20
     },
 

@@ -306,7 +306,7 @@ With the `input_data.json` in the correct place and Julia running with the AMPSS
 ```
 Ampse.run("input_data.json");
 ```
-This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem.
+This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem. 
 
 #### Reading the output
 
@@ -516,7 +516,8 @@ The simulation results appear as the simulation runs, so you do not need to wait
 
 ### Visualising the output in ParaView
 
-The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and any data associated with the GIMPs (stress, strain, material properties, velocity etc.). The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region and colours the GIMPs by displacement. Finally, the numerical stress solution is compared against the analytical.
+The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and any data associated with the GIMPs (stress, strain, material properties, velocity etc.). The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region and colours the GIMPs by displacement. Finally, the numerical stress solution is compared against the analytical. Paraview has using viewing tools which can be used to orientated the view, this is achieved by left-clicking and draging to rotate, and scrolling to zoom.
+
 
 <div class="walkthrough" markdown>
 <div markdown>
@@ -544,6 +545,16 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 ![Both VTU files loaded; the solid grey cube is the full mesh domain.](../../img/screen_shot_3.png){ #fig-paraview-3 width="100%" }
 </div>
 </div>
+
+!!! tip "Navigating the 3D view"
+    Once a dataset is rendered you can move the camera with the mouse inside the *RenderView*:
+
+    - **Left-click and drag** to rotate the view about the focal point.
+    - **Middle-click and drag** (or `Shift`+left-drag) to pan.
+    - **Scroll wheel** (or right-click and drag) to zoom in and out.
+    - Press `R` or use *View → Reset Camera* to reframe the scene if you get lost.
+
+    The screenshots in the following steps were taken from a slightly rotated viewpoint so that the GIMPs at the back of the column are visible; feel free to rotate to whatever angle is most useful for inspecting your own run.
 
 <div class="walkthrough" markdown>
 <div markdown>

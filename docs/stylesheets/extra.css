@@ -1071,3 +1071,15 @@ h1, h2, h3, h4, h5, h6 {
     max-width: none;
   }
 }
+
+/* Compact reference tables on dense field-list pages such as
+   InputFormat.md. Wrap a table in <div class="small-table" markdown>
+   ... </div> to drop cell text to ~0.8x and tighten padding so
+   many keys fit at a glance. */
+.md-typeset .small-table table {
+  font-size: 0.8em;
+}
+.md-typeset .small-table table th,
+.md-typeset .small-table table td {
+  padding: 0.4em 0.6em;
+}

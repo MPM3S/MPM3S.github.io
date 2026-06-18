@@ -20,7 +20,6 @@ AMPSSIE is a Julia package and runs anywhere Julia is supported.
 **Optional:**
 
 - [Git](https://git-scm.com/) for cloning the source repository.
-- [Docker](https://docs.docker.com/get-docker/) if you'd rather not install Julia directly - see [Deploying via Docker](#deploying-via-docker).
 
 # Direct interaction with Julia
 
@@ -55,34 +54,3 @@ julia --project=. [insert here] path/to/input_data.json
 
 Output is written to [insert here]; open the resulting VTU files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and stress fields.
 
-# Deploying via Docker
-
-If you don't want to install Julia or manage package environments yourself, a Docker image bundles AMPSSIE and all its dependencies.
-
-**1. Install Docker.** Follow the official instructions for your platform at [docs.docker.com/get-docker](https://docs.docker.com/get-docker/).
-
-**2. Pull the image.**
-
-```bash
-docker pull [insert here]
-```
-
-**3. Run a problem.** Mount the directory containing your `input_data.json` so the container can read it and write output back to your host:
-
-```bash
-docker run --rm \
-  -v "$(pwd):/work" \
-  [insert here] \
-  /work/input_data.json
-```
-
-Output files appear in the mounted directory once the container exits. As above, open the VTU files in ParaView (or VisIt).
-
-**Building the image yourself.** If you've cloned the repository and want a local build, a `Dockerfile` lives at the project root:
-
-```bash
-docker build -t ampssie:local .
-docker run --rm -v "$(pwd):/work" ampssie:local /work/input_data.json
-```
-
----
