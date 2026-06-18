@@ -21,7 +21,7 @@ This tutorial has three main sections after the introduction:
 This tool introduces you to the Generalised Interpolation Material Point Method (GIMPM), and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
-![The three steps to a GIMPM solution step.](../../img/GIMP_example.png){ #fig-example-GIMPM width="100%" }
+![The three steps to a GIMPM solution step.](../../img/GIMP_example2.png){ #fig-example-GIMPM width="100%" }
 
 - (a) initial state which loads the material point data on the background mesh
 - (b) deforming the mesh and the material points together

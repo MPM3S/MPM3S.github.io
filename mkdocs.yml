@@ -87,6 +87,7 @@ nav:
       - Technical reference:
           - Overview: docs/TechnicalReferences/TechnicalReference.md
           - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
+          - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
       - Understanding the software: docs/Understanding.md
       - Contributors: docs/Contributors.md
   - Coming soon: docs/ComingSoon.md

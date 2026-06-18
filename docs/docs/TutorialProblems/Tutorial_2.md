@@ -6,9 +6,9 @@ hide:
 # Tutorial 2: Compaction via a rigid body
 
 ## Introduction
-This quick start tutorial walks through an AMPSSIE problem with rigid-body contact.
+This quick start tutorial introduces the concept of a rigid body interacting with the material points.
 
-This tutorial analyses a cube compressed by a rigid plate through 25% of its height. It exercises the normal-contact penalty formulation and the hanging-node formulation simultaneously; convergence of the stress error with the penalty factor `pf` validates the implementation. The original contact validation is from [@bird_dynamic_2025]; this tutorial reapplies it to a mesh with hanging nodes.
+This tutorial analyses a cube compressed by a rigid cube through 25% of its height and is used to validate that the contact formulation is correct. This problem has been used to validate our contact formulation [@bird_dynamic_2025] and our adaptive-octree extension [@bird2026implicitoctreebasedadaptivematerial].
 
 This tutorial has three main sections after the introduction:
 
@@ -18,7 +18,11 @@ This tutorial has three main sections after the introduction:
 
 ### Background: rigid-body contact
 
-The GIMPM is introduced in [Tutorial 1](Tutorial_1.md#background-the-gimpm). This tutorial extends it by adding a rigid body: a flat plate is brought into contact with the deformable cube and pushed downward by a prescribed displacement. Contact between the rigid body and the GIMPs is enforced through a penalty method - the normal contact penalty is
+This tutorial extends [Tutorial 1](Tutorial_1.md#background-the-gimpm) for including normal contact, see  [Tutorial 1](../TechnicalReferencesStaticWeakFormNormalContact.md) for the technical explanation.
+
+
+
+ This tutorial extends the forit by adding a rigid body: a flat plate is brought into contact with the deformable cube and pushed downward by a prescribed displacement. Contact between the rigid body and the GIMPs is enforced through a penalty method - the normal contact penalty is
 
 $$
 \epsilon_N = p_f\, E_p\, A_p^0,
@@ -55,7 +59,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 <div class="json-side" markdown>
 
-<div class="js-text" markdown>
+<div class="js-text" markdown>W
 
 ### Mesh data
 
@@ -70,9 +74,7 @@ The mesh matches the $0.8 \times 0.8 \times 0.8$ m cube, with refinement at the 
     "domain size x": 0.8,
     "domain size y": 0.8,
     "domain size z": 0.8,
-    "dx refined": 0.1,
-    "Refinement type": "contact cube"
-}
+    "dx refined": 0.4
 ```
 
 </div>
@@ -174,7 +176,7 @@ A flat rigid plate sits above the cube and is given a prescribed downward displa
 
 ```json
 "Rigid body": {
-    "geometry": "plate",
+    "geometry": "cube.stl",
     "initial position z": 0.8,
     "prescribed displacement z": -0.2,
     "normal penalty factor": 1000
@@ -200,7 +202,7 @@ The rigid-body displacement is ramped on quasi-statically over 20 increments usi
 ```json
 "Solver": {
     "solve type": "static",
-    "load type": "displacement",
+    "load type": "rigid body displacement",
     "number of increments": 20
 }
 ```
