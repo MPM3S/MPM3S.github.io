@@ -160,7 +160,7 @@ Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$)
 
 ### Material
 
-The cube is homogeneous, so a single layer is specified with the Hencky elastic model and the parameters from the Problem summary ($E = 10^6$ Pa, $\nu = 0$).
+The cube is homogeneous, so a single layer is specified with the Hencky elastic model and the parameters from the [Problem summary](#problem-summary) ($E = 10^6$ Pa, $\nu = 0$).
 
 </div>
 
@@ -699,4 +699,4 @@ Each time you run this problem with different parameters a new row will be appen
 
 For these results the simulated stress $\bar{\sigma}_{zz}^{\text{sim}} \approx -3.73 \times 10^{5}$ Pa matches the analytical Hencky-Cauchy value $-3.84 \times 10^{5}$ Pa from the [Problem summary](#problem-summary) to within $\approx 2.8\%$. The contact overlap `final_height - min_rb_pos` $\approx 3.7 \times 10^{-3}$ m ($\approx 0.6\%$ of the cube height) shows that the penalty spring is doing a good job at minimising the overlap between the two bodies.
 
-Raise `normal penalty factor` in the [Rigid body](#rigid-body) JSON block to reduce both of these errors further and observe the additions to the text file.
+Raise `normal penalty factor` in the [Rigid body](#rigid-body) JSON block to reduce both of these errors further and observe the additional rows added to the end of the text file.
