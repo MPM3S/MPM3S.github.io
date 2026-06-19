@@ -301,7 +301,7 @@ If it works correctly the output should resemble the corresponding terminal wind
 
 <div class="js-code" markdown>
 
-<div class="terminal" markdown>
+<div class="terminal terminal-full" markdown>
 
 ```console
 ➜ julia

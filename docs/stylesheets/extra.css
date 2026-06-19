@@ -1008,6 +1008,14 @@ h1, h2, h3, h4, h5, h6 {
   scrollbar-color: rgba(248, 248, 242, 0.25) transparent;
 }
 
+/* Modifier: drop the height cap so the whole session is shown without
+   scrolling. Use on short-but-must-show-in-full terminals (e.g. the
+   one-off Julia setup output that introduces tutorials). */
+.md-typeset .terminal.terminal-full pre {
+  max-height: none;
+  overflow-y: visible;
+}
+
 /* WebKit / Chromium scrollbar styling. */
 .md-typeset .terminal pre::-webkit-scrollbar {
   width: 8px;
