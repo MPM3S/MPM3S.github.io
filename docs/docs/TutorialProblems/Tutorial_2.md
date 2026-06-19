@@ -681,7 +681,7 @@ Additionally, try pressing the `Reset` button, marked by the red circle, to obta
 </div>
 
 
-## Analysing the stress variation with height
+## Analysing the stress in the domain
 
 The option `"text data": "contact cube"` in [Output data](#output-data) writes a one-row summary `cube_summary.csv` to `MaterialPoints/src/output`. Its columns are the penalty factor, the final cube height, the GIMP-averaged vertical Cauchy stress and the final $z$-position of the rigid body's lower face:
 
