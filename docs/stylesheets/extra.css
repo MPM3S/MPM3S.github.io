@@ -922,15 +922,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
-   Walkthrough rows: small text block on the left (~1/4), large
-   picture on the right (~3/4). Used for screenshot-driven
-   step-by-step guides such as the ParaView walkthrough.
+   Walkthrough rows: single column with the text block above and
+   the screenshot below. Used for screenshot-driven step-by-step
+   guides such as the ParaView walkthrough.
    ============================================================ */
 .md-typeset .walkthrough {
   display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 1.5rem;
-  align-items: center;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
   margin: 1.5rem 0;
 }
 
@@ -940,12 +939,6 @@ h1, h2, h3, h4, h5, h6 {
 .md-typeset .walkthrough img {
   width: 100%;
   height: auto;
-}
-
-@media (max-width: 76.25em) {
-  .md-typeset .walkthrough {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ============================================================
@@ -1090,4 +1083,15 @@ h1, h2, h3, h4, h5, h6 {
 .md-typeset .small-table table th,
 .md-typeset .small-table table td {
   padding: 0.4em 0.6em;
+}
+
+/* Underline body-content links so they read as obvious affordances.
+   Scoped to `.md-typeset` (the article column) so the header tabs,
+   sidebar nav and footer keep their unobtrusive default styling. */
+.md-typeset a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.md-typeset a:hover {
+  text-decoration-thickness: 2px;
 }

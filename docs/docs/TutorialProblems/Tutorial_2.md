@@ -1,8 +1,3 @@
----
-hide:
-  - toc
----
-
 # Tutorial 2: Compaction via a rigid body
 
 ## Introduction

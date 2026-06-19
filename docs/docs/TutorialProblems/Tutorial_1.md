@@ -1,8 +1,3 @@
----
-hide:
-  - toc
----
-
 # Tutorial 1: Self-weight column
 
 ## Introduction
