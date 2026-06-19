@@ -511,7 +511,7 @@ The simulation results appear as the simulation runs, so you do not need to wait
 
 ### Visualising the output in ParaView
 
-The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and any data associated with the GIMPs (stress, strain, material properties, velocity etc.). The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region and colours the GIMPs by displacement. Finally, the numerical stress solution is compared against the analytical. Paraview has using viewing tools which can be used to orientated the view, this is achieved by left-clicking and draging to rotate, and scrolling to zoom.
+The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and any data associated with the GIMPs (stress, strain, material properties, velocity etc.). The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region and colours the GIMPs by displacement. Finally, the numerical stress solution is compared against the analytical. Paraview has tools to change the view orientation, this is achieved by left-clicking and dragging to rotate, and scrolling zooms in and out.
 
 
 <div class="walkthrough" markdown>
