@@ -54,7 +54,7 @@ If everything succeeds the REPL prints the package versions being resolved, the 
 **4. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md) or [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md)) into the `MaterialPoints` directory and call the AMPSSIE entry point from the same Julia REPL:
 
 ```julia-repl
-julia> Ampse.run("input_data.json");
+julia> AMPSSIE.run("input_data.json");
 ```
 
 This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files to `MaterialPoints/src/output`. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.

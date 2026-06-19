@@ -340,7 +340,7 @@ free memory 15.593147277832031GB
 
 With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point.
 ```
-Ampse.run("input_data.json");
+AMPSSIE.run("input_data.json");
 ```
 This reads `input_data.json` from the current directory, steps through the 20 load increments under the prescribed rigid-body displacement, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem.
 
@@ -372,7 +372,7 @@ When all 20 increments are finished the simulation prints `Simulation complete!`
 <div class="terminal" markdown>
 
 ```console
-julia> Ampse.run("input_data.json");
+julia> AMPSSIE.run("input_data.json");
 
 Making rbdata
 ...
