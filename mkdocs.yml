@@ -49,6 +49,9 @@ theme:
     - content.tooltips
     - navigation.tabs
     - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
     
 # Navigation
 nav:
@@ -63,7 +66,7 @@ nav:
       - Getting Started:
           - Overview: docs/GettingStarted/GettingStarted.md
           - Installation: docs/GettingStarted/Installation.md
-      - Tutorial problems:
+      - 📖 Tutorial problems:
           - Overview: docs/TutorialProblems/TutorialProblems.md
           - Static:
               - Self-weight column: docs/TutorialProblems/Tutorial_1.md
@@ -80,11 +83,11 @@ nav:
               # - Plough: docs/TutorialProblems/Tutorial_4_input_data.md
               # - Rolling sphere: docs/TutorialProblems/Tutorial_5_input_data.md
               # - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
-      - Using the software: 
+      - 📖 Using the software:
           - Input format: docs/UsingTheSoftware/InputFormat.md
           - Deploying the software: docs/UsingTheSoftware/DeployingTheSoftware.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
-      - Technical reference:
+      - 📖 Technical reference:
           - Overview: docs/TechnicalReferences/TechnicalReference.md
           - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
           - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md

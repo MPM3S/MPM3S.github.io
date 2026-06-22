@@ -13,7 +13,7 @@ This tutorial has three main sections after the introduction:
 
 ### Background: the GIMPM
 
-This problem introduces you to the Generalised Interpolation Material Point Method (GIMPM), and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements.
+This problem introduces you to the AMMPSIE code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
 ![The three steps to a GIMPM solution step.](../../img/GIMP_example2.png){ #fig-example-GIMPM width="70%" }
@@ -299,7 +299,7 @@ free memory  17.81 GB
 
 With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point.
 ```
-AMPSSIE.run("input_data.json");
+Ampse.run("input_data.json");
 ```
 This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem. 
 
@@ -323,7 +323,7 @@ When all 20 increments are finished the simulation prints `Simulation complete!`
 <div class="terminal" markdown>
 
 ```console
-julia> AMPSSIE.run("input_data.json");
+julia> Ampse.run("input_data.json");
 
 time 0.00000e+00 ----------------------------------
 number of isolated material points: 0
