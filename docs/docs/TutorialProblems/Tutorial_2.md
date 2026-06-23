@@ -664,7 +664,7 @@ Additionally, try pressing the `Reset` button, marked by the red circle, to obta
 
 <div class="walkthrough" markdown>
 <div markdown>
-**8. Inspect the final deformed configuration.** Rotate the view to confirm the bands are flat and the colour is uniform across each $0.4$ m mesh layer - this is the visual signature of the uniform vertical stress field predicted by the analytical Hencky solution in the [Problem summary](#problem-summary). 
+**8. Inspect the final stress distribution.** In the _Pipeline Browser_ click on mpDataV21102.vtu, go into _properties_ and under _coloring_ select _stress_ and _magnitude_ to show the stress distribution for the final plot. To scale the colours click _Rescale to Data Ranage_. Last rotate the view to confirm the bands are flat and the colour is uniform across each $0.4$ m mesh layer - this is the visual signature of the uniform vertical stress field predicted by the analytical Hencky solution in the [Problem summary](#problem-summary). 
 </div>
 <div markdown>
 ![Final deformed cube with the displacement bands aligned with the uniform mesh layers.](../../img/compress_10.png){ #fig-compress-10 width="100%" }
