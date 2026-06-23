@@ -43,7 +43,7 @@ After the spring has been activated the GIMPs and the mesh deform due to the con
 
 ### Problem summary
 
-The aim is to introduce the set-up and modelling of soil-structure interaction problems. The problem is a deformable cube compressed by a rigid cube; although simple, it is essential as it validates the contact formulation by confirming that the contact overlap stays small and the resulting vertical stress field is uniform throughout the cube and matches the analytical Hencky solution
+The aim is to introduce the set-up and modelling of soil-structure interaction problems. The problem is a deformable cube compressed by a rigid cube; although simple, it is essential as it validates the contact formulation by confirming that the contact overlap stays small and the resulting vertical stress field is uniform throughout the cube and matches the analytical Hencky solution for the Cauchy stress in the vertical direction
 
 $$
 \sigma_{zz} = E \ln\!\left(\frac{L}{L_0}\right) \frac{L_0}{L} = \frac{10^6}{0.75} \ln(0.75) \approx -3.84 \times 10^5 \text{ Pa},
@@ -599,7 +599,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 
 <div class="walkthrough" markdown>
 <div markdown>
-**1. Open ParaView.** Launch ParaView from your applications menu or terminal. You should see an empty render view with the orientation triad in the bottom-left corner.
+**1. Open ParaView.** Launch ParaView from your applications menu or terminal. You should see an empty render view with the orientation axis in the bottom-left corner.
 </div>
 <div markdown>
 ![ParaView on launch - empty render view.](../../img/compress_1.png){ #fig-compress-1 width="100%" }
