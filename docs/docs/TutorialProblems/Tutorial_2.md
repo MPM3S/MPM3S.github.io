@@ -184,7 +184,7 @@ The cube is homogeneous, so a single layer is specified with the Hencky elastic 
 
 ### Rigid body
 
-The rigid body geometry is loaded from `cube.stl` and it is automatically placed with its lower face at the top of the deformable cube. It is then given a prescribed downward displacement of $\Delta z = -0.2$ m, applied uniformly over the 20 load increments. The `normal penalty factor` `pf` is set to $1000$, the value identified in the [Background](#background-rigid-body-contact) as giving a stress error of around $3\%$ for this stiff problem.
+The rigid body geometry is loaded from `cube.stl` and it is automatically placed with its lower face at the top of the deformable cube. It is then given a prescribed downward displacement of $\Delta z = -0.2$ m, applied uniformly over the 20 load increments. The `normal penalty factor` `pf` is set to $1000$, the value identified in the [Results](#analysing-the-stress-in-the-domain) as giving a stress error of around $3\%$ for this stiff problem.
 
 </div>
 
