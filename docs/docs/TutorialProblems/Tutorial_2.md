@@ -658,7 +658,7 @@ Additionally, try pressing the `Reset` button, marked by the red circle, to obta
 **7. Advance to the final step and hide the rigid body.** Click the *Go to Last* button (`▶|`) in the time toolbar to jump to load increment 19, then click *Rescale to Data Range* in the colour-bar toolbar so the scale matches the deformed configuration. The rigid cube has now driven $0.2$ m into the top of the deformable cube. Next click the eye icon next to `rbData..vtk` in the Pipeline Browser to toggle the rigid body off. The deformable cube is now visible on its own, with the displacement banding running from the (compressed) top face down to the (fixed) base.
 </div>
 <div markdown>
-![Final step with the rigid cube compressed into the deformable cube, the displacement field rescaled and the rigid body hiden.](../../img/compress_8.png){ #fig-compress-8 width="100%" }
+![Final step with the rigid cube compressed into the deformable cube, the displacement field rescaled and the rigid body hidden.](../../img/compress_8.png){ #fig-compress-8 width="100%" }
 </div>
 </div>
 
