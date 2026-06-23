@@ -25,7 +25,7 @@ $$
 \epsilon_N = p_f\, E_p\, A_p^0,
 $$
 
-where $E_p$ is the Young's modulus of the GIMP in contact, $A_p^0 = (V_p^0)^{2/3}$ is a representation of the contact area with $V_p^0$ the initial GIMP volume, and $p_f$ is the penalty factor. The penalty factor controls how stiffly the contact constraint is enforced; for this stiff problem $p_f = 1000$ gives a stress error of around $3\%$ (see [Analysing the stress variation with height](#analysing-the-stress-variation-with-height)) and is used throughout this tutorial. For less constrained problems $p_f = 50$ is typically sufficient.
+where $E_p$ is the Young's modulus of the GIMP in contact, $A_p^0 = (V_p^0)^{2/3}$ is a representation of the contact area with $V_p^0$ the initial GIMP volume, and $p_f$ is the penalty factor. The penalty factor controls how stiffly the contact constraint is enforced; for this stiff problem $p_f = 1000$ gives a stress error of around $3\%$ (see [Analysing the stress in the domain](#analysing-the-stress-in-the-domain)) and is used throughout this tutorial. For less constrained problems $p_f = 50$ is typically sufficient.
 
 After the spring has been activated the GIMPs and the mesh deform due to the contact forces created by the springs, (b) deformed state, and once convergence is obtained the mesh is reset, (c) mesh reset.
 
