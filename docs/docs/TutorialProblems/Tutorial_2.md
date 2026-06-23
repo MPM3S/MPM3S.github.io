@@ -655,25 +655,16 @@ Additionally, try pressing the `Reset` button, marked by the red circle, to obta
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Advance to the final step.** Click the *Go to Last* button (`▶|`) in the time toolbar to jump to load increment 19, then click *Rescale to Data Range* in the colour-bar toolbar so the scale matches the deformed configuration. The rigid cube has now driven $0.2$ m into the top of the deformable cube.
+**7. Advance to the final step and hide the rigid body.** Click the *Go to Last* button (`▶|`) in the time toolbar to jump to load increment 19, then click *Rescale to Data Range* in the colour-bar toolbar so the scale matches the deformed configuration. The rigid cube has now driven $0.2$ m into the top of the deformable cube. Next click the eye icon next to `rbData..vtk` in the Pipeline Browser to toggle the rigid body off. The deformable cube is now visible on its own, with the displacement banding running from the (compressed) top face down to the (fixed) base.
 </div>
 <div markdown>
-![Final step with the rigid cube compressed into the deformable cube and the displacement field rescaled.](../../img/compress_8.png){ #fig-compress-8 width="100%" }
+![Final step with the rigid cube compressed into the deformable cube, the displacement field rescaled and the rigid body hiden.](../../img/compress_8.png){ #fig-compress-8 width="100%" }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**8. Hide the rigid body.** Click the eye icon next to `rbData..vtk` in the Pipeline Browser to toggle the rigid body off. The deformable cube is now visible on its own, with the displacement banding running from the (compressed) top face down to the (fixed) base.
-</div>
-<div markdown>
-![Deformable cube alone after hiding the rigid body, showing the banded displacement field.](../../img/compress_9.png){ #fig-compress-9 width="100%" }
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**9. Inspect the final deformed configuration.** Rotate the view to confirm the bands are flat and the colour is uniform across each $0.4$ m mesh layer - this is the visual signature of the uniform vertical stress field predicted by the analytical Hencky solution in the [Problem summary](#problem-summary). Any visible "warping" of the bands would indicate too low a `normal penalty factor` (see [Analysing the stress variation with height](#analysing-the-stress-variation-with-height)).
+**8. Inspect the final deformed configuration.** Rotate the view to confirm the bands are flat and the colour is uniform across each $0.4$ m mesh layer - this is the visual signature of the uniform vertical stress field predicted by the analytical Hencky solution in the [Problem summary](#problem-summary). 
 </div>
 <div markdown>
 ![Final deformed cube with the displacement bands aligned with the uniform mesh layers.](../../img/compress_10.png){ #fig-compress-10 width="100%" }
