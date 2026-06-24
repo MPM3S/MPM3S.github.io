@@ -12,8 +12,8 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 
 ## What are the main features of the software?
 
-- single phase deformable solid material considering large deformation mechanics and elastoc-plastic material behaviour
+- single phase deformable solid material considering large deformation mechanics and elasto-plastic material behaviour
 - coupled deformable solid material-rigid body interactions
 - quasi-static and dynamic implcit solvers
-- automatic mesh generation and evolution with user control on minimum and maximum element sizes
+- automatic mesh generation and evolution with minimal required user intervention
 - written in native [Julia](https://julialang.org/) with [Docker](https://www.docker.com/) containers for easy deployment
