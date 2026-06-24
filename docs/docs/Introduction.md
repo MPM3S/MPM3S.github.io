@@ -16,4 +16,4 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 - coupled deformable solid material-rigid body interactions
 - quasi-static and dynamic implcit solvers
 - automatic mesh generation and evolution with user control on minimum and maximum element sizes
-- written in native [https://julialang.org/](Julia) with [https://www.docker.com/](Docker) containers for easy deployment
+- written in native [Julia](https://julialang.org/) with [Docker](https://www.docker.com/) containers for easy deployment
