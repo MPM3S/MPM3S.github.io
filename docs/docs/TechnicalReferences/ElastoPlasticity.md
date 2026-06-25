@@ -57,7 +57,7 @@ The primary unknowns for the stress update procedure are the updated elastic log
 The residual equations for this implicit stress update procedure are
 
 **Strain balance**
-$$\{\varepsilon^{\text{e}}_{n+1}\}-\{\varepsilon^{\text{e}}_{tr}\}+\Delta \gamma \{\partial g/\partial \tau\} = \{0\}$$
+$$\{\varepsilon^{\text{e}}_{n+1}\}-\{\varepsilon^{\text{e}}_{tr}\}+\Delta \gamma \left\{\frac{\partial g}{\partial \tau}\right\} = \{0\}$$
 
 **Yield function**
 $$f = 0$$
