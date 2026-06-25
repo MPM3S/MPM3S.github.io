@@ -19,5 +19,5 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 - automatic mesh generation and evolution with minimal required user intervention
 - written in native [Julia](https://julialang.org/) with [Docker](https://www.docker.com/) containers for easy deployment
 - unit and validation tests to check correctness and provide user confidence
-- JSON (JavaScript Object Notation) and STL input file formats
+- JSON ([JavaScript Object Notation](https://www.json.org/json-en.html)) and STL (unstructured triangulated surface rigid body representation) input file formats
 - flexible CSV (Comma-Separated Values), VTK (Visualization Toolkit) and VTU (VTK-like, XML-based file supporting compression and parallel processing) output file formats
