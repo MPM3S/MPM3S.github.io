@@ -5,14 +5,14 @@
 
 ## Overview
 
-- Material Point Method algorithm steps
+  - Material Point Method algorithm steps
 
 ## Large deformation formulation
 
   - Kinematics
   - Stress and strain measures
-  - [Static strong and weak forms](StaticWeakForm.md)
-  - [Static weak form with contact](StaticWeakFormNormalContact.md)
+  - [Quasi-static strong and weak forms](StaticWeakForm.md)
+  - [Quasi-static form with contact](StaticWeakFormNormalContact.md)
   - Dynamic strong and weak forms
 
 ## Meshing
@@ -50,6 +50,7 @@
 
   - Faceted rigid body representation
   - Rigid body kinematics
+  - Rigid body constraints
 
 ## Coupled soil-structure interaction
 
