@@ -26,3 +26,4 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 
 - problems that could easily be solved with conventional finite element methods
 - small strain solid mechanics problems
+- analysis of the stresses/deformations structure interacting with the deformable material 
