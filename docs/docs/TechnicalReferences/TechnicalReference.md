@@ -5,7 +5,7 @@
 
 ## Overview
 
-  - [Material Point Method algorithm steps](Overview.md)
+  - [Material Point Method ingredients and steps](Overview.md)
 
 ## Large deformation formulation
 
