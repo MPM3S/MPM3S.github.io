@@ -3,6 +3,7 @@
 The linear elastic constitutive formulation in AMPSSIE assumes an isotropic Hencky material with a linear relationship between elastic logarithmic strains, $\{\varepsilon^\text{e}\}$, and Kirchhoff stress, $\{\tau\}$.
 
 The stresses and strains are defined in Vogt notation with, using $\{\tau\}$ as an example, the following ordering of the components
+
 $$\{\tau\} = \{\begin{array}{cccccc}
     \tau_{xx} & \tau_{yy} & \tau_{zz} & \tau_{xy} & \tau_{yz} & \tau_{zx}
   \end{array}\}^T$$
