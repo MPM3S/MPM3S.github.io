@@ -9,7 +9,7 @@ AMPSSIE has its origins in AMPLE ([A Material Point Learning Environment](https:
 
 ## What is the Material Point Method?
 
-The Material Point Method (MPM) is a computational technique for modelling solid mechanics problems (not just soil-structure interaction) with close links to the Finite Element Method. The advantage of the MPM over many other methods is its ability to return solutions for problems involving very large deformations. 
+The Material Point Method (MPM) is a computational technique for modelling solid mechanics problems (not just soil-structure interaction) with close links to the Finite Element Method. The advantage of the MPM over many other methods is its ability to return solutions for problems involving very large deformations. A detailed explanation of the MPM is provided [here](https://ampssie.github.io/docs/TechnicalReferences/TechnicalReference/).
 
 ## What are the main features of the software?
 
