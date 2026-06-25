@@ -21,3 +21,8 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 - unit and validation tests to check correctness and provide user confidence
 - JSON ([JavaScript Object Notation](https://www.json.org/json-en.html)) and STL (unstructured triangulated surface rigid body representation) input file formats
 - flexible CSV (Comma-Separated Values), VTK (Visualization Toolkit) and VTU (VTK-like, XML-based file supporting compression and parallel processing) output file formats
+
+## What is the software not for?
+
+- problems that could easily be solved with conventional finite element methods
+- small strain solid mechanics problems
