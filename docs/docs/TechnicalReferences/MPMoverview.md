@@ -8,6 +8,8 @@ In material point methods the physical domain is discretised by a number of mate
 
 ## Background mesh
 
+The material point method requires a finite element-like background mesh that covers the full extent of the physical material being analysed, that is, the full extent of the material points in the analysis. It is on this background mesh that the governing equations of the problem being analysed are assembled and solved, before the information is mapped back to the material points. AMPSSIE uses an octree background mesh. 
+
 ## Boundary conditions
 
 As with other numerical methods that decouple the physical boundaries of the analysis domain with the computational mesh, boundary conditions are one of the more challenging aspects of the material point method.

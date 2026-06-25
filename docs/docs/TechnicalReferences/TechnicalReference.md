@@ -5,7 +5,7 @@
 
 ## Overview
 
-  - [Material Point Method ingredients and steps](Overview.md)
+  - [Material Point Method ingredients and steps](MPMoverview.md)
 
 ## Large deformation formulation
 
@@ -30,8 +30,8 @@
 ## Material models
 
   - [Overview](ConstitutiveModels.md) 
-  - Elasticity
-  - Elasto-plasticity
+  - [Isotropic linear elasticity](LinearElasticity.md)
+  - [Isotropic elasto-plasticity](ElastoPlasticity.md)
 
 ## Body forces
 
