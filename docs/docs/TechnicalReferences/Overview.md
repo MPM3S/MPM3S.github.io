@@ -17,6 +17,7 @@ In implicit material point formulations **displacement boundary conditions** mus
 ## External loads/actions
 
 Two types of **external loads** are included within AMPSSIE:
+
 - body forces, such as gravitational loads, that are controlled by the mass at each material point and the imposed gravitational load; and
 - point forces that are held at material points.
 
