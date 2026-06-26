@@ -110,13 +110,13 @@ The flow direction, $\left\{\frac{\partial g}{\partial \sigma} \right\}$, depend
 
 **Unknowns**: The primary unknowns, $\{x\}$, for the stress update procedure are taken to be the updated elastic logarithmic strains, $\{\varepsilon^{\text{e}}_{n+1}\}$, and the increment in the plastic consistency parameter, $\Delta \gamma$. 
 
-**Residuals**: The residual equations, $\{R\}$ associated with the unknowns are 
+**Residuals**: The residual equations, $\{R\}$ associated with the unknowns are: 
 
 - **Strain balance**: balance between elastic and plastic strains at the updated strain state
 
 $$\{\varepsilon^{\text{e}}_{n+1}\}-\{\varepsilon^{\text{e}}_{tr}\}+\Delta \gamma \left\{\frac{\partial g}{\partial \tau}\right\} = \{0\}$$
 
-- **Yield function**: the stress state must be in an admissible state with 
+- **Yield function**: the updated stress state must be in an admissible state with 
 
 $$f = 0$$
 
