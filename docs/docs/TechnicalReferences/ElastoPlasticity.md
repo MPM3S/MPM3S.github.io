@@ -4,7 +4,7 @@ The elasto-plastic constitutive formulation assumes an isotropic Hencky material
 
 ## Linear isotropic elasticity
 
-The elastic behaviour of the material is detailed [here](LinearElasticity.md).
+The elastic behaviour of the material is the same as that detailed [here](LinearElasticity.md).
 
 ## Pressure insensitive yield surfaces
 
