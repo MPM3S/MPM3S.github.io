@@ -1,6 +1,6 @@
 # Isotropic linear elasticity
 
-The linear elastic constitutive formulation in AMPSSIE assumes an isotropic Hencky material with a linear relationship between elastic logarithmic strains, $\{\varepsilon^\text{e}\}$, and Kirchhoff stress, $\{\tau\}$.
+The linear elastic constitutive formulation in the code assumes an isotropic Hencky material with a linear relationship between elastic logarithmic strains, $\{\varepsilon^\text{e}\}$, and Kirchhoff stress, $\{\tau\}$.
 
 The stresses and strains are defined in Vogt notation with, using $\{\tau\}$ as an example, the following ordering of the components
 

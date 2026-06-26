@@ -69,5 +69,3 @@
   - Material point updating
   - Rigid body update
   - Background mesh update/reset
-
-- Etc.
