@@ -112,17 +112,21 @@ The flow direction, $\left\{\frac{\partial g}{\partial \sigma} \right\}$, depend
 
 **Residuals**: The residual equations, $\{R\}$ associated with the unknowns are 
 
-**Strain balance**\
+**Strain balance**
+
 $$\{\varepsilon^{\text{e}}_{n+1}\}-\{\varepsilon^{\text{e}}_{tr}\}+\Delta \gamma \left\{\frac{\partial g}{\partial \tau}\right\} = \{0\}$$
 
-**Yield function**\
+**Yield function**
+
 $$f = 0$$
 
 **Solution procedure**: The unknowns are obtained from the residual equations through a fully implicit backward Euler stress update procedure that applies Newton's method (aka Newton-Raphson) to obtain the updated elastic strain state and the increment in the plastic consistency parameter given an initial estimate.  The solution is updated using
 
 $$ \{x\}_{k+1} = \{x\}_{k} - \left[ \frac{\partial R}{\partial x} \right]_k^{-1}\{R\}_k $$
 
-where $k$ is the iteration counter, until the L2 norm of the residual equations, $\{R\}$, drop below a given tolerance[^1]. In this case the residual equation is
+where $k$ is the iteration counter, until the L2 norm of the residual equations, $\{R\}$, drop below a given tolerance[^1]. 
+
+In the case of perfect plasticity the residual equation is
 
 $$ \{R\} = \left\{\begin{array}{c} 
 \{\varepsilon^{\text{e}}_{n+1}\}-\{\varepsilon^{\text{e}}_{tr}\}+\Delta \gamma \left\{\frac{\partial g}{\partial \tau}\right\}\\
