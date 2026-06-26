@@ -112,11 +112,11 @@ The flow direction, $\left\{\frac{\partial g}{\partial \sigma} \right\}$, depend
 
 **Residuals**: The residual equations, $\{R\}$ associated with the unknowns are 
 
-**Strain balance**
+- **Strain balance**: balance between elastic and plastic strains at the updated strain state
 
 $$\{\varepsilon^{\text{e}}_{n+1}\}-\{\varepsilon^{\text{e}}_{tr}\}+\Delta \gamma \left\{\frac{\partial g}{\partial \tau}\right\} = \{0\}$$
 
-**Yield function**
+- **Yield function**: the stress state must be in an admissible state with 
 
 $$f = 0$$
 
