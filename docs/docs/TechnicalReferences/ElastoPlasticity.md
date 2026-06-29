@@ -15,7 +15,7 @@ $$f= \varrho - \varrho_y = 0$$
 where $\varrho=\sqrt{2J_2}$, $J_2=\frac{1}{2}\text{tr}([s][s])$, $[s]=[\tau]-\frac{\xi}{\sqrt{3}}[I]$ and $\varrho_y$ is the deviatoric shear strength of the material. 
 
 
-![von Mises yiled surface in principal stress space](../../img/vonMIses.png)
+![von Mises yiled surface in principal stress space](../../img/vonMises.png)
 
 ### Plastic flow direction
 
