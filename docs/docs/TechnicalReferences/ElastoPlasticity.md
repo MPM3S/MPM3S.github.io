@@ -60,6 +60,8 @@ $$\bar{\varrho}_e = \frac{3-\sin(\phi)}{3+\sin(\phi)}$$
 and does not introduce an additional constitutive parameter. 
 
 
+![Frictional yield surface with a Willam-Warnke deviatoric section in principal stress space](../../img/WWcone.png)
+
 ### Plastic flow direction
 
 Non-associated flow is included by the specification of an independent plastic potential surface
