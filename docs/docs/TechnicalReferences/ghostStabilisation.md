@@ -11,10 +11,10 @@ For implicit MPM formulations using generalised interpolation basis functions, t
 
 A central requirement of ghost stabilisation is determining which element faces lie on or near the physical boundary of the body. Unlike unfitted finite element methods, most Material Point Method simulations do not explicitly track the geometry of the physical domain. As a result, we need a robust way to identify these boundary faces without reconstructing or tracking the boundary itself.
 
-The process consists of two steps:
+The process consists of two steps (shown graphically in Figure 1):
 
 - Boundary element detection: first boundary elements are identified as the elements that share a face with any unpopulated element.
-- Boundary face extraction: yhe relevant faces are then defined as those belonging to boundary elements that border either: another boundary element; or an element populated by material points.
+- Boundary face extraction: relevant faces are then defined as those belonging to boundary elements that border either: another boundary element; or an element populated by material points.
 
 These faces are stabilised. Each of the faces will connect two elements, one of which is labelled as the *positive* element, $K^+$, and the other the *negative* element, $K^-$. The labelling is arbitrary and flipping positive/negative elements has no impact of the stabilisation. 
 
@@ -30,9 +30,10 @@ $$
 	j(u_i,w_i) = \frac{h^{3}}{3} \int_{\Gamma} \left( \frac{\partial u^+_i}{\partial x_j}n_j- \frac{\partial u^-_i}{\partial x_j}n_j\right) \left( \frac{\partial w^+_i}{\partial x_j}n_j- \frac{\partial w^-_i}{\partial x_j}n_j\right) d\Gamma,
 $$
 
-where $h$ is the background mesh grid size, $u_i$ is the displacement solution, $x_j$ are the Cartesian coordinates, $n_j$ is the outward normal to the face of the positive element and $\Gamma$ are the boundary element faces that require stabilisation.  
+where $h$ is the background mesh grid size, $u_i$ and $w_i$ are the test and trial functions, $x_j$ are the Cartesian coordinates, $n_j$ is the outward normal to the face of the positive element (see Figure 2) and $\Gamma$ are the boundary element faces that require stabilisation.  
 
 ![Boundary stabilisation normal and positive/negative elements](../../img/MPMboundariesStab.png)
+
 
 Introducing the finite element approximation space for the test and trial functions and eliminating the nodal values associated with the test function (full derivation given in Coombs (2023)) results in a matrix comprised of four sub components multiplied by the physical displacements of the positive, $\{d^+\}$, and negative, $\{d^-\}$, elements 
 
@@ -77,4 +78,24 @@ $$
         {N_1^+}_{,z}    & 0             & {N_1^+}_{,x} & \ldots & {N_n^+}_{,z}    & 0             & {N_n^+}_{,x}\\
     \end{array}\right].
 $$
+
+where $N_i$ are the basis functions of the background finite element mesh and $n$ is the number of nodes associated with the positive element. 
+
+### Quasi-static analysis: Stiffness stabilisation
+
+For quasi-static analysis, ghost stabilisation acts as a penalty approach that modifies the weak form of the equilibrium equation to 
+
+$$
+\int_{\varphi_t(K)}[\nabla_x S_{vp}]^{T}\{\sigma_p\} \text{d}V - \int_{\varphi_t(K)}[S_{vp}]^{T}\{b\} \text{d}V  + \beta \int_{\Gamma} [G]^T[n]\{g\}  d\Gamma= \{0\},
+$$
+
+where $\{g\}=[n]^T[G]\{d\}$ is the jump in the displacement over a boundary element edge, $\beta = \gamma_k h^3/2$ and $\gamma_k$ is a penalty parameter that controls the magnitude of the ghost stabilisation. 
+
+Linearising the ghost stabilisation term in the weak equilibrium equation with respect to the unknown displacements of the background mesh results in a stiffness stabilisation term with the following form
+
+$$
+{[K_G]} = \frac{\gamma_k h^3}{3}  \int_{\Gamma} \Bigl([G]^T[m][G]\Bigr) d\Gamma = \gamma_k {[J_G]}
+$$
+
+### Mass stabilisation 
 
