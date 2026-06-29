@@ -14,6 +14,9 @@ $$f= \varrho - \varrho_y = 0$$
 
 where $\varrho=\sqrt{2J_2}$, $J_2=\frac{1}{2}\text{tr}([s][s])$, $[s]=[\tau]-\frac{\xi}{\sqrt{3}}[I]$ and $\varrho_y$ is the deviatoric shear strength of the material. 
 
+
+![von Mises yiled surface in principal stress space](../../img/vonMIses.png)
+
 ### Plastic flow direction
 
 Associated plastic flow is assumed for pressure insensitive, where the plastic potential surface, $g=0$, is equal to the yield surface and the plastic strains evolve according to
