@@ -1,6 +1,3 @@
-
----
-
 # Material point method in detail
 
 ## Overview
