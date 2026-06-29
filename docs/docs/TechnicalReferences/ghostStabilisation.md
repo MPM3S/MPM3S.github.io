@@ -6,12 +6,26 @@ For implicit MPM formulations using generalised interpolation basis functions, t
 
 ## Small cut instability
 
+Without stabilisation the material point method has the potential to be highly unstable. This is because the nature of the linear system of equations being solved is highly dependent on the positioning of material points relative to the background grid. There is the potential for very small values of mass/stiffness to be generated at background grid degrees of freedom if small overlaps are generated between the physical body (i.e. the material points) and the background grid. This can result in large spurious incremental displacements/velocities/accelerations being generated at the boundary of the physical body, which have the potential to lead to failure of the numerical solver within a time step. An example of this is shown below for a quasi-static elasto-plastic collapse problem, where at a given time step the original, non-stabilised, Generalised Interpolation Material Point Method (GIMPM) predicts very large spurious incremental nodal displacements, which are removed with stabilisation.  
+
+![Boundary stabilisation normal and positive/negative elements](../../img/ghostCollapseVectors.png)
+
+To explore this issue in more detail, consider the simpler problem shown in Figure 2, which a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution.  
+
+
+![Boundary stabilisation normal and positive/negative elements](../../img/ghostTestProblemSetup.png)
+
+Figure 3 provides the condition numbers of unstabilised consistent mass, lumped mass and stiffness matrices for the standard material point method and the GIMPM. 
+
+![Boundary stabilisation normal and positive/negative elements](../../img/ghostTestProblemCond.png)
+
+
 
 ## Boundary identification
 
 A central requirement of ghost stabilisation is determining which element faces lie on or near the physical boundary of the body. Unlike unfitted finite element methods, most Material Point Method simulations do not explicitly track the geometry of the physical domain. As a result, we need a robust way to identify these boundary faces without reconstructing or tracking the boundary itself.
 
-The process consists of two steps (shown graphically in Figure 1):
+The process consists of two steps (shown graphically in Figure 4):
 
 - Boundary element detection: first boundary elements are identified as the elements that share a face with any unpopulated element.
 - Boundary face extraction: relevant faces are then defined as those belonging to boundary elements that border either: another boundary element; or an element populated by material points.
@@ -30,7 +44,7 @@ $$
 	j(u_i,w_i) = \frac{h^{3}}{3} \int_{\Gamma} \left( \frac{\partial u^+_i}{\partial x_j}n_j- \frac{\partial u^-_i}{\partial x_j}n_j\right) \left( \frac{\partial w^+_i}{\partial x_j}n_j- \frac{\partial w^-_i}{\partial x_j}n_j\right) d\Gamma,
 $$
 
-where $h$ is the background mesh grid size, $u_i$ and $w_i$ are the test and trial functions, $x_j$ are the Cartesian coordinates, $n_j$ is the outward normal to the face of the positive element (see Figure 2) and $\Gamma$ are the boundary element faces that require stabilisation.  
+where $h$ is the background mesh grid size, $u_i$ and $w_i$ are the test and trial functions, $x_j$ are the Cartesian coordinates, $n_j$ is the outward normal to the face of the positive element (see Figure 5) and $\Gamma$ are the boundary element faces that require stabilisation.  
 
 ![Boundary stabilisation normal and positive/negative elements](../../img/MPMboundariesStab.png)
 
@@ -81,7 +95,7 @@ $$
 
 where $N_i$ are the basis functions of the background finite element mesh and $n$ is the number of nodes associated with the positive element. 
 
-### Quasi-static analysis: Stiffness stabilisation
+### Stiffness stabilisation
 
 For quasi-static analysis, ghost stabilisation acts as a penalty approach that modifies the weak form of the equilibrium equation to 
 
