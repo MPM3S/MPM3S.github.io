@@ -3,3 +3,6 @@
 
 ## nice to have
 - Will: interactive 3D views of the yield surfaces
+
+## queries
+- Charles: are we to take compressive stresses and strains as positive?
