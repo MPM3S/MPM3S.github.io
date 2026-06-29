@@ -45,7 +45,7 @@
 
 ## Small cut instability
 
-  - Ghost stabilisation
+  - [Ghost stabilisation](ghostStabilisation.md)
 
 ## Rigid body representation and kinematics
 
