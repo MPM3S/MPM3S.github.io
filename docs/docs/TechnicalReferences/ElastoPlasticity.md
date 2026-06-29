@@ -74,7 +74,7 @@ The first step is to determine the trial elastic strain state by assuming that t
 
 $$\{\varepsilon^\text{e}_{tr}\}= \{\varepsilon^\text{e}_{n}\} + \{\Delta \varepsilon\}$$
 
-where $\{\varepsilon^\text{e}_{n}\}$ is the initial logarithmic elastic strain or the converged logarithmic elastic strain from the previous time step.  This elastic trail strain state can be used to determine an estimate of the stress state by assuming linear isotropic material behaviour 
+where $\{\varepsilon^\text{e}_{n}\}$ is the initial logarithmic elastic strain or the converged logarithmic elastic strain from the previous time step.  This elastic trial strain state can be used to determine an estimate of the stress state by assuming linear isotropic material behaviour 
 
 $$\{\tau_{tr}\} = [D^{\text{e}}]\{\varepsilon^\text{e}_{tr}\}$$
 
@@ -93,7 +93,7 @@ where $E$ is Young's modulus and $\nu$ is Poisson's ratio.
 
 The next step is to check $\{\tau_{tr}\}$ against the selected yield criteria. 
 
-- **If $f(\{\tau_{tr}\})\leq 0$**: the material is undergoing elastic behaviour and the updated stress and elastic strain states at equal to the trail values. The material stiffness is the elastic stiffness matrix, $[D^{\text{e}}]$
+- **If $f(\{\tau_{tr}\})\leq 0$**: the material is undergoing elastic behaviour and the updated stress and elastic strain states at equal to the trial values. The material stiffness is the elastic stiffness matrix, $[D^{\text{e}}]$
 - **Else $f(\{\tau_{tr}\})> 0$**: the trial state is outside of the yield surface, which is not admissible. This means that the material will be undergoing elasto-plastic behaviour and the trial stress state needs to be returned to an admissible state of stress on the yield surface, $f=0. 
 
 ### Backward Euler elasto-plastic stress update
