@@ -15,7 +15,7 @@ $$f= \varrho - \varrho_y = 0$$
 where $\varrho=\sqrt{2J_2}$, $J_2=\frac{1}{2}\text{tr}([s][s])$, $[s]=[\tau]-\frac{\xi}{\sqrt{3}}[I]$ and $\varrho_y$ is the deviatoric shear strength of the material. 
 
 
-![von Mises yiled surface in principal stress space](../../img/vonMises.png)
+![von Mises yield surface in principal stress space](../../img/vonMises.png)
 
 ### Plastic flow direction
 
@@ -41,6 +41,8 @@ where $J_3=\frac{1}{3}\text{tr}([s][s][s])$.
 ### Circular deviatoric section
 
 A **Drucker-Prager** yield surface with a circular deviatoric section is obtained by setting $\bar{\varrho}=1$. 
+
+![Drucker-Prager yield surface in principal stress space](../../img/druckerPrager.png)
 
 ### Lode angle dependent deviatoric section
 
