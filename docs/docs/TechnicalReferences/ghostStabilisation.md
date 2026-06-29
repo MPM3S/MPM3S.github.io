@@ -8,16 +8,16 @@ For implicit MPM formulations using generalised interpolation basis functions, t
 
 Without stabilisation the material point method has the potential to be highly unstable. This is because the nature of the linear system of equations being solved is highly dependent on the positioning of material points relative to the background grid. There is the potential for very small values of mass/stiffness to be generated at background grid degrees of freedom if small overlaps are generated between the physical body (i.e. the material points) and the background grid. This can result in large spurious incremental displacements/velocities/accelerations being generated at the boundary of the physical body, which have the potential to lead to failure of the numerical solver within a time step. An example of this is shown below for a quasi-static elasto-plastic collapse problem, where at a given time step the original, non-stabilised, Generalised Interpolation Material Point Method (GIMPM) predicts very large spurious incremental nodal displacements, which are removed with stabilisation.  
 
-![Boundary stabilisation normal and positive/negative elements](../../img/ghostCollapseVectors.png)
+![Elasto-plastic collapse: background mesh incremental displacements](../../img/ghostCollapseVectors.png)
 
 To explore this issue in more detail, consider the simpler problem shown in Figure 2, which a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution.  
 
 
-![Boundary stabilisation normal and positive/negative elements](../../img/ghostTestProblemSetup.png)
+![Rigid translation test case](../../img/ghostTestProblemSetup.png)
 
-Figure 3 provides the condition numbers of unstabilised consistent mass, lumped mass and stiffness matrices for the standard material point method and the GIMPM. 
+Figure 3 provides the condition numbers of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. 
 
-![Boundary stabilisation normal and positive/negative elements](../../img/ghostTestProblemCond.png)
+![Unstabilised condition numbers](../../img/ghostTestProblemCond.png)
 
 
 
