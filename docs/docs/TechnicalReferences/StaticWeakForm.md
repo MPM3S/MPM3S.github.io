@@ -2,15 +2,15 @@
 
 The implemented Material Point Method (MPM) code is based on a number of published papers that describe fully the underlying continuum mechanics framework, include the weak form of the governing equilibrium equations. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper [@charlton2017igimp] provides the scientific basis of the code. Key aspects of the formulation are described below.
 
-## Strong statement of equilbrium
+## Strong statement of equilibrium
 
-The strong form equilibrium equation is the condition that must be satisfied at all points within a continuum body. Here a strong form equilibrium equation for the balance of linear momentum in the current configuration of the body can be expressed as
+The strong form equilibrium equation is the condition that must be satisfied at all points within a continuum body, $\Omega$. For solid mechanics problems, the strong form equilibrium equation for the balance of linear momentum in the current configuration of the body, which has been subject to some motion, $\varphi$, can be expressed as
 
 $$
 \nabla \sigma_{ij} - f^b_i = \rho \ddot{u} \qquad \text{in} \qquad \varphi(\Omega)
 $$
 
-subject to
+where $\sigma_{ij}$ is the Cauchy stress in the material, $f_i^b$ are the body forces (such as gravitational loads acting on the solid body), $\rho$ is the density of the material and $\ddot{u}$ is acceleration. The equilibrium equation is subject to boundary Neumann (traction) and Dirichlet (displacement) constraints
 
 $$
     t_{i} = \sigma_{ij} n_j \qquad \text{on} \qquad \varphi(\partial\Omega_N)
@@ -20,8 +20,15 @@ $$
     u_{i} = \bar{u}_i \qquad \text{on} \qquad \varphi(\partial\Omega_D)
 $$
 
-where $n_j$ is the outward normal to the boundary of the physical domain, $\partial\Omega$.
+where $n_j$ is the outward normal to the boundary of the physical domain, $\partial\Omega = \partial\Omega_N \cup \partial\Omega_D$, $t_i$ is the imposed traction over $\partial\Omega_N$ and $\bar{u}_i$ is the imposed displacement on $\partial\Omega_D$.
 
+For quasi-static analysis it is assumed that the accelerations of the physical material are negligible and the strong equilibrium condition reduces to 
+
+$$
+\nabla \sigma_{ij} - f^b_i = 0 \qquad \text{in} \qquad \varphi(\Omega)
+$$
+
+For general problems, assumptions that are made about the variation of physical quantities such as displacements over the physical domain mean that it is not possible to exactly satisfy the strong form of equilibrium at every point in an analysis, instead the condition is relaxed into a weak form that satisfies equilibrium in a volume average sense over the discretised physical body. 
 
 ## Weak equilibrium
 
