@@ -113,3 +113,12 @@ $$
 
 ### Mass stabilisation 
 
+For dynamic problems, the consistent mass matrix can be stabilised by the addition of 
+
+$$
+[M_G] = \gamma_M [J_G]
+$$
+
+where $\gamma_M$ is the ghost stabilisation mass penalty parameter, which is typically to set $\gamma_M=\rho/4$, where $\rho$ is the density of the material being analysed.
+
+Note that the sum of the rows/columns in $[J_G]$ is equal to zero. This means that no additional physical mass is introduced into the linear system. However, it also means that stabilising the consistent mass matrix and then lumping entries into a diagonal lumped mass matrix removes any stabilisation in the resultant matrix.  
