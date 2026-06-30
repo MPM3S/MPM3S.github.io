@@ -125,7 +125,7 @@ Note that the sum of the rows/columns in $[J_G]$ is equal to zero. This means th
 
 ## Practical application
 
-The implemented MPM software utilises stiffness matrix ghost stabilisation for quasi-static and dynamic analysis. It is possible to apply stiffness and mass stabilisation when using implicit methods to solve dynamic problems, however it has been found that stiffness stabilisation is sufficient to mitigate the small cut instability. 
+The implemented MPM software includes stiffness matrix ghost stabilisation as standard for all quasi-static and dynamic analyses. It is possible to apply stiffness and mass stabilisation when using implicit methods to solve dynamic problems, however it has been found that stiffness stabilisation is sufficient to mitigate the small cut instability. 
 
 ### Penalty parameter value
 
