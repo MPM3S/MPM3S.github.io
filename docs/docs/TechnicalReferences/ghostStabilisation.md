@@ -100,10 +100,10 @@ where $N_i$ are the basis functions of the background finite element mesh and $n
 For quasi-static analysis, ghost stabilisation acts as a penalty approach that modifies the weak form of the equilibrium equation to 
 
 $$
-\int_{\varphi_t(K)}[\nabla_x S_{vp}]^{T}\{\sigma_p\} \text{d}V - \int_{\varphi_t(K)}[S_{vp}]^{T}\{b\} \text{d}V  + \beta \int_{\Gamma} [G]^T[n]\{g\}  d\Gamma= \{0\},
+\int_{\varphi_t(K)}[\nabla_x S_{vp}]^{T}\{\sigma_p\} \text{d}V - \int_{\varphi_t(K)}[S_{vp}]^{T}\{b\} \text{d}V  + \beta_k \int_{\Gamma} [G]^T[n]\{g\}  d\Gamma= \{0\},
 $$
 
-where $\{g\}=[n]^T[G]\{d\}$ is the jump in the displacement over a boundary element edge, $\beta = \gamma_k h^3/2$ and $\gamma_k$ is a penalty parameter that controls the magnitude of the ghost stabilisation. 
+where $\{g\}=[n]^T[G]\{d\}$ is the jump in the displacement over a boundary element edge, $\beta_k = \gamma_k h^3/3$ and $\gamma_k$ is a ghost stabilisation stiffness penalty parameter that controls the magnitude of the ghost stabilisation. 
 
 Linearising the ghost stabilisation term in the weak equilibrium equation with respect to the unknown displacements of the background mesh results in a stiffness stabilisation term with the following form
 
