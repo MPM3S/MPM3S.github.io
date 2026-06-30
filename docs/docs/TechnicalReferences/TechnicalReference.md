@@ -1,4 +1,4 @@
-# Material point method in detail
+# Material point method Technical Reference
 
 This technical reference documentation outlines key background theory and numerical implementation details that underpin the material point method soil-structure interaction software. 
 
