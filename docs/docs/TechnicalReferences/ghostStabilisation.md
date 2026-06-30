@@ -10,12 +10,12 @@ Without stabilisation the material point method has the potential to be highly u
 
 ![Elasto-plastic collapse: background mesh incremental displacements](../../img/ghostCollapseVectors.png)
 
-To explore this issue in more detail, consider the simpler problem shown in Figure 2, which a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of $E=1$ Pa, a Poisson's ratio of $\nu=0$ and a density of $\rho=1~\text{kg/m}^3$.   
+To explore this issue in more detail, consider the simpler problem shown in Figure 2, where a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of $E=1$ Pa, a Poisson's ratio of $\nu=0$ and a density of $\rho=1~\text{kg/m}^3$.   
 
 
 ![Rigid translation test case](../../img/ghostTestProblemSetup.png)
 
-Figure 3 provides the condition numbers of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. Although the stiffness matrix for the standard MPM is well behaved, all other matrices show condition number spikes generate by small material point-background mesh node interactions. 
+Figure 3 provides the condition numbers, $\kappa([\cdot])$, of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. Although the stiffness matrix for the standard MPM is well behaved, all other matrices show condition number spikes generate by small material point-background mesh node interactions. Large condition numbers cause problems when solving linear systems of equations when the precision of the calculations are no longer capable of resolving the span of entries in the system, leading to loss of accuracy and in the case, boundary artifacts and stability issues. The grey shaded region on the MPM plot highlights where the physical material is no longer constrained in the horizontal direction by the pinned boundary condition. It is appropriate that $\kappa([K])=\infty$ in this case. 
 
 ![Unstabilised condition numbers](../../img/ghostTestProblemCond.png)
 
