@@ -15,7 +15,7 @@ To explore this issue in more detail, consider the simpler problem shown in Figu
 
 ![Rigid translation test case](../../img/ghostTestProblemSetup.png)
 
-Figure 3 provides the condition numbers of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. 
+Figure 3 provides the condition numbers of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. Although the stiffness matrix for the standard MPM is well behaved, all other matrices show condition number spikes generate by small material point-background mesh node interactions. 
 
 ![Unstabilised condition numbers](../../img/ghostTestProblemCond.png)
 
