@@ -2,6 +2,8 @@
 
 The elasto-plastic constitutive formulation assumes an isotropic Hencky material with a linear relationship between elastic logarithmic strains, $\{\varepsilon^{\text{e}}\}$, and Kirchhoff stress, $\{\tau\}$, combined with a perfect plasticity (fixed) yield surface.
 
+A **tension positive** assumption is made in all constitutive models.
+
 ## Linear isotropic elasticity
 
 The elastic behaviour of the material is the same as that detailed [here](LinearElasticity.md).
