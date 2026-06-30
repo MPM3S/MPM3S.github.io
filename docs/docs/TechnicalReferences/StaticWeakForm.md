@@ -4,9 +4,23 @@ The implemented Material Point Method (MPM) code is based on a number of publish
 
 ## Strong statement of equilbrium
 
+The strong form equilibrium equation is the condition that must be satisfied at all points within a continuum body. Here a strong form equilibrium equation for the balance of linear momentum in the current configuration of the body can be expressed as
+
 $$
-\nabla \sigma_{ij} - f^b_i = 0
+\nabla \sigma_{ij} - f^b_i = \rho \ddot{u} \qquad \text{in} \qquad \varphi(\Omega)
 $$
+
+subject to
+
+$$
+    t_{i} = \sigma_{ij} n_j \qquad \text{on} \qquad \varphi(\partial\Omega_N)
+$$
+
+$$
+    u_{i} = \bar{u}_i \qquad \text{on} \qquad \varphi(\partial\Omega_D)
+$$
+
+where $n_j$ is the outward normal to the boundary of the physical domain, $\partial\Omega$.
 
 
 ## Weak equilibrium
