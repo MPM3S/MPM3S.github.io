@@ -145,5 +145,7 @@ $$
 {[K_G]} = \frac{\gamma_k h^3}{3}  \sum_{i=1}^{n_{Gp}}\Bigl([G_i]^T[m][G_i]\det([J])w_i\Bigr)  
 $$
 
-where $n_{Gp}$ is the number of Gauss points, $w_i$ is the weight associated with the Gauss point and $[J]$ is the Jacobian that links the local face and global coordinate systems. The determinant of $[J]$ provides the ratio of the global to local areas of the face; for cubic elements $\det([J])=h^2/4$. Note that $[G]$ can vary between Gauss points whereas $[m]$ is constant for a given face. The polynomial order of the terms in $[K_G]$ means that a 2-by-2 grid of quadrature points is used, such that $n_{Gp}=4$. 
+where $n_{Gp}$ is the number of Gauss points, $w_i$ is the weight associated with the Gauss point and $[J]$ is the Jacobian that links the local face and global coordinate systems. The determinant of $[J]$ provides the ratio of the global to local areas of the face; for cubic elements $\det([J])=h^2/4$. Note that $[G]$ can vary between Gauss points whereas $[m]$ is constant for a given face. The polynomial order of the terms in $[K_G]$ means that a 2-by-2 grid of quadrature points is used, such that $n_{Gp}=4$. The local positions of the Gauss points are tied to the positive element. The local positions on the negative element determined through a robust  local-to-global-to-local coordinate map that avoids the implementation of case by case algorithms. 
+
+On octree meshes, the integration is performed over the face of the smallest element when applying stabilisation on non-matching faces. This choice avoids over penalising the smaller background mesh elements.  
 
