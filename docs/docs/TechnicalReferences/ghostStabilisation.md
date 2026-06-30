@@ -122,3 +122,25 @@ $$
 where $\gamma_M$ is the ghost stabilisation mass penalty parameter, which is typically to set $\gamma_M=\rho/4$, where $\rho$ is the density of the material being analysed.
 
 Note that the sum of the rows/columns in $[J_G]$ is equal to zero. This means that no additional physical mass is introduced into the linear system. However, it also means that stabilising the consistent mass matrix and then lumping entries into a diagonal lumped mass matrix removes any stabilisation in the resultant matrix.  
+
+## Practical application
+
+The implemented MPM software utilises stiffness matrix ghost stabilisation for quasi-static and dynamic analysis. It is possible to apply stiffness and mass stabilisation when using implicit methods to solve dynamic problems, however it has been found that stiffness stabilisation is sufficient to mitigate the small cut instability. 
+
+The stiffness penalty parameter is set to
+
+$$
+\gamma_k = \frac{\bar{E}}{30}
+$$
+
+where $\bar{E}$ is the volume weighted average Young's modulus of the material points that occupy the elements that share the element boundary where the stabilisation is applied.
+
+### Numerical integration
+
+The integrals required to calculate $[K_G]$ are evaluated using standard Gauss-Legendre quadrature on each stabilised face
+
+$$
+{[K_G]} = \frac{\gamma_k h^3}{3}  \sum_{i=1}^{n_{Gp}}\Bigl([G_i]^T[m][G_i]\det([J])w_i\Bigr)  
+$$
+
+where $n_{Gp}$ is the number of Gauss points, $w_i$ is the weight associated with the Gauss point and $[J]$ is the Jacobian that links the local face and global coordinate systems. The determinant of $[J]$ provides the ratio of the global to local areas of the face. Note that $[G]$ can vary between Gauss points whereas $[m]$ is constant for a given face. The polynomial order of the terms in $[K_G]$ means that a 2-by-2 grid of quadrature points is used, such that $n_{Gp}=4$. 
