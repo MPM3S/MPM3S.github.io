@@ -191,4 +191,11 @@ Under quasi-static conditions the equilibrium statement reduces to
 $$ \sum_{\forall p}[\nabla_x S_{vp}]^{T}\{\sigma_p\} v_p - \sum_{\forall p}[S_{vp}]^{T}\{b\} v_p - \int_{\varphi_t(\partial \Omega)}[S_{vp}]^{T}\{t\} \text{d}s  = \{0\}
 $$
 
+where, as before, the acceleration term is assumed to be zero. 
+
 ## Solution approaches
+
+The solution of the equilibrium equations for dynamic and quasi-static are detailed in other parts of this technical documentation, see:
+
+- ??? for dynamic solution methods
+- ?? for quasi-static solution methods
