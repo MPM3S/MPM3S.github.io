@@ -10,7 +10,7 @@ This technical reference documentation outlines key background theory and numeri
 
   - Kinematics
   - Stress and strain measures
-  - [Equilibrium equations for solid analysis](StaticWeakForm.md)
+  - [Equilibrium equations for solid analysis](EquilibriumEquations.md)
   - [Coupled equilibrium equations with rigid-body contact](StaticWeakFormNormalContact.md)
 
 ## Meshing
