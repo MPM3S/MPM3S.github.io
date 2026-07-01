@@ -57,7 +57,7 @@ It is important to distinguish the *test* functions, which we use to weight the 
 Weighting the relaxed strong form by the test function gives
 
 $$
-\nabla_x \sigma_{ij} \eta_i - (b_i - \rho \ddot{u}_i)\eta_i = R_i \eta_i 
+(\nabla_x \sigma_{ij}) \eta_i - (b_i - \rho \ddot{u}_i)\eta_i = R_i \eta_i 
 $$
 
 ### Integration over the physical domain
@@ -65,13 +65,13 @@ $$
 Integrating the weighted equilibrium equation over the problem domain gives
 
 $$
-\int_{\varphi_t(\Omega)}  \nabla_x \sigma_{ij} \eta_i ~\text{d}v - \int_{\varphi_t(\Omega)}  (b_i - \rho \ddot{u}_i)\eta_i~\text{d}v = \int_{\varphi_t(\Omega)}  R_i \eta_i ~\text{d}v
+\int_{\varphi_t(\Omega)}  (\nabla_x \sigma_{ij}) \eta_i ~\text{d}v - \int_{\varphi_t(\Omega)}  (b_i - \rho \ddot{u}_i)\eta_i~\text{d}v = \int_{\varphi_t(\Omega)}  R_i \eta_i ~\text{d}v
 $$
 
 It is now necessary to introduce Green's theorem
 
 $$
- \int \nabla_x \sigma_{ij} \eta_i ~\text{d}v = -\int \nabla_x \eta_{i} \sigma_{ij} ~\text{d}v + \int \nabla_x(\eta_i \sigma_{ij})~\text{d}s
+ \int (\nabla_x \sigma_{ij}) \eta_i ~\text{d}v = -\int (\nabla_x \eta_{i}) \sigma_{ij} ~\text{d}v + \int \nabla_x(\eta_i \sigma_{ij})~\text{d}s
 $$
 
 The spatial form of the weak equilibrium equation, that is the equilibrium equation defined at the current, deformed state, states that equilibrium is weakly satisfied if the Cauchy stress field, $\sigma_{ij}$, satisfies  
