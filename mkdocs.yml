@@ -88,7 +88,7 @@ nav:
           - Deploying the software: docs/UsingTheSoftware/DeployingTheSoftware.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - 📖 Technical reference:
-          - Overview: docs/TechnicalReferences/TechnicalReference.md
+          - Index: docs/TechnicalReferences/TechnicalReference.md
           # - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
           # - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
       - Understanding the software: docs/Understanding.md
