@@ -7,7 +7,7 @@ The implemented Material Point Method (MPM) code is based on a number of publish
 The strong form equilibrium equation is the condition that must be satisfied at all points within a continuum body, $\Omega$. For solid mechanics problems, the strong form equilibrium equation for the balance of linear momentum in the current configuration of the body, which has been subject to some motion, $\varphi$, can be expressed as
 
 $$
-\nabla \sigma_{ij} - b_i = \rho \ddot{u} \qquad \text{in} \qquad \varphi(\Omega)
+\nabla_x \sigma_{ij} - b_i = \rho \ddot{u}_i \qquad \text{in} \qquad \varphi(\Omega)
 $$
 
 where $\sigma_{ij}$ is the Cauchy stress in the material, $b_i$ are the body forces (such as gravitational loads acting on the solid body), $\rho$ is the density of the material and $\ddot{u}$ is acceleration. The equilibrium equation is subject to boundary Neumann (traction) and Dirichlet (displacement) constraints
@@ -27,14 +27,52 @@ where $n_j$ is the outward normal to the boundary of the physical domain, $\part
 For quasi-static analysis it is assumed that the accelerations of the physical material are negligible and the strong equilibrium condition reduces to 
 
 $$
-\nabla \sigma_{ij} - b_i = 0 \qquad \text{in} \qquad \varphi(\Omega)
+\nabla_x \sigma_{ij} - b_i = 0 \qquad \text{in} \qquad \varphi(\Omega)
 $$
 
 
 
 ## Weak equilibrium
 
-For general problems, assumptions that are made about the variation of physical quantities such as displacements over the physical domain mean that it is not possible to exactly satisfy the strong form of equilibrium at every point in an analysis, instead the condition is relaxed into a weak form that satisfies equilibrium in a volume average sense over the discretised physical body. 
+For general problems, assumptions that are made about the variation of physical quantities such as displacements over the physical domain mean that it is not possible to exactly satisfy the strong form of equilibrium at every point in an analysis, instead the condition is relaxed into a weak form that satisfies equilibrium in a volume average sense over the discretised physical body.  There are various ways to achieve the same resulting weak statement of equilibrium, such as weighted residual and virtual work techniques. Here a weight residual technique is adopted a general approach to transfer between strong and weak statements of equilibrium.
+
+The starting point for a **weighted residual** technique is to relax the strong equilibrium statement to 
+
+$$
+\nabla_x \sigma_{ij} - b_i - \rho \ddot{u}_i = R_i  \qquad \text{in} \qquad \varphi(\Omega)
+$$
+
+where $R_i$ is a residual. The introduction of this residual accepts that it is not possible to exactly satisfy the strong statement of equilibrium and instead we will seek the solution that minimises this residual.  
+
+The primary unknown is the displacement solution over the physical domain as from this we can obtain the deformation gradient, the strains and then the stresses at any point. The solution that we want is to find the displacement solution that minimises the residual, which is achieved via three steps:
+
+- weighting each residual by the a *test* function, $\eta_i$;
+- integrating over physical domain; and
+- setting the resultant equation to zero (minimising the residual).
+
+It is important to distinguish the *test* functions, which we use to weight the solution and are also known as virtual displacements, from the set of physical *trial* functions, $u_i$, that satisfy the boundary conditions imposed on the physical problem and represent the actual solution to the problem.  
+
+### Weighting the residual
+
+Weighting the relaxed strong form by the test function gives
+
+$$
+\nabla_x \sigma_{ij} \eta_i - (b_i - \rho \ddot{u}_i)\eta_i = R_i \eta_i 
+$$
+
+### Integration over the physical domain
+
+Integrating the weighted equilibrium equation over the problem domain gives
+
+$$
+\int_{\varphi_t(\Omega)}  \nabla_x \sigma_{ij} \eta_i ~\text{d}v - \int_{\varphi_t(\Omega)}  (b_i - \rho \ddot{u}_i)\eta_i~\text{d}v = \int_{\varphi_t(\Omega)}  R_i \eta_i ~\text{d}v
+$$
+
+It is now necessary to introduce Green's theorem
+
+$$
+ \int \nabla_x \sigma_{ij} \eta_i ~\text{d}v = -\int \nabla_x \eta_{i} \sigma_{ij} ~\text{d}v + \int \nabla_x(\eta_i \sigma_{ij})~\text{d}s
+$$
 
 The spatial form of the weak equilibrium equation, that is the equilibrium equation defined at the current, deformed state, states that equilibrium is weakly satisfied if the Cauchy stress field, $\sigma_{ij}$, satisfies  
 
@@ -58,6 +96,8 @@ $$
 as it is assumed that accelerations are negligible. 
 
 ## Discretised weak form
+
+The different weighted residual methods are classified based on adopted *test* (or weighing) function, here we select a particular variant of the method known as **Galerkin's method** that uses the shape functions as the weight function.
 
 ### Quasi-static analysis
 
