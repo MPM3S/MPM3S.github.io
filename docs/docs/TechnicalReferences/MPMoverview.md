@@ -50,4 +50,4 @@ The applied body forces and/or tractions are split into a number of time steps a
 
 These steps are shown schematically below.
 
-![MPM steps](../../img/MPMsteps.jpg)
+![MPM steps (reproduced from Coombs \& Augarde [@coombs2020on])](../../img/MPMsteps.jpg)
