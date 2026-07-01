@@ -39,7 +39,7 @@ For general problems, assumptions that are made about the variation of physical 
 The starting point for a **weighted residual** technique is to relax the strong equilibrium statement to 
 
 $$
-\nabla_x \sigma_{ij} + b_i + \rho \ddot{u}_i = R_i  \qquad \text{in} \qquad \varphi(\Omega)
+\nabla_x \sigma_{ij} + b_i + \rho \ddot{u}_i = R_i 
 $$
 
 where $R_i$ is a residual. The introduction of this residual accepts that it is not possible to exactly satisfy the strong statement of equilibrium and instead we will seek the solution that minimises this residual.  
@@ -164,13 +164,31 @@ $$
 
 Using the standard property of matrix transposes the equilibrium statement can be expressed in the standard form
 
-$$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(E)}[S_{vp}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial E)}[S_{vp}]^{T}\{t\} \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho [S_v]^T\{\ddot{u}\}\Bigr) \text{d} v = \{0\}$$
+$$\int_{\varphi_t(\Omega)}[\nabla_x S_{v}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(\Omega)}[S_{v}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial \Omega)}[S_{v}]^{T}\{t\} \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho [S_v]^T\{\ddot{u}\}\Bigr) \text{d} v = \{0\}$$
 
 ### Quasi-static analysis
 
-The code adopts an updated Lagrangian weak statement of equilibrium for quasi-static analysis. The Galerkin form of the weak statement of equilibrium over each background grid element, E, can be expressed as
+Under quasi-static conditions the spatial weak statement of equilibrium reduces to
 
-$$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(E)}[S_{vp}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial E)}[S_{vp}]^{T}\{t\} \text{d}s = \{0\}$$
+$$\int_{\varphi_t(\Omega)}[\nabla_x S_{v}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(\Omega)}[S_{v}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial \Omega)}[S_{v}]^{T}\{t\} \text{d}s  = \{0\}$$
 
-where $\varphi_t$ is the motion of the material body which is subjected to tractions, $\{t\}$, on its boundary, $\partial E$ with surface, $s$, and body forces, $\{b\}$, acting over its volume, $v$. These external forces lead to a Cauchy stress field, $\{\sigma\}$, through the body. $[\nabla_x S_{vp}]$ is the tensorial form of the strain-displacement matrix containing derivatives of the basis functions, $[S_{vp}]$, with respect to the updated coordinates, $\{x\}$. The first term in the equilibrium equation is the internal force within an element and the combination of the second (body forces) and third (tractions) terms is the external force vector. The equilibrium equation is non-linear in terms of the unknown nodal displacements and can be efficiently solved using the standard implicit Newton-Raphson procedure.
+as it is assumed that accelerations are negligible. The first term in the equilibrium equation is the internal force within an element and the combination of the second (body forces) and third (tractions) terms is the external force vector. 
 
+## Integration and material point discretisation
+
+
+The final step is introducing the numerical approximation for the integral equations. In the MPM, the physical body is split into a number of points that have associated volume, mass and material properties. The material points act as integration, or quadrature, points and allow the equilibrium statement to be expressed as
+
+$$ \sum_{\forall p}[\nabla_x S_{vp}]^{T}\{\sigma_p\} v_p - \sum_{\forall p}[S_{vp}]^{T}\{b\} v_p - \int_{\varphi_t(\partial \Omega)}[S_{vp}]^{T}\{t\} \text{d}s - \sum_{\forall p}  [S_{vp}]^T\{\ddot{u_p}\}m_p = \{0\}
+$$
+
+where $v_p$ and $m_p$ are the mass and volume associated with a material point, $p$. Note that the subscript $p$ has been introduced into $[S_{vp}]$, $\{\sigma_p\}$, etc. explicitly tie associated quantities to specific material points. The traction term remains as a integral expressed over the boundary of the physical domain.
+
+### Quasi-static analysis
+
+Under quasi-static conditions the equilibrium statement reduces to
+
+$$ \sum_{\forall p}[\nabla_x S_{vp}]^{T}\{\sigma_p\} v_p - \sum_{\forall p}[S_{vp}]^{T}\{b\} v_p - \int_{\varphi_t(\partial \Omega)}[S_{vp}]^{T}\{t\} \text{d}s  = \{0\}
+$$
+
+## Solution approaches
