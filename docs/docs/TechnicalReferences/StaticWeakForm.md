@@ -1,4 +1,4 @@
-
+# Equilibrium equations
 
 The implemented Material Point Method (MPM) code is based on a number of published papers that describe fully the underlying continuum mechanics framework, include the weak form of the governing equilibrium equations. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper [@charlton2017igimp] provides the scientific basis of the code. Key aspects of the formulation are described below.
 
