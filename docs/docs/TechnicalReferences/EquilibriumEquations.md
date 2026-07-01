@@ -104,21 +104,21 @@ as it is assumed that accelerations are negligible.
 In order to express the weak statement of equilibrium in a discrete form (as opposed to the continuous form written so far), it is necessary to introduce how the primary variable, namely the displacements are represented across the physical domain. The MPM adopts a finite element-like approximation for the displacement solution, where displacements are solved at discrete nodal locations and interpolation/shape/basis functions are used to describe the displacement variation over the discretised space. This allows the displacement at a given point to be written as
 
 $$
- u_i = \sum S_{v} ~ u_i^v
+ u_i = \sum_{\forall v} S_{v} ~ u_i^v = [S_v]\{d\}
 $$
 
-where $S_{v}$ are the basis functions that link a given location in the problem to the nodes or vertices of the finite element mesh, $v$.  
+where $S_{v}$ are the basis functions that link a given location in the problem to the nodes or vertices of the finite element mesh, $v$. $[S_v]$ and $\{d\}$ are the global   
 
 The different weighted residual methods are classified based on adopted *test* (or weighing) function, here we select a particular variant of the method known as **Galerkin's method** that uses the same basis functions that are used to describe the displacement variation, $S_{v}$, as the weight function, such that
 
 $$
- \eta_i = \sum S_{v} ~ \eta_i^v
+ \eta_i = \sum_{\forall v} S_{v} ~ \eta_i^v = [S_v]\{d_\eta\}
 $$
 
 Introducing these approximations into the weak equilibrium statement results in
 
 $$
-\int_{\varphi_t(\Omega)} \Bigl(\sigma_{ij} (\nabla_x \eta)_{ij}-b_i \eta_i \Bigr)  \text{d} v
+\int_{\varphi_t(\Omega)} \Bigl(\sigma_{ij} (\nabla_x S)_{ij}-b_i \eta_i \Bigr)  \text{d} v
 - \int_{\varphi_t(\partial\Omega)} \Bigl(t_i \eta_i \Bigr) \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho \ddot{u}_i \eta_i\Bigr) \text{d} v = 0
 $$
 
