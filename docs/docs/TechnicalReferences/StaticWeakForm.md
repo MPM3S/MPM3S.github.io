@@ -7,7 +7,7 @@ The implemented Material Point Method (MPM) code is based on a number of publish
 The strong form equilibrium equation is the condition that must be satisfied at all points within a continuum body, $\Omega$. For solid mechanics problems, the strong form equilibrium equation for the balance of linear momentum in the current configuration of the body, which has been subject to some motion, $\varphi$, can be expressed as
 
 $$
-\nabla_x \sigma_{ij} - b_i = \rho \ddot{u}_i \qquad \text{in} \qquad \varphi(\Omega)
+\nabla_x \sigma_{ij} + b_i + \rho \ddot{u}_i =0 \qquad \text{in} \qquad \varphi(\Omega)
 $$
 
 where $\sigma_{ij}$ is the Cauchy stress in the material, $b_i$ are the body forces (such as gravitational loads acting on the solid body), $\rho$ is the density of the material and $\ddot{u}$ is acceleration. The equilibrium equation is subject to boundary Neumann (traction) and Dirichlet (displacement) constraints
@@ -27,7 +27,7 @@ where $n_j$ is the outward normal to the boundary of the physical domain, $\part
 For quasi-static analysis it is assumed that the accelerations of the physical material are negligible and the strong equilibrium condition reduces to 
 
 $$
-\nabla_x \sigma_{ij} - b_i = 0 \qquad \text{in} \qquad \varphi(\Omega)
+\nabla_x \sigma_{ij} + b_i = 0 \qquad \text{in} \qquad \varphi(\Omega)
 $$
 
 
@@ -39,7 +39,7 @@ For general problems, assumptions that are made about the variation of physical 
 The starting point for a **weighted residual** technique is to relax the strong equilibrium statement to 
 
 $$
-\nabla_x \sigma_{ij} - b_i - \rho \ddot{u}_i = R_i  \qquad \text{in} \qquad \varphi(\Omega)
+\nabla_x \sigma_{ij} + b_i + \rho \ddot{u}_i = R_i  \qquad \text{in} \qquad \varphi(\Omega)
 $$
 
 where $R_i$ is a residual. The introduction of this residual accepts that it is not possible to exactly satisfy the strong statement of equilibrium and instead we will seek the solution that minimises this residual.  
@@ -57,31 +57,35 @@ It is important to distinguish the *test* functions, which we use to weight the 
 Weighting the relaxed strong form by the test function gives
 
 $$
-(\nabla_x \sigma_{ij}) \eta_i - (b_i - \rho \ddot{u}_i)\eta_i = R_i \eta_i 
+(\nabla_x \sigma_{ij}) \eta_i + (b_i + \rho \ddot{u}_i)\eta_i = R_i \eta_i 
 $$
 
 ### Integration over the physical domain
 
-Integrating the weighted equilibrium equation over the problem domain gives
+Integrating the weighted equilibrium equation over the problem domain and setting the resultant equation to zero gives
 
 $$
-\int_{\varphi_t(\Omega)}  (\nabla_x \sigma_{ij}) \eta_i ~\text{d}v - \int_{\varphi_t(\Omega)}  (b_i - \rho \ddot{u}_i)\eta_i~\text{d}v = \int_{\varphi_t(\Omega)}  R_i \eta_i ~\text{d}v
+\int_{\varphi_t(\Omega)}  (\nabla_x \sigma_{ij}) \eta_i ~\text{d}v + \int_{\varphi_t(\Omega)}  (b_i + \rho \ddot{u}_i)\eta_i~\text{d}v = 0
 $$
 
-It is now necessary to introduce Green's theorem
+The $(\nabla_x \sigma_{ij})$ in this equation is problematic as is constrains the form of the solution. In order to remove this issue it is necessary to introduce Green's theorem
 
 $$
- \int (\nabla_x \sigma_{ij}) \eta_i ~\text{d}v = -\int (\nabla_x \eta_{i}) \sigma_{ij} ~\text{d}v + \int \nabla_x(\eta_i \sigma_{ij})~\text{d}s
+ \int (\nabla_x \sigma_{ij}) \eta_i ~\text{d}v = -\int \sigma_{ij} (\nabla_x \eta_{i})  ~\text{d}v + \int (\underbrace{\sigma_{ij} n_j}_{t_i})\eta_i~\text{d}s
 $$
 
-The spatial form of the weak equilibrium equation, that is the equilibrium equation defined at the current, deformed state, states that equilibrium is weakly satisfied if the Cauchy stress field, $\sigma_{ij}$, satisfies  
+which also naturally introduces the traction boundary condition, $t_i$ into the equilibrium condition. This allows the weighted equilibrium equation over the problem domain to be expressed as
+
+$$
+-\int_{\varphi_t(\Omega)}  \sigma_{ij} (\nabla_x \eta_{i}) ~\text{d}v + \int_{\varphi_t(\partial \Omega)}  t_i\eta_i~\text{d}s + \int_{\varphi_t(\Omega)}  (b_i + \rho \ddot{u}_i)\eta_i~\text{d}v = 0
+$$
+
+Finally, the spatial form of the weak equilibrium equation, that is the equilibrium equation defined at the current, deformed state, states that equilibrium is weakly satisfied if the Cauchy stress field, $\sigma_{ij}$, satisfies  
 
 $$
 \int_{\varphi_t(\Omega)} \Bigl(\sigma_{ij} (\nabla_x \eta)_{ij}-b_i \eta_i \Bigr)  \text{d} v
-- \int_{\varphi_t(\partial\Omega)} \Bigl(t_i \eta_i \Bigr) \text{d}s =  \int_{\varphi_t(\Omega)}  \Bigl(\rho \ddot{u}_i \eta_i\Bigr) \text{d} v
+- \int_{\varphi_t(\partial\Omega)} \Bigl(t_i \eta_i \Bigr) \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho \ddot{u}_i \eta_i\Bigr) \text{d} v = 0
 $$
-
-where $\eta_i$ are a field of admissible virtual displacements
 
 
 ### Quasi-static analysis
