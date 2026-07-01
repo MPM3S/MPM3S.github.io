@@ -107,7 +107,17 @@ $$
  u_i = \sum_{\forall v} S_{v} ~ u_i^v = [S_v]\{d\}
 $$
 
-where $S_{v}$ are the basis functions that link a given location in the problem to the nodes or vertices of the finite element mesh, $v$. $[S_v]$ and $\{d\}$ are the global   
+where $S_{v}$ are the basis functions that link a given location in the problem to the nodes or vertices of the finite element mesh, $v$. $\{d\}$ is a global vector of vertex displacements and $[S_v]$ is a global matrix of basis functions, with the following format
+
+$$
+[S_v] = \left[\begin{array}{ccc c ccc} 
+    S_1 & 0 & 0 & \ldots & S_{n_v} & 0 & 0 \\
+    0 & S_1 & 0 & \ldots & 0 & S_{n_v} & 0 \\
+    0 & 0 & S_1 & \ldots & 0 & 0 & S_{n_v} 
+\end{array}\right]
+$$
+
+where $n_v$ is the total number of vertices in the problem.
 
 The different weighted residual methods are classified based on adopted *test* (or weighing) function, here we select a particular variant of the method known as **Galerkin's method** that uses the same basis functions that are used to describe the displacement variation, $S_{v}$, as the weight function, such that
 
@@ -115,13 +125,46 @@ $$
  \eta_i = \sum_{\forall v} S_{v} ~ \eta_i^v = [S_v]\{d_\eta\}
 $$
 
+where $\{d_\eta\}$ is a global vector of vertex test function coefficients. 
+
 Introducing these approximations into the weak equilibrium statement results in
 
 $$
-\int_{\varphi_t(\Omega)} \Bigl(\sigma_{ij} (\nabla_x S)_{ij}-b_i \eta_i \Bigr)  \text{d} v
-- \int_{\varphi_t(\partial\Omega)} \Bigl(t_i \eta_i \Bigr) \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho \ddot{u}_i \eta_i\Bigr) \text{d} v = 0
+\int_{\varphi_t(\Omega)} \Bigl(\sigma_{ij} (\nabla_x [S_v]\{d_\eta\})_{ij}-b_i [S_v]\{d_\eta\} \Bigr)  \text{d} v
+- \int_{\varphi_t(\partial\Omega)} \Bigl(t_i [S_v]\{d_\eta\} \Bigr) \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho \ddot{u}_i [S_v]\{d_\eta\}\Bigr) \text{d} v = 0
 $$
 
+Note that $\{d_\eta\}$ are values at specific locations within the finite element mesh and therefore are constants for the purpose of integration. They also post-multiply all terms in the equilibrium statement, which allows them to be eliminated. These points, along with introducing vector notation for the Cauchy stress, body forces, tractions and accelerations results in 
+
+$$
+\int_{\varphi_t(\Omega)} \Bigl(\{\sigma\}^T [\nabla_x S_v]-\{b\}^T [S_v] \Bigr)  \text{d} v
+- \int_{\varphi_t(\partial\Omega)} \Bigl(\{t\}^T [S_v]\Bigr) \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho \{\ddot{u}\}^T [S_v]\Bigr) \text{d} v = 0
+$$
+
+Note that for the Cauchy stress, Vogt notation is assumed where 
+
+$$
+\{\sigma\} = \{\begin{array}{cccccc}
+    \sigma_{xx} & \sigma_{yy} & \sigma_{zz} & \sigma_{xy} & \sigma_{yz} & \sigma_{zx}
+  \end{array}\}^T
+$$
+
+and the spatial gradient operator, when applied to $[S_v]$ results in 
+
+$$ 
+[\nabla_x S_v] = \left[\begin{array}{ccc c} 
+    \frac{\partial S_1}{\partial x} & 0 & 0 & \ldots \\
+    0 & \frac{\partial S_1}{\partial y} & 0 & \ldots \\
+    0 & 0 & \frac{\partial S_1}{\partial z} & \ldots \\
+    \frac{\partial S_1}{\partial y} & \frac{\partial S_1}{\partial x} & 0 & \ldots\\
+    0 & \frac{\partial S_1}{\partial z} & \frac{\partial S_1}{\partial y} & \ldots\\
+    \frac{\partial S_1}{\partial z} & 0 & \frac{\partial S_1}{\partial x}& \ldots\\
+\end{array}\right]
+$$
+
+Using the standard property of matrix transposes the equilibrium statement can be expressed in the standard form
+
+$$\int_{\varphi_t(E)}[\nabla_x S_{vp}]^{T}\{\sigma\} \text{d}v - \int_{\varphi_t(E)}[S_{vp}]^{T}\{b\} \text{d}v - \int_{\varphi_t(\partial E)}[S_{vp}]^{T}\{t\} \text{d}s -  \int_{\varphi_t(\Omega)}  \Bigl(\rho [S_v]^T\{\ddot{u}\}\Bigr) \text{d} v = \{0\}$$
 
 ### Quasi-static analysis
 
