@@ -1,6 +1,6 @@
 # Material Point Method
 
-AMPSSIE is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper [@charlton2017igimp] provides the scientific basis of the material point method implemented in AMPSSIE. 
+This software is based on a number of published papers that describe fully the underlying continuum mechanics framework, material point discretisation approach and the numerical solution method. In particular, Charlton _et al._’s 2017 Generalised Interpolation Material Point Method paper [@charlton2017igimp] provides the scientific basis of the implemented material point method. 
 
 ## Material point discretisation
 
@@ -8,26 +8,26 @@ In material point methods the physical domain is discretised by a number of mate
 
 ## Background mesh
 
-The material point method requires a finite element-like background mesh that covers the full extent of the physical material being analysed, that is, the full extent of the material points in the analysis. It is on this background mesh that the governing equations of the problem being analysed are assembled and solved, before the information is mapped back to the material points. AMPSSIE uses an octree background mesh. 
+The material point method requires a finite element-like background mesh that covers the full extent of the physical material being analysed, that is, the full extent of the material points in the analysis. It is on this background mesh that the governing equations of the problem being analysed are assembled and solved, before the information is mapped back to the material points. The implemented software uses an octree background mesh. 
 
 ## Boundary conditions
 
 As with other numerical methods that decouple the physical boundaries of the analysis domain with the computational mesh, boundary conditions are one of the more challenging aspects of the material point method.
 
-In implicit material point formulations **displacement boundary conditions** must, in some way, be imposed on the background mesh. In AMPSSIE displacement boundary conditions are imposed directly on the background mesh. This restricts the forms of boundaries that can be modelled in the method.
+In implicit material point formulations **displacement boundary conditions** must, in some way, be imposed on the background mesh. In the code, displacement boundary conditions are imposed directly on the background mesh. This restricts the forms of boundaries that can be modelled in the method.
 
 ## External loads/actions
 
-Two types of **external loads** are included within AMPSSIE:
+Two types of **external loads** are included within the code:
 
 - body forces, such as gravitational loads, that are controlled by the mass at each material point and the imposed gravitational load; and
 - point forces that are held at material points.
 
-Traction boundary conditions are not included in the initial AMPSSIE release.
+Traction boundary conditions are currently not included.
 
 ## Non-linear solution
 
-AMPSSIE adopts an implicit solution procedure based on a full Newton-Raphson method for both quasi-static and dynamic problems. In this iterative method, the stiffness of the background mesh is determined within each iteration of each loadstep based on the stiffness of each of the material points. The algorithm continues until the equilibrium equation converges within a given tolerance. Once equilibrium has been obtained the material points can be updated.
+The code adopts an implicit solution procedure based on a full Newton-Raphson method for both quasi-static and dynamic problems. In this iterative method, the stiffness of the background mesh is determined within each iteration of each loadstep based on the stiffness of each of the material points. The algorithm continues until the equilibrium equation converges within a given tolerance. Once equilibrium has been obtained the material points can be updated.
 
 ## Material point update
 
@@ -35,7 +35,7 @@ Once equilibrium has been found the position, volume, deformation gradient, stre
 
 ## Computational procedure
 
-The applied body forces and/or tractions are split into a number of loadsteps and for each of these steps the following process is adopted:
+The applied body forces and/or tractions are split into a number of time steps and for each of these steps the following process is adopted:
 
 1.  calculate the stiffness contribution, $[k^p]$, of all of the material points and assemble the individual contribution of each material point into the global stiffness matrix;
     
@@ -50,4 +50,4 @@ The applied body forces and/or tractions are split into a number of loadsteps an
 
 These steps are shown schematically below.
 
-![MPM steps](../../img/MPMsteps.jpg)
+![MPM steps (reproduced from Coombs \& Augarde [@coombs2020on])](../../img/MPMsteps.jpg)

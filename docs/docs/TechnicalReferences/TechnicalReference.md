@@ -1,19 +1,17 @@
+# Material point method technical reference
 
----
+This technical reference documentation outlines key background theory and numerical implementation details that underpin the material point method soil-structure interaction software. 
 
-# Material point method in detail
+## Material point method basics
 
-## Overview
-
-  - [Material Point Method ingredients and steps](MPMoverview.md)
+  - [Material Point Method overview](MPMoverview.md)
 
 ## Large deformation formulation
 
   - Kinematics
   - Stress and strain measures
-  - [Quasi-static strong and weak forms](StaticWeakForm.md)
-  - [Quasi-static form with contact](StaticWeakFormNormalContact.md)
-  - Dynamic strong and weak forms
+  - [Equilibrium equations for solid analysis](EquilibriumEquations.md)
+  - [Coupled equilibrium equations with rigid-body contact](StaticWeakFormNormalContact.md)
 
 ## Meshing
 

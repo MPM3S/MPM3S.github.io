@@ -10,12 +10,12 @@ Without stabilisation the material point method has the potential to be highly u
 
 ![Elasto-plastic collapse: background mesh incremental displacements](../../img/ghostCollapseVectors.png)
 
-To explore this issue in more detail, consider the simpler problem shown in Figure 2, which a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution.  
+To explore this issue in more detail, consider the simpler problem shown in Figure 2, where a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of $E=1$ Pa, a Poisson's ratio of $\nu=0$ and a density of $\rho=1~\text{kg/m}^3$.   
 
 
 ![Rigid translation test case](../../img/ghostTestProblemSetup.png)
 
-Figure 3 provides the condition numbers of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. 
+Figure 3 provides the condition numbers, $\kappa([\cdot])$, of the unstabilised consistent mass, $[M_v]$, lumped mass, $[\bar{M}_v]$, and stiffness, $[K]$, matrices for the standard Material Point Method (MPM) and the GIMPM. Although the stiffness matrix for the standard MPM is well behaved, all other matrices show condition number spikes generate by small material point-background mesh node interactions. Large condition numbers cause problems when solving linear systems of equations when the precision of the calculations are no longer capable of resolving the span of entries in the system, leading to loss of accuracy and in the case, boundary artifacts and stability issues. The grey shaded region on the MPM plot highlights where the physical material is no longer constrained in the horizontal direction by the pinned boundary condition. It is appropriate that $\kappa([K])=\infty$ in this case. 
 
 ![Unstabilised condition numbers](../../img/ghostTestProblemCond.png)
 
@@ -100,10 +100,10 @@ where $N_i$ are the basis functions of the background finite element mesh and $n
 For quasi-static analysis, ghost stabilisation acts as a penalty approach that modifies the weak form of the equilibrium equation to 
 
 $$
-\int_{\varphi_t(K)}[\nabla_x S_{vp}]^{T}\{\sigma_p\} \text{d}V - \int_{\varphi_t(K)}[S_{vp}]^{T}\{b\} \text{d}V  + \beta \int_{\Gamma} [G]^T[n]\{g\}  d\Gamma= \{0\},
+\int_{\varphi_t(K)}[\nabla_x S_{vp}]^{T}\{\sigma_p\} \text{d}V - \int_{\varphi_t(K)}[S_{vp}]^{T}\{b\} \text{d}V  + \beta_k \int_{\Gamma} [G]^T[n]\{g\}  d\Gamma= \{0\},
 $$
 
-where $\{g\}=[n]^T[G]\{d\}$ is the jump in the displacement over a boundary element edge, $\beta = \gamma_k h^3/2$ and $\gamma_k$ is a penalty parameter that controls the magnitude of the ghost stabilisation. 
+where $\{g\}=[n]^T[G]\{d\}$ is the jump in the displacement over a boundary element edge, $\beta_k = \gamma_k h^3/3$ and $\gamma_k$ is a ghost stabilisation stiffness penalty parameter that controls the magnitude of the ghost stabilisation. 
 
 Linearising the ghost stabilisation term in the weak equilibrium equation with respect to the unknown displacements of the background mesh results in a stiffness stabilisation term with the following form
 
@@ -112,4 +112,40 @@ $$
 $$
 
 ### Mass stabilisation 
+
+For dynamic problems, the consistent mass matrix can be stabilised by the addition of 
+
+$$
+[M_G] = \gamma_M [J_G]
+$$
+
+where $\gamma_M$ is the ghost stabilisation mass penalty parameter, which is typically to set $\gamma_M=\rho/4$, where $\rho$ is the density of the material being analysed.
+
+Note that the sum of the rows/columns in $[J_G]$ is equal to zero. This means that no additional physical mass is introduced into the linear system. However, it also means that stabilising the consistent mass matrix and then lumping entries into a diagonal lumped mass matrix removes any stabilisation in the resultant matrix.  
+
+## Practical application
+
+The implemented MPM software includes stiffness matrix ghost stabilisation as standard for all quasi-static and dynamic analyses. It is possible to apply stiffness and mass stabilisation when using implicit methods to solve dynamic problems, however it has been found that stiffness stabilisation is sufficient to mitigate the small cut instability. 
+
+### Penalty parameter value
+
+The stiffness penalty parameter is set to
+
+$$
+\gamma_k = \frac{\bar{E}}{30}
+$$
+
+where $\bar{E}$ is the volume weighted average Young's modulus of the material points that occupy the elements that share the element boundary where the stabilisation is applied.
+
+### Numerical integration
+
+The integrals required to calculate $[K_G]$ are evaluated using standard Gauss-Legendre quadrature on each stabilised face
+
+$$
+{[K_G]} = \frac{\gamma_k h^3}{3}  \sum_{i=1}^{n_{Gp}}\Bigl([G_i]^T[m][G_i]\det([J])w_i\Bigr)  
+$$
+
+where $n_{Gp}$ is the number of Gauss points, $w_i$ is the weight associated with the Gauss point and $[J]$ is the Jacobian that links the local face and global coordinate systems. The determinant of $[J]$ provides the ratio of the global to local areas of the face; for cubic elements $\det([J])=h^2/4$. Note that $[G]$ can vary between Gauss points whereas $[m]$ is constant for a given face. The polynomial order of the terms in $[K_G]$ means that a 2-by-2 grid of quadrature points is used, such that $n_{Gp}=4$. The local positions of the Gauss points are tied to the positive element. The local positions on the negative element determined through a robust  local-to-global-to-local coordinate map that avoids the implementation of case by case algorithms. 
+
+On octree meshes, the integration is performed over the face of the smallest element when applying stabilisation on non-matching faces. This choice avoids over penalising the smaller background mesh elements.  
 
