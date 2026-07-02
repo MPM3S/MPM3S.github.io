@@ -197,5 +197,5 @@ where, as before, the acceleration term is assumed to be zero.
 
 The solution of the equilibrium equations for dynamic and quasi-static are detailed in other parts of this technical documentation, see:
 
-- ??? for dynamic solution methods
+- ?? for dynamic solution methods
 - ?? for quasi-static solution methods
