@@ -201,3 +201,7 @@ The solution of the equilibrium equations for dynamic and quasi-static are detai
 
 - ?? for dynamic solution methods
 - ?? for quasi-static solution methods
+
+
+---
+Next section: [Equilibrium equations with rigid body interaction](EquilibriumEquationsContact.md)

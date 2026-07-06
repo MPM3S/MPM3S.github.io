@@ -1,10 +1,9 @@
-# Equilibrium equations with rigid body interaction
+# Equilibrium with rigid body interaction
 
 This page extends the [Equilibrium equations](EquilibriumEquations.md) to include the interaction between material points and discrete rigid bodies following the approach of Bird _et al._ [@bird_dynamic_2025].
 
 
 ## Weak statement of equilibrium with rigid body interaction
-
 
 In order to include rigid body interactions, the Galerkin weak statement of equilibrium given on the [Equilibrium equations](EquilibriumEquations.md) is extended to include contact force terms that impose loads on the material points, giving
 
