@@ -77,6 +77,48 @@ $$F_{ij} = F^{\text{e}}_{ik}F^{\text{p}}_{kj},$$
 
 where the superscripts e and p denote the elastic and plastic components.  
 
+## Volume ratio
+
+In finite deformation mechanics the volume ratio
+
+$$ J = \frac{d v}{dV} = \det(F_{ij})$$
+
+defines the change in volume between the current volume, $v$, and original (or reference) volume, $V$.  For physically meaningful deformations the volume ratio must be strictly positive, $J>0$, as a zero or negative volume ration would imply that a material with an initially finite volume had collapsed to something occupying zero volume or inverted into a negative volume, respectively.    
+
+
+## Stretch and rotation
+
+The deformation gradient can be polar decomposed into 
+
+$$ F_{ij} = R_{ik} U_{kj} = V_{ik} R_{kj}$$
+
+where $R_{ij}$ is an orthogonal rotation tensor and $U_{ij}$ and $V_{ij}$ are the symmetric right and left stretch tensors, which are linked through
+
+$$ V_{ij} = R_{ik} U_{kl} R_{jl} $$
+
+and individually defined as
+
+$$U_{ij} = \sqrt{C_{ij}} = \sqrt{F_{ki}F_{kj}} \qquad \text{and} \qquad 
+V_{ij} = \sqrt{b_{ij}} = \sqrt{F_{ik}F_{jk}} $$
+
+where $C_{ij}$ and $b_{ij}$ are the right and left Cauchy-Green strain tensors. Note that the terms *right* and *left* are linked to the location of the non transpose deformation gradient in the above expressions. In tensor notation a transpose is denoted by swapping the order of the indices on the second order tensor, for example from $F_{kj}$ to $F_{jk}$. 
+
+When considering the stress-strain behaviour of materials it is important to only consider the stretch component of the deformation gradient in order to obtain a continuum formulation that is *frame invariant*. A non frame invariant formulation, such as classical small strain elasticity, will predict different results when using different reference frames and spurious results when considering motions/deformations that include a large rotation component. 
+
+## Strain measures
+
+The right and left Cauchy-Green strain tensors are not suitable for use as conventional measures of *strain* in a material as they are equal to an identity tensor when there is zero deformation. Any large deformation strain tensor must remove this non-zero component, which permits the definition of a *Lagrangian* family of strain measures with the form
+
+$$
+\varepsilon_{ij}^m = \left\{ \begin{array}{ll}\frac{1}{m}\left(U^m_{ij} - \delta_{ij}\right) & \quad m \neq 0\\
+\ln(U_{ij}) & \quad m=0
+\end{array} \right.
+$$
+
+where $m$ is a real integer. 
+
+
+
 ## Stress-strain formulation
 
 The code adopts logarithmic strains and Kirchhoff stresses and combine these measures with an exponential map of the plastic flow rule to allow the use of conventional small-strain stress integration algorithms with a finite deformation framework.  This is a powerful combination as it allows existing constitutive formulations to be used directly rather than reformulating them for the particular choice of stress and strain measures used in the large deformation mechanics.   Within this formulation, the elastic logarithmic strain is defined as
