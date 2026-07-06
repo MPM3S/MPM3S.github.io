@@ -177,12 +177,14 @@ as it is assumed that accelerations are negligible. The first term in the equili
 ## Integration and material point discretisation
 
 
-The final step is introducing the numerical approximation for the integral equations. In the MPM, the physical body is split into a number of points that have associated volume, mass and material properties. The material points act as integration, or quadrature, points and allow the equilibrium statement to be expressed as
+The final step is introducing the numerical approximation for the integral equations. In the MPM, the physical body is split into a number of points that have associated volume, $v_p$, mass, $m_p$, and material properties. The material points act as integration, or quadrature, points and allow the equilibrium statement to be expressed as
 
 $$ \sum_{\forall p}[\nabla_x S_{vp}]^{T}\{\sigma_p\} v_p - \sum_{\forall p}[S_{vp}]^{T}\{b\} v_p - \int_{\varphi_t(\partial \Omega)}[S_{vp}]^{T}\{t\} \text{d}s - \sum_{\forall p}  [S_{vp}]^T\{\ddot{u_p}\}m_p = \{0\}
 $$
 
-where $v_p$ and $m_p$ are the mass and volume associated with a material point, $p$. Note that the subscript $p$ has been introduced into $[S_{vp}]$, $\{\sigma_p\}$, etc. explicitly tie associated quantities to specific material points. The traction term remains as a integral expressed over the boundary of the physical domain.
+Note that the subscript $p$ has been introduced into $[S_{vp}]$, $\{\sigma_p\}$, etc. explicitly tie associated quantities to specific material points. The traction term remains as a integral expressed over the boundary of the physical domain[^1].
+
+[^1]: Note that the application of general traction boundary conditions in the material point method is an area of ongoing research. The reason for this is that most material point method implementations do not explicitly track the boundary of the physical domain. The reconstruction of the domain boundary based on material point locations is challenging when large deformations can result in the generation of new external boundaries and the merger of others.  
 
 ### Quasi-static analysis
 
