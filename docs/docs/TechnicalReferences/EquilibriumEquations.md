@@ -174,7 +174,7 @@ $$\int_{\varphi_t(\Omega)}[\nabla_x S_{v}]^{T}\{\sigma\} \text{d}v - \int_{\varp
 
 as it is assumed that accelerations are negligible. The first term in the equilibrium equation is the internal force within an element and the combination of the second (body forces) and third (tractions) terms is the external force vector. 
 
-## Integration and material point discretisation
+## Material point discretisation
 
 
 The final step is introducing the numerical approximation for the integral equations. In the MPM, the physical body is split into a number of points that have associated volume, $v_p$, mass, $m_p$, and material properties. The material points act as integration, or quadrature, points and allow the equilibrium statement to be expressed as
