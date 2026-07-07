@@ -1,7 +1,6 @@
-# Large deformation continuum formulation
+# Kinematics
 
-
-## Kinematics
+## Motion and displacement 
 
 In large deformation analysis it is important to distinguish between the original, $X_i$, and current, $x_i$, coordinates of a given point within a continuum body. The current (or updated) coordinates are defined as
 
@@ -55,7 +54,7 @@ $$
 
 where $\delta_{ij}$ is the Kronecker delta second order tensor with 
 
-$$\delta_{ij}=1 \quad \text{if} \quad i=j, \qquad \text{and} \qquad
+$$\delta_{ij}=1 \quad \text{if} \quad i=j \qquad \text{and} \qquad
   \delta_{ij}=0 \quad \text{if} \quad i\neq j$$
 
 which is the equivalent of an identity matrix in tensor index notation. 
@@ -68,14 +67,6 @@ $$
 
 this is because information on the reference frame is not available on the background mesh after the initial time step.  
 
-
-### Elasto-plastic split
-
-It is assumed that the deformation gradient can be multiplicatively decomposed (Lee decomposition) into elastic and plastic components 
-
-$$F_{ij} = F^{\text{e}}_{ik}F^{\text{p}}_{kj},$$
-
-where the superscripts e and p denote the elastic and plastic components.  
 
 ## Volume ratio
 
@@ -106,5 +97,14 @@ where $C_{ij}$ and $b_{ij}$ are the right and left Cauchy-Green strain tensors. 
 When considering the stress-strain behaviour of materials it is important to only consider the stretch component of the deformation gradient in order to obtain a continuum formulation that is *frame invariant*. A non frame invariant formulation, such as classical small strain elasticity, will predict different results when using different reference frames and spurious results when considering motions/deformations that include a large rotation component. 
 
 
+## Elasto-plasticity
+
+It is assumed that the deformation gradient can be multiplicatively decomposed (Lee decomposition) into elastic and plastic components 
+
+$$F_{ij} = F^{\text{e}}_{ik}F^{\text{p}}_{kj},$$
+
+where the superscripts e and p denote the elastic and plastic components.  
+
+
 ---
-Next section: [Stress and strain measures :arrow_right:](StressStrain.md) 
+**Next section:** [Stress and strain measures](StressStrain.md) 
