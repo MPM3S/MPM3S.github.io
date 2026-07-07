@@ -30,3 +30,7 @@ $$ [D^{\text{e}}] =  \frac{E}{(1+\nu)(1-2\nu)}\left[\begin{array}{cccccc}
   \end{array}\right]$$
 
 where $E$ is Young's modulus and $\nu$ is Poisson's ratio. 
+
+
+---
+**Next section:** [Elasto-plasticity](ElastoPlasticity.md)

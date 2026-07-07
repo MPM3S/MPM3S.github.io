@@ -52,3 +52,7 @@ $$   (b^{\text{e}}_{n})_{ij} = \exp\Bigl( 2(\varepsilon^{\text{e}}_{n})_{ij} \Bi
 $$  (\varepsilon^{\text{e}}_t)_{ij} = \frac{1}{2} \ln\Bigl(( b^{\text{e}}_t)_{ij} \Bigr).$$
 
 The adopted constitutive algorithm can then be used to return the updated elastic strain, $\varepsilon^{\text{e}}_{ij} $, and Kirchhoff stress, $\tau_{ij}$, states.  
+
+
+---
+**Next section:** [Equilibrium equations](EquilibriumEquations.md)

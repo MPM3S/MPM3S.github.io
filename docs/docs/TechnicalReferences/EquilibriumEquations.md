@@ -204,4 +204,4 @@ The solution of the equilibrium equations for dynamic and quasi-static are detai
 
 
 ---
-Next section: [Equilibrium equations with rigid body interaction](EquilibriumEquationsContact.md)
+**Next section:** [Equilibrium equations with rigid body interaction](EquilibriumEquationsContact.md)
