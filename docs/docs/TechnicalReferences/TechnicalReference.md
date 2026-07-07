@@ -8,8 +8,8 @@ This technical reference documentation outlines key background theory and numeri
 
 ## Large deformation formulation
 
-  - Kinematics
-  - Stress and strain measures
+  - [Kinematics](Kinematics.md)
+  - [Stress and strain measures](StressStrain.md)
   - [Equilibrium equations for solid analysis](EquilibriumEquations.md)
   - [Coupled equilibrium equations with rigid-body contact](EquilibriumEquationsContact.md)
 
