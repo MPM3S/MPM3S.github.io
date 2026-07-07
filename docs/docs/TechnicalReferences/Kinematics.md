@@ -99,11 +99,16 @@ When considering the stress-strain behaviour of materials it is important to onl
 
 ## Elasto-plasticity
 
-It is assumed that the deformation gradient can be multiplicatively decomposed (Lee decomposition) into elastic and plastic components 
+In order to account for elasto-plastic behaviour, it is assumed that the deformation gradient can be multiplicatively decomposed (Lee decomposition) into elastic and plastic components 
 
 $$F_{ij} = F^{\text{e}}_{ik}F^{\text{p}}_{kj},$$
 
-where the superscripts e and p denote the elastic and plastic components.  
+where the superscripts $\text{e}$ and $\text{p}$ denote the elastic and plastic components. This split allows the definition of right and left elastic Cauchy-Green strain tensors that follow the same format as before, but with $F_{ij}$ replaced by $F^{\text{e}}_{ij}$, that is    
+
+$$
+C^{\text{e}}_{ij} = F^{\text{e}}_{ki}F^{\text{e}}_{kj} \qquad \text{and} \qquad 
+b^{\text{e}}_{ij} = F^{\text{e}}_{ik}F^{\text{e}}_{jk} 
+$$
 
 
 ---
