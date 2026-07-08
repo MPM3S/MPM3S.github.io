@@ -12,6 +12,8 @@ $$
 
 where $m$ is a real integer. 
 
+## Stress measures
+
 
 
 ## Stress-strain formulation
