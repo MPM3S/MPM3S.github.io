@@ -67,6 +67,19 @@ $$
 
 this is because information on the reference frame is not available on the background mesh after the initial time step.  
 
+The deformation gradient can also be determined between time steps using 
+
+$$
+  (F_{ij})_{n+1} = \Delta F_{ik} (F_{kj})_{n}
+$$
+
+where $(F_{ij})_{n}$ is the deformation gradient from the end of the previous time step and $\Delta F_{ij}$ is the increment in the deformation for the current time step 
+
+$$
+ \Delta F_{ij} = \delta_{ij} + \frac{\partial \Delta u_i}{\partial \tilde{X}_j}
+$$
+
+$\tilde{X}_i=x_i-\Delta u_i$ are the coordinates at the start of the current time step and $\Delta u_i$ is the displacement increment associated with the current time step. 
 
 ## Volume ratio
 
