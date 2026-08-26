@@ -1,0 +1,117 @@
+// Shared renderer for the yield-surface figures. A figure supplies only the
+// yield radius rho(xi, theta) and the hydrostatic range; the surface, its
+// deviatoric section, the meridian markers, labels and controls follow.
+// Stresses are tension positive throughout, so compression lies at negative xi.
+window.drawYieldSurface = function (opt) {
+  const BLUE = '#0000FF', RED = '#E00000', CYAN = '#00A3FF', PURPLE = '#68246d';
+
+  document.head.insertAdjacentHTML('beforeend', '<style>' +
+    'html,body{margin:0;height:100%;overflow:hidden}' +
+    '#wrap{position:relative;width:100%;height:100%}#plot{width:100%;height:100%}' +
+    '#ctrl{position:absolute;top:8px;left:10px;font:13px/1.5 system-ui,sans-serif;color:#222}' +
+    '#ctrl .row{display:flex;align-items:center;gap:6px;white-space:nowrap}' +
+    '#ctrl button{width:26px;height:26px;border:1px solid #666;background:#fff;' +
+    'border-radius:4px;cursor:pointer;font-size:12px;line-height:1;padding:0}' +
+    '#ctrl button:hover{background:#eee}#val{min-width:74px}' +
+    '#sc{color:' + RED + '}#st{color:' + BLUE + '}</style>');
+  document.body.innerHTML =
+    '<div id="wrap"><div id="plot"></div><div id="ctrl">' +
+    '<div class="row"><button id="up" title="increase hydrostatic stress">&#9650;</button>' +
+    '<button id="down" title="decrease hydrostatic stress">&#9660;</button>' +
+    '<span id="val"></span></div>' +
+    '<div class="row" id="sc"></div><div class="row" id="st"></div></div></div>';
+
+  const N = 48, rho = opt.rho, xiMin = opt.xiMin, xiMax = opt.xiMax;
+  const step = (xiMax - xiMin) / 16;
+  const LOFF = 0.45 * (xiMax - xiMin) / 4;         // label stand-off from the surface
+  const n  = [1, 1, 1].map(v => v / Math.sqrt(3)); // hydrostatic axis
+  const e1 = [1, -1, 0].map(v => v / Math.sqrt(2)); // deviatoric plane basis
+  const e2 = [1, 1, -2].map(v => v / Math.sqrt(6));
+
+  // Lode angle of a direction in the deviatoric plane, from
+  // sin(3.theta) = -3.sqrt(3).J3 / (2.J2^(3/2)) evaluated on the unit circle.
+  const lode = a => {
+    const s = [0, 1, 2].map(k => Math.cos(a) * e1[k] + Math.sin(a) * e2[k]);
+    const J2 = 0.5 * (s[0] * s[0] + s[1] * s[1] + s[2] * s[2]);
+    const J3 = s[0] * s[1] * s[2];
+    const v = -3 * Math.sqrt(3) * J3 / (2 * Math.pow(J2, 1.5));
+    return Math.asin(Math.max(-1, Math.min(1, v))) / 3;
+  };
+  const pt = (xi, a, off) => {                     // off pushes labels clear of the surface
+    const r = rho(xi, lode(a)) + (off === undefined ? 0 : off);
+    return [0, 1, 2].map(k => xi * n[k] + r * (Math.cos(a) * e1[k] + Math.sin(a) * e2[k]));
+  };
+  const pack = ps => ({ x: ps.map(p => p[0]), y: ps.map(p => p[1]), z: ps.map(p => p[2]) });
+  const ring = (xi, m) => pack(Array.from({ length: m + 1 }, (_, j) => pt(xi, 2 * Math.PI * j / m)));
+
+  // Tension positive: theta = +pi/6 is the triaxial compression meridian and
+  // theta = -pi/6 the triaxial extension (tensile) meridian. Each repeats
+  // every 120 degrees about the hydrostatic axis.
+  const COMP = [0, 1, 2].map(m =>  Math.PI / 2 + m * 2 * Math.PI / 3);
+  const TENS = [0, 1, 2].map(m => -Math.PI / 2 + m * 2 * Math.PI / 3);
+
+  // yield surface
+  const x = [], y = [], z = [];
+  for (let i = 0; i <= N; i++) {
+    const r = ring(xiMin + (xiMax - xiMin) * i / N, N);
+    x.push(r.x); y.push(r.y); z.push(r.z);
+  }
+
+  const mark = c => ({ size: 6, color: c, line: { color: '#000', width: 1 } });
+  const note = (p, t, c) => ({                     // white-boxed 3D label
+    x: p[0], y: p[1], z: p[2], text: t, showarrow: false,
+    font: { size: 16, color: c }, bgcolor: '#fff', bordercolor: c,
+    borderwidth: 1, borderpad: 3, opacity: 0.95
+  });
+  const k0 = xiMin - 0.3 * (xiMax - xiMin), k1 = xiMax + 0.3 * (xiMax - xiMin);
+  const ax = t => ({ title: t, zeroline: false, backgroundcolor: '#fff', gridcolor: '#e6e6e6' });
+  const gd = document.getElementById('plot');
+
+  const traces = xi => [ring(xi, 180), pack(TENS.map(a => pt(xi, a))), pack(COMP.map(a => pt(xi, a)))];
+  const notes  = xi => [
+    note(pt(xi, Math.PI, LOFF), 'deviatoric section', CYAN),
+    note(pt(xi, TENS[0], LOFF), 'tensile meridian', BLUE),
+    note(pt(xi, COMP[0], LOFF), 'compression meridian', RED),
+    note([k1 * n[0], k1 * n[1], k1 * n[2]], 'hydrostatic axis', '#000')
+  ];
+  const XI0 = opt.xi0 !== undefined ? opt.xi0 : (xiMin + xiMax) / 2;
+  const t0 = traces(XI0);
+
+  Plotly.newPlot(gd, [
+    { type: 'surface', x: x, y: y, z: z, showscale: false, opacity: 0.7,
+      colorscale: [[0, PURPLE], [1, PURPLE]], hoverinfo: 'skip' },
+    Object.assign({ type: 'scatter3d', mode: 'lines', hoverinfo: 'skip',
+      line: { color: CYAN, width: 8 } }, t0[0]),
+    Object.assign({ type: 'scatter3d', mode: 'markers', hoverinfo: 'skip',
+      marker: mark(BLUE) }, t0[1]),
+    Object.assign({ type: 'scatter3d', mode: 'markers', hoverinfo: 'skip',
+      marker: mark(RED) }, t0[2]),
+    { type: 'scatter3d', mode: 'lines', hoverinfo: 'skip',
+      x: [k0 * n[0], k1 * n[0]], y: [k0 * n[1], k1 * n[1]], z: [k0 * n[2], k1 * n[2]],
+      line: { color: '#000', width: 3 } }
+  ], {
+    margin: { l: 0, r: 0, t: 0, b: 0 }, showlegend: false, paper_bgcolor: '#fff',
+    scene: { aspectmode: 'data', xaxis: ax('σ₁'), yaxis: ax('σ₂'), zaxis: ax('σ₃'),
+             annotations: notes(XI0),
+             camera: { eye: { x: 1.80, y: -1.44, z: 1.08 } } }
+  }, { responsive: true, displayModeBar: false });
+
+  // arrows move the deviatoric section along the hydrostatic axis
+  const sig = p => '(σ₁, σ₂, σ₃) = (' + p.map(v => v.toFixed(2)).join(', ') + ')';
+  let xi = XI0;
+  function setXi(v) {
+    xi = Math.max(xiMin, Math.min(xiMax, v));
+    const t = traces(xi);
+    // restyle/relayout rather than redraw, so the user's camera is left untouched
+    Plotly.restyle(gd, { x: t.map(p => p.x), y: t.map(p => p.y), z: t.map(p => p.z) }, [1, 2, 3]);
+    Plotly.relayout(gd, { 'scene.annotations': notes(xi) });
+    document.getElementById('val').textContent = 'ξ = ' + xi.toFixed(2);
+    document.getElementById('sc').textContent = 'compression meridian  ' + sig(pt(xi, COMP[0]));
+    document.getElementById('st').textContent = 'tensile meridian  ' + sig(pt(xi, TENS[0]));
+  }
+  const click = (id, dir) => document.getElementById(id).addEventListener('click', e => {
+    e.preventDefault(); setXi(xi + dir * step);
+  });
+  click('up', 1); click('down', -1);
+  setXi(xi);
+};
