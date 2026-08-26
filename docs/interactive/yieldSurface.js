@@ -116,7 +116,9 @@ window.drawYieldSurface = function (opt) {
       x: [k0 * n[0], k1 * n[0]], y: [k0 * n[1], k1 * n[1]], z: [k0 * n[2], k1 * n[2]],
       line: { color: '#000', width: 3 } }
   ], {
-    margin: { l: 0, r: 0, t: 0, b: 0 }, showlegend: false, paper_bgcolor: '#fff',
+    // bottom margin so the lowest axis tick labels are not drawn hard against
+    // the canvas edge, where they were being cut off
+    margin: { l: 0, r: 0, t: 0, b: 30 }, showlegend: false, paper_bgcolor: '#fff',
     font: { family: FONT },
     scene: { aspectmode: 'data',
              xaxis: ax('σ₁'), yaxis: ax('σ₂'), zaxis: ax('σ₃'),
