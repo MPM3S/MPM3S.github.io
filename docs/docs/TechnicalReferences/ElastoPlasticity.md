@@ -17,7 +17,7 @@ $$f= \varrho - \varrho_y = 0$$
 where $\varrho=\sqrt{2J_2}$, $J_2=\frac{1}{2}\text{tr}([s][s])$, $[s]=[\tau]-\frac{\xi}{\sqrt{3}}[I]$ and $\varrho_y$ is the deviatoric shear strength of the material. 
 
 
-<iframe src="../../../interactive/vonMises.html" style="border:2px solid #000;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:1102/838;" loading="lazy" title="von Mises yield surface in principal stress space"></iframe>
+<iframe src="../../../interactive/vonMises.html" style="border:none;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:260/140;" loading="lazy" title="von Mises yield surface in principal stress space"></iframe>
 
 <p style="text-align:center;font-style:italic;">von Mises yield surface in principal stress space. Stresses are tension positive - use the arrows to move the deviatoric section along the hydrostatic axis, drag to rotate.</p>
 
@@ -46,7 +46,7 @@ where $J_3=\frac{1}{3}\text{tr}([s][s][s])$.
 
 A **Drucker-Prager** yield surface with a circular deviatoric section is obtained by setting $\bar{\varrho}=1$. 
 
-<iframe src="../../../interactive/druckerPrager.html" style="border:2px solid #000;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:1102/838;" loading="lazy" title="Drucker-Prager yield surface in principal stress space."></iframe>
+<iframe src="../../../interactive/druckerPrager.html" style="border:none;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:260/140;" loading="lazy" title="Drucker-Prager yield surface in principal stress space."></iframe>
 
 <p style="text-align:center;font-style:italic;">Drucker-Prager yield surface in principal stress space. Stresses are tension positive - use the arrows to move the deviatoric section along the hydrostatic axis, drag to rotate.</p>
 
@@ -66,7 +66,7 @@ $$\bar{\varrho}_e = \frac{3-\sin(\phi)}{3+\sin(\phi)}$$
 and does not introduce an additional constitutive parameter. 
 
 
-<iframe src="../../../interactive/willamWarnke.html" style="border:2px solid #000;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:1102/838;" loading="lazy" title="Frictional yield surface with a Willam-Warnke deviatoric section in principal stress space."></iframe>
+<iframe src="../../../interactive/willamWarnke.html" style="border:none;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:260/140;" loading="lazy" title="Frictional yield surface with a Willam-Warnke deviatoric section in principal stress space."></iframe>
 
 <p style="text-align:center;font-style:italic;">Frictional yield surface with a Willam-Warnke deviatoric section in principal stress space. Stresses are tension positive - use the arrows to move the deviatoric section along the hydrostatic axis, drag to rotate.</p>
 
