@@ -89,6 +89,19 @@ nav:
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - 📖 Technical reference:
           - Index: docs/TechnicalReferences/TechnicalReference.md
+          - Material point method basics:
+              - Material Point Method overview: docs/TechnicalReferences/MPMoverview.md
+          - Large deformation formulation:
+              - Kinematics: docs/TechnicalReferences/Kinematics.md
+              - Stress and strain measures: docs/TechnicalReferences/StressStrain.md
+              - Equilibrium equations: docs/TechnicalReferences/EquilibriumEquations.md
+              - Equilibrium with rigid-body contact: docs/TechnicalReferences/EquilibriumEquationsContact.md
+          - Material models:
+              - Overview: docs/TechnicalReferences/ConstitutiveModels.md
+              - Isotropic linear elasticity: docs/TechnicalReferences/LinearElasticity.md
+              - Isotropic elasto-plasticity: docs/TechnicalReferences/ElastoPlasticity.md
+          - Small cut instability:
+              - Ghost stabilisation: docs/TechnicalReferences/ghostStabilisation.md
           # - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
           # - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
       - Understanding the software: docs/Understanding.md

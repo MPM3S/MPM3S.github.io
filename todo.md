@@ -3,8 +3,11 @@
 
 ## nice to have
 - Will: interactive 3D views of the yield surfaces
-- Will: Ghost is missing the left-side panel
 - Will: Ghost emoji
 
 ## queries
 - Charles: are we to take compressive stresses and strains as positive?
+
+## done
+- have the item list on the left under technical references - added the 9 Technical Reference pages to the mkdocs nav
+- Will: Ghost is missing the left-side panel - same root cause; pages absent from nav rendered a blank sidebar under `navigation.tabs`
