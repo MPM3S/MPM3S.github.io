@@ -28,4 +28,4 @@ A detailed explanation of the MPM is provided [here](https://ampssie.github.io/d
 
 - problems that could easily be solved with conventional finite element methods
 - small strain solid mechanics problems
-- analysis of the stresses/deformations structure interacting with the deformable material 
+- analysis of the stresses/deformations *within* a structure interacting with the deformable material 
