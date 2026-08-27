@@ -8,7 +8,7 @@ This page describes each of the sections in turn and gives a description of each
 
 ## Overall file format
 
-The `input_data.json` file is split into seven section provided in the table below:
+The `input_data.json` file is split into seven sections as detailed in the table below:
 
 <div class="small-table" markdown>
 
