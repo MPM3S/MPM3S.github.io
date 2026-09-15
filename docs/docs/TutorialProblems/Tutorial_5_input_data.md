@@ -1,80 +1,87 @@
 # Rolling sphere - input_data.json
 
-The complete reference `input_data.json` for [Tutorial 5](Tutorial_5.md), with every section combined into a single file.
+The complete `input_data.json` for [Tutorial 5](Tutorial_5.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+
+The run folder also needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt`, from the top level of the AMPSSIE repository.
 
 ```json
 {
-    "Mesh": {
-        "domain size x": 50.0,
-        "domain size y": 1.0,
-        "domain size z": 1.0,
-        "dx refined": 0.1,
-        "dx coarse": 0.5,
-        "Refinement type": "rigid body adaptive",
-        "buffer multiplier": 2
+    "GPU": "off",
+
+    "domain": {
+        "size": 12.8,
+        "gravity": [6.93672, 0.0, -6.93672]
     },
 
-    "Initial GIMP distribution": {
-        "Initial GIMP distribution x": 50.0,
-        "Initial GIMP distribution y": 1.0,
-        "Initial GIMP distribution z": 1.0
-    },
-
-    "Boundary conditions": {
-        "neg x-plane": "roller",
-        "neg y-plane": "roller",
-        "neg z-plane": "roller",
-        "pos x-plane": "roller",
-        "pos y-plane": "roller",
-        "x dof": "fixed",
-        "y dof": "fixed"
-    },
-
-    "Material": {
-        "number of layers": 1,
+    "material points": {
+        "extra capacity": 1.2,
+        "element size": 0.8,
+        "number of material points per element 1": 2,
+        "material size": { "min": [0.0, 0.0], "max": [12.8, 1.6] },
         "layers": [
             {
-                "type": "Elastic",
-                "empirical data": "homogeneous elastic",
-                "assigned material properties": {"E": 1000000000.0, "nu": 0.0}
+                "thickness": 0.8,
+                "material": { "type": "elastic", "E": 1.0e9, "nu": 0.0, "density": 1000.0 }
             }
         ]
     },
 
-    "Rigid body": {
-        "geometry": "mesh file",
-        "mesh path": "sphere.stl",
-        "diameter": 2.0,
-        "mass": 10000.0,
-        "rotational inertia": 4000.0,
-        "initial position": [1.0, 0.5, 1.5],
-        "friction coefficient": 0.2,
-        "normal penalty factor": 50,
-        "tangential penalty factor": 25
+    "rigid bodies": [
+        {
+            "offset": [1.5, 0.8, 1.8],
+            "points": [
+                { "position": [0.0, 0.0, 0.0], "mass": 5000.0, "rotational inertia": [2000.0, 2000.0, 2000.0],
+                  "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] }
+            ],
+            "stl files": [
+                { "name": "sphere", "stl": "sphere.stl", "mesh cache": "sphere_mesh.txt", "point": 1 }
+            ]
+        }
+    ],
+
+    "contact": {
+        "friction coefficient": 0.0
     },
 
-    "Loading": {
-        "stages": [
-            {
-                "name": "rolling under tilted gravity",
-                "type": "gravity",
-                "g": [6.9367, 0.0, -6.9367],
-                "time step": 0.01,
-                "end time": 3.0
+    "analysis": [
+        {
+            "type": "dynamic",
+            "dt": 0.005,
+            "final time": 1.0,
+            "beta": 0.5,
+            "gamma": 1.0,
+            "rigid bodies": "on",
+            "rigid body surface placement": "on",
+            "adaptivity": {
+                "type": "rigid body surface",
+                "element size": 0.025
+            },
+            "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["fixed", "roller", "free"] },
+            "boundary track": {
+                "min": { "type": ["fixed", "off", "off"], "distance": [0.0, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
+                "max": { "type": ["fixed", "off", "off"], "distance": [1.0, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
             }
-        ]
+        }
+    ],
+
+    "solver": {
+        "tolerance": 1.0e-6,
+        "max newton iterations": 20,
+        "poor factor": 0.25,
+        "ghost factor": 10.0,
+        "ghost factor mass": 0.25
     },
 
-    "Solver": {
-        "solve type": "dynamic",
-        "method": "Newton-Raphson",
-        "time integration": "implicit"
-    },
+    "output": {
+        "vtk": "on",
+        "vtk directory": "vtk_sphere_mu0.0",
+        "vtk percent": 0,
 
-    "Output Data": {
-        "vtu data": "yes",
-        "vtk data": "yes",
-        "text data": "rolling sphere"
+        "csv": "on",
+        "csv directory": "csv_sphere_mu0.0",
+        "csv percent": 0,
+        "csv material point fields": [],
+        "csv rigid body fields": ["position", "velocity", "acceleration", "angular velocity"]
     }
 }
 ```

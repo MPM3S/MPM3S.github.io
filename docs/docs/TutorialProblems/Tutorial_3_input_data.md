@@ -1,90 +1,99 @@
 # Vertical penetration (Cone Penetration Test) - input_data.json
 
-The complete reference `input_data.json` for [Tutorial 3](Tutorial_3.md), with every section combined into a single file.
+The complete `input_data.json` for [Tutorial 3](Tutorial_3.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+
+The run folder also needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt`, from the top level of the AMPSSIE repository.
 
 ```json
 {
-    "Mesh": {
-        "domain size x": 12.8,
-        "domain size y": 12.8,
-        "domain size z": 24.6,
-        "dx refined": 0.1,
-        "Refinement type": "rigid body adaptive",
-        "buffer multiplier": 2
+    "GPU" : "on",
+
+    "domain": {
+        "size": 10.0,
+        "gravity": [0.0, 0.0, -9.81]
     },
 
-    "Initial GIMP distribution": {
-        "Initial GIMP distribution x": 12.8,
-        "Initial GIMP distribution y": 12.8,
-        "Initial GIMP distribution z": 24.6
-    },
-
-    "Boundary conditions": {
-        "neg x-plane": "roller",
-        "neg y-plane": "roller",
-        "neg z-plane": "roller",
-        "pos x-plane": "roller",
-        "pos y-plane": "roller"
-    },
-
-    "Material": {
-        "number of layers": 1,
+    "material points": {
+        "extra capacity": 1.2,
+        "element size": 2.0,
+        "number of material points per element 1": 2,
+        "material size": { "min": [0.0, 0.0], "max": [10.0, 10.0] },
         "layers": [
             {
-                "type": "DruckerPrager",
-                "empirical data": "Brinkgreve sand",
-                "assigned material properties": {
-                    "E_50_ref": 19200000.0,
-                    "rho": 1630.0,
-                    "nu": 0.25,
-                    "phi": 32.0,
-                    "psi": 2.0,
-                    "c": 300.0,
-                    "K_0": 0.47,
-                    "m_E": 0.60
-                }
+                "thickness": 20.0,
+                "material": { "type": "willam warnke",
+                              "E": 2.28e7, "nu": 0.25,
+                              "friction angle": 32.75, "dilation angle": 2.75, "cohesion": 300.0,
+                              "density": 1652.0,
+                              "E overburden": { "reference stress": 2.1785e5, "exponent": 0.58125 } }
             }
         ]
     },
 
-    "Rigid body": {
-        "geometry": "cone",
-        "radius": 0.4,
-        "apex angle": 60.0,
-        "initial position z": 24.6,
-        "prescribed displacement z": -4.0,
-        "friction coefficient": 0.3,
-        "normal penalty factor": 50,
-        "tangential penalty factor": 25
+    "rigid bodies": [
+        {
+            "offset": [-0.01, -0.01, 0.0],
+            "points": [
+                { "position": [0.0, 0.0, 0.0], "mass": 39989.6, "rotational inertia": [1626001.9, 1626001.9, 3199.2],
+                  "boundary conditions": ["fixed", "fixed", "fixed", "fixed", "fixed", "fixed"] }
+            ],
+            "stl files": [
+                { "name": "cpt", "stl": "CPT.stl",
+                  "mesh cache": "CPT_mesh.txt", "point": 1 }
+            ]
+        }
+    ],
+
+    "contact": {
+        "friction coefficient": 0.33
     },
 
-    "Loading": {
-        "stages": [
-            {
-                "name": "stage 1 - gravity",
-                "type": "gravity",
-                "g": [0.0, 0.0, -9.81],
-                "number of increments": 1
+    "analysis": [
+        {
+            "type": "static",
+            "load steps": 5,
+            "load": "gravity ramp",
+            "rigid bodies": "off",
+            "adaptivity": { "type": "uniform" },
+            "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
+        },
+        {
+            "type": "static",
+            "load steps": 450,
+            "load": "full",
+            "rigid bodies": "on",
+            "rigid body surface placement": "on",
+            "adaptivity": {
+                "type": "rigid body surface",
+                "element size": 0.025
             },
-            {
-                "name": "stage 2 - cone descent",
-                "type": "rigid body displacement",
-                "rigid body": "cone",
-                "displacement z": -4.0,
-                "number of increments": 300
-            }
-        ]
+            "rigid body boundary conditions": [
+                { "system": 1, "point": 1, "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
+            ],
+            "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
+        }
+    ],
+
+    "solver": {
+        "tolerance": 1.0e-6,
+        "max newton iterations": 20,
+        "poor factor": 0.25,
+        "ghost factor": 0.025,
+        "ghost factor mass": 0.25
     },
 
-    "Solver": {
-        "solve type": "static",
-        "method": "Newton-Raphson"
-    },
+    "output": {
+        "vtk": "on",
+        "vtk directory": "vtk_CPT_dr38",
+        "vtk percent": 0.5,
+        "vtk material point fields": ["displacement", "velocity", "stress", "strain", "volume"],
+        "vtk rigid body fields": ["position", "velocity", "reaction force"],
 
-    "Output Data": {
-        "vtu data": "yes",
-        "vtk data": "yes",
-        "text data": "cone penetration test"
+        "csv": "on",
+        "csv directory": "csv_CPT_dr38",
+        "csv percent": 0.25,
+        "csv material point fields": ["initial position", "position", "stress"],
+        "csv rigid body fields": ["position", "velocity", "reaction force", "reaction moment"]
     }
 }
 ```

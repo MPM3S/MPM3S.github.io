@@ -3,7 +3,7 @@
 ## Introduction
 This quick start tutorial walks through the steps of running your first AMPSSIE problem.
 
-This tutorial analyses a column deforming under self-weight and solves the static weak-form [equations](../TechnicalReferences/StaticWeakForm.md). It is simple but introduces you to all components of the code: setting up, running and viewing the output data.
+This tutorial analyses a column deforming under its own weight and solves the static [equilibrium equations](../TechnicalReferences/EquilibriumEquations.md). It is simple but introduces you to all components of the code: setting up the input file, running the analysis and viewing the output data.
 
 This tutorial has three main sections after the introduction:
 
@@ -13,7 +13,7 @@ This tutorial has three main sections after the introduction:
 
 ### Background: the GIMPM
 
-This problem introduces you to the AMMPSIE code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method, this means that the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid distorted mesh issues normally associated with finite elements.
+This problem introduces you to the AMPSSIE code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method: the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid the distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
 ![The three steps to a GIMPM solution step.](../../img/GIMP_example2.png){ #fig-example-GIMPM width="70%" }
@@ -22,32 +22,28 @@ The GIMPM broadly works in three steps:
 - (b) deforming the mesh and the material points together
 - (c) resetting the mesh but not the material points, distorting the body relative to the mesh
 
-Under this framework you define two things: the `Mesh` - the discretisation on which the equations are solved - and the `Initial GIMP distribution` - the modelled body that carries all the material and kinematic data at the Generlaised Interpolation Material Points (GIMPs). Boundary conditions (fixed or rolling nodes) are applied to the vertices of the `Mesh`, whereas body forces such as gravity are applied to the material points directly.
+Under this framework you define two things: the background mesh on which the equations are solved, through its element size, and the material points - the modelled body, which carries all the material and kinematic data at the Generalised Interpolation Material Points (GIMPs). In AMPSSIE both are set in the `"material points"` section of the input file. Boundary conditions (roller or fixed faces) are applied to the nodes of the background mesh, whereas body forces such as gravity are applied to the material points directly.
 
 ## Input setup
 
 ### Problem summary
 
-The aim is to recover the vertical stress field that develops through a column that deforms vertically and compare the stress solution against the analytical one
+The aim is to recover the vertical stress field that develops in a column compressed by its own weight, and to compare it against the analytical solution
 
 $$
-\sigma_g = \rho g (L - z_p),
+\sigma_{zz} = -\rho\, g\, (L - z_p),
 $$
 
-where $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the domain and $z_p$ is the initial vertical position of the material point (m).
+where $\rho$ is the density, $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the column and $z_p$ is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change, so this Cauchy stress holds however large the deformation.
 
-The column is $0.4 \times 0.4 \times 0.8$ m (see [](#fig-example-mesh)), made of a homogeneous Hencky elastic material with Young's modulus $E = 10^3$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The material domain is filled with a $2\times2\times2$ grid of GIMPs in each element (see [](#fig-example-mesh-gimp)). This is a load-controlled problem, so the gravitational load is divided into 20 increments, with each increment solved by a Newton-Raphson scheme.
+The column is $0.05 \times 0.05 \times 0.8$ m, made of a homogeneous Hencky elastic material with Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The Young's modulus, $E = \rho g L / (2 \ln 2) = 283$ Pa, is chosen to make the deformation large: the material at the base is compressed to half its original length, and the column shortens from $0.8$ m to about $0.54$ m.
 
+The column is divided into 16 elements of $0.05$ m, each filled with a $2 \times 2 \times 2$ grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.
 
-The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [`here`](Tutorial_1_input_data.md) and for all input settings see the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/column_setup.png` - the column of material points at the first output step, with the element size marked.
 
-<div class="grid" markdown>
-
-![Compression under self-weight, example of the refinement scheme with hanging nodes.](../../img/example_mesh_ref.png){ #fig-example-mesh width="100%" }
-
-![Compression under self-weight, example of GIMP distribution in the mesh when h = 0.4 m.](../../img/example_mesh_ref_GIMP.png){ #fig-example-mesh-gimp width="100%" }
-</div>
-
+The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_1_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
 
 <div class="json-side-header">
 <div>Description</div>
@@ -58,20 +54,42 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 <div class="js-text" markdown>
 
-### Mesh data
+### Machine
 
-The mesh matches the $0.4 \times 0.4 \times 0.8$ m column. The element size is defined with `dx refined` which gives the dimensions of the smallest elements.
+`"GPU": "off"` runs the analysis on the CPU, which is plenty for a problem this small.
+
+`"domain update": "stretch"` lets the domain of each GIMP stretch with the deformation of the material, so that the GIMPs near the base shrink to half their height as the column is compressed. It is optional; without it the domains keep their initial size.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
- "Mesh": {
-    "domain size x": 0.4,
-    "domain size y": 0.4,
-    "domain size z": 0.8,
-    "dx refined": 0.4
+"GPU": "off",
+
+"domain update": "stretch"
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Domain
+
+`"size"` is a lower bound on the side of the cubic background mesh. The mesh is enlarged automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side $1.6$ m. Gravity acts in $-z$.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+"domain": {
+    "size": 0.1,
+    "gravity": [0.0, 0.0, -9.81]
 }
 ```
 
@@ -83,75 +101,26 @@ The mesh matches the $0.4 \times 0.4 \times 0.8$ m column. The element size is d
 
 <div class="js-text" markdown>
 
-### Initial GIMP distribution
+### Material points
 
-The `Initial GIMP distribution` is set to fill the whole domain and so is given the same parameters as the `Mesh data`. The default initial GIMP distribution is a grid of 8 GIMPs, $2\times2\times2$ within each element, this is set with `number GIMP`.
+The column is one layer, $0.8$ m thick, on a $0.05 \times 0.05$ m footprint. `"element size"` sets the background elements to $0.05$ m, and `"number of material points per element 1": 2` places a $2 \times 2 \times 2$ grid of GIMPs in each element.
 
-</div>
-
-<div class="js-code" markdown>
-
-```json
-"Initial GIMP distribution": {
-    "Initial GIMP distribution x": 0.4,
-    "Initial GIMP distribution y": 0.4,
-    "Initial GIMP distribution z": 0.8,
-    "number GIMP": 2
-    }
-```
-
-</div>
-
-</div>
-
-<div class="json-side" markdown>
-
-<div class="js-text" markdown>
-
-### Boundary conditions
-
-Rollers are applied on the four side faces and the base ($\pm x$, $\pm y$, $-z$). The top ($+z$) face is left as a free surface. Faces of the domain are by default free so `pos z-plane` does not appear in the file. Every node also has its $x$ and $y$ degrees of freedom fixed to keep the problem one-dimensional, the default is for the degree of freedom to be `free` so $z$ is not set.
+The material is the Hencky elastic model with the parameters from the [Problem summary](#problem-summary). `"extra capacity"` reserves spare storage for material points created by mesh refinement; there is no refinement here, but the key is still required.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Boundary conditions": {
-    "neg x-plane": "roller",
-    "neg y-plane": "roller",
-    "neg z-plane": "roller",
-    "pos x-plane": "roller",
-    "pos y-plane": "roller",
-    "x dof": "fixed",
-    "y dof": "fixed"
-}
-```
-
-</div>
-
-</div>
-
-<div class="json-side" markdown>
-
-<div class="js-text" markdown>
-
-### Material
-
-The column is homogeneous, so a single layer is specified with the Hencky elastic model and the parameters from the Problem description ($E = 10^3$ Pa, $\nu = 0$, $\rho = 50$ kg/m$^3$).
-
-</div>
-
-<div class="js-code" markdown>
-
-```json
-"Material": {
-    "number of layers": 1,
+"material points": {
+    "extra capacity": 1.2,
+    "element size": 0.05,
+    "number of material points per element 1": 2,
+    "material size": { "min": [0.0, 0.0], "max": [0.05, 0.05] },
     "layers": [
         {
-            "type": "Elastic",
-            "empirical data": "homogeneous elastic",
-            "assigned material properties": {"E": 1000.0, "nu": 0.0, "rho": 50.0}
+            "thickness": 0.8,
+            "material": { "type": "elastic", "E": 283.0, "nu": 0.0, "density": 50.0 }
         }
     ]
 }
@@ -165,19 +134,19 @@ The column is homogeneous, so a single layer is specified with the Hencky elasti
 
 <div class="js-text" markdown>
 
-### Solver
+### Rigid bodies and contact
 
-The self-weight load is ramped quasi-statically over 20 increments using a Newton-Raphson scheme.
+This problem has no rigid bodies, so `"rigid bodies"` is an empty list. The `"contact"` section is still required, and its friction coefficient has no effect.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Solver": {
-    "solve type": "static",
-    "load type": "body force",
-    "number of increments": 20
+"rigid bodies": [],
+
+"contact": {
+    "friction coefficient": 0.0
 }
 ```
 
@@ -189,19 +158,84 @@ The self-weight load is ramped quasi-statically over 20 increments using a Newto
 
 <div class="js-text" markdown>
 
-### Output data
+### Analysis
 
-VTU and VTK output is enabled for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)). The `text data` field writes a CSV of the vertical stress at each GIMP, listed against both its initial and deformed heights.
+A single static stage. `"load": "gravity ramp"` increases gravity from zero to its full value over the 50 load steps, and `"rigid bodies": "off"` because there are none.
+
+Rollers are applied on the four sides ($x$ and $y$ `"min"` and `"max"`) and the base is fixed. The top is left free; the `"max"` $z$ face lies at twice the column height, in the empty space above the column, so it never touches the material.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Output Data": {
-    "vtu data": "yes",
-    "vtk data": "yes",
-    "text data": "self-weight column"
+"analysis": [
+    {
+        "type": "static",
+        "load steps": 50,
+        "load": "gravity ramp",
+        "rigid bodies": "off",
+        "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "free"] }
+    }
+]
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Solver
+
+Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}$; a step that has not converged after 20 iterations is retried with half the load increment. The column fills its elements completely, so the [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) is switched off with both ghost factors set to zero.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+"solver": {
+    "tolerance": 1.0e-6,
+    "max newton iterations": 20,
+    "poor factor": 0.25,
+    "ghost factor": 0.0,
+    "ghost factor mass": 0.0
+}
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Output
+
+VTK output, for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)), is written to `vtk_column` at every load step (`"vtk percent": 0`), with the displacement, stress, strain and volume of each GIMP.
+
+CSV output is written to `csv_column`, also at every load step, with each GIMP's initial position, current position and stress - everything needed to compare against the analytical solution. There are no rigid bodies, so no rigid-body fields are needed.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+"output": {
+    "vtk": "on",
+    "vtk directory": "vtk_column",
+    "vtk percent": 0,
+    "vtk material point fields": ["displacement", "stress", "strain", "volume"],
+
+    "csv": "on",
+    "csv directory": "csv_column",
+    "csv percent": 0,
+    "csv material point fields": ["initial position", "position", "stress"],
+    "csv rigid body fields": []
 }
 ```
 
@@ -211,8 +245,7 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 
 ## Deploying and running the problem
 
-AMPSSIE is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial will use Julia directly; see the [installation guide](../GettingStarted/Installation.md) for instructions on installing Julia and the AMPSSIE library.
-
+AMPSSIE is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -225,32 +258,22 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language, 
 
 ### Setting up and running the problem
 
-Once Julia is installed, download the AMPSSIE package from GitHub - the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) covers how to do this. The commands below work the same on Windows, macOS and Linux.
+Create a folder for the run and copy into it the `input_data.json` provided [here](Tutorial_1_input_data.md). The output folders `vtk_column` and `csv_column` are created in the folder Julia is started from.
 
-The first step is to copy the `input_data.json` into the top-level AMPSSIE directory, provided [here](Tutorial_1_input_data.md). If you do this on the command line it will look like this
-```
-cp path/to/input_data_location/input_data.json path/to/AMPSSIE/MaterialPoints
-```
-where the first path is the location of your `input_data.json` and the second is the top-level AMPSSIE directory.
+Open a terminal (a command prompt or PowerShell on Windows), change into the run folder and start Julia with the AMPSSIE project active. `--project` points to the folder where you downloaded AMPSSIE, and `-t auto` makes every CPU core available:
 
-The next steps are for starting julia and loading up the AMPSSIE package. Open a terminal (command line or PowerShell on Windows) and start Julia with the command:
 ```
-julia
-``` 
-
-Then change into the top-level AMPSSIE directory
-```
-cd("path/to/AMPSSIE/MaterialPoints")
+cd path/to/run_folder
+julia --project=path/to/AMPSSIE -t auto
 ```
 
-and run
-```
-include("setup_workers.jl")
-```
-to install the AMPSSIE package and start multiple parallel workers.
+Then load AMPSSIE:
 
-If it works correctly the output should match something similar to the corresponding terminal window. If there are issues, see the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md) for troubleshooting.
+```
+using S3MPM
+```
 
+The commands work the same on Windows, macOS and Linux. The first time you use AMPSSIE, install its dependencies as described in the [installation guide](../GettingStarted/Installation.md).
 
 </div>
 
@@ -259,7 +282,8 @@ If it works correctly the output should match something similar to the correspon
 <div class="terminal terminal-full" markdown>
 
 ```console
-$ julia
+$ cd path/to/run_folder
+$ julia --project=path/to/AMPSSIE -t auto
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
@@ -269,20 +293,7 @@ $ julia
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org release
 |__/                   |
 
-julia> cd("path/to/AMPSSIE/MaterialPoints")
-
-julia> include("setup_workers.jl")
-   Resolving package versions...
-  Activating project at `path/to/AMPSSIE/MaterialPoints`
-      From worker 2:    Activating project at `path/to/AMPSSIE/MaterialPoints`
-      From worker 3:    Activating project at `path/to/AMPSSIE/MaterialPoints`
-starting sim
-total memory 30.66 GB
-free memory  17.81 GB
-      From worker 2:    total memory 30.66 GB
-      From worker 2:    free memory  17.81 GB
-      From worker 3:    total memory 30.66 GB
-      From worker 3:    free memory  17.81 GB
+julia> using S3MPM
 ```
 
 </div>
@@ -297,24 +308,29 @@ free memory  17.81 GB
 
 ### Running the problem
 
-With the `input_data.json` in the correct place and Julia running with the AMPSSIE package loaded, the simulation can be started by calling the AMPSSIE entry point.
+With Julia running in the run folder and AMPSSIE loaded, start the simulation by calling the AMPSSIE entry point:
+
 ```
-Ampse.run("input_data.json");
+S3MPM.non_linear_solve("input_data.json");
 ```
-This reads `input_data.json` from the current directory, steps through the 20 load increments under self-weight, and writes `.vtu` and `.vtk` output files for ParaView visualisation along with a `.csv` file specific to this validation problem. 
+
+This reads `input_data.json` from the current folder, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.
 
 #### Reading the output
 
-Each `time …` block in the terminal corresponds to one of the 20 load increments. For a static problem AMPSSIE uses a pseudo-time that runs from $t = 0$ to $t = 1$, with the increment size `dt` calculated automatically as $1 / \text{number of increments}$ (so `dt` $= 0.05$ for this run). For each step the solver prints:
+AMPSSIE prints a single progress line, redrawn in place after every step; in a log file a new line is kept for every whole percent. When the analysis finishes, the line reads:
 
-- `time X.XXXXXe+XX ----` - the pseudo-time at the start of the step.
-- `number of isolated material points` - a connectivity check; should stay at `0` for this problem.
-- `minimum ghost value` - the ghost-stabilisation parameter in use.
-- `Iteration N | Error: … | dt: …` - the Newton-Raphson iteration number, the residual norm and the step size. The error should drop sharply (quadratic convergence) until it falls below the solver tolerance.
-- `solve time X.XXX s` - wall-clock time spent on that iteration.
-- `vtk storage start … complete` - the per-step results being written to disk.
+- `stage 1/1` - the current stage and the number of stages.
+- the bar and `100.0%` - progress through the stage.
+- `t 1.0/1.0` - the load fraction reached in a static stage (or the time in a dynamic stage), out of its final value.
+- `step 51` - the step counter. It starts at 1 and counts every converged step of the analysis; it is also the number in the output file names.
+- `Δt 0.02` - the current increment, here $1/50$ of the load.
+- `NR 3` - the Newton-Raphson iterations used by the last step.
+- `cuts 0` - steps that did not converge and were retried with half the increment.
+- `del 0` - material points deleted because they became too distorted or isolated.
+- `N 257` - the number of nodes in the background mesh.
 
-When all 20 increments are finished the simulation prints `Simulation complete!`.
+In dynamic analyses a `P2G-fail` count is added if a velocity projection fails to converge.
 
 </div>
 
@@ -323,179 +339,17 @@ When all 20 increments are finished the simulation prints `Simulation complete!`
 <div class="terminal" markdown>
 
 ```console
-julia> Ampse.run("input_data.json");
+julia> S3MPM.non_linear_solve("input_data.json");
+stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257
+```
 
-time 0.00000e+00 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 1.000000e+00 | dt: 5.000e-02
-solve time 0.053 s | Iteration   1 | Error: 1.373106e-02 | dt: 5.000e-02
-solve time 0.005 s | Iteration   2 | Error: 2.461949e-06 | dt: 5.000e-02
-solve time 0.003 s | Iteration   3 | Error: 7.164958e-12 | dt: 5.000e-02
-vtk storage start  ... complete
+In a log file, the last lines are:
 
-time 5.00000e-02 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 5.000054e-01 | dt: 5.000e-02
-solve time 0.006 s | Iteration   1 | Error: 6.732525e-03 | dt: 5.000e-02
-solve time 0.007 s | Iteration   2 | Error: 1.161798e-06 | dt: 5.000e-02
-solve time 0.005 s | Iteration   3 | Error: 3.522579e-12 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 1.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 3.333494e-01 | dt: 5.000e-02
-solve time 0.007 s | Iteration   1 | Error: 4.403240e-03 | dt: 5.000e-02
-solve time 0.009 s | Iteration   2 | Error: 7.318912e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 1.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 2.500237e-01 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 3.241109e-03 | dt: 5.000e-02
-solve time 0.005 s | Iteration   2 | Error: 5.192950e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 2.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 2.000223e-01 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 2.545782e-03 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 3.934660e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 2.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 1.667068e-01 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 2.083781e-03 | dt: 5.000e-02
-solve time 0.006 s | Iteration   2 | Error: 3.108938e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 3.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 1.429193e-01 | dt: 5.000e-02
-solve time 0.005 s | Iteration   1 | Error: 1.755140e-03 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 2.529541e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 3.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 1.250602e-01 | dt: 5.000e-02
-solve time 0.006 s | Iteration   1 | Error: 1.509764e-03 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 2.103297e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 4.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 1.111562e-01 | dt: 5.000e-02
-solve time 0.003 s | Iteration   1 | Error: 1.319980e-03 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 1.778906e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 4.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 1.000674e-01 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 1.168819e-03 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 1.524495e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 5.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 9.102898e-02 | dt: 5.000e-02
-solve time 0.003 s | Iteration   1 | Error: 1.046259e-03 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 1.321833e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 5.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 8.350890e-02 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 9.447820e-04 | dt: 5.000e-02
-solve time 0.012 s | Iteration   2 | Error: 1.156868e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 6.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 7.708897e-02 | dt: 5.000e-02
-solve time 0.003 s | Iteration   1 | Error: 8.594043e-04 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 1.020430e-07 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 6.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 7.163774e-02 | dt: 5.000e-02
-solve time 0.006 s | Iteration   1 | Error: 7.868987e-04 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 9.069380e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 7.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 6.696646e-02 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 7.244346e-04 | dt: 5.000e-02
-solve time 0.006 s | Iteration   2 | Error: 8.105128e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 7.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 6.280416e-02 | dt: 5.000e-02
-solve time 0.005 s | Iteration   1 | Error: 6.705482e-04 | dt: 5.000e-02
-solve time 0.005 s | Iteration   2 | Error: 7.288976e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 8.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 5.919429e-02 | dt: 5.000e-02
-solve time 0.003 s | Iteration   1 | Error: 6.230913e-04 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 6.580529e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 8.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 5.597731e-02 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 5.815146e-04 | dt: 5.000e-02
-solve time 0.007 s | Iteration   2 | Error: 5.977072e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 9.00000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 5.309161e-02 | dt: 5.000e-02
-solve time 0.004 s | Iteration   1 | Error: 5.439947e-04 | dt: 5.000e-02
-solve time 0.004 s | Iteration   2 | Error: 5.428270e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 9.50000e-01 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 5.058659e-02 | dt: 5.000e-02
-solve time 0.003 s | Iteration   1 | Error: 5.123367e-04 | dt: 5.000e-02
-solve time 0.003 s | Iteration   2 | Error: 4.983456e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-time 1.00000e+00 ----------------------------------
-number of isolated material points: 0
-minimum ghost value 1000.0
-Iteration   0 | Error: 4.824111e-02 | dt: 5.000e-02
-solve time 0.003 s | Iteration   1 | Error: 4.828890e-04 | dt: 5.000e-02
-solve time 0.011 s | Iteration   2 | Error: 4.577559e-08 | dt: 5.000e-02
-vtk storage start  ... complete
-
-Simulation complete!
+```text
+stage 1/1 ███████████░  94.0% t 0.94/1.0 step 48 Δt 0.02 NR 3 cuts 0 del 0 N 257
+stage 1/1 ████████████  96.0% t 0.96/1.0 step 49 Δt 0.02 NR 3 cuts 0 del 0 N 257
+stage 1/1 ████████████  98.0% t 0.98/1.0 step 50 Δt 0.02 NR 3 cuts 0 del 0 N 257
+stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257
 ```
 
 </div>
@@ -504,40 +358,41 @@ Simulation complete!
 
 </div>
 
-
 ## Viewing the results
 
-The simulation results appear as the simulation runs, so you do not need to wait until it has finished to view the results. When the problem is run using your local Julia installation, the `.csv`, `.vtk` and `.vtu` files are stored in `MaterialPoints/src/output` (as configured in the [`output data`](#output-data) section of the input file).
+The results are written as the simulation runs, so you do not need to wait until it has finished to view them. The VTK files are in `vtk_column` and the CSV files in `csv_column`, one file per load step, numbered from `00002` to `00051`. The `1` in `mps_1_...` is the layer number.
 
 ### Visualising the output in ParaView
 
-The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and any data associated with the GIMPs (stress, strain, material properties, velocity etc.). The walkthrough below opens the GIMP data (`mpDataV..vtu`) and the background mesh (`Octree..vtu`), thresholds the mesh to the active region and colours the GIMPs by displacement. Finally, the numerical stress solution is compared against the analytical. Paraview has tools to change the view orientation, this is achieved by left-clicking and dragging to rotate, and scrolling zooms in and out.
-
+The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and the data carried by the GIMPs. Each GIMP is drawn as a box the size of its domain. The walkthrough below opens the GIMP data, colours it by displacement and stress, and shows how the GIMP domains have deformed.
 
 <div class="walkthrough" markdown>
 <div markdown>
 **1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
 </div>
 <div markdown>
-![ParaView on launch - empty render view.](../../img/screen_shot_1.png){ #fig-paraview-1 width="100%" }
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_1.png` - ParaView on launch, with an empty render view.
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**2. Open the output files.** *File → Open* and navigate to `MaterialPoints/src/output`. Select `mpDataV..vtu` (the GIMP data) and `Octree..vtu` (the background mesh) - hold `Ctrl` to select both - then click *OK*.
+**2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it and click *OK*.
 </div>
 <div markdown>
-![Open File dialog with `mpDataV..vtu` and `Octree..vtu` selected from the output directory.](../../img/screen_shot_2.png){ #fig-paraview-2 width="100%" }
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_2.png` - the Open File dialog with the `mps_1_..vtu` series selected.
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**3. Apply the readers.** Click *Apply* in the Properties panel for each reader. The full mesh domain appears as a solid grey cube which covers all the GIMP data under it.
+**3. Apply the reader.** Click *Apply* in the Properties panel. The column of GIMPs appears at the first load step.
 </div>
 <div markdown>
-![Both VTU files loaded; the solid grey cube is the full mesh domain.](../../img/screen_shot_3.png){ #fig-paraview-3 width="100%" }
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_3.png` - the column of GIMPs after *Apply*.
 </div>
 </div>
 
@@ -549,74 +404,91 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
     - **Scroll wheel** (or right-click and drag) to zoom in and out.
     - Press `R` or use *View → Reset Camera* to reframe the scene if you get lost.
 
-    The screenshots in the following steps were taken from a slightly rotated viewpoint so that the GIMPs at the back of the column are visible; feel free to rotate to whatever angle is most useful for inspecting your own run.
-
 <div class="walkthrough" markdown>
 <div markdown>
-**4. Threshold to the active region.** With the Octree mesh selected, *Filters → Common → Threshold*. Set the scalar to `Sim active`, lower threshold `0.73`, upper `1.0`, then *Apply*. This hides the inactive padding cells outside the column.
+**4. Colour the GIMPs by vertical displacement.** Change *Coloring* to `displacement` → `Z`. At the first load step the displacements are still small.
 </div>
 <div markdown>
-![Threshold filter on the Octree mesh, keeping only cells with `Sim active` between 0.73 and 1.0.](../../img/screen_shot_4.png){ #fig-paraview-4 width="100%" }
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**5. Switch to Wireframe.** Set the representation of the threshold to *Wireframe* so the active mesh edges are visible.
-</div>
-<div markdown>
-![Wireframe representation of the thresholded background mesh.](../../img/screen_shot_5.png){ #fig-paraview-5 width="100%" }
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_4.png` - GIMPs coloured by vertical displacement at the first load step.
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**6. Colour the GIMPs by displacement.** Select `mpDataV..vtu`, change *Coloring* to `displacement` → `Magnitude`. At the end of step 0 the GIMPs are only marginally displaced.
+**5. Advance to the final step.** Click the *Go to Last* button (`▶|`) in the time toolbar, then *Rescale to Data Range* in the colour-bar toolbar so the colour scale matches the deformed column. The column has shortened from $0.8$ m to about $0.54$ m, so the top has moved down by about $0.26$ m.
 </div>
 <div markdown>
-![GIMP data coloured by displacement magnitude at the initial step.](../../img/screen_shot_6.png){ #fig-paraview-6 width="100%" }
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_5.png` - the deformed column at the final load step, coloured by vertical displacement.
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Advance and view the final step.** Click the *Go to Last* button (`▶|`) in the time toolbar (marked with the solid red circle) at the top to jump to the final increment, then click *Rescale to Data Range* (marked with the dashed red circle) in the colour-bar toolbar so the colour scale matches the deformed configuration. The GIMPs near the base of the column move into the high end of the colour bar, showing the maximum self-weight deformation.
+**6. Colour by vertical stress.** Change *Coloring* to `stress` → `ZZ` and rescale. The compressive stress increases steadily from zero at the top to its largest value at the base.
 </div>
 <div markdown>
-![Final vertical displacement visualisation of the deformed column.](../../img/screen_shot_9.png){ #fig-paraview-9 width="100%" }
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_6.png` - the final column coloured by vertical stress.
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.
+</div>
+<div markdown>
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_1/paraview_7.png` - close-up of the squashed GIMP domains at the base of the column.
 </div>
 </div>
 
 ## Analysing the stress variation with height
 
-As this is a validation problem, the option `"text data": "self-weight column"` in [Output data](#output-data) will provide the final stress magnitude in the $z$-direction with the corresponding original GIMP centre height in the text file `MaterialPoints/src/output/mp_data_dx_0.4.csv`. The minimum element size of `0.4` m is encoded in the file name. The result for this problem looks like:
+`csv_column` holds one CSV file per load step. The first line of each file is the load fraction, `time`, and the second line holds the column headers; after that there is one row per GIMP. The final step, `mps_1_00051.csv`, starts:
+
+```text
+time,1.0000000000000004
+initial position_x,initial position_y,initial position_z,position_x,position_y,position_z,stress_xx,stress_yy,stress_zz,stress_xy,stress_yz,stress_xz
+0.0125,0.0125,0.0125,0.0125,0.0125,0.0063402156514166625,0.0,0.0,-378.74281316505846,0.0,0.0,0.0
+0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.01902064695425,0.0,0.0,-378.74281316505824,0.0,0.0,0.0
+0.0125,0.0125,0.0625,0.0125,0.0125,0.03176546486174408,0.0,0.0,-365.6843044912428,0.0,0.0,0.0
+```
+
+`initial position_z` is $z_p$ in the analytical solution, `position_z` is the GIMP's current height, and `stress_zz` is the vertical Cauchy stress in Pa.
 
 !!! note "Floating-point spellings in the raw CSV"
-    Coordinates that should be `0.3` appear as `0.30000000000000004` and `0.7` as `0.7000000000000001` - these are the exact binary representations Julia stores for those decimals. The position values have been simplified below for readability. The stress values are shown verbatim, but their trailing digits are floating-point noise.
-```text
-x  , y  , z   , abs_sig_zz
-0.1, 0.1, 0.1 , 309.6846764994379
-0.3, 0.1, 0.1 , 309.6846764994377
-0.1, 0.3, 0.1 , 309.68467649943767
-0.3, 0.3, 0.1 , 309.6846764994379
-0.1, 0.1, 0.3 , 309.6846764994379
-0.3, 0.1, 0.3 , 309.6846764994377
-0.1, 0.3, 0.3 , 309.68467649943767
-0.3, 0.3, 0.3 , 309.6846764994379
-0.1, 0.1, 0.5 , 110.43544439893448
-0.3, 0.1, 0.5 , 110.43544439893448
-0.1, 0.3, 0.5 , 110.43544439893448
-0.3, 0.3, 0.5 , 110.43544439893454
-0.1, 0.1, 0.7 , 57.352732639336985
-0.3, 0.1, 0.7 , 57.35273263933691
-0.1, 0.3, 0.7 , 57.35273263933712
-0.3, 0.3, 0.7 , 57.352732639337134
+    Values such as `1.0000000000000004` and `0.037500000000000006` are the exact binary representations Julia stores for `1.0` and `0.0375`, and the trailing digits of the stresses are floating-point noise.
+
+The short Python script below, run from the run folder, plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). It needs [NumPy](https://numpy.org/) and [Matplotlib](https://matplotlib.org/).
+
+```python
+import csv
+import numpy as np
+import matplotlib.pyplot as plt
+
+# the final output step of the column
+with open("csv_column/mps_1_00051.csv") as f:
+    rows = list(csv.reader(f))
+header = rows[1]                                  # rows[0] is the "time" line
+data = np.array(rows[2:], dtype=float)
+z0 = data[:, header.index("initial position_z")]
+szz = data[:, header.index("stress_zz")]
+
+rho, g, L = 50.0, 9.81, 0.8
+z = np.linspace(0.0, L, 100)
+plt.plot(-szz, z0, "o", label="AMPSSIE")
+plt.plot(rho * g * (L - z), z, "-", label="analytical")
+plt.xlabel("vertical compressive stress (Pa)")
+plt.ylabel("initial height (m)")
+plt.legend()
+plt.show()
 ```
-where `x`, `y` and `z` are the initial positions of the GIMPs and `abs_sig_zz` is the magnitude of the Cauchy stress in the $z$-direction. When plotted as point data against the analytical solution from [Output data](#output-data), the result looks like [](#fig-stress-validation):
 
-![Numerical GIMP stress magnitudes from `mp_data_dx_0.4.csv` plotted against the analytical self-weight stress solution from the Problem summary.](../../img/self_weight_stress_validation.png){ #fig-stress-validation width="70%" }
+!!! example "Placeholder: results plot"
+    `img/tutorial_1/stress_validation.png` - the plot produced by the script: GIMP stresses against the analytical solution.
 
-This is a very coarse mesh, so the numerical stress solution is not close to the analytical solution. Refining the mesh reduces the difference, known as the numerical error. To do this set `dx refined` in [Mesh data](#mesh-data) to `0.025`, this will increase the number of elements and GIMPs in the vertical direction improving the solution accuracy.
+The numerical stresses agree with the analytical solution to within 2% of the stress at the base ($392.4$ Pa), with the largest differences in the elements at the base and at the free surface. The GIMPs' final heights also match the large-deformation solution - in which each slice of the column is compressed by the stretch $\lambda$ satisfying $E \ln\lambda / \lambda = \sigma_{zz}$ - to within $1$ mm.
 
-
-
+To see how the accuracy depends on the mesh, halve `"element size"` in [Material points](#material-points) to `0.025` and run the problem again.

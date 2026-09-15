@@ -1,54 +1,66 @@
-# Self-weight column convergence - input_data.json
+# Self-weight column - input_data.json
 
-The complete reference `input_data.json` for [Tutorial 1](Tutorial_1.md), with every section combined into a single file.
+The complete `input_data.json` for [Tutorial 1](Tutorial_1.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
 
 ```json
 {
-    "Mesh": {
-        "domain size x": 0.4,
-        "domain size y": 0.4,
-        "domain size z": 0.8,
-        "dx refined": 0.2,
-        "Refinement type": "column validation"
+    "GPU": "off",
+
+    "domain update": "stretch",
+
+    "domain": {
+        "size": 0.1,
+        "gravity": [0.0, 0.0, -9.81]
     },
 
-    "Initial GIMP distribution": {
-        "Initial GIMP distribution x": 0.4,
-        "Initial GIMP distribution y": 0.4,
-        "Initial GIMP distribution z": 0.8,
-    },
-
-    "Boundary conditions": {
-        "neg x-plane": "roller",
-        "neg y-plane": "roller",
-        "neg z-plane": "roller",
-        "pos x-plane": "roller",
-        "pos y-plane": "roller",
-        "x dof": "fixed",
-        "y dof": "fixed"
-    },
-
-    "Material": {
-        "number of layers": 1,
+    "material points": {
+        "extra capacity": 1.2,
+        "element size": 0.05,
+        "number of material points per element 1": 2,
+        "material size": { "min": [0.0, 0.0], "max": [0.05, 0.05] },
         "layers": [
             {
-                "type": "Elastic",
-                "empirical data": "homogeneous elastic",
-                "assigned material properties": {"E": 1000.0, "nu": 0.0, "rho": 50.0}
+                "thickness": 0.8,
+                "material": { "type": "elastic", "E": 283.0, "nu": 0.0, "density": 50.0 }
             }
         ]
     },
 
-    "Solver": {
-        "solve type": "static",
-        "load type": "force",
-        "number of increments": 20
+    "rigid bodies": [],
+
+    "contact": {
+        "friction coefficient": 0.0
     },
 
-    "Output Data": {
-        "vtu data": "yes",
-        "vtk data": "yes",
-        "text data": "column validation"
+    "analysis": [
+        {
+            "type": "static",
+            "load steps": 50,
+            "load": "gravity ramp",
+            "rigid bodies": "off",
+            "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "free"] }
+        }
+    ],
+
+    "solver": {
+        "tolerance": 1.0e-6,
+        "max newton iterations": 20,
+        "poor factor": 0.25,
+        "ghost factor": 0.0,
+        "ghost factor mass": 0.0
+    },
+
+    "output": {
+        "vtk": "on",
+        "vtk directory": "vtk_column",
+        "vtk percent": 0,
+        "vtk material point fields": ["displacement", "stress", "strain", "volume"],
+
+        "csv": "on",
+        "csv directory": "csv_column",
+        "csv percent": 0,
+        "csv material point fields": ["initial position", "position", "stress"],
+        "csv rigid body fields": []
     }
 }
 ```

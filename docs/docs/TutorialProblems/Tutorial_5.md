@@ -6,9 +6,9 @@ hide:
 # Tutorial 5: Rolling sphere
 
 ## Introduction
-This is the first dynamic tutorial in AMPSSIE. A rigid sphere rolls down an inclined slope under gravity, with the sphere's distance travelled compared against the analytical slip/stick solution for a sequence of friction coefficients.
+This is the first dynamic tutorial in AMPSSIE. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
 
-The problem validates frictional contact, the dynamic time-integration scheme, and the hanging-node formulation simultaneously. As the sphere moves over the slope, the GIMPs around the contact patch are refined by the octree adaptivity; refined GIMPs are then carried with the contact region as the sphere travels.
+The problem validates frictional contact and dynamic time integration together. As the sphere moves, the elements beneath it are refined to a fine mesh that travels with it, and a boundary track keeps only the part of the slope around the sphere active.
 
 This tutorial has four sections:
 
@@ -19,39 +19,33 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will define the geometry, mesh, boundary conditions, material, rigid body and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+You will define the slope, the sphere, the dynamic stage, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
 
-To keep the contact vertices aligned with the slope boundary as the sphere travels, the slope is kept horizontal and gravity is tilted to $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane gravity component.
+To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane component of gravity.
 
 ![Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.](../../img/sphere_slope.png){ #fig-sphere-setup width="70%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
-**Mesh:** Slope dimensions $L_x = 50$ m and $L_y = L_z = 1$ m. Adaptive octree refinement is driven by the rigid body position. The maximum element size away from the sphere is $0.5$ m; at the contact point the smallest element size is $dx_{\min} = 0.1$ m.
+**Slope:** A slab $12.8$ m long, $1.6$ m wide and $0.8$ m thick, made of $0.8$ m base elements with $2 \times 2 \times 2$ material points in each. The elements the sphere touches are refined to $0.025$ m.
 
-**Initial GIMP distribution:** $2\times2\times2$ material points within each element, filling the slope volume.
+**Boundary conditions:** The two ends of the slab ($x = 0$ and $x = 12.8$ m) and its base are fixed, and its two sides are rollers. The top surface is free.
 
-**Boundary conditions:** Roller boundaries on all faces except the top, which is left as a free surface (homogeneous Neumann). Every node has its $x$ and $y$ degrees of freedom fixed - the slope must stay still while the sphere rolls.
+**Material:** A very stiff Hencky elastic slab: Young's modulus $E = 10^9$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 1000$ kg/m$^3$. It deforms negligibly, but modelling it with material points is what exercises the contact between a rigid body and a refined mesh - the point of the test.
 
-**Material:** The slope is modelled as a very stiff Hencky elastic block (Young's modulus $E = 10^9$ Pa, Poisson's ratio $\nu = 0$) rather than a true rigid body. The stiffness is high enough that the slope deforms negligibly, but treating it as a deformable continuum is what exercises the hanging-node + contact formulation - the point of the test.
+**Sphere:** `sphere.stl`, a sphere of radius $r = 1$ m made of 3120 triangles on a latitude-longitude grid, drawn centred on the origin. Its point is at the centre, with mass $m = 5000$ kg and rotational inertia $I = \tfrac{2}{5} m r^2 = 2000$ kg$\cdot$m$^2$, a solid sphere. The sphere can move in $x$ and $z$ and rotate about $y$; its other three degrees of freedom are fixed.
 
-**Rigid body:** The sphere has diameter $d_p = 2.0$ m, mass $m = 10^4$ kg and rotational inertia $I = 4000$ kg$\cdot$m$^2$. Its surface is discretised as 3120 triangles arranged on a latitude-longitude grid with the poles aligned to the rolling plane (so the finest triangles contact the GIMPs). The friction coefficient $\mu$ is the parameter you sweep - try $\mu \in \{0,\, 0.1,\, 0.2,\, 0.4,\, 1.0\}$ to cover both slipping ($\tan\theta > 3.5\mu$) and sticking regimes. The penalty parameters are
+**Friction:** The friction coefficient $\mu$ is the parameter you sweep. Try $\mu \in \{0,\, 0.1,\, 0.2,\, 0.4,\, 1.0\}$ to cover both the slipping ($\tan\theta_s > 3.5\mu$) and sticking regimes.
 
-$$
-\epsilon_N = 50\, E_p A_p, \qquad \epsilon_T = 25\, E_p A_p,
-$$
-
-as in [Tutorial 2](Tutorial_2.md).
-
-**Loading:** A single dynamic stage. Gravity is applied as a tilted vector
+**Loading:** A single dynamic stage lasting $1$ s, with a time step of $0.005$ s. Gravity is applied as a tilted vector
 
 $$
 g_i = 9.81 \times \left[ \tfrac{1}{\sqrt{2}},\, 0,\, -\tfrac{1}{\sqrt{2}} \right] \text{ m/s}^2,
 $$
 
-equivalent to a $45^\circ$ slope under a vertical gravity field.
+equivalent to a $45^\circ$ slope under vertical gravity.
 
-**Solver:** Newton-Raphson, implicit dynamic. The sphere's velocity, angular velocity and rotation evolve through time under the resultant of gravity and contact.
+**Solver:** Newton-Raphson, implicit dynamic. The sphere's velocity, angular velocity and rotation evolve through time under gravity and contact.
 
 The analytical solution to compare against is the distance the sphere has travelled along $+x$ as a function of time:
 
@@ -66,11 +60,7 @@ $$
 with $g = 9.81$ m/s$^2$ and $\theta_s = 45^\circ$.
 
 ## Input setup
-The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_5_input_data.md).
-
-This problem has seven top-level sections, broken out below alongside the [Problem description](#problem-description).
-
-Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
+The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_5_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
 
 <div class="json-side-header">
 <div>Description</div>
@@ -81,23 +71,22 @@ Defaults (a face being free, a DOF being unconstrained, etc.) are not included i
 
 <div class="js-text" markdown>
 
-### Mesh data
+### Machine and domain
 
-`dx refined` is the smallest element size, applied to elements intersecting the sphere. `dx coarse` is the maximum element size far from the sphere. `Refinement type` is `rigid body adaptive` so the refined patch follows the sphere along the slope.
+`"GPU": "off"` runs the analysis on the CPU. The domain `"size"` of $12.8$ m matches the length of the slab, so the background grid is a $12.8$ m cube.
+
+`"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Mesh": {
-    "domain size x": 50.0,
-    "domain size y": 1.0,
-    "domain size z": 1.0,
-    "dx refined": 0.1,
-    "dx coarse": 0.5,
-    "Refinement type": "rigid body adaptive",
-    "buffer multiplier": 2
+"GPU": "off",
+
+"domain": {
+    "size": 12.8,
+    "gravity": [6.93672, 0.0, -6.93672]
 }
 ```
 
@@ -109,72 +98,24 @@ Defaults (a face being free, a DOF being unconstrained, etc.) are not included i
 
 <div class="js-text" markdown>
 
-### Initial GIMP distribution
+### Material points
+
+A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elastic properties from the [Problem description](#problem-description). The refinement size used later, $0.025$ m, is $0.8/2^5$, so the base element size needs no rounding.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Initial GIMP distribution": {
-    "Initial GIMP distribution x": 50.0,
-    "Initial GIMP distribution y": 1.0,
-    "Initial GIMP distribution z": 1.0
-}
-```
-
-</div>
-
-</div>
-
-<div class="json-side" markdown>
-
-<div class="js-text" markdown>
-
-### Boundary conditions
-
-Rollers on all lateral and bottom faces. All nodes have their $x$ and $y$ DOFs fixed so the slope does not translate.
-
-</div>
-
-<div class="js-code" markdown>
-
-```json
-"Boundary conditions": {
-    "neg x-plane": "roller",
-    "neg y-plane": "roller",
-    "neg z-plane": "roller",
-    "pos x-plane": "roller",
-    "pos y-plane": "roller",
-    "x dof": "fixed",
-    "y dof": "fixed"
-}
-```
-
-</div>
-
-</div>
-
-<div class="json-side" markdown>
-
-<div class="js-text" markdown>
-
-### Material
-
-A single very-stiff Hencky elastic layer representing the slope.
-
-</div>
-
-<div class="js-code" markdown>
-
-```json
-"Material": {
-    "number of layers": 1,
+"material points": {
+    "extra capacity": 1.2,
+    "element size": 0.8,
+    "number of material points per element 1": 2,
+    "material size": { "min": [0.0, 0.0], "max": [12.8, 1.6] },
     "layers": [
         {
-            "type": "Elastic",
-            "empirical data": "homogeneous elastic",
-            "assigned material properties": {"E": 1000000000.0, "nu": 0.0}
+            "thickness": 0.8,
+            "material": { "type": "elastic", "E": 1.0e9, "nu": 0.0, "density": 1000.0 }
         }
     ]
 }
@@ -190,23 +131,48 @@ A single very-stiff Hencky elastic layer representing the slope.
 
 ### Rigid body
 
-The sphere geometry is loaded from an external mesh file; the kinematic parameters (mass, inertia, initial position) and the friction coefficient $\mu$ are listed inline. Vary `friction coefficient` between runs to reproduce the slip/stick sweep.
+The sphere is one system with one point at its centre. The point's six boundary conditions, in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$, leave it free to move in $x$ and $z$ and to rotate about $y$.
+
+`sphere.stl` is drawn centred on the origin, the same place as the point. `"offset"` then places the whole sphere with its centre above $x = 1.5$ m, halfway across the slab's width and $1.8$ m up - resting on the slab surface at $0.8$ m.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Rigid body": {
-    "geometry": "mesh file",
-    "mesh path": "sphere.stl",
-    "diameter": 2.0,
-    "mass": 10000.0,
-    "rotational inertia": 4000.0,
-    "initial position": [1.0, 0.5, 1.5],
-    "friction coefficient": 0.2,
-    "normal penalty factor": 50,
-    "tangential penalty factor": 25
+"rigid bodies": [
+    {
+        "offset": [1.5, 0.8, 1.8],
+        "points": [
+            { "position": [0.0, 0.0, 0.0], "mass": 5000.0, "rotational inertia": [2000.0, 2000.0, 2000.0],
+              "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] }
+        ],
+        "stl files": [
+            { "name": "sphere", "stl": "sphere.stl", "mesh cache": "sphere_mesh.txt", "point": 1 }
+        ]
+    }
+]
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Contact
+
+The friction coefficient between the sphere and the slab. Change it between runs to reproduce the friction sweep, and change the output directory names to match so the runs do not overwrite each other.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+"contact": {
+    "friction coefficient": 0.0
 }
 ```
 
@@ -218,28 +184,41 @@ The sphere geometry is loaded from an external mesh file; the kinematic paramete
 
 <div class="js-text" markdown>
 
-### Loading
+### Analysis
 
-A single dynamic stage with tilted gravity. The tilt encodes the $45^\circ$ slope.
+A single dynamic stage: $1$ s of motion in steps of $0.005$ s. The Newmark parameters $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping, which keeps the stiff contact stable. `"rigid body surface placement": "on"` makes sure the sphere starts exactly on the slab surface.
 
-The two non-zero components are $9.81 / \sqrt{2} \approx 6.9367$ m/s$^2$ each.
+`"rigid body surface"` adaptivity refines the elements the sphere's surface passes through to $0.025$ m at every step. The slab's ends and base are fixed and its sides are rollers.
+
+`"boundary track"` makes the $x$ boundaries follow the sphere: a fixed plane at the back of the sphere deletes the slab it leaves behind (`"remove": "yes"`), and a fixed plane $1$ m ahead of it keeps the slab further ahead inactive until the sphere approaches. Tracking is `"off"` in $y$ and $z$.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Loading": {
-    "stages": [
-        {
-            "name": "rolling under tilted gravity",
-            "type": "gravity",
-            "g": [6.9367, 0.0, -6.9367],
-            "time step": 0.01,
-            "end time": 3.0
+"analysis": [
+    {
+        "type": "dynamic",
+        "dt": 0.005,
+        "final time": 1.0,
+        "beta": 0.5,
+        "gamma": 1.0,
+        "rigid bodies": "on",
+        "rigid body surface placement": "on",
+        "adaptivity": {
+            "type": "rigid body surface",
+            "element size": 0.025
+        },
+        "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["fixed", "roller", "free"] },
+        "boundary track": {
+            "min": { "type": ["fixed", "off", "off"], "distance": [0.0, 0.0, 0.0],
+                     "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
+            "max": { "type": ["fixed", "off", "off"], "distance": [1.0, 0.0, 0.0],
+                     "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
         }
-    ]
-}
+    }
+]
 ```
 
 </div>
@@ -252,17 +231,19 @@ The two non-zero components are $9.81 / \sqrt{2} \approx 6.9367$ m/s$^2$ each.
 
 ### Solver
 
-Newton-Raphson, implicit dynamic.
+Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step, with at most 20 iterations before the step is retried with half the time step. The [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) uses `"ghost factor": 10.0` for the stiffness and `"ghost factor mass": 0.25` for the mass.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Solver": {
-    "solve type": "dynamic",
-    "method": "Newton-Raphson",
-    "time integration": "implicit"
+"solver": {
+    "tolerance": 1.0e-6,
+    "max newton iterations": 20,
+    "poor factor": 0.25,
+    "ghost factor": 10.0,
+    "ghost factor mass": 0.25
 }
 ```
 
@@ -274,17 +255,25 @@ Newton-Raphson, implicit dynamic.
 
 <div class="js-text" markdown>
 
-### Output data
+### Output
+
+`"vtk percent": 0` writes a VTK frame at every time step, with every field, to `vtk_sphere_mu0.0`. The CSV output writes no material-point files (an empty list) but records the sphere's position, velocity, acceleration and angular velocity in `csv_sphere_mu0.0/rigid_body.csv`.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"Output Data": {
-    "vtu data": "yes",
-    "vtk data": "yes",
-    "text data": "rolling sphere"
+"output": {
+    "vtk": "on",
+    "vtk directory": "vtk_sphere_mu0.0",
+    "vtk percent": 0,
+
+    "csv": "on",
+    "csv directory": "csv_sphere_mu0.0",
+    "csv percent": 0,
+    "csv material point fields": [],
+    "csv rigid body fields": ["position", "velocity", "acceleration", "angular velocity"]
 }
 ```
 
@@ -293,9 +282,110 @@ Newton-Raphson, implicit dynamic.
 </div>
 
 ## Deploying and running the problem
+
+AMPSSIE is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+
+<div class="json-side-header">
+<div>Deployment instructions</div>
+<div><code>terminal</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Setting up the run folder
+
+Create a folder for the run containing:
+
+- `input_data.json`, copied from the [complete input file](Tutorial_5_input_data.md);
+- `sphere.stl` and `sphere_mesh.txt`, from the top level of the AMPSSIE repository.
+
+The STL and mesh-cache paths in the input file are relative to the input file, and the output folders are created in the folder Julia is started from.
+
+### Running the problem
+
+Start Julia in the run folder with the AMPSSIE project active (`--project`) and every CPU thread available (`-t auto`), then load AMPSSIE and run the input file. The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
+
+The progress line shows the simulated time out of the $1$ s final time. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
+
+</div>
+
+<div class="js-code" markdown>
+
+<div class="terminal terminal-full" markdown>
+
+```console
+$ cd path/to/run_folder
+$ julia --project=path/to/AMPSSIE -t auto
+
+julia> using S3MPM
+
+julia> S3MPM.non_linear_solve("input_data.json");
+```
+
+</div>
+
+</div>
+
+</div>
+
 ## Viewing the results
 
-Below, the deformed slope and GIMP positions show how the refinement follows the sphere down the slope (left, [](#fig-sphere-3d)), and the simulated $d_x(t)$ traces are overlaid on the analytical solution for each friction coefficient, exercising both slipping and sticking regimes (right, [](#fig-sphere-results)).
+### Visualising the output in ParaView
+
+The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1.md#visualising-the-output-in-paraview). Only active material points are written, so the slab appears as a short section that travels with the sphere: the boundary track has deleted the slab behind it, and the slab ahead has not yet been reached.
+
+<div class="walkthrough" markdown>
+<div markdown>
+**1. Open the slab and the sphere.** *File → Open*, go to `vtk_sphere_mu0.0`, hold `Ctrl` and select the `mps_1_..vtu` (slab) and `surface_..vtu` (sphere) series, click *OK* and then *Apply*.
+</div>
+<div markdown>
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_5/paraview_1.png` - the active slab section and the sphere at the first output step.
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**2. Show the refinement.** Select `mps_1_..vtu` and change its *Representation* to *Surface With Edges*. Each box is one material point, so the refinement shows as a patch of much smaller boxes under the sphere.
+</div>
+<div markdown>
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_5/paraview_2.png` - close-up of the refined material points beneath the sphere.
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**3. Colour the sphere by velocity.** Select `surface_..vtu` and set *Coloring* to `velocity` → `Magnitude`.
+</div>
+<div markdown>
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_5/paraview_3.png` - the sphere coloured by velocity magnitude.
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**4. Play the animation.** Click *Play* (`▶`) in the time toolbar to watch the sphere roll down the slope, with the refined patch and the active slab section moving with it. Click *Rescale to Data Range* on the last step so the colour scale covers the final velocity.
+</div>
+<div markdown>
+!!! example "Placeholder: ParaView screenshot"
+    `img/tutorial_5/paraview_4.png` - the sphere and the active slab section at the final step.
+</div>
+</div>
+
+### Distance travelled
+
+`csv_sphere_mu0.0/rigid_body.csv` has one row per time step. The distance travelled is $d_x = $ `body1_position_x` $- 1.5$ m, to be plotted against the `time` column and compared with $d_x(t)$ from the [Problem description](#problem-description). When the sphere sticks, it rolls without slipping, so `body1_angular velocity_y` equals `body1_velocity_x` (the radius is $1$ m); when it slips, the angular velocity lags behind.
+
+!!! example "Placeholder: results plot"
+    `img/tutorial_5/distance_travelled.png` - $d_x$ against time for each friction coefficient, with the analytical solution.
+
+### Published results
+
+The figures below are reproduced from [@bird2026implicitoctreebasedadaptivematerial]. The deformed slope and GIMP positions show how the refinement follows the sphere down the slope (left, [](#fig-sphere-3d)), and the simulated $d_x(t)$ traces are overlaid on the analytical solution for each friction coefficient, in both the slipping and sticking regimes (right, [](#fig-sphere-results)).
 
 <div class="grid" markdown>
 
