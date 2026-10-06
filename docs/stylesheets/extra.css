@@ -330,6 +330,45 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(175, 169, 97, 0.1);
 }
 
+/* Plain "click to expand" blocks. `??? plain "Title"` gives a dropdown whose
+   contents read as ordinary page text: Material styles every <details> as an
+   admonition by default (blue frame, tinted summary, icon, 0.64rem text), so
+   each of those is undone here. The chevron on the right is kept as the only
+   affordance. */
+.md-typeset details.plain {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: inherit;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.md-typeset details.plain:focus-within {
+  box-shadow: none;
+}
+
+.md-typeset details.plain > summary {
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0;
+  padding: 0.2rem 2rem 0.2rem 0;
+}
+
+/* The admonition icon sits in summary::before; the chevron in summary::after. */
+.md-typeset details.plain > summary::before {
+  display: none;
+}
+
+.md-typeset details.plain > summary::after {
+  top: 0.4em;
+}
+
+.md-typeset details.plain > :last-child {
+  margin-bottom: 0;
+}
+
 /* Tables */
 .md-typeset table:not([class]) {
   border: 1px solid var(--durham-concrete);
