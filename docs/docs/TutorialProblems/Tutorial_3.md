@@ -328,7 +328,7 @@ The rigid-body CSV output includes the `reaction force` on the cone, from which 
 
 ## Deploying and running the problem
 
-S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>

@@ -281,7 +281,7 @@ VTK and CSV output at every load step. The CSV files record each GIMP's position
 
 ## Deploying and running the problem
 
-S3-MPM is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and S3-MPM.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>

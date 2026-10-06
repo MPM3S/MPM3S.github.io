@@ -65,7 +65,7 @@ nav:
       - Introduction: docs/Introduction.md
       - Getting Started:
           - Overview: docs/GettingStarted/GettingStarted.md
-          - Installation: docs/GettingStarted/Installation.md
+          - Install and Run: docs/GettingStarted/install_and_run.md
       - 📖 Tutorial problems:
           - Overview: docs/TutorialProblems/TutorialProblems.md
           - Static:

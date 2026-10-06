@@ -245,7 +245,7 @@ CSV output is written to `csv_column`, also at every load step, with each GIMP's
 
 ## Deploying and running the problem
 
-S3-MPM is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and S3-MPM.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -273,7 +273,7 @@ Then load S3-MPM:
 using S3MPM
 ```
 
-The commands work the same on Windows, macOS and Linux. The first time you use S3-MPM, install its dependencies as described in the [installation guide](../GettingStarted/Installation.md).
+The commands work the same on Windows, macOS and Linux. The first time you use S3-MPM, install its dependencies as described in the [installation guide](../GettingStarted/install_and_run.md).
 
 </div>
 

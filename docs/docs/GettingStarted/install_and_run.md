@@ -64,13 +64,29 @@ The simplest deployment is to install Julia and run S3-MPM from source:
 
     If everything succeeds the REPL prints the package versions being resolved, the activated project path and a `starting sim` line; see the [Tutorial 1 terminal output](../TutorialProblems/Tutorial_1.md#setting-up-and-running-the-problem) (or [Tutorial 2](../TutorialProblems/Tutorial_2.md#setting-up-and-running-the-problem)) for the expected console.
 
-    **3. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md) or [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md)) into the `MaterialPoints` directory and call the S3-MPM entry point from the same Julia REPL:
+    **3. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md) or [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md)) into the folder you want to work in, and run it from that folder:
 
-    ```julia-repl
-    julia> S3MPM.non_linear_solve("input_data.json");
-    ```
+    === "CPU"
 
-    This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files to `MaterialPoints/src/output`. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
+        ```bash
+        julia --project=path/to/S3-MPM -t 4 -e 'using S3MPM; S3MPM.non_linear_solve("input_data_sim.json")'
+        ```
+
+        - `input_data_sim.json` contains the simulation data; `S3MPM.non_linear_solve()` with no argument reads `input_data.json`.
+        - `-t 4` is the number of CPU threads. For the fastest performance on a CPU use the number of physical cores minus 2; Julia runs on one thread if `-t` is omitted.
+        - The input file must have `"GPU": "off"`.
+
+    === "GPU"
+
+        ```bash
+        julia --project=path/to/S3-MPM -t 4 -e 'using S3MPM; S3MPM.non_linear_solve("input_data_sim.json")'
+        ```
+
+        - `input_data_sim.json` contains the simulation data; `S3MPM.non_linear_solve()` with no argument reads `input_data.json`.
+        - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU. Julia runs on one thread if `-t` is omitted.
+        - The input file must have `"GPU": "on"`, and the machine needs an NVIDIA GPU with CUDA.
+
+    This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files into the folder you ran from. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
 
 ## Container Runtime
 A container image bundles Julia, S3-MPM and its dependencies, so nothing needs installing on the host machine. This is the usual route on HPC.
@@ -99,8 +115,12 @@ Install whichever runtime suits your machine, then pull the image:
 
         ```powershell
         docker pull ghcr.io/ampssie/s3-mpm:latest
-        docker run --rm -it -v ${PWD}:/work -w /work ghcr.io/ampssie/s3-mpm:latest
+        docker run --rm -it -v ${PWD}:/work -w /work ghcr.io/ampssie/s3-mpm:latest input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2; if the analysis is on a GPU, 4 threads is sufficient.
+        - The input file must have `"GPU": "off"`.
 
     === "Windows (GPU)"
 
@@ -108,15 +128,23 @@ Install whichever runtime suits your machine, then pull the image:
 
         ```powershell
         docker pull ghcr.io/ampssie/s3-mpm:latest
-        docker run --rm -it --gpus all -v ${PWD}:/work -w /work ghcr.io/ampssie/s3-mpm:latest
+        docker run --rm -it --gpus all -v ${PWD}:/work -w /work ghcr.io/ampssie/s3-mpm:latest input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
+        - `--gpus all` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
     === "Linux (CPU)"
 
         ```bash
         sudo docker pull ghcr.io/ampssie/s3-mpm:latest
-        sudo docker run --rm -it -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest
+        sudo docker run --rm -it -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
+        - The input file must have `"GPU": "off"`.
 
     === "Linux (GPU)"
 
@@ -124,8 +152,12 @@ Install whichever runtime suits your machine, then pull the image:
 
         ```bash
         sudo docker pull ghcr.io/ampssie/s3-mpm:latest
-        sudo docker run --rm -it --gpus all -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest
+        sudo docker run --rm -it --gpus all -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest input_data_sim.json -t 4
         ```       
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
+        - `--gpus all` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
     === "macOS (CPU)"
 
@@ -133,8 +165,12 @@ Install whichever runtime suits your machine, then pull the image:
 
         ```bash
         docker pull ghcr.io/ampssie/s3-mpm:latest
-        docker run --rm -it -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest
+        docker run --rm -it -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance use the number of physical cores minus 2.
+        - The input file must have `"GPU": "off"`.
 
     Docker runs in the folder you call it from, so keep `input_data.json` there and the `.vtu` and `.csv` results appear beside it.
 
@@ -154,14 +190,22 @@ Install whichever runtime suits your machine, then pull the image:
     === "CPU"
 
         ```bash
-        apptainer run s3-mpm.sif
+        apptainer run s3-mpm.sif input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
+        - The input file must have `"GPU": "off"`.
 
     === "GPU"
 
         ```bash
-        apptainer run --nv s3-mpm.sif
+        apptainer run --nv s3-mpm.sif input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
+        - `--nv` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
     Apptainer runs in the directory you call it from, so keep `input_data.json` beside `s3-mpm.sif` and the `.vtu` and `.csv` results appear there too.
 
@@ -182,14 +226,22 @@ Install whichever runtime suits your machine, then pull the image:
     === "CPU"
 
         ```bash
-        singularity run s3-mpm.sif
+        singularity run s3-mpm.sif input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
+        - The input file must have `"GPU": "off"`.
 
     === "GPU"
 
         ```bash
-        singularity run --nv s3-mpm.sif
+        singularity run --nv s3-mpm.sif input_data_sim.json -t 4
         ```
+
+        - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+        - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
+        - `--nv` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
     Singularity runs in the directory you call it from, so keep `input_data.json` beside `s3-mpm.sif` and the `.vtu` and `.csv` results appear there too.
 
