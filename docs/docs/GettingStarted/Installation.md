@@ -193,6 +193,9 @@ Install whichever runtime suits your machine, then pull the image:
 
     Singularity runs in the directory you call it from, so keep `input_data.json` beside `s3-mpm.sif` and the `.vtu` and `.csv` results appear there too.
 
+## Cloud computing
+    To do:
+
 ## Visualisation installation
 S3-MPM writes `.vtu`, `.vtk` and `.csv` files. [ParaView](https://www.paraview.org/) opens the VTU and VTK output, and is the viewer the tutorials use:
 
