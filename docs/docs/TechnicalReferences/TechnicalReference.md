@@ -59,8 +59,8 @@ This technical reference documentation outlines key background theory and numeri
 
 ## Linear solution
 
-  - Direct solvers (included within AMPSSIE)
-  - Iterative solvers (included within AMPSSIE)
+  - Direct solvers (included within S3-MPM)
+  - Iterative solvers (included within S3-MPM)
 
 ## Updating
 

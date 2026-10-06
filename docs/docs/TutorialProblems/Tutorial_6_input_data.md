@@ -2,7 +2,7 @@
 
 The complete `input_data.json` for [Tutorial 6](Tutorial_6.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
 
-The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt` - from the top level of the AMPSSIE repository.
+The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt` - from the top level of the S3-MPM repository.
 
 ```json
 {

@@ -6,7 +6,7 @@ hide:
 # Tutorial 5: Rolling sphere
 
 ## Introduction
-This is the first dynamic tutorial in AMPSSIE. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
+This is the first dynamic tutorial in S3-MPM. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
 
 The problem validates frictional contact and dynamic time integration together. As the sphere moves, the elements beneath it are refined to a fine mesh that travels with it, and a boundary track keeps only the part of the slope around the sphere active.
 
@@ -283,7 +283,7 @@ Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step, with at
 
 ## Deploying and running the problem
 
-AMPSSIE is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -299,13 +299,13 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language. 
 Create a folder for the run containing:
 
 - `input_data.json`, copied from the [complete input file](Tutorial_5_input_data.md);
-- `sphere.stl` and `sphere_mesh.txt`, from the top level of the AMPSSIE repository.
+- `sphere.stl` and `sphere_mesh.txt`, from the top level of the S3-MPM repository.
 
 The STL and mesh-cache paths in the input file are relative to the input file, and the output folders are created in the folder Julia is started from.
 
 ### Running the problem
 
-Start Julia in the run folder with the AMPSSIE project active (`--project`) and every CPU thread available (`-t auto`), then load AMPSSIE and run the input file. The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
+Start Julia in the run folder with the S3-MPM project active (`--project`) and every CPU thread available (`-t auto`), then load S3-MPM and run the input file. The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
 
 The progress line shows the simulated time out of the $1$ s final time. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
 
@@ -317,7 +317,7 @@ The progress line shows the simulated time out of the $1$ s final time. Its fiel
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/AMPSSIE -t auto
+$ julia --project=path/to/S3-MPM -t auto
 
 julia> using S3MPM
 

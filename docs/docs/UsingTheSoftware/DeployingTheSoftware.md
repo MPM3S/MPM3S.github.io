@@ -3,7 +3,7 @@
 
 # Local system requirements (including advice, with some examples)
 
-AMPSSIE is a Julia package and runs anywhere Julia is supported.
+S3-MPM is a Julia package and runs anywhere Julia is supported.
 
 **Operating system:** Linux, macOS, and Windows are all supported. Most development and testing has been done on [insert here].
 
@@ -23,7 +23,7 @@ AMPSSIE is a Julia package and runs anywhere Julia is supported.
 
 # Direct interaction with Julia
 
-The simplest deployment is to install Julia and run AMPSSIE from source.
+The simplest deployment is to install Julia and run S3-MPM from source.
 
 **1. Install Julia.** Use the official installer from [julialang.org/downloads](https://julialang.org/downloads/), or on Linux/macOS use the [`juliaup`](https://github.com/JuliaLang/juliaup) toolchain manager:
 
@@ -46,7 +46,7 @@ cd [insert here]
 julia --project=. -e 'using Pkg; Pkg.instantiate()'
 ```
 
-**4. Run a problem.** Point AMPSSIE at your [`input_data.json`](InputFormat.md):
+**4. Run a problem.** Point S3-MPM at your [`input_data.json`](InputFormat.md):
 
 ```bash
 julia --project=. [insert here] path/to/input_data.json

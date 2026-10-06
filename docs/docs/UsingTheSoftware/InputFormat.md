@@ -1,12 +1,12 @@
 # The `input_data.json` format
 
-AMPSSIE drives every analysis from a single [JSON](https://en.wikipedia.org/wiki/JSON) file, typically named `input_data.json`. The file is one JSON object whose top-level keys describe the machine, the [domain](#domain), the soil as [material points](#material-points), the [rigid bodies](#rigid-bodies) and their [contact](#contact), the sequence of [analysis](#analysis) stages, the [solver](#solver) controls and the [output](#output).
+S3-MPM drives every analysis from a single [JSON](https://en.wikipedia.org/wiki/JSON) file, typically named `input_data.json`. The file is one JSON object whose top-level keys describe the machine, the [domain](#domain), the soil as [material points](#material-points), the [rigid bodies](#rigid-bodies) and their [contact](#contact), the sequence of [analysis](#analysis) stages, the [solver](#solver) controls and the [output](#output).
 
 This page lists **every option the solver reads**, whether it is required, and the default used when an optional one is left out. For worked examples see the [tutorial problems](../TutorialProblems/TutorialProblems.md); each one has a [complete input file](#complete-examples).
 
 ## Running an analysis
 
-From Julia, with the AMPSSIE project active:
+From Julia, with the S3-MPM project active:
 
 ```julia
 using S3MPM

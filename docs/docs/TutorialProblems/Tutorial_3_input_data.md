@@ -2,7 +2,7 @@
 
 The complete `input_data.json` for [Tutorial 3](Tutorial_3.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
 
-The run folder also needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt`, from the top level of the AMPSSIE repository.
+The run folder also needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt`, from the top level of the S3-MPM repository.
 
 ```json
 {

@@ -1,7 +1,7 @@
 # Tutorial 1: Self-weight column
 
 ## Introduction
-This quick start tutorial walks through the steps of running your first AMPSSIE problem.
+This quick start tutorial walks through the steps of running your first S3-MPM problem.
 
 This tutorial analyses a column deforming under its own weight and solves the static [equilibrium equations](../TechnicalReferences/EquilibriumEquations.md). It is simple but introduces you to all components of the code: setting up the input file, running the analysis and viewing the output data.
 
@@ -13,7 +13,7 @@ This tutorial has three main sections after the introduction:
 
 ### Background: the GIMPM
 
-This problem introduces you to the AMPSSIE code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method: the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid the distorted mesh issues normally associated with finite elements.
+This problem introduces you to the S3-MPM code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method: the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid the distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
 ![The three steps to a GIMPM solution step.](../../img/GIMP_example2.png){ #fig-example-GIMPM width="70%" }
@@ -22,7 +22,7 @@ The GIMPM broadly works in three steps:
 - (b) deforming the mesh and the material points together
 - (c) resetting the mesh but not the material points, distorting the body relative to the mesh
 
-Under this framework you define two things: the background mesh on which the equations are solved, through its element size, and the material points - the modelled body, which carries all the material and kinematic data at the Generalised Interpolation Material Points (GIMPs). In AMPSSIE both are set in the `"material points"` section of the input file. Boundary conditions (roller or fixed faces) are applied to the nodes of the background mesh, whereas body forces such as gravity are applied to the material points directly.
+Under this framework you define two things: the background mesh on which the equations are solved, through its element size, and the material points - the modelled body, which carries all the material and kinematic data at the Generalised Interpolation Material Points (GIMPs). In S3-MPM both are set in the `"material points"` section of the input file. Boundary conditions (roller or fixed faces) are applied to the nodes of the background mesh, whereas body forces such as gravity are applied to the material points directly.
 
 ## Input setup
 
@@ -245,7 +245,7 @@ CSV output is written to `csv_column`, also at every load step, with each GIMP's
 
 ## Deploying and running the problem
 
-AMPSSIE is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -260,20 +260,20 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language, 
 
 Create a folder for the run and copy into it the `input_data.json` provided [here](Tutorial_1_input_data.md). The output folders `vtk_column` and `csv_column` are created in the folder Julia is started from.
 
-Open a terminal (a command prompt or PowerShell on Windows), change into the run folder and start Julia with the AMPSSIE project active. `--project` points to the folder where you downloaded AMPSSIE, and `-t auto` makes every CPU core available:
+Open a terminal (a command prompt or PowerShell on Windows), change into the run folder and start Julia with the S3-MPM project active. `--project` points to the folder where you downloaded S3-MPM, and `-t auto` makes every CPU core available:
 
 ```
 cd path/to/run_folder
-julia --project=path/to/AMPSSIE -t auto
+julia --project=path/to/S3-MPM -t auto
 ```
 
-Then load AMPSSIE:
+Then load S3-MPM:
 
 ```
 using S3MPM
 ```
 
-The commands work the same on Windows, macOS and Linux. The first time you use AMPSSIE, install its dependencies as described in the [installation guide](../GettingStarted/Installation.md).
+The commands work the same on Windows, macOS and Linux. The first time you use S3-MPM, install its dependencies as described in the [installation guide](../GettingStarted/Installation.md).
 
 </div>
 
@@ -283,7 +283,7 @@ The commands work the same on Windows, macOS and Linux. The first time you use A
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/AMPSSIE -t auto
+$ julia --project=path/to/S3-MPM -t auto
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
@@ -308,7 +308,7 @@ julia> using S3MPM
 
 ### Running the problem
 
-With Julia running in the run folder and AMPSSIE loaded, start the simulation by calling the AMPSSIE entry point:
+With Julia running in the run folder and S3-MPM loaded, start the simulation by calling the S3-MPM entry point:
 
 ```
 S3MPM.non_linear_solve("input_data.json");
@@ -318,7 +318,7 @@ This reads `input_data.json` from the current folder, steps through the 50 load 
 
 #### Reading the output
 
-AMPSSIE prints a single progress line, redrawn in place after every step; in a log file a new line is kept for every whole percent. When the analysis finishes, the line reads:
+S3-MPM prints a single progress line, redrawn in place after every step; in a log file a new line is kept for every whole percent. When the analysis finishes, the line reads:
 
 - `stage 1/1` - the current stage and the number of stages.
 - the bar and `100.0%` - progress through the stage.
@@ -478,7 +478,7 @@ szz = data[:, header.index("stress_zz")]
 
 rho, g, L = 50.0, 9.81, 0.8
 z = np.linspace(0.0, L, 100)
-plt.plot(-szz, z0, "o", label="AMPSSIE")
+plt.plot(-szz, z0, "o", label="S3-MPM")
 plt.plot(rho * g * (L - z), z, "-", label="analytical")
 plt.xlabel("vertical compressive stress (Pa)")
 plt.ylabel("initial height (m)")

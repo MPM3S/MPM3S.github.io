@@ -1,8 +1,11 @@
-
 # Overview
 
-Get up and running with AMPSSIE.
+## Installation and setup
+S3-MPM is written in Julia and can run on CPU or GPU (NVIDIA) machines.
 
-- **[Installation](Installation.md)** - system requirements and setup instructions for Windows, Linux, and macOS.
+To get up and running with S3-MPM, first go to the **[Installation](Installation.md)** page.
 
-Once installed, head to the **[Tutorial problems](../TutorialProblems/TutorialProblems.md)** section for a hands-on walkthrough of your first AMPSSIE analysis.
+The page contains the system requirements, installation instructions for different operating systems, the use of containers and deployment on a range of cloud computing services.
+
+## Tutorial problems
+Once installed, head to the **[Tutorial problems](../TutorialProblems/TutorialProblems.md)** section for a hands-on walkthrough of your first S3-MPM analysis.

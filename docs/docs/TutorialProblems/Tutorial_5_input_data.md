@@ -2,7 +2,7 @@
 
 The complete `input_data.json` for [Tutorial 5](Tutorial_5.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
 
-The run folder also needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt`, from the top level of the AMPSSIE repository.
+The run folder also needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt`, from the top level of the S3-MPM repository.
 
 ```json
 {

@@ -50,7 +50,7 @@ Only a quarter of the problem is modelled, using the two vertical planes of symm
 
 The density is entered as the unit weight divided by $10$ m/s$^2$.
 
-The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress $K_0 \sigma_v$ and a reference pressure $p^{ref} = 100$ kPa, whereas AMPSSIE's [stress-dependent stiffness](../UsingTheSoftware/InputFormat.md#stress-dependent-stiffness) uses the vertical stress $\sigma_v$. The two are the same when the reference stress is $p^{ref}/K_0$:
+The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress $K_0 \sigma_v$ and a reference pressure $p^{ref} = 100$ kPa, whereas S3-MPM's [stress-dependent stiffness](../UsingTheSoftware/InputFormat.md#stress-dependent-stiffness) uses the vertical stress $\sigma_v$. The two are the same when the reference stress is $p^{ref}/K_0$:
 
 $$
 E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \frac{\sigma_v}{\sigma^{ref}} \right)^{m}, \qquad \sigma^{ref} = \frac{p^{ref}}{K_0} = 217.85 \text{ kPa}.
@@ -328,7 +328,7 @@ The rigid-body CSV output includes the `reaction force` on the cone, from which 
 
 ## Deploying and running the problem
 
-AMPSSIE is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -344,13 +344,13 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language. 
 Create a folder for the run containing:
 
 - `input_data.json`, copied from the [complete input file](Tutorial_3_input_data.md);
-- `CPT.stl` and `CPT_mesh.txt`, from the top level of the AMPSSIE repository.
+- `CPT.stl` and `CPT_mesh.txt`, from the top level of the S3-MPM repository.
 
 The STL and mesh-cache paths in the input file are relative to the input file, and the output folders `vtk_CPT_dr38` and `csv_CPT_dr38` are created in the folder Julia is started from.
 
 ### Running the problem
 
-Start Julia in the run folder with the AMPSSIE project active (`--project`) and every CPU thread available (`-t auto`), then load AMPSSIE and run the input file.
+Start Julia in the run folder with the S3-MPM project active (`--project`) and every CPU thread available (`-t auto`), then load S3-MPM and run the input file.
 
 This is a large analysis: with $0.025$ m elements around the cone it is intended for a GPU or an HPC node. On a workstation without a GPU, set `"GPU": "off"` and use `"element size": 0.1` in stage 2.
 
@@ -364,7 +364,7 @@ The progress line shows `stage 1/2` while the initial stresses are set up and `s
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/AMPSSIE -t auto
+$ julia --project=path/to/S3-MPM -t auto
 
 julia> using S3MPM
 

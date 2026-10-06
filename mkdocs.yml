@@ -61,7 +61,7 @@ nav:
       - Technical Approach: about/approach.md
       - Applications: about/applications.md
   - Partners: partners.md
-  - AMPSSIE:
+  - S3-MPM:
       - Introduction: docs/Introduction.md
       - Getting Started:
           - Overview: docs/GettingStarted/GettingStarted.md

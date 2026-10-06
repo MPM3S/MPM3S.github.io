@@ -19,7 +19,7 @@ This tutorial has three main sections after the introduction:
 
 This tutorial extends [Tutorial 1](Tutorial_1.md#background-the-gimpm) to include normal contact. A brief overview is provided here for context; see [equilibrium with rigid-body contact](../TechnicalReferences/EquilibriumEquationsContact.md) for the full technical details. [](#fig-contact-schematic) provides a schematic overview of how the contact between the rigid body and the material points works.
 
-When contact is detected between a GIMP and the rigid body, (a) initial state, a normal contact force is applied at the corners of the GIMP's domain to resist the overlap. This force is proportional to the amount of overlap and can be thought of as a spring whose stiffness resists the overlap. AMPSSIE calculates the spring stiffness automatically from the GIMP size and material properties,
+When contact is detected between a GIMP and the rigid body, (a) initial state, a normal contact force is applied at the corners of the GIMP's domain to resist the overlap. This force is proportional to the amount of overlap and can be thought of as a spring whose stiffness resists the overlap. S3-MPM calculates the spring stiffness automatically from the GIMP size and material properties,
 
 $$
 \epsilon_N = 50\, E_p\, A_p^0,
@@ -55,7 +55,7 @@ As in [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is homogeneo
 
 The rigid platen is a $1.2 \times 1.2 \times 1.0$ m box that overhangs the top of the cube on every side. It starts resting on the cube and is pushed down $0.2$ m over 20 load steps.
 
-Gravity is included. AMPSSIE measures convergence relative to the weight of the soil, so every analysis needs gravity; here the weight of the soil adds at most $\rho g L_0 \approx 7.8$ kPa at the base, about $2\%$ of the stress from the platen.
+Gravity is included. S3-MPM measures convergence relative to the weight of the soil, so every analysis needs gravity; here the weight of the soil adds at most $\rho g L_0 \approx 7.8$ kPa at the base, about $2\%$ of the stress from the platen.
 
 <div class="grid" markdown>
 
@@ -144,7 +144,7 @@ A rigid body is a *system* of one or more *points*. Each point has six degrees o
 
 Its `"boundary conditions"` list the six degrees of freedom in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$. Five are `"fixed"`, and the vertical displacement is prescribed as $-0.01$ m per load step, so the platen moves $0.2$ m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.
 
-The geometry comes from `platen.stl`, welded to point 1. It is drawn in global coordinates - the same frame as the point - with its base on the top of the soil. On the first run AMPSSIE builds a tetrahedral mesh of the platen and stores it in `platen_mesh.txt` for later runs.
+The geometry comes from `platen.stl`, welded to point 1. It is drawn in global coordinates - the same frame as the point - with its base on the top of the soil. On the first run S3-MPM builds a tetrahedral mesh of the platen and stores it in `platen_mesh.txt` for later runs.
 
 </div>
 
@@ -281,7 +281,7 @@ VTK and CSV output at every load step. The CSV files record each GIMP's position
 
 ## Deploying and running the problem
 
-AMPSSIE is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -301,7 +301,7 @@ Create a folder for the run containing two files, both provided [here](Tutorial_
 
 The STL path in the input file is relative to the input file, and the output folders `vtk_cube` and `csv_cube` are created in the folder Julia is started from.
 
-As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal in the run folder, start Julia with the AMPSSIE project active and load AMPSSIE.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal in the run folder, start Julia with the S3-MPM project active and load S3-MPM.
 
 </div>
 
@@ -311,7 +311,7 @@ As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a ter
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/AMPSSIE -t auto
+$ julia --project=path/to/S3-MPM -t auto
 
 julia> using S3MPM
 ```
@@ -328,7 +328,7 @@ julia> using S3MPM
 
 ### Running the problem
 
-With Julia running in the run folder and AMPSSIE loaded, start the simulation:
+With Julia running in the run folder and S3-MPM loaded, start the simulation:
 
 ```
 S3MPM.non_linear_solve("input_data.json");
@@ -336,7 +336,7 @@ S3MPM.non_linear_solve("input_data.json");
 
 #### Reading the output
 
-Before the first load step, AMPSSIE reports the rigid body surface placement: the lowest point of the platen (`body base`) and the top of the soil (`material top`) are both at $0.8$ m, so the platen is moved by just `Δz = 2.23517e-8` m, a small tolerance above the soil.
+Before the first load step, S3-MPM reports the rigid body surface placement: the lowest point of the platen (`body base`) and the top of the soil (`material top`) are both at $0.8$ m, so the platen is moved by just `Δz = 2.23517e-8` m, a small tolerance above the soil.
 
 The progress line then works as in [Tutorial 1](Tutorial_1.md#reading-the-output). The load fraction `t` rises by `Δt 0.05` per load step, each step converges in 3 or 4 Newton-Raphson iterations (`NR`), and no steps are cut or material points deleted. The background mesh has `N 46` nodes.
 

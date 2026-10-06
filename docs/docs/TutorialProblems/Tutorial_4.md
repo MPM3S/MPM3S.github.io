@@ -6,7 +6,7 @@ hide:
 # Tutorial 4: Plough (horizontal penetration)
 
 ## Introduction
-This tutorial walks through a 3D simulation of a seabed cable plough being dragged horizontally through dry sand, the most geometrically complex problem in the AMPSSIE tutorial set.
+This tutorial walks through a 3D simulation of a seabed cable plough being dragged horizontally through dry sand, the most geometrically complex problem in the S3-MPM tutorial set.
 
 The plough is held at a fixed embedment depth and pulled at constant speed; the steady-state horizontal pull (tow) force is compared against the 50g geotechnical centrifuge measurements of Robinson et al. [@robinson2021cone], with scaling to the 1g full-scale problem following Robinson et al. [@robinson2019centrifuge]. The problem exercises contact with a non-convex rigid body, large deformation around a moving wedge, and adaptive mesh refinement that follows the plough through the domain.
 

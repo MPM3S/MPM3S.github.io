@@ -47,7 +47,7 @@ The penalty regulation softens the Signorini-Hertz-Moreau conditions as a small 
 
 $$p_N = \epsilon_N\, g_N,$$
 
-with $\epsilon_N$ the _normal penalty stiffness_. In AMPSSIE the penalty stiffness for each GIMP in contact is built from the GIMP's own material and geometry,
+with $\epsilon_N$ the _normal penalty stiffness_. In S3-MPM the penalty stiffness for each GIMP in contact is built from the GIMP's own material and geometry,
 
 $$\epsilon_N = p_f\, E_p\, A_p^0,$$
 

@@ -8,7 +8,7 @@ hide:
 ## Introduction
 This is the most ambitious tutorial - a 3D dynamic simulation of an AC-14 drag anchor being pulled through a bed of very loose, submerged sand.
 
-The problem combines almost everything in AMPSSIE: the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), the dynamic time integration and moving boundaries from [Tutorial 5](Tutorial_5.md), and an articulated anchor built from three points joined by a hinge, an angle stop and a pull line.
+The problem combines almost everything in S3-MPM: the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), the dynamic time integration and moving boundaries from [Tutorial 5](Tutorial_5.md), and an articulated anchor built from three points joined by a hinge, an angle stop and a pull line.
 
 This tutorial has four sections:
 
@@ -452,7 +452,7 @@ VTK files are written to `vtk_AC14` and CSV files to `csv_AC14`, each every $0.2
 
 ## Deploying and running the problem
 
-AMPSSIE is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and AMPSSIE, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/Installation.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -468,13 +468,13 @@ AMPSSIE is written in the [Julia](https://julialang.org/) programming language. 
 Create a folder for the run containing:
 
 - `input_data.json`, copied from the [complete input file](Tutorial_6_input_data.md);
-- `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt`, from the top level of the AMPSSIE repository.
+- `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt`, from the top level of the S3-MPM repository.
 
 The STL and mesh-cache paths in the input file are relative to the input file, and the output folders `vtk_AC14` and `csv_AC14` are created in the folder Julia is started from.
 
 ### Running the problem
 
-Start Julia in the run folder with the AMPSSIE project active (`--project`), then load AMPSSIE and run the input file. `"GPU": "on"` requires an NVIDIA GPU with CUDA; set it to `"off"` to run on the CPU, which will be slow for this problem.
+Start Julia in the run folder with the S3-MPM project active (`--project`), then load S3-MPM and run the input file. `"GPU": "on"` requires an NVIDIA GPU with CUDA; set it to `"off"` to run on the CPU, which will be slow for this problem.
 
 The progress line counts through `stage 1/3`, `stage 2/3` and `stage 3/3`. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
 
@@ -486,7 +486,7 @@ The progress line counts through `stage 1/3`, `stage 2/3` and `stage 3/3`. Its f
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/AMPSSIE -t auto
+$ julia --project=path/to/S3-MPM -t auto
 
 julia> using S3MPM
 

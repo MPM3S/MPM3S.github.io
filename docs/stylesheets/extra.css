@@ -257,7 +257,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Sub-page nav items: progressively smaller and more indented at each
    nesting level so hierarchy reads visually.
    Depth count: .md-sidebar--primary > .md-nav (primary) > .md-nav (inside
-   AMPSSIE tab) is the visible top level — left alone. Each extra .md-nav
+   S3-MPM tab) is the visible top level — left alone. Each extra .md-nav
    in the selector is one level deeper. */
 
 /* Level 2 (e.g. Overview, Tutorial 2, Reference input data) */
