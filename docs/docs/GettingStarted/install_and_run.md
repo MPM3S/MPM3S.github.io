@@ -39,51 +39,64 @@ The simplest deployment is to install Julia and run S3-MPM from source:
 
     The source lives at [github.com/AMPSSIE/S3-MPM](https://github.com/AMPSSIE/S3-MPM).
 
-    With git, clone it - updating later is then a single `git pull`:
+    Use `git clone` it to pull it from GitHub your current directory, updating later is then a single `git pull`:
 
     ```bash
     git clone https://github.com/AMPSSIE/S3-MPM.git
     cd S3-MPM
+    git pull #for updates
     ```
+
+    If you prefer to download the zip containing the code, go to [github.com/AMPSSIE/S3-MPM](https://github.com/AMPSSIE/S3-MPM)
+    
+    
+    ![The green Code button on the S3-MPM GitHub page, with Download ZIP at the bottom of the menu.](../../img/github_download_zip.png){ #fig-github-zip width="90%" }
 
     Without git, use the green *Code* button on the GitHub page, choose *Download ZIP* and unzip it wherever you want to keep it.
 
-    Either way you end up with a folder containing `Project.toml` and `Manifest.toml`. That folder is what you point Julia at with `--project`.
+    Both method will produce an S3-MPM folder which contains the Julia code. 
 
 ??? plain "S3-MPM installation"
 
     **1. Download the code** from GitHub, as described above.
 
-    **2. Start Julia and install the S3-MPM package.** Open a Julia REPL, change into the `MaterialPoints` directory of the cloned repository and `include` the setup script. This installs the exact dependencies recorded in `Manifest.toml` and starts the parallel workers that S3-MPM uses:
+    **2. Start Julia and install the S3-MPM package.** Open a powershell (Windows) or terminal (Linux/mac) window and start julia with
+    
+    ```bash
+        julia -t 4
+    ```
+    The `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU but generally for a CPU run set the number of threads to the numbe of physical cores -2. Julia runs on one thread if `-t` is omitted.
+
+    In the Julia REPL, change directory in `S3-MPM` and install the S3MPM package. This installs the exact dependencies recorded in `Manifest.toml` and starts the parallel workers that S3-MPM uses:
 
     ```julia-repl
-    julia> cd("path/to/S3-MPM/MaterialPoints")
-
-    julia> include("setup_workers.jl")
+    julia> cd("path/to/S3-MPM")
+    julia> using Pkg;
+    julia> Pkg.activate(".")
+    julia> Pkg.instantiate
+    julia> using S3MPM
     ```
 
-    If everything succeeds the REPL prints the package versions being resolved, the activated project path and a `starting sim` line; see the [Tutorial 1 terminal output](../TutorialProblems/Tutorial_1.md#setting-up-and-running-the-problem) (or [Tutorial 2](../TutorialProblems/Tutorial_2.md#setting-up-and-running-the-problem)) for the expected console.
+    If everything succeeds the REPL prints the package versions being resolved.
 
     **3. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md) or [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md)) into the folder you want to work in, and run it from that folder:
 
     === "CPU"
 
-        ```bash
-        julia --project=path/to/S3-MPM -t 4 -e 'using S3MPM; S3MPM.non_linear_solve("input_data_sim.json")'
+        ```julia-repl
+            julia> S3MPM.non_linear_solve("input_data_sim.json")'
         ```
 
         - `input_data_sim.json` contains the simulation data; `S3MPM.non_linear_solve()` with no argument reads `input_data.json`.
-        - `-t 4` is the number of CPU threads. For the fastest performance on a CPU use the number of physical cores minus 2; Julia runs on one thread if `-t` is omitted.
         - The input file must have `"GPU": "off"`.
 
     === "GPU"
 
-        ```bash
-        julia --project=path/to/S3-MPM -t 4 -e 'using S3MPM; S3MPM.non_linear_solve("input_data_sim.json")'
+        ```julia-repl
+            julia> S3MPM.non_linear_solve("input_data_sim.json")'
         ```
 
         - `input_data_sim.json` contains the simulation data; `S3MPM.non_linear_solve()` with no argument reads `input_data.json`.
-        - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU. Julia runs on one thread if `-t` is omitted.
         - The input file must have `"GPU": "on"`, and the machine needs an NVIDIA GPU with CUDA.
 
     This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files into the folder you ran from. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
