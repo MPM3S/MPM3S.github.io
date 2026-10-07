@@ -11,11 +11,11 @@ S3-MPM is a Julia package and runs anywhere Julia is supported.
 
 **Hardware:** A typical desktop or laptop is sufficient for the tutorial problems. For larger 3D problems with refined meshes it is recommended to use an HPC with at least 10 cores, at least 60 GB of RAM and 10 GB of free disk for outputs. If you are using a GPU it is also recommended that the GPU has 60 GB of GPU memory (data-centre GPUs such as the NVIDIA A100 or H100 have 40-80 GB).
 
-**Software requrements tooling:**
+**Software requirements:**
 
 - [Julia](https://julialang.org/downloads/) - at least version 1.12.
 - A text editor with JSON support for editing `input_data.json` files - [VS Code](https://code.visualstudio.com/) with the [Julia extension](https://www.julia-vscode.org/) is a sensible default.
-- [ParaView](https://www.paraview.org/) or [VisIt](https://visit-dav.github.io/visit-website/) for visualising the VTU/VTK output, support and tutorial detail is only provided for Paraview.
+- [ParaView](https://www.paraview.org/) or [VisIt](https://visit-dav.github.io/visit-website/) for visualising the VTU/VTK output. Support and tutorial detail are only provided for ParaView.
 
 **Optional:**
 
@@ -39,41 +39,40 @@ The simplest deployment is to install Julia and run S3-MPM from source:
 
     The source lives at [github.com/AMPSSIE/S3-MPM](https://github.com/AMPSSIE/S3-MPM).
 
-    Use `git clone` it to pull it from GitHub your current directory, updating later is then a single `git pull`:
+    Use `git clone` to pull the code from GitHub into your current directory; updating later is then a single `git pull` from inside the folder:
 
     ```bash
     git clone https://github.com/AMPSSIE/S3-MPM.git
     cd S3-MPM
-    git pull #for updates
     ```
 
-    If you prefer to download the zip containing the code, go to [github.com/AMPSSIE/S3-MPM](https://github.com/AMPSSIE/S3-MPM)
-    
-    
+    If you prefer to download the ZIP containing the code, go to [github.com/AMPSSIE/S3-MPM](https://github.com/AMPSSIE/S3-MPM).
+
+
     ![The green Code button on the S3-MPM GitHub page, with Download ZIP at the bottom of the menu.](../../img/github_download_zip.png){ #fig-github-zip width="90%" }
 
-    Without git, use the green *Code* button on the GitHub page, choose *Download ZIP* and unzip it wherever you want to keep it.
+    Then use the green *Code* button, choose *Download ZIP* and unzip it wherever you want to keep it.
 
-    Both method will produce an S3-MPM folder which contains the Julia code. 
+    Both methods produce an `S3-MPM` folder containing the Julia code.
 
 ??? plain "S3-MPM installation"
 
     **1. Download the code** from GitHub, as described above.
 
-    **2. Start Julia and install the S3-MPM package.** Open a powershell (Windows) or terminal (Linux/mac) window and start julia with
-    
-    ```bash
-        julia -t 4
-    ```
-    The `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU but generally for a CPU run set the number of threads to the numbe of physical cores -2. Julia runs on one thread if `-t` is omitted.
+    **2. Start Julia and install the S3-MPM package.** Open a PowerShell (Windows) or terminal (Linux/macOS) window and start Julia with:
 
-    In the Julia REPL, change directory in `S3-MPM` and install the S3MPM package. This installs the exact dependencies recorded in `Manifest.toml` and starts the parallel workers that S3-MPM uses:
+    ```bash
+    julia -t 4
+    ```
+    `-t 4` sets the number of CPU threads. Four threads is sufficient when the analysis is on a GPU; for a CPU run, set the number of threads to the number of physical cores minus 2. Julia runs on one thread if `-t` is omitted.
+
+    In the Julia REPL, change directory to `S3-MPM` and install the S3MPM package. This installs the exact dependencies recorded in `Manifest.toml`:
 
     ```julia-repl
     julia> cd("path/to/S3-MPM")
     julia> using Pkg;
     julia> Pkg.activate(".")
-    julia> Pkg.instantiate
+    julia> Pkg.instantiate()
     julia> using S3MPM
     ```
 
@@ -84,24 +83,30 @@ The simplest deployment is to install Julia and run S3-MPM from source:
     === "CPU"
 
         ```julia-repl
-            julia> S3MPM.non_linear_solve("input_data_sim.json")'
+        julia> cd("path/to/run_folder")
+        julia> S3MPM.non_linear_solve("input_data_sim.json");
         ```
 
+        - `cd` moves the REPL to the folder holding your input file, since step 2 left it in `S3-MPM`.
         - `input_data_sim.json` contains the simulation data; `S3MPM.non_linear_solve()` with no argument reads `input_data.json`.
+        - The semicolon stops the REPL printing the material-point data that is returned.
         - The input file must have `"GPU": "off"`.
 
     === "GPU"
 
         ```julia-repl
-            julia> S3MPM.non_linear_solve("input_data_sim.json")'
+        julia> cd("path/to/run_folder")
+        julia> S3MPM.non_linear_solve("input_data_sim.json");
         ```
 
+        - `cd` moves the REPL to the folder holding your input file, since step 2 left it in `S3-MPM`.
         - `input_data_sim.json` contains the simulation data; `S3MPM.non_linear_solve()` with no argument reads `input_data.json`.
+        - The semicolon stops the REPL printing the material-point data that is returned.
         - The input file must have `"GPU": "on"`, and the machine needs an NVIDIA GPU with CUDA.
 
     This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files into the folder you ran from. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
 
-## Container Runtime
+## Container runtime
 A container image bundles Julia, S3-MPM and its dependencies, so nothing needs installing on the host machine. This is the usual route on HPC.
 
 Images are built by a GitHub Actions workflow in the S3-MPM repository and published to the GitHub container registry. The latest build of the default branch is:
@@ -161,12 +166,12 @@ Install whichever runtime suits your machine, then pull the image:
 
     === "Linux (GPU)"
 
-        Requirements: Needs the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+        Requirements: the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
 
         ```bash
         sudo docker pull ghcr.io/ampssie/s3-mpm:latest
         sudo docker run --rm -it --gpus all -v "$PWD":/work -w /work ghcr.io/ampssie/s3-mpm:latest input_data_sim.json -t 4
-        ```       
+        ```
 
         - `input_data_sim.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
         - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
@@ -174,7 +179,7 @@ Install whichever runtime suits your machine, then pull the image:
 
     === "macOS (CPU)"
 
-        Requirements: Macs have no NVIDIA GPU, so S3-MPM runs on the CPU.
+        Note: Macs have no NVIDIA GPU, so S3-MPM runs on the CPU.
 
         ```bash
         docker pull ghcr.io/ampssie/s3-mpm:latest
@@ -189,16 +194,16 @@ Install whichever runtime suits your machine, then pull the image:
 
 ??? plain "Apptainer (Linux only)"
 
-    Apptainer is the usual choice on HPC as it runs without administrator rights. Check whether your cluster already provides it, if not ask your administrator.    
-    
-    To install locally on your Linux machine follow the [installation guide](https://apptainer.org/docs/admin/main/installation.html) with details for the [GPU support](https://apptainer.org/docs/user/main/gpu.html) - the `--nv` flag passes NVIDIA GPUs into the container.
+    Apptainer is the usual choice on HPC as it runs without administrator rights. Check whether your cluster already provides it with `apptainer --version`; if not, ask your administrator.
 
-    To obtain the image pull the image into a local `.sif` file in your current directory:
+    To install locally on your Linux machine follow the [installation guide](https://apptainer.org/docs/admin/main/installation.html). The `--nv` flag passes NVIDIA GPUs into the container, as described in the [GPU support guide](https://apptainer.org/docs/user/main/gpu.html).
+
+    To obtain the image, pull it into a local `.sif` file in your current directory:
 
     ```bash
     apptainer pull s3-mpm.sif docker://ghcr.io/ampssie/s3-mpm:latest
     ```
-    To run the file call in the terminal, or include in your deploy script: 
+    To run the file, call it in the terminal or include it in your job script:
 
     === "CPU"
 
@@ -226,15 +231,15 @@ Install whichever runtime suits your machine, then pull the image:
 
     SingularityCE is a common choice on HPC as it runs without administrator rights. Check whether your cluster already provides it with `singularity --version`; if not, ask your administrator.
 
-    To install locally on your Linux machine follow the [installation guide](https://docs.sylabs.io/guides/latest/admin-guide/installation.html), with details for the [GPU support](https://docs.sylabs.io/guides/latest/user-guide/gpu.html) - the `--nv` flag passes NVIDIA GPUs into the container.
+    To install locally on your Linux machine follow the [installation guide](https://docs.sylabs.io/guides/latest/admin-guide/installation.html). The `--nv` flag passes NVIDIA GPUs into the container, as described in the [GPU support guide](https://docs.sylabs.io/guides/latest/user-guide/gpu.html).
 
-    To obtain the image pull it into a local `.sif` file in your current directory:
+    To obtain the image, pull it into a local `.sif` file in your current directory:
 
     ```bash
     singularity pull s3-mpm.sif docker://ghcr.io/ampssie/s3-mpm:latest
     ```
 
-    To run the file call in the terminal, or include in your job script:
+    To run the file, call it in the terminal or include it in your job script:
 
     === "CPU"
 
@@ -259,7 +264,7 @@ Install whichever runtime suits your machine, then pull the image:
     Singularity runs in the directory you call it from, so keep `input_data.json` beside `s3-mpm.sif` and the `.vtu` and `.csv` results appear there too.
 
 ## Cloud computing
-    To do:
+To do:
 
 ## Visualisation installation
 S3-MPM writes `.vtu`, `.vtk` and `.csv` files. [ParaView](https://www.paraview.org/) opens the VTU and VTK output, and is the viewer the tutorials use:

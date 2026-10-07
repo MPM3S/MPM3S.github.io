@@ -85,7 +85,6 @@ nav:
               - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
       - 📖 Using the software:
           - Input format: docs/UsingTheSoftware/InputFormat.md
-          - Deploying the software: docs/UsingTheSoftware/DeployingTheSoftware.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - 📖 Technical reference:
           - Index: docs/TechnicalReferences/TechnicalReference.md
