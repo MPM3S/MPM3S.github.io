@@ -19,7 +19,7 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will define the soil, the cone, the two loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+You will define the soil, the cone, the two loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
 Only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at $x = y = 0$, and the two faces that meet there carry roller conditions.
 
@@ -27,7 +27,7 @@ Only a quarter of the problem is modelled, using the two vertical planes of symm
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
-**Soil block:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat.md#how-element-sizes-set-the-mesh)).
+**Soil block:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)).
 
 **Boundary conditions:** Rollers on the four vertical faces - on $x = 0$ and $y = 0$ these are the symmetry conditions - and a fixed base. The soil surface is free.
 
@@ -50,7 +50,7 @@ Only a quarter of the problem is modelled, using the two vertical planes of symm
 
 The density is entered as the unit weight divided by $10$ m/s$^2$.
 
-The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress $K_0 \sigma_v$ and a reference pressure $p^{ref} = 100$ kPa, whereas S3-MPM's [stress-dependent stiffness](../UsingTheSoftware/InputFormat.md#stress-dependent-stiffness) uses the vertical stress $\sigma_v$. The two are the same when the reference stress is $p^{ref}/K_0$:
+The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress $K_0 \sigma_v$ and a reference pressure $p^{ref} = 100$ kPa, whereas MPM3S's [stress-dependent stiffness](../UsingTheSoftware/InputFormat/domain_and_material_points.md#stress-dependent-stiffness) uses the vertical stress $\sigma_v$. The two are the same when the reference stress is $p^{ref}/K_0$:
 
 $$
 E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \frac{\sigma_v}{\sigma^{ref}} \right)^{m}, \qquad \sigma^{ref} = \frac{p^{ref}}{K_0} = 217.85 \text{ kPa}.
@@ -68,7 +68,7 @@ $\sigma_v$ is calculated from the weight of the soil above each material point's
 **Solver:** Newton-Raphson, quasi-static, for both stages.
 
 ## Input setup
-The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_3_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_3_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 <div class="json-side-header">
 <div>Description</div>
@@ -328,7 +328,7 @@ The rigid-body CSV output includes the `reaction force` on the cone, from which 
 
 ## Deploying and running the problem
 
-S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+MPM3S is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -344,13 +344,13 @@ S3-MPM is written in the [Julia](https://julialang.org/) programming language. S
 Create a folder for the run containing:
 
 - `input_data.json`, copied from the [complete input file](Tutorial_3_input_data.md);
-- `CPT.stl` and `CPT_mesh.txt`, from the top level of the S3-MPM repository.
+- `CPT.stl` and `CPT_mesh.txt`, from the top level of the MPM3S repository.
 
 The STL and mesh-cache paths in the input file are relative to the input file, and the output folders `vtk_CPT_dr38` and `csv_CPT_dr38` are created in the folder Julia is started from.
 
 ### Running the problem
 
-Start Julia in the run folder with the S3-MPM project active (`--project`) and every CPU thread available (`-t auto`), then load S3-MPM and run the input file.
+Start Julia in the run folder with the MPM3S project active (`--project`) and every CPU thread available (`-t auto`), then load MPM3S and run the input file.
 
 This is a large analysis: with $0.025$ m elements around the cone it is intended for a GPU or an HPC node. On a workstation without a GPU, set `"GPU": "off"` and use `"element size": 0.1` in stage 2.
 
@@ -364,11 +364,11 @@ The progress line shows `stage 1/2` while the initial stresses are set up and `s
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/S3-MPM -t auto
+$ julia --project=path/to/MPM3S -t auto
 
-julia> using S3MPM
+julia> using MPM3S
 
-julia> S3MPM.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("input_data.json");
 ```
 
 </div>

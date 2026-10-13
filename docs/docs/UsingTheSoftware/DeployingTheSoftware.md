@@ -3,7 +3,7 @@
 
 # Local system requirements (including advice, with some examples)
 
-S3-MPM is a Julia package and runs anywhere Julia is supported.
+MPM3S is a Julia package and runs anywhere Julia is supported.
 
 **Operating system:** Linux, macOS, and Windows are all supported. Most development and testing has been done on [insert here].
 
@@ -23,7 +23,7 @@ S3-MPM is a Julia package and runs anywhere Julia is supported.
 
 # Direct interaction with Julia
 
-The simplest deployment is to install Julia and run S3-MPM from source.
+The simplest deployment is to install Julia and run MPM3S from source.
 
 **1. Install Julia.** Use the official installer from [julialang.org/downloads](https://julialang.org/downloads/), or on Linux/macOS use the [`juliaup`](https://github.com/JuliaLang/juliaup) toolchain manager:
 
@@ -46,7 +46,7 @@ cd [insert here]
 julia --project=. -e 'using Pkg; Pkg.instantiate()'
 ```
 
-**4. Run a problem.** Point S3-MPM at your [`input_data.json`](InputFormat.md):
+**4. Run a problem.** Point MPM3S at your [`input_data.json`](InputFormat/index.md):
 
 ```bash
 julia --project=. [insert here] path/to/input_data.json

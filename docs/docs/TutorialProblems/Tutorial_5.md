@@ -6,7 +6,7 @@ hide:
 # Tutorial 5: Rolling sphere
 
 ## Introduction
-This is the first dynamic tutorial in S3-MPM. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
+This is the first dynamic tutorial in MPM3S. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
 
 The problem validates frictional contact and dynamic time integration together. As the sphere moves, the elements beneath it are refined to a fine mesh that travels with it, and a boundary track keeps only the part of the slope around the sphere active.
 
@@ -19,7 +19,7 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will define the slope, the sphere, the dynamic stage, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+You will define the slope, the sphere, the dynamic stage, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
 To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane component of gravity.
 
@@ -60,7 +60,7 @@ $$
 with $g = 9.81$ m/s$^2$ and $\theta_s = 45^\circ$.
 
 ## Input setup
-The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_5_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_5_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 <div class="json-side-header">
 <div>Description</div>
@@ -283,7 +283,7 @@ Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step, with at
 
 ## Deploying and running the problem
 
-S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+MPM3S is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -299,13 +299,13 @@ S3-MPM is written in the [Julia](https://julialang.org/) programming language. S
 Create a folder for the run containing:
 
 - `input_data.json`, copied from the [complete input file](Tutorial_5_input_data.md);
-- `sphere.stl` and `sphere_mesh.txt`, from the top level of the S3-MPM repository.
+- `sphere.stl` and `sphere_mesh.txt`, from the top level of the MPM3S repository.
 
 The STL and mesh-cache paths in the input file are relative to the input file, and the output folders are created in the folder Julia is started from.
 
 ### Running the problem
 
-Start Julia in the run folder with the S3-MPM project active (`--project`) and every CPU thread available (`-t auto`), then load S3-MPM and run the input file. The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
+Start Julia in the run folder with the MPM3S project active (`--project`) and every CPU thread available (`-t auto`), then load MPM3S and run the input file. The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
 
 The progress line shows the simulated time out of the $1$ s final time. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
 
@@ -317,11 +317,11 @@ The progress line shows the simulated time out of the $1$ s final time. Its fiel
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/S3-MPM -t auto
+$ julia --project=path/to/MPM3S -t auto
 
-julia> using S3MPM
+julia> using MPM3S
 
-julia> S3MPM.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("input_data.json");
 ```
 
 </div>

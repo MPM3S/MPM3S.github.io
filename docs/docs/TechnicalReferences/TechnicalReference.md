@@ -59,8 +59,8 @@ This technical reference documentation outlines key background theory and numeri
 
 ## Linear solution
 
-  - Direct solvers (included within S3-MPM)
-  - Iterative solvers (included within S3-MPM)
+  - Direct solvers (included within MPM3S)
+  - Iterative solvers (included within MPM3S)
 
 ## Updating
 

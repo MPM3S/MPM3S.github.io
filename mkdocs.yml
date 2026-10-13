@@ -20,7 +20,7 @@
 
 # Project information
 site_name: MPM for Net Zero
-site_url: https://durhamarc.github.io/mpm-netzero
+site_url: https://mpm3s.github.io/
 site_author: Durham University
 site_description: >-
   Leveraging the Material Point Method for large deformation soil-structure
@@ -61,7 +61,7 @@ nav:
       - Technical Approach: about/approach.md
       - Applications: about/applications.md
   - Partners: partners.md
-  - S3-MPM:
+  - MPM3S:
       - Introduction: docs/Introduction.md
       - Getting Started:
           - Overview: docs/GettingStarted/GettingStarted.md
@@ -84,7 +84,14 @@ nav:
               - Rolling sphere: docs/TutorialProblems/Tutorial_5_input_data.md
               - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
       - 📖 Using the software:
-          - Input format: docs/UsingTheSoftware/InputFormat.md
+          - Input format:
+              - Overview: docs/UsingTheSoftware/InputFormat/index.md
+              - Domain and material points: docs/UsingTheSoftware/InputFormat/domain_and_material_points.md
+              - Rigid bodies: docs/UsingTheSoftware/InputFormat/rigid_bodies.md
+              - Contact properties: docs/UsingTheSoftware/InputFormat/contact.md
+              - Analysis stages: docs/UsingTheSoftware/InputFormat/analysis.md
+              - Solver: docs/UsingTheSoftware/InputFormat/solver.md
+              - Output: docs/UsingTheSoftware/InputFormat/output.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - 📖 Technical reference:
           - Index: docs/TechnicalReferences/TechnicalReference.md

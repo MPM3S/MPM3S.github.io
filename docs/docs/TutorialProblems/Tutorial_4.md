@@ -6,7 +6,7 @@ hide:
 # Tutorial 4: Plough (horizontal penetration)
 
 ## Introduction
-This tutorial walks through a 3D simulation of a seabed cable plough being dragged horizontally through dry sand, the most geometrically complex problem in the S3-MPM tutorial set.
+This tutorial walks through a 3D simulation of a seabed cable plough being dragged horizontally through dry sand, the most geometrically complex problem in the MPM3S tutorial set.
 
 The plough is held at a fixed embedment depth and pulled at constant speed; the steady-state horizontal pull (tow) force is compared against the 50g geotechnical centrifuge measurements of Robinson et al. [@robinson2021cone], with scaling to the 1g full-scale problem following Robinson et al. [@robinson2019centrifuge]. The problem exercises contact with a non-convex rigid body, large deformation around a moving wedge, and adaptive mesh refinement that follows the plough through the domain.
 
@@ -19,7 +19,7 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will define the geometry, mesh, boundary conditions, material, rigid body and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+You will define the geometry, mesh, boundary conditions, material, rigid body and solver in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
 Only half of the domain is modelled, exploiting the symmetry of the plough in $x$. The plough is held at a fixed embedment depth of $D = 1.85$ m and is dragged through the soil over a total horizontal travel of $20$ m at a step size of $0.025$ m.
 
@@ -55,7 +55,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 This problem has eight top-level sections, broken out below alongside the [Problem description](#problem-description).
 
-Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) for the full list of defaults.
+Defaults (a face being free, a DOF being unconstrained, etc.) are not included in the file; only non-default settings are specified. See the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) for the full list of defaults.
 
 <div class="json-side-header">
 <div>Description</div>

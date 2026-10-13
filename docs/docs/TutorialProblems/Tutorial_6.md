@@ -8,7 +8,7 @@ hide:
 ## Introduction
 This is the most ambitious tutorial - a 3D dynamic simulation of an AC-14 drag anchor being pulled through a bed of very loose, submerged sand.
 
-The problem combines almost everything in S3-MPM: the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), the dynamic time integration and moving boundaries from [Tutorial 5](Tutorial_5.md), and an articulated anchor built from three points joined by a hinge, an angle stop and a pull line.
+The problem combines almost everything in MPM3S: the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), the dynamic time integration and moving boundaries from [Tutorial 5](Tutorial_5.md), and an articulated anchor built from three points joined by a hinge, an angle stop and a pull line.
 
 This tutorial has four sections:
 
@@ -19,7 +19,7 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will define the soil, the anchor, the three loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md).
+You will define the soil, the anchor, the three loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
 Only half of the anchor and soil is modelled, using the vertical $xz$ plane of symmetry through the anchor at $y = 0$. Instead of solving the whole length of soil the anchor will pass through, a boundary track keeps only a window of soil around the anchor active.
 
@@ -27,7 +27,7 @@ Only half of the anchor and soil is modelled, using the vertical $xz$ plane of s
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
-**Soil block:** One layer $100$ m long, $10$ m wide and $18.123$ m deep, with $2 \times 2 \times 2$ material points in each element. The base element size is given as $4.0$ m, which is rounded to $0.1 \times 2^5 = 3.2$ m because the mesh around the anchor is refined to $0.1$ m. The footprint is then rounded up to whole elements ($102.4 \times 12.8$ m) and the soil surface up to a whole row of material points, at $19.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat.md#how-element-sizes-set-the-mesh)).
+**Soil block:** One layer $100$ m long, $10$ m wide and $18.123$ m deep, with $2 \times 2 \times 2$ material points in each element. The base element size is given as $4.0$ m, which is rounded to $0.1 \times 2^5 = 3.2$ m because the mesh around the anchor is refined to $0.1$ m. The footprint is then rounded up to whole elements ($102.4 \times 12.8$ m) and the soil surface up to a whole row of material points, at $19.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)).
 
 **Boundary conditions:** The side at $y = 0$ is the symmetry plane and carries rollers, as does the opposite side. The base is fixed. While the soil settles, the two ends are rollers; once the anchor is in place they become fixed planes that move with the anchor.
 
@@ -89,7 +89,7 @@ Frictional contact between the anchor and the sand uses $\mu = 0.45$.
 **Solver:** Newton-Raphson, pseudo-static for stage 1 and implicit dynamic for stages 2 and 3.
 
 ## Input setup
-The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_6_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_6_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 <div class="json-side-header">
 <div>Description</div>
@@ -452,7 +452,7 @@ VTK files are written to `vtk_AC14` and CSV files to `csv_AC14`, each every $0.2
 
 ## Deploying and running the problem
 
-S3-MPM is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and S3-MPM, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+MPM3S is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -468,13 +468,13 @@ S3-MPM is written in the [Julia](https://julialang.org/) programming language. S
 Create a folder for the run containing:
 
 - `input_data.json`, copied from the [complete input file](Tutorial_6_input_data.md);
-- `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt`, from the top level of the S3-MPM repository.
+- `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt`, from the top level of the MPM3S repository.
 
 The STL and mesh-cache paths in the input file are relative to the input file, and the output folders `vtk_AC14` and `csv_AC14` are created in the folder Julia is started from.
 
 ### Running the problem
 
-Start Julia in the run folder with the S3-MPM project active (`--project`), then load S3-MPM and run the input file. `"GPU": "on"` requires an NVIDIA GPU with CUDA; set it to `"off"` to run on the CPU, which will be slow for this problem.
+Start Julia in the run folder with the MPM3S project active (`--project`), then load MPM3S and run the input file. `"GPU": "on"` requires an NVIDIA GPU with CUDA; set it to `"off"` to run on the CPU, which will be slow for this problem.
 
 The progress line counts through `stage 1/3`, `stage 2/3` and `stage 3/3`. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
 
@@ -486,11 +486,11 @@ The progress line counts through `stage 1/3`, `stage 2/3` and `stage 3/3`. Its f
 
 ```console
 $ cd path/to/run_folder
-$ julia --project=path/to/S3-MPM -t auto
+$ julia --project=path/to/MPM3S -t auto
 
-julia> using S3MPM
+julia> using MPM3S
 
-julia> S3MPM.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("input_data.json");
 ```
 
 </div>
