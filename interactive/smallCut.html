@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;font:16px/1.6 "Open Sans",system-ui,sans-serif;color:#222}
+  #wrap{width:100%;height:100%;display:flex;flex-direction:column}
+  #ctrl{flex:none;display:flex;align-items:center;gap:8px;padding:8px 12px 0}
+  #ctrl button{width:26px;height:26px;border:1px solid #666;background:#fff;border-radius:4px;
+               cursor:pointer;font-size:12px;line-height:1;padding:0}
+  #ctrl button:hover{background:#eee}
+  #fig{flex:1;min-height:0}
+  #cond{flex:1.37;min-height:0}
+  svg{width:100%}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="ctrl">
+    <button id="left" title="decrease a">&#9664;</button>
+    <button id="right" title="increase a">&#9654;</button>
+    <span id="val"></span>
+  </div>
+  <svg id="cond" viewBox="0 0 3978 1666" preserveAspectRatio="xMidYMid meet"></svg>
+  <svg id="fig" viewBox="0 0 820 250" preserveAspectRatio="xMidYMid meet"></svg>
+</div>
+<script>
+// Rigid translation test case: a body of width 2h is displaced by a through a
+// background mesh of element size h. h is the width of one black grid box.
+const H = 100, X0 = 60, YT = 40, YB = 140;   // element size, origin, mesh top and bottom
+const NE = 7, PIN = 2;                       // elements across, index of the pinned node
+const BW = 2, MPX = 4, MPY = 2;              // body width in elements, material points per side
+const STEP = 0.125, AMAX = 2;                // arrow step and range, in units of h
+const PURPLE = '#b696b9', EDGE = '#7a5c7d';
+// GIMPM panel of ghostTestProblemCond.png: pixel columns of a/h = 0 and 2, and
+// the plot frame rows. Measured from the image and checked against the a/h = 1
+// spike, which falls exactly on the midpoint x = 3060.
+const CL = 2156.5, CR = 3963.5, CT = 31.5, CB = 1456.5;
+
+function support(x) {                        // roller, or a pinned block at the pinned node
+  if (x === X0 + PIN * H)
+    return '<rect x="' + (x - 22) + '" y="' + (YB + 1) + '" width="44" height="12" ' +
+           'fill="#c9c9c9" stroke="#333" stroke-width="1.5"/>';
+  let s = '<path d="M' + x + ' ' + YB + ' L' + (x - 14) + ' ' + (YB + 22) +
+          ' L' + (x + 14) + ' ' + (YB + 22) + ' Z" fill="none" stroke="#000" stroke-width="1.5"/>';
+  [-9, 0, 9].forEach(function (d) {
+    s += '<circle cx="' + (x + d) + '" cy="' + (YB + 27) +
+         '" r="4" fill="#fff" stroke="#000" stroke-width="1.2"/>';
+  });
+  s += '<rect x="' + (x - 22) + '" y="' + (YB + 31) + '" width="44" height="8" ' +
+       'fill="#c9c9c9" stroke="#333" stroke-width="1"/>';
+  return s;
+}
+
+// dimension line: the arrow sits on the mid-height of the vertical end ticks
+function dim(x1, x2, y, label) {
+  if (x2 - x1 < 1) return '';
+  const T = 13;                              // half-length of the end ticks, centred on y
+  return '<line x1="' + x1 + '" y1="' + y + '" x2="' + x2 + '" y2="' + y + '" ' +
+         'stroke="#000" stroke-width="1.2" marker-start="url(#ar)" marker-end="url(#ar)"/>' +
+         '<line x1="' + x1 + '" y1="' + (y - T) + '" x2="' + x1 + '" y2="' + (y + T) +
+         '" stroke="#000" stroke-width="1"/>' +
+         '<line x1="' + x2 + '" y1="' + (y - T) + '" x2="' + x2 + '" y2="' + (y + T) +
+         '" stroke="#000" stroke-width="1"/>' +
+         '<text x="' + ((x1 + x2) / 2) + '" y="' + (y + 34) + '" text-anchor="middle" ' +
+         'font-family="Georgia,serif" font-style="italic" font-size="22">' + label + '</text>';
+}
+
+function draw(a) {                           // a in units of h
+  const bx = X0 + H + a * H, bw = BW * H;    // body left edge and width
+  let s = '<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" ' +
+          'markerHeight="7" orient="auto-start-reverse">' +
+          '<path d="M0 0 L10 5 L0 10 z" fill="#000"/></marker></defs>';
+
+  // body: purple block split into material point domains, one white point each
+  s += '<rect x="' + bx + '" y="' + YT + '" width="' + bw + '" height="' + H + '" ' +
+       'fill="' + PURPLE + '" stroke="' + EDGE + '" stroke-width="1.5"/>';
+  for (let i = 1; i < MPX; i++)
+    s += '<line x1="' + (bx + i * bw / MPX) + '" y1="' + YT + '" x2="' + (bx + i * bw / MPX) +
+         '" y2="' + (YT + H) + '" stroke="' + EDGE + '" stroke-width="1" stroke-dasharray="4 3"/>';
+  for (let j = 1; j < MPY; j++)
+    s += '<line x1="' + bx + '" y1="' + (YT + j * H / MPY) + '" x2="' + (bx + bw) +
+         '" y2="' + (YT + j * H / MPY) + '" stroke="' + EDGE + '" stroke-width="1" stroke-dasharray="4 3"/>';
+  for (let i = 0; i < MPX; i++) for (let j = 0; j < MPY; j++)
+    s += '<circle cx="' + (bx + (i + 0.5) * bw / MPX) + '" cy="' + (YT + (j + 0.5) * H / MPY) +
+         '" r="6" fill="#fff" stroke="#555" stroke-width="1"/>';
+
+  // background mesh drawn over the body, so the cut through elements is visible
+  for (let i = 0; i <= NE; i++)
+    s += '<line x1="' + (X0 + i * H) + '" y1="' + YT + '" x2="' + (X0 + i * H) +
+         '" y2="' + YB + '" stroke="#000" stroke-width="2"/>';
+  s += '<line x1="' + X0 + '" y1="' + YT + '" x2="' + (X0 + NE * H) + '" y2="' + YT +
+       '" stroke="#000" stroke-width="2"/>' +
+       '<line x1="' + X0 + '" y1="' + YB + '" x2="' + (X0 + NE * H) + '" y2="' + YB +
+       '" stroke="#000" stroke-width="2"/>';
+  for (let i = 0; i <= NE; i++) {
+    s += '<circle cx="' + (X0 + i * H) + '" cy="' + YT + '" r="7" fill="#000"/>' +
+         '<circle cx="' + (X0 + i * H) + '" cy="' + YB + '" r="7" fill="#000"/>' +
+         support(X0 + i * H);
+  }
+
+  s += dim(X0 + H, bx, 205, 'a');                        // current offset
+  s += dim(X0 + (NE - 1) * H, X0 + NE * H, 205, 'h');    // element size
+  document.getElementById('fig').innerHTML = s;
+
+  // condition numbers, with a translucent purple line at the current a/h
+  const cx = CL + (a / 2) * (CR - CL);
+  document.getElementById('cond').innerHTML =
+    '<image href="../img/ghostTestProblemCond.png" x="0" y="0" width="3978" height="1666"/>' +
+    '<line x1="' + cx + '" y1="' + CT + '" x2="' + cx + '" y2="' + CB + '" ' +
+    'stroke="' + PURPLE + '" stroke-width="18" opacity="0.6"/>';
+}
+
+let a = 0;
+function setA(v) {
+  a = Math.max(0, Math.min(AMAX, Math.round(v / STEP) * STEP));
+  draw(a);
+  document.getElementById('val').textContent =
+    'a/h = ' + a.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+}
+document.getElementById('left').addEventListener('click', function (e) { e.preventDefault(); setA(a - STEP); });
+document.getElementById('right').addEventListener('click', function (e) { e.preventDefault(); setA(a + STEP); });
+setA(0.5);
+</script>
+</body>
+</html>

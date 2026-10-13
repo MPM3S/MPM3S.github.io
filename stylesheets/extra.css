@@ -1,0 +1,1136 @@
+/*
+ * Durham University Brand Colors and Styling
+ * Following Durham University Brand Guidelines
+ */
+
+:root {
+  /* Durham Brand Colors */
+  --durham-purple: #68246d;
+  --durham-ink: #002a41;
+  --durham-yellow: #ffd53a;
+  --durham-sky: #a5c8d0;
+  --durham-stone: #dacda2;
+  --durham-gold: #afa961;
+  --durham-concrete: #b3bdb1;
+
+  /* Additional shades for gradients and hover states */
+  --durham-purple-light: #7d3582;
+  --durham-purple-dark: #551d5a;
+  --durham-ink-light: #003d5c;
+}
+
+/* Hero Section Styling */
+.hero-section {
+  margin: -2rem -1rem 2rem -1rem;
+  padding: 0;
+  background: linear-gradient(135deg, var(--durham-purple) 0%, var(--durham-ink) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 76.25em) {
+  .hero-section {
+    margin: -2rem -2rem 2rem -2rem;
+  }
+}
+
+.hero-image {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 60em) {
+  .hero-image {
+    height: 600px;
+  }
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: brightness(0.8);
+}
+
+.hero-image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 42, 65, 0.3) 0%, rgba(104, 36, 109, 0.6) 50%, rgba(104, 36, 109, 0.9) 100%);
+  pointer-events: none;
+}
+
+.image-attribution {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 42, 65, 0.6);
+  padding: 4px 8px;
+  border-radius: 3px;
+  margin: 0;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
+
+.image-attribution a {
+  color: var(--durham-yellow);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.image-attribution a:hover {
+  color: #f5ca1a;
+  text-decoration: underline;
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 1.5rem;
+  color: white;
+  background: transparent;
+  z-index: 2;
+}
+
+@media screen and (min-width: 60em) {
+  .hero-content {
+    padding: 3rem 4rem;
+  }
+}
+
+.hero-content h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (min-width: 60em) {
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+}
+
+.hero-content h2 {
+  color: var(--durham-gold);
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+  border: none;
+  padding: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (min-width: 60em) {
+  .hero-content h2 {
+    font-size: 1.5rem;
+  }
+}
+
+.hero-description {
+  padding: 2rem 1.5rem;
+  color: white;
+  background: linear-gradient(135deg, var(--durham-purple-dark) 0%, var(--durham-ink) 100%);
+}
+
+@media screen and (min-width: 60em) {
+  .hero-description {
+    padding: 3rem 4rem;
+  }
+}
+
+.hero-description p {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 900px;
+}
+
+@media screen and (min-width: 60em) {
+  .hero-description p {
+    font-size: 1.1rem;
+  }
+}
+
+/* Base Typography - Open Sans with Durham guidelines */
+body {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  color: var(--durham-ink);
+  text-align: left;
+  font-weight: 400;
+}
+
+/* Headers using Durham Purple */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--durham-purple);
+  font-weight: 600;
+}
+
+/* Primary color overrides */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--durham-purple);
+  --md-primary-fg-color--light: var(--durham-purple-light);
+  --md-primary-fg-color--dark: var(--durham-purple-dark);
+  --md-primary-bg-color: #fff;
+  --md-primary-bg-color--light: #ffffffb3;
+
+  /* Accent colors */
+  --md-accent-fg-color: var(--durham-yellow);
+  --md-accent-fg-color--transparent: rgba(255, 213, 58, 0.1);
+  --md-accent-bg-color: var(--durham-ink);
+
+  /* Text colors */
+  --md-typeset-color: var(--durham-ink);
+  --md-default-fg-color: var(--durham-ink);
+  --md-default-fg-color--light: rgba(0, 42, 65, 0.54);
+  --md-default-fg-color--lighter: rgba(0, 42, 65, 0.32);
+  --md-default-fg-color--lightest: rgba(0, 42, 65, 0.07);
+
+  /* Code colors */
+  --md-code-fg-color: var(--durham-purple);
+  --md-code-bg-color: rgba(104, 36, 109, 0.05);
+
+  /* Link colors */
+  --md-typeset-a-color: var(--durham-purple);
+}
+
+/* Navigation header with gradient */
+.md-header {
+  background: linear-gradient(135deg, var(--durham-purple) 0%, var(--durham-purple-dark) 100%);
+  box-shadow: 0 2px 8px rgba(104, 36, 109, 0.2);
+}
+
+/* Navigation tabs */
+.md-tabs {
+  background: linear-gradient(180deg, var(--durham-purple-dark) 0%, var(--durham-purple) 100%);
+  border-bottom: 2px solid var(--durham-gold);
+}
+
+.md-tabs__link {
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  opacity: 1;
+  color: var(--durham-yellow);
+}
+
+/* Search bar */
+.md-search__input {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.md-search__input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.md-search__input:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Sidebar navigation */
+.md-nav__item--active > .md-nav__link {
+  color: var(--durham-purple);
+  font-weight: 600;
+}
+
+.md-nav__link:hover {
+  color: var(--durham-purple);
+}
+
+/* Sub-page nav items: progressively smaller and more indented at each
+   nesting level so hierarchy reads visually.
+   Depth count: .md-sidebar--primary > .md-nav (primary) > .md-nav (inside
+   MPM3S tab) is the visible top level — left alone. Each extra .md-nav
+   in the selector is one level deeper. */
+
+/* Level 2 (e.g. Overview, Tutorial 2, Reference input data) */
+.md-sidebar--primary .md-nav .md-nav .md-nav .md-nav__link {
+  font-size: 0.85em;
+  padding-right: 1.5rem;
+}
+
+/* Level 3 (e.g. pages nested under Reference input data) */
+.md-sidebar--primary .md-nav .md-nav .md-nav .md-nav .md-nav__link {
+  font-size: 0.78em;
+  padding-right: 3rem;
+}
+
+/* Buttons and links */
+.md-button {
+  background-color: var(--durham-purple);
+  border-color: var(--durham-purple);
+  color: white;
+  font-weight: 500;
+}
+
+.md-button:hover,
+.md-button:focus {
+  background-color: var(--durham-purple-dark);
+  border-color: var(--durham-purple-dark);
+}
+
+.md-button--primary {
+  background-color: var(--durham-yellow);
+  border-color: var(--durham-yellow);
+  color: var(--durham-ink);
+  font-weight: 600;
+}
+
+.md-button--primary:hover,
+.md-button--primary:focus {
+  background-color: #f5ca1a;
+  border-color: #f5ca1a;
+}
+
+/* Admonitions using Durham colors */
+.md-typeset .admonition.note,
+.md-typeset .admonition.info {
+  border-left-color: var(--durham-sky);
+}
+
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset .admonition.info > .admonition-title {
+  background-color: rgba(165, 200, 208, 0.1);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset .admonition.attention {
+  border-left-color: var(--durham-yellow);
+}
+
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset .admonition.attention > .admonition-title {
+  background-color: rgba(255, 213, 58, 0.1);
+}
+
+.md-typeset .admonition.tip,
+.md-typeset .admonition.success {
+  border-left-color: var(--durham-gold);
+}
+
+.md-typeset .admonition.tip > .admonition-title,
+.md-typeset .admonition.success > .admonition-title {
+  background-color: rgba(175, 169, 97, 0.1);
+}
+
+/* Plain "click to expand" blocks. `??? plain "Title"` gives a dropdown whose
+   contents read as ordinary page text: Material styles every <details> as an
+   admonition by default (blue frame, tinted summary, icon, 0.64rem text), so
+   each of those is undone here. The chevron on the right is kept as the only
+   affordance. */
+.md-typeset details.plain {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: inherit;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.md-typeset details.plain:focus-within {
+  box-shadow: none;
+}
+
+.md-typeset details.plain > summary {
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0;
+  padding: 0.2rem 2rem 0.2rem 0;
+}
+
+/* The admonition icon sits in summary::before; the chevron in summary::after. */
+.md-typeset details.plain > summary::before {
+  display: none;
+}
+
+.md-typeset details.plain > summary::after {
+  top: 0.4em;
+}
+
+.md-typeset details.plain > :last-child {
+  margin-bottom: 0;
+}
+
+/* Tables */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--durham-concrete);
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--durham-purple);
+  color: white;
+  font-weight: 600;
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background-color: rgba(165, 200, 208, 0.1);
+}
+
+.md-typeset table:not([class]) {
+  font-size: inherit;
+}
+
+.md-typeset .centered-table {
+  text-align: center;
+}
+
+.md-typeset .centered-table table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Horizontal rules */
+.md-typeset hr {
+  border-bottom: 1px solid var(--durham-concrete);
+}
+
+/* Code blocks */
+
+/* Inline code chips (`` `text` ``) - keep the pale Durham-purple chip */
+.md-typeset code {
+  background-color: rgba(104, 36, 109, 0.05);
+  color: var(--durham-purple);
+  border: 1px solid rgba(104, 36, 109, 0.1);
+}
+
+/* Fenced code blocks - light Durham-purple-tinted background */
+.md-typeset pre > code {
+  background-color: #faf7fb;
+  color: var(--durham-ink);
+  border: 1px solid rgba(104, 36, 109, 0.15);
+}
+
+/* Syntax token colours (Pygments) on the light block background */
+.md-typeset .highlight .nt {           /* JSON keys / HTML tag names */
+  color: var(--durham-purple);
+  font-weight: 600;
+}
+
+.md-typeset .highlight .s,
+.md-typeset .highlight .s1,
+.md-typeset .highlight .s2,
+.md-typeset .highlight .sd {            /* strings */
+  color: #2f6b3a;
+}
+
+.md-typeset .highlight .mi,
+.md-typeset .highlight .mf,
+.md-typeset .highlight .mh,
+.md-typeset .highlight .il {            /* numbers (int, float, hex) */
+  color: var(--durham-ink);
+}
+
+.md-typeset .highlight .kc,
+.md-typeset .highlight .kn,
+.md-typeset .highlight .kr,
+.md-typeset .highlight .k {             /* keywords, true/false/null */
+  color: #b6500e;
+  font-weight: 600;
+}
+
+.md-typeset .highlight .c,
+.md-typeset .highlight .c1,
+.md-typeset .highlight .cm {            /* comments */
+  color: rgba(0, 42, 65, 0.5);
+  font-style: italic;
+}
+
+.md-typeset .highlight .p {             /* punctuation: braces, commas, colons */
+  color: rgba(0, 42, 65, 0.7);
+}
+
+/* Footer */
+.md-footer {
+  background: linear-gradient(135deg, var(--durham-ink) 0%, var(--durham-ink-light) 100%);
+  color: white;
+}
+
+.md-footer-meta {
+  background-color: rgba(0, 42, 65, 0.9);
+}
+
+.md-footer__link:hover,
+.md-footer__link:focus {
+  color: var(--durham-yellow);
+}
+
+/* Tags (for future use) */
+.md-tag {
+  background-color: var(--durham-sky);
+  color: var(--durham-ink);
+  font-weight: 500;
+}
+
+.md-tag:hover {
+  background-color: #8fb5c0;
+}
+
+/* Dividers and borders */
+.md-typeset .md-content__inner > :first-child {
+  margin-top: 0;
+}
+
+/* Enhanced readability */
+.md-typeset {
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+.md-typeset h1 {
+  font-size: 2rem;
+  margin: 2rem 0 1rem;
+}
+
+.md-typeset h2 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 0.8rem;
+  border-bottom: 2px solid var(--durham-gold);
+  padding-bottom: 0.3rem;
+}
+
+.md-typeset h3 {
+  font-size: 1.25rem;
+  margin: 1.2rem 0 0.6rem;
+}
+
+/* Strong emphasis using brand colors */
+.md-typeset strong {
+  color: var(--durham-purple);
+  font-weight: 600;
+}
+
+/* Lists */
+.md-typeset ul, .md-typeset ol {
+  margin-left: 1.5rem;
+}
+
+.md-typeset li {
+  margin-bottom: 0.5rem;
+}
+
+/* Blockquotes */
+.md-typeset blockquote {
+  border-left: 4px solid var(--durham-gold);
+  background-color: rgba(175, 169, 97, 0.05);
+  padding: 0.5rem 1rem;
+}
+
+/* Navigation icons — hide only the expand chevron on nested items,
+   not the back-arrow icon in the drill-down sub-drawer. */
+.md-nav__item--nested > .md-nav__link .md-nav__icon {
+  display: none;
+}
+
+/* Table of contents */
+.md-nav--secondary .md-nav__link--active {
+  color: var(--durham-purple);
+  border-left-color: var(--durham-yellow);
+}
+
+/* Back to top button */
+.md-top {
+  background-color: var(--durham-purple);
+  color: var(--durham-yellow);
+}
+
+.md-top:hover,
+.md-top:focus {
+  background-color: var(--durham-purple-dark);
+  color: #f5ca1a;
+}
+
+.md-top svg {
+  fill: var(--durham-yellow);
+}
+
+.md-top:hover svg,
+.md-top:focus svg {
+  fill: #f5ca1a;
+}
+
+/* Improve spacing and readability for content */
+.md-content {
+  padding: 2rem 1rem;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-content {
+    padding: 2rem 4rem;
+  }
+}
+
+/* Widen main content column on desktop */
+@media screen and (min-width: 76.25em) {
+  .md-grid {
+    max-width: 1400px;
+  }
+
+  .md-main__inner {
+    max-width: none;
+  }
+
+  /* Add padding to sidebars to bring them inwards from page edges */
+  .md-sidebar--primary {
+    padding-left: 2rem;
+  }
+
+  .md-sidebar--secondary {
+    padding-right: 2rem;
+  }
+
+  /* Right-align sidebar navigation text */
+  .md-sidebar--primary .md-nav {
+    direction: rtl;
+  }
+
+  .md-sidebar--primary .md-nav__item {
+    direction: rtl;
+  }
+
+  .md-sidebar--primary .md-nav__link {
+    direction: ltr;
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+  }
+}
+
+/* Centre items horizontally within their grid cells so figures sized smaller
+   than the cell don't hug the cell edge. */
+.md-typeset .grid {
+  justify-items: center;
+}
+
+/* Fix .grid layout when figures are wrapped in <p> by python-markdown.
+   Browsers auto-close the <p> before the block-level <figure>, leaving stray
+   empty <p> elements as grid items. Hide them so only the figures count. */
+.md-typeset .grid > p:empty {
+  display: none;
+}
+
+/* Tighten figure spacing inside grids so the two cells align cleanly. */
+.md-typeset .grid > figure {
+  margin: 0;
+}
+
+/* Force images in a grid to a uniform height regardless of aspect ratio.
+   object-fit: contain preserves aspect ratio and centres the SVG in the box. */
+.md-typeset .grid > figure img {
+  width: 100%;
+  height: 18rem;
+  object-fit: contain;
+}
+
+/* Side-by-side image + text block. The image stretches to match the text
+   column's height; aspect ratio is preserved via object-fit. Stacks on
+   narrow viewports. */
+.md-typeset .image-text-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+  margin: 1em 0;
+}
+
+.md-typeset .image-text-row > .ir-image {
+  flex: 0 1 40%;
+  max-width: 40%;
+  min-width: 0;
+}
+
+.md-typeset .image-text-row > .ir-image figure,
+.md-typeset .image-text-row > .ir-image p {
+  margin: 0;
+  height: 100%;
+}
+
+.md-typeset .image-text-row > .ir-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.md-typeset .image-text-row > .ir-text {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Full-bleed figure: lets an image extend past the article column to the
+   full width of the page grid. Apply via .full-bleed on the image attr. */
+.md-typeset .full-bleed {
+  display: block;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+/* Stack columns on phone-portrait viewports only. */
+@media screen and (max-width: 30em) {
+  .md-typeset .image-text-row {
+    flex-direction: column;
+  }
+  .md-typeset .image-text-row > .ir-image {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+  .md-typeset .image-text-row > .ir-image img {
+    height: auto;
+  }
+}
+
+/* Archive notice styling (for future use) */
+.archive-notice {
+  background-color: var(--durham-stone);
+  border: 1px solid var(--durham-gold);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+/* Prominent call-to-action links */
+.md-typeset .cta-link {
+  display: inline-block;
+  background-color: var(--durham-yellow);
+  color: var(--durham-ink);
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid var(--durham-gold);
+}
+
+.md-typeset .cta-link:hover {
+  background-color: #f5ca1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(104, 36, 109, 0.2);
+}
+
+/* Project Logos Styling */
+.project-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem 0;
+  padding: 2rem 1rem;
+  background: white;
+  border: 1px solid var(--durham-concrete);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logo {
+  max-height: 80px;
+  width: auto;
+  display: block;
+}
+
+.durham-logo {
+  width: 200px;
+  height: auto;
+}
+
+.ukri-logo {
+  max-width: 180px;
+  max-height: none;
+  height: auto;
+  width: auto;
+}
+
+@media screen and (max-width: 60em) {
+  .project-logos {
+    gap: 2rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .partner-logo {
+    max-height: 60px;
+  }
+
+  .durham-logo {
+    width: 160px;
+    height: auto;
+  }
+
+  .ukri-logo {
+    max-width: 140px;
+    max-height: none;
+    height: auto;
+    width: auto;
+  }
+}
+
+/* Logo styling in other contexts */
+.md-typeset img.partner-logo {
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Image Grid Styling */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.image-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--durham-concrete);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.image-item em {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--durham-ink);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+@media screen and (max-width: 60em) {
+  .image-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Ensure images maintain aspect ratio */
+.md-typeset .image-item img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Profile Picture Styling - Durham Branding */
+.profile-section {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.profile-picture {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 0 0 50% 0;
+  object-fit: cover;
+  border: 2px solid var(--durham-concrete);
+}
+
+.profile-content {
+  flex: 1;
+}
+
+@media screen and (max-width: 60em) {
+  .profile-section {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ============================================================
+   JSON side-by-side layout: text on the left, JSON snippet on
+   the right. Each `### subsection` in a tutorial's Input setup
+   wraps its body in `<div class="json-side">` to share a grid row.
+   A `<div class="json-side-header">` above the first row labels
+   the columns ("Description" / `input_data.json`).
+   ============================================================ */
+
+.md-typeset .json-side,
+.md-typeset .json-side-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.md-typeset .json-side {
+  margin: 1.5rem 0;
+}
+
+.md-typeset .json-side .js-code,
+.md-typeset .json-side .js-text {
+  min-width: 0;
+}
+
+.md-typeset .json-side .js-code .highlight,
+.md-typeset .json-side .js-code pre {
+  margin: 0;
+}
+
+/* Long code blocks inside the .js-text column (e.g. shell `cp` lines)
+   need to scroll horizontally rather than stretch the column. */
+.md-typeset .json-side .js-text pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Smaller prose in the left column so the JSON dominates the row. */
+.md-typeset .json-side .js-text {
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.md-typeset .json-side .js-text h3 {
+  font-size: 1rem;
+  margin: 0 0 0.4rem;
+}
+
+.md-typeset .json-side .js-text > :first-child {
+  margin-top: 0;
+}
+.md-typeset .json-side .js-text > :last-child {
+  margin-bottom: 0;
+}
+
+/* Column-header row above the first .json-side block. */
+.md-typeset .json-side-header {
+  margin: 2rem 0 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--durham-gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+  color: var(--durham-purple);
+}
+
+.md-typeset .json-side-header code {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--durham-ink);
+}
+
+/* Stack on narrow viewports, and hide the header (labels would orphan). */
+@media (max-width: 76.25em) {
+  .md-typeset .json-side {
+    grid-template-columns: 1fr;
+  }
+  .md-typeset .json-side-header {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Walkthrough rows: single column with the text block above and
+   the screenshot below. Used for screenshot-driven step-by-step
+   guides such as the ParaView walkthrough.
+   ============================================================ */
+.md-typeset .walkthrough {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.md-typeset .walkthrough > div > :first-child { margin-top: 0; }
+.md-typeset .walkthrough > div > :last-child  { margin-bottom: 0; }
+
+.md-typeset .walkthrough img {
+  width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   Terminal-window styling for shell / console examples.
+   Wrap a code block in `<div class="terminal" markdown>` to get
+   a dark window with macOS-style traffic-light chrome. Pure
+   visual treatment — no actual execution. Use the `console`
+   Pygments lexer inside to dim `$` prompts vs output.
+   ============================================================ */
+.md-typeset .terminal {
+  background: #1e1f29;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Title bar with the three traffic-light dots, drawn with
+   radial-gradients so we don't need extra HTML or SVG assets. */
+.md-typeset .terminal::before {
+  content: "";
+  display: block;
+  height: 28px;
+  background:
+    radial-gradient(circle 6px at 18px 14px, #ff5f57 50%, transparent 52%),
+    radial-gradient(circle 6px at 38px 14px, #febc2e 50%, transparent 52%),
+    radial-gradient(circle 6px at 58px 14px, #28c840 50%, transparent 52%),
+    linear-gradient(180deg, #3a3a44 0%, #2d2e36 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+/* Strip Material's code-block chrome inside the terminal so the
+   dark background carries through edge-to-edge. */
+.md-typeset .terminal .highlight,
+.md-typeset .terminal pre,
+.md-typeset .terminal pre > code {
+  background: transparent;
+  border: none;
+  margin: 0;
+  color: #f8f8f2;
+}
+
+.md-typeset .terminal pre > code {
+  display: block;
+  padding: 0.9rem 1.1rem;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+/* Cap the terminal's visible height and scroll internally when the
+   session is longer. ~16 visible lines at the font-size + line-height
+   above; raise/lower `max-height` to taste. */
+.md-typeset .terminal pre {
+  max-height: 22rem;
+  overflow-y: auto;
+  /* Slim scrollbar themed for the dark window (Firefox). */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(248, 248, 242, 0.25) transparent;
+}
+
+/* Modifier: drop the height cap so the whole session is shown without
+   scrolling. Use on short-but-must-show-in-full terminals (e.g. the
+   one-off Julia setup output that introduces tutorials). */
+.md-typeset .terminal.terminal-full pre {
+  max-height: none;
+  overflow-y: visible;
+}
+
+/* WebKit / Chromium scrollbar styling. */
+.md-typeset .terminal pre::-webkit-scrollbar {
+  width: 8px;
+}
+.md-typeset .terminal pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+.md-typeset .terminal pre::-webkit-scrollbar-thumb {
+  background: rgba(248, 248, 242, 0.22);
+  border-radius: 4px;
+}
+.md-typeset .terminal pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(248, 248, 242, 0.4);
+}
+
+/* Force every token-coloured span inside the terminal to inherit the body
+   foreground colour. The `console` lexer otherwise applies Julia/Pkg/Bash
+   syntax colours to output that should read as plain terminal text. */
+.md-typeset .terminal .highlight code * {
+  color: inherit;
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Only the prompt (gp = generic prompt) is given a colour, so commands
+   stand out from the surrounding output. Julia brand green from
+   julialang.org/assets/infra/logo.svg — matches the colour used for
+   `julia>` in the real Julia REPL. */
+.md-typeset .terminal .highlight .gp {
+  color: #389826;
+  user-select: none;
+  margin-right: 0.5em;
+}
+
+/* Julia REPL keyword colours, applied by docs/javascripts/julia-repl-colors.js
+   to match the colours users see in a real Julia session. Brand colours from
+   julialang.org/assets/infra/logo.svg. */
+.md-typeset .terminal .highlight .repl-green  { color: #389826; }
+.md-typeset .terminal .highlight .repl-red    { color: #CB3C33; }
+.md-typeset .terminal .highlight .repl-purple { color: #9558B2; }
+.md-typeset .terminal .highlight .repl-cyan   { color: #5cbeff; }
+
+/* Copy-code button — keep visible on the dark background. */
+.md-typeset .terminal .md-clipboard {
+  color: rgba(248, 248, 242, 0.55);
+}
+
+.md-typeset .terminal .md-clipboard:hover {
+  color: #f8f8f2;
+}
+
+/* ============================================================
+   TOC-less pages (tutorials use `hide: [toc]` frontmatter):
+   when Material omits the secondary sidebar, let the content
+   fill the freed space instead of stopping at the centred
+   1400px cap. `:has()` detects the missing sidebar.
+   ============================================================ */
+@media screen and (min-width: 76.25em) {
+  .md-main:not(:has(.md-sidebar--secondary)) > .md-main__inner,
+  .md-main:not(:has(.md-sidebar--secondary)) .md-content {
+    max-width: none;
+  }
+}
+
+/* Compact reference tables on dense field-list pages such as
+   InputFormat.md. Wrap a table in <div class="small-table" markdown>
+   ... </div> to drop cell text to ~0.8x and tighten padding so
+   many keys fit at a glance. */
+.md-typeset .small-table table {
+  font-size: 0.8em;
+}
+.md-typeset .small-table table th,
+.md-typeset .small-table table td {
+  padding: 0.4em 0.6em;
+}
+
+/* Underline body-content links so they read as obvious affordances.
+   Scoped to `.md-typeset` (the article column) so the header tabs,
+   sidebar nav and footer keep their unobtrusive default styling. */
+.md-typeset a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.md-typeset a:hover {
+  text-decoration-thickness: 2px;
+}
