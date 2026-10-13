@@ -1,6 +1,6 @@
 # Self-weight column - input_data.json
 
-The complete `input_data.json` for [Tutorial 1](Tutorial_1.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+The complete `input_data.json` for [Tutorial 1](Tutorial_1.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 ```json
 {

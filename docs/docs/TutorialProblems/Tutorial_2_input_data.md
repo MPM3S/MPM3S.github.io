@@ -1,6 +1,6 @@
 # Compaction via a rigid body - input_data.json
 
-The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat.md) page.
+The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 ```json
 {
