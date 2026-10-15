@@ -613,6 +613,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Captions span the figure's container rather than Material's 24rem: the full
+   article column for a figure on its own, and the cell width for figures side
+   by side in a grid. An image width such as width="60%" is then a fraction of
+   that container. */
+.md-typeset figure {
+  width: 100%;
+}
+
+.md-typeset figcaption {
+  max-width: none;
+}
+
 /* Centre items horizontally within their grid cells so figures sized smaller
    than the cell don't hug the cell edge. */
 .md-typeset .grid {

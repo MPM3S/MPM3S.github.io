@@ -34,14 +34,13 @@ $$
 \sigma_{zz} = -\rho\, g\, (L - z_p),
 $$
 
-where $\rho$ is the density, $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the column and $z_p$ is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change, so this Cauchy stress holds however large the deformation.
+where $\rho$ is the density, $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the column and $z_p$ is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change and this Cauchy stress calculation is true for any magnitude of deformation.
 
-The column is $0.05 \times 0.05 \times 0.8$ m, made of a homogeneous Hencky elastic material with Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The Young's modulus, $E = \rho g L / (2 \ln 2) = 283$ Pa, is chosen to make the deformation large: the material at the base is compressed to half its original length, and the column shortens from $0.8$ m to about $0.54$ m.
+The column is $0.05 \times 0.05 \times 0.8$ m, made of a homogeneous Hencky elastic material with Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The Young's modulus, $E = 283$ Pa, is chosen so the column will be significantly compressed from $0.8$ m to about $0.54$ m.
 
 The column is divided into 16 elements of $0.05$ m, each filled with a $2 \times 2 \times 2$ grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.
 
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/column_setup.png` - the column of material points at the first output step, with the element size marked.
+![The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size $h = 0.05$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/column_setup.png){ #fig-column-setup width="50%" }
 
 The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_1_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
@@ -245,7 +244,7 @@ CSV output is written to `csv_column`, also at every load step, with each GIMP's
 
 ## Deploying and running the problem
 
-MPM3S is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S.
+MPM3S is written in the [Julia](https://julialang.org/) programming language, and there are multiple ways to run the code, all explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -273,7 +272,7 @@ Then load MPM3S:
 using MPM3S
 ```
 
-The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in the [installation guide](../GettingStarted/install_and_run.md).
+The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in [MPM3S installation](../GettingStarted/install_and_run.md#mpm3s-installation).
 
 </div>
 
@@ -311,7 +310,7 @@ julia> using MPM3S
 With Julia running in the run folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:
 
 ```
-MPM3S.non_linear_solve("input_data.json");
+MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 ```
 
 This reads `input_data.json` from the current folder, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.
@@ -339,13 +338,9 @@ In dynamic analyses a `P2G-fail` count is added if a velocity projection fails t
 <div class="terminal" markdown>
 
 ```console
-julia> MPM3S.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257
-```
-
-In a log file, the last lines are:
-
-```text
+...
 stage 1/1 ███████████░  94.0% t 0.94/1.0 step 48 Δt 0.02 NR 3 cuts 0 del 0 N 257
 stage 1/1 ████████████  96.0% t 0.96/1.0 step 49 Δt 0.02 NR 3 cuts 0 del 0 N 257
 stage 1/1 ████████████  98.0% t 0.98/1.0 step 50 Δt 0.02 NR 3 cuts 0 del 0 N 257
@@ -451,9 +446,10 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 ```text
 time,1.0000000000000004
 initial position_x,initial position_y,initial position_z,position_x,position_y,position_z,stress_xx,stress_yy,stress_zz,stress_xy,stress_yz,stress_xz
-0.0125,0.0125,0.0125,0.0125,0.0125,0.0063402156514166625,0.0,0.0,-378.74281316505846,0.0,0.0,0.0
-0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.01902064695425,0.0,0.0,-378.74281316505824,0.0,0.0,0.0
-0.0125,0.0125,0.0625,0.0125,0.0125,0.03176546486174408,0.0,0.0,-365.6843044912428,0.0,0.0,0.0
+0.0125,0.0125,0.0125,0.0125,0.0125,0.00634021565216069,0.0,0.0,-378.742813055138,0.0,0.0,0.0
+0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.019020646956482066,0.0,0.0,-378.742813055138,0.0,0.0,0.0
+0.0125,0.0125,0.0625,0.0125,0.0125,0.031765464864891575,6.107727604173849e-14,6.107727604173849e-14,-365.68430455127134,0.0,0.0,0.0
+--- many more rows of data ---
 ```
 
 `initial position_z` is $z_p$ in the analytical solution, `position_z` is the GIMP's current height, and `stress_zz` is the vertical Cauchy stress in Pa.
@@ -461,34 +457,36 @@ initial position_x,initial position_y,initial position_z,position_x,position_y,p
 !!! note "Floating-point spellings in the raw CSV"
     Values such as `1.0000000000000004` and `0.037500000000000006` are the exact binary representations Julia stores for `1.0` and `0.0375`, and the trailing digits of the stresses are floating-point noise.
 
-The short Python script below, run from the run folder, plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). It needs [NumPy](https://numpy.org/) and [Matplotlib](https://matplotlib.org/).
+The short Julia script below plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `plot_stress.jl` in the run folder and running `include("plot_stress.jl")`. It needs [Plots](https://docs.juliaplots.org/); `DelimitedFiles` comes with Julia.
 
-```python
-import csv
-import numpy as np
-import matplotlib.pyplot as plt
+To install Plots, once, start `julia` without `--project` (so that Plots is not added to MPM3S itself) and use:
 
-# the final output step of the column
-with open("csv_column/mps_1_00051.csv") as f:
-    rows = list(csv.reader(f))
-header = rows[1]                                  # rows[0] is the "time" line
-data = np.array(rows[2:], dtype=float)
-z0 = data[:, header.index("initial position_z")]
-szz = data[:, header.index("stress_zz")]
+```julia
+using Pkg
+Pkg.add("Plots")
+```
+The commands to run the plot are:
 
-rho, g, L = 50.0, 9.81, 0.8
-z = np.linspace(0.0, L, 100)
-plt.plot(-szz, z0, "o", label="MPM3S")
-plt.plot(rho * g * (L - z), z, "-", label="analytical")
-plt.xlabel("vertical compressive stress (Pa)")
-plt.ylabel("initial height (m)")
-plt.legend()
-plt.show()
+```julia
+using DelimitedFiles, Plots
+
+# the final output step of the column; skip the "time" line, then read the header
+data, header = readdlm("csv_column/mps_1_00051.csv", ',', Float64; skipstart=1, header=true)
+column(name) = data[:, findfirst(==(name), vec(header))]
+z0  = column("initial position_z")
+szz = column("stress_zz")
+
+# analytical vertical stress
+ρ, g, L = 50.0, 9.81, 0.8
+σ(z) = -ρ * g * (L - z)
+z = range(0.0, L, length=100)
+
+scatter(-szz, z0, label="MPM3S", xlabel="vertical compressive stress (Pa)", ylabel="initial height (m)")
+plot!(-σ.(z), z, label="analytical")
 ```
 
-!!! example "Placeholder: results plot"
-    `img/tutorial_1/stress_validation.png` - the plot produced by the script: GIMP stresses against the analytical solution.
+![Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.](../../img/column_analytical_stress.png){ #fig-column-stress width="40%" }
 
-The numerical stresses agree with the analytical solution to within 2% of the stress at the base ($392.4$ Pa), with the largest differences in the elements at the base and at the free surface. The GIMPs' final heights also match the large-deformation solution - in which each slice of the column is compressed by the stretch $\lambda$ satisfying $E \ln\lambda / \lambda = \sigma_{zz}$ - to within $1$ mm.
+The numerical stresses agree with the analytical solution to within 2% of the stress at the base ($392.4$ Pa), with the largest differences in the elements at the base and at the free surface. 
 
 To see how the accuracy depends on the mesh, halve `"element size"` in [Material points](#material-points) to `0.025` and run the problem again.

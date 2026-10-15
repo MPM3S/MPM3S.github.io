@@ -12,6 +12,8 @@ window.MathJax = {
 };
 
 document$.subscribe(() => {
+  // figure captions come from image alt text, which arithmatex does not wrap
+  document.querySelectorAll("figcaption").forEach(el => el.classList.add("arithmatex"))
   MathJax.startup.output.clearCache()
   MathJax.typesetClear()
   MathJax.texReset()
