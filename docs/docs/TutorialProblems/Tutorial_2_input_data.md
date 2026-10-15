@@ -29,7 +29,7 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
     "rigid bodies": [
         {
             "points": [
-                { "position": [0.4, 0.5, 1.3], "mass": 1.0, "rotational inertia": [0.2, 0.2, 0.24],
+                { "position": [0.4, 0.4, 1.3], "mass": 1.0, "rotational inertia": [0.2, 0.2, 0.24],
                   "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
             ],
             "stl files": [
@@ -49,7 +49,8 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
             "load": "full",
             "rigid bodies": "on",
             "rigid body surface placement": "on",
-            "boundary conditions": { "min": ["roller", "roller", "roller"], "max": ["roller", "roller", "free"] }
+            "boundary conditions": { "min": ["roller", "roller", "roller"], "max": ["roller", "roller", "free"] },
+            "adaptivity": { "type": "uniform" }
         }
     ],
 
@@ -85,86 +86,86 @@ The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box, drawn in global coordinat
 solid cube
   facet normal 0 0 -1
     outer loop
-      vertex -0.2 -0.1 0.8
-      vertex -0.2 1.1 0.8
-      vertex 1.0 1.1 0.8
+      vertex -0.2 -0.2 0.8
+      vertex -0.2 1.0 0.8
+      vertex 1.0 1.0 0.8
     endloop
   endfacet
   facet normal 0 0 -1
     outer loop
-      vertex -0.2 -0.1 0.8
-      vertex 1.0 1.1 0.8
-      vertex 1.0 -0.1 0.8
+      vertex -0.2 -0.2 0.8
+      vertex 1.0 1.0 0.8
+      vertex 1.0 -0.2 0.8
     endloop
   endfacet
   facet normal 0 0 1
     outer loop
-      vertex -0.2 -0.1 1.8
-      vertex 1.0 -0.1 1.8
-      vertex 1.0 1.1 1.8
+      vertex -0.2 -0.2 1.8
+      vertex 1.0 -0.2 1.8
+      vertex 1.0 1.0 1.8
     endloop
   endfacet
   facet normal 0 0 1
     outer loop
-      vertex -0.2 -0.1 1.8
-      vertex 1.0 1.1 1.8
-      vertex -0.2 1.1 1.8
+      vertex -0.2 -0.2 1.8
+      vertex 1.0 1.0 1.8
+      vertex -0.2 1.0 1.8
     endloop
   endfacet
   facet normal 0 -1 0
     outer loop
-      vertex -0.2 -0.1 0.8
-      vertex 1.0 -0.1 0.8
-      vertex 1.0 -0.1 1.8
+      vertex -0.2 -0.2 0.8
+      vertex 1.0 -0.2 0.8
+      vertex 1.0 -0.2 1.8
     endloop
   endfacet
   facet normal 0 -1 0
     outer loop
-      vertex -0.2 -0.1 0.8
-      vertex 1.0 -0.1 1.8
-      vertex -0.2 -0.1 1.8
+      vertex -0.2 -0.2 0.8
+      vertex 1.0 -0.2 1.8
+      vertex -0.2 -0.2 1.8
     endloop
   endfacet
   facet normal 0 1 0
     outer loop
-      vertex -0.2 1.1 0.8
-      vertex -0.2 1.1 1.8
-      vertex 1.0 1.1 1.8
+      vertex -0.2 1.0 0.8
+      vertex -0.2 1.0 1.8
+      vertex 1.0 1.0 1.8
     endloop
   endfacet
   facet normal 0 1 0
     outer loop
-      vertex -0.2 1.1 0.8
-      vertex 1.0 1.1 1.8
-      vertex 1.0 1.1 0.8
+      vertex -0.2 1.0 0.8
+      vertex 1.0 1.0 1.8
+      vertex 1.0 1.0 0.8
     endloop
   endfacet
   facet normal -1 0 0
     outer loop
-      vertex -0.2 -0.1 0.8
-      vertex -0.2 -0.1 1.8
-      vertex -0.2 1.1 1.8
+      vertex -0.2 -0.2 0.8
+      vertex -0.2 -0.2 1.8
+      vertex -0.2 1.0 1.8
     endloop
   endfacet
   facet normal -1 0 0
     outer loop
-      vertex -0.2 -0.1 0.8
-      vertex -0.2 1.1 1.8
-      vertex -0.2 1.1 0.8
+      vertex -0.2 -0.2 0.8
+      vertex -0.2 1.0 1.8
+      vertex -0.2 1.0 0.8
     endloop
   endfacet
   facet normal 1 0 0
     outer loop
-      vertex 1.0 -0.1 0.8
-      vertex 1.0 1.1 0.8
-      vertex 1.0 1.1 1.8
+      vertex 1.0 -0.2 0.8
+      vertex 1.0 1.0 0.8
+      vertex 1.0 1.0 1.8
     endloop
   endfacet
   facet normal 1 0 0
     outer loop
-      vertex 1.0 -0.1 0.8
-      vertex 1.0 1.1 1.8
-      vertex 1.0 -0.1 1.8
+      vertex 1.0 -0.2 0.8
+      vertex 1.0 1.0 1.8
+      vertex 1.0 -0.2 1.8
     endloop
   endfacet
 endsolid cube

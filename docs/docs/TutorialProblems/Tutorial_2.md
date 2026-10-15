@@ -51,9 +51,9 @@ $$
 
 where $L_0 = 0.8$ m is the initial cube height, $\Delta z = -0.2$ m is the prescribed compression and $L = L_0 + \Delta z = 0.6$ m is the final height after the $25\%$ axial compression.
 
-As in [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is homogeneous Hencky elastic, here with $E = 10^6$ Pa, $\nu = 0$ and $\rho = 1000$ kg/m$^3$. The cube is discretised by a uniform $0.4$ m mesh ($2 \times 2 \times 2 = 8$ elements) with a $2 \times 2 \times 2$ grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, and the top face is left free for the rigid cube to push on.
+As in [Tutorial 1](Tutorial_1.md#background-the-gimpm) the material is homogeneous Hencky elastic, here with $E = 10^6$ Pa, $\nu = 0$ and $\rho = 1000$ kg/m$^3$. The whole $1.6$ m background domain is discretised by a uniform $0.4$ m mesh ($4 \times 4 \times 4 = 64$ elements); the soil fills $2 \times 2 \times 2 = 8$ of them, with a $2 \times 2 \times 2$ grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, and the top face is left free for the rigid cube to push on.
 
-The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box that overhangs the top of the soil on every side. It starts resting on the soil and is pushed down $0.2$ m over 20 load steps.
+The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box, centred over the soil, that overhangs its top by $0.2$ m on every side. It starts resting on the soil and is pushed down $0.2$ m over 20 load steps.
 
 Gravity is switched off, so all of the load on the soil comes from the rigid cube.
 
@@ -136,7 +136,7 @@ The soil is one $0.8$ m layer on a $0.8 \times 0.8$ m footprint, discretised by 
 
 ### Rigid body
 
-A rigid body is a *system* of one or more *points*. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, $(0.4, 0.5, 1.3)$ m.
+A rigid body is a *system* of one or more *points*. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, $(0.4, 0.4, 1.3)$ m.
 
 Its `"boundary conditions"` list the six degrees of freedom in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$. Five are `"fixed"`, and the vertical displacement is prescribed as $-0.01$ m per load step, so the rigid cube moves $0.2$ m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.
 
@@ -150,7 +150,7 @@ The geometry comes from `cube.stl`, welded to point 1. It is drawn in global coo
 "rigid bodies": [
     {
         "points": [
-            { "position": [0.4, 0.5, 1.3], "mass": 1.0, "rotational inertia": [0.2, 0.2, 0.24],
+            { "position": [0.4, 0.4, 1.3], "mass": 1.0, "rotational inertia": [0.2, 0.2, 0.24],
               "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
         ],
         "stl files": [
@@ -196,6 +196,8 @@ A single static stage of 20 load steps with the rigid body switched on. Gravity 
 
 `"rigid body surface placement": "on"` moves the rigid cube vertically at the start of the stage so that its base rests exactly on the top of the soil. Rollers are applied on the four sides and the base, and the top is free.
 
+`"adaptivity": { "type": "uniform" }` meshes the whole background domain at the $0.4$ m element size. Without it, only the elements holding material points are $0.4$ m and the empty space is filled with coarser elements, so the rigid cube would move through $0.8$ m elements above the soil.
+
 </div>
 
 <div class="js-code" markdown>
@@ -208,7 +210,8 @@ A single static stage of 20 load steps with the rigid body switched on. Gravity 
         "load": "full",
         "rigid bodies": "on",
         "rigid body surface placement": "on",
-        "boundary conditions": { "min": ["roller", "roller", "roller"], "max": ["roller", "roller", "free"] }
+        "boundary conditions": { "min": ["roller", "roller", "roller"], "max": ["roller", "roller", "free"] },
+        "adaptivity": { "type": "uniform" }
     }
 ]
 ```
@@ -334,7 +337,7 @@ MPM3S.non_linear_solve("input_data.json");
 
 Before the first load step, MPM3S reports the rigid body surface placement: the lowest point of the rigid cube (`body base`) and the top of the soil (`material top`) are both at $0.8$ m, so the rigid cube is moved by just `Δz = 2.23517e-8` m, a small tolerance above the soil.
 
-The progress line then works as in [Tutorial 1](Tutorial_1.md#reading-the-output). The load fraction `t` rises by `Δt 0.05` per load step, each step converges in 4 to 8 Newton-Raphson iterations (`NR`), and no steps are cut or material points deleted. The background mesh has `N 46` nodes.
+The progress line then works as in [Tutorial 1](Tutorial_1.md#reading-the-output). The load fraction `t` rises by `Δt 0.05` per load step, each step converges in 4 Newton-Raphson iterations (`NR`), and no steps are cut or material points deleted. The uniform background mesh has `N 125` nodes, a $5 \times 5 \times 5$ grid.
 
 </div>
 
@@ -345,15 +348,15 @@ The progress line then works as in [Tutorial 1](Tutorial_1.md#reading-the-output
 ```console
 julia> MPM3S.non_linear_solve("input_data.json");
 [ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 2.23517e-8
-stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 5 cuts 0 del 0 N 46
+stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125
 ...
-stage 1/1 █░░░░░░░░░░░   5.0% t 0.05/1.0 step 2 Δt 0.05 NR 7 cuts 0 del 0 N 46
-stage 1/1 █░░░░░░░░░░░  10.0% t 0.1/1.0 step 3 Δt 0.05 NR 8 cuts 0 del 0 N 46
-stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 6 cuts 0 del 0 N 46
+stage 1/1 █░░░░░░░░░░░   5.0% t 0.05/1.0 step 2 Δt 0.05 NR 4 cuts 0 del 0 N 125
+stage 1/1 █░░░░░░░░░░░  10.0% t 0.1/1.0 step 3 Δt 0.05 NR 4 cuts 0 del 0 N 125
+stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125
 ...
-stage 1/1 ███████████░  90.0% t 0.9/1.0 step 19 Δt 0.05 NR 5 cuts 0 del 0 N 46
-stage 1/1 ███████████░  95.0% t 0.95/1.0 step 20 Δt 0.05 NR 5 cuts 0 del 0 N 46
-stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 5 cuts 0 del 0 N 46
+stage 1/1 ███████████░  90.0% t 0.9/1.0 step 19 Δt 0.05 NR 4 cuts 0 del 0 N 125
+stage 1/1 ███████████░  95.0% t 0.95/1.0 step 20 Δt 0.05 NR 4 cuts 0 del 0 N 125
+stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125
 ```
 
 </div>
@@ -368,77 +371,62 @@ The simulation results appear as the simulation runs, so you do not need to wait
 
 ### Visualising the output in ParaView
 
-The walkthrough below follows the same pattern as the [ParaView walkthrough from Tutorial 1](Tutorial_1.md#visualising-the-output-in-paraview), but also loads the surface of the rigid cube, and finishes by hiding it so that the compressed soil can be inspected on its own. The same [3D-navigation controls](Tutorial_1.md#visualising-the-output-in-paraview) (left-drag to rotate, scroll to zoom) apply throughout.
+The walkthrough below follows the same pattern as the [ParaView walkthrough from Tutorial 1](Tutorial_1.md#visualising-the-output-in-paraview), but also loads the surface of the rigid cube and makes it see-through, so that the soil beneath it can be inspected. The same [3D-navigation controls](Tutorial_1.md#visualising-the-output-in-paraview) (left-drag to rotate, scroll to zoom) apply throughout.
 
 <div class="walkthrough" markdown>
 <div markdown>
-**1. Open ParaView.** Launch ParaView from your applications menu or terminal. You should see an empty render view with the orientation axes in the bottom-left corner.
+**1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_1.png` - ParaView on launch, with an empty render view.
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**2. Open the output files.** Use *File → Open* and navigate to `vtk_cube`. Hold `Ctrl` and click the `mps_1_..vtu` and `surface_..vtu` series so both are highlighted, then click *OK*.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_2.png` - the Open File dialog with both series selected.
+![ParaView on launch, with an empty render view.](../../img/Column_1.png){ #fig-paraview-1 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**3. Apply the readers.** Click *Apply* in the Properties panel. The cube of GIMPs appears with the rigid cube sitting on top of it. The rigid cube overhangs the soil, so rotate the view to see both bodies.
+**2. Open the output files.** Use *File → Open* and navigate to `vtk_cube`. ParaView groups the numbered files into three series: `body_..vtu`, `mps_1_..vtu` and `surface_..vtu`. Hold `Ctrl` and click `mps_1_..vtu` and `surface_..vtu` so both are highlighted, then click *OK*.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_3.png` - the cube of GIMPs with the rigid cube resting on top.
+![The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.](../../img/cube_2.png){ #fig-paraview-2 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**4. Make the rigid cube see-through.** Select `surface_..vtu` and change its *Representation* to *Wireframe*, so that the GIMPs beneath it can be seen.
+**3. Apply the readers.** Click *Apply* in the Properties panel. Both series appear in the *Pipeline Browser*, and the render view shows the rigid cube resting on the soil. The rigid cube overhangs the soil and hides it from most directions, so zoom out and rotate the view to see both bodies.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_4.png` - the rigid cube drawn as a wireframe over the GIMPs.
+![Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.](../../img/cube_1.png){ #fig-paraview-3 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**5. Colour the GIMPs by vertical displacement at the final step.** Select `mps_1_..vtu`, change *Coloring* to `displacement` → `Z`, click *Go to Last* (`▶|`) and then *Rescale to Data Range*. The rigid cube has moved $0.2$ m down, and the displacement of the GIMPs increases evenly from the base to the top of the soil.
+**4. Make the rigid cube see-through.** Select `surface_..vtu` in the *Pipeline Browser* and set *Opacity*, under *Styling*, to `0.6`. The soil can now be seen through the rigid cube, which overhangs it on every side.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_5.png` - the compressed soil coloured by vertical displacement, with the rigid cube at its final position.
+![The rigid cube with an opacity of 0.6, showing the soil beneath it.](../../img/cube_3.png){ #fig-paraview-4 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**6. Inspect the final stress distribution.** Click the eye icon next to `surface_..vtu` in the *Pipeline Browser* to hide the rigid cube. Change the GIMPs' *Coloring* to `stress` → `ZZ` and click *Rescale to Data Range*. The colour is almost the same throughout the soil - the visual signature of the uniform vertical stress predicted by the Hencky solution in the [Problem summary](#problem-summary).
+**5. Choose a field to colour the GIMPs by.** Select `mps_1_..vtu` and open the *Coloring* menu, which lists the fields written to the VTK files: `displacement`, `strain` and `stress`. Choosing `displacement` → `Z` and stepping through time shows the displacement of the GIMPs increasing evenly from the base to the top of the soil as the rigid cube moves $0.2$ m down.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_6.png` - the compressed soil, with the rigid cube hidden, coloured by vertical stress.
+![The Coloring menu for mps_1_..vtu, listing displacement, strain and stress.](../../img/cube_displacement.png){ #fig-paraview-5 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Look at the contact force.** Show `surface_..vtu` again, change its *Representation* back to *Surface* and colour it by `contact force` → `Z`. The load is carried by the triangles of the rigid cube's base, which is in contact with the soil.
+**6. Inspect the final stress distribution.** Change the GIMPs' *Coloring* to `stress` → `ZZ`, click *Go to Last* (`▶|`) and then *Rescale to Data Range*. The soil has been compressed to about $0.6$ m under the rigid cube. Additionally to inspect the contact force select `surface_..vtu` and change its *Coloring* to `contact force` → `Magnitude`. The force is zero over the sides and top of the rigid cube and is carried by the triangles of its base, which is in contact with the soil.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_2/paraview_7.png` - the rigid cube coloured by the vertical contact force on each triangle.
+![The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.](../../img/cube_stress.png){ #fig-paraview-6 }
 </div>
 </div>
+
 
 ## Analysing the stress in the domain
 
@@ -446,10 +434,10 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 
 ```text
 time,body1_position_x,body1_position_y,body1_position_z,body1_reaction force_x,body1_reaction force_y,body1_reaction force_z
-0.05,0.4,0.5,1.290000022351742,0.0,0.0,8022.186499835726
-0.1,0.4,0.5,1.280000022351742,0.0,0.0,16343.582579162417
+0.05,0.4,0.4,1.290000022351742,0.0,0.0,8022.186499840163
+0.1,0.4,0.4,1.280000022351742,0.0,0.0,16343.582579162323
 ...
-1.0000000000000002,0.4,0.5,1.1000000223517419,0.0,0.0,237097.96125687705
+1.0000000000000002,0.4,0.4,1.1000000223517419,0.0,0.0,237097.96125687487
 ```
 
 The GIMP files, `csv_cube/mps_1_00002.csv` to `mps_1_00021.csv`, have the same layout as in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height), with the addition of the domain half-widths `lp_x`, `lp_y` and `lp_z`.
