@@ -11,6 +11,14 @@ MPM3S is a Julia package and runs anywhere Julia is supported.
 
 **Hardware:** A typical desktop or laptop is sufficient for the tutorial problems. For larger 3D problems with refined meshes it is recommended to use an HPC with at least 10 cores, at least 60 GB of RAM and 10 GB of free disk for outputs. If you are using a GPU it is also recommended that the GPU has 60 GB of GPU memory (data-centre GPUs such as the NVIDIA A100 or H100 have 40-80 GB).
 
+**Running the software:** there are three ways to run the software:
+
+1. [Julia runtime](#julia-runtime) - on a PC that you have admin rights to.
+2. [Container runtime](#container-runtime) - the easiest way to set up the simulations on an HPC.
+3. [Cloud computing](#cloud-computing) - such as Google Colab.
+
+Please go to the relevant section for your installation (see the table of contents on the right).
+
 **Software requirements:**
 
 - [Julia](https://julialang.org/downloads/) - at least version 1.12.
