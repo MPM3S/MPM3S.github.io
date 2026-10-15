@@ -1,0 +1,115 @@
+% Contact cube (Tutorial 2): background mesh and GIMP domains, in the style of
+% column_setup.png. The cube is 0.8 x 0.8 x 0.8 m: 2 x 2 x 2 elements of size
+% h = 0.4 m, each holding a 2 x 2 x 2 grid of GIMPs.
+% Build: pdflatex cube_setup.tex
+%        pdftocairo -png -transp -r 300 -singlefile cube_setup.pdf cube_setup
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\definecolor{gridgrey}{RGB}{185,185,185}
+\definecolor{activeorange}{RGB}{245,130,32}
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{gimpside}{RGB}{158,158,212}
+\definecolor{gimptop}{RGB}{204,204,238}
+\definecolor{support}{RGB}{254,238,224}
+\definecolor{supportside}{RGB}{250,224,201}
+\definecolor{supporttop}{RGB}{255,246,238}
+\definecolor{dimpurple}{RGB}{104,36,109}
+
+% lengths in units of h
+\newcommand{\gimpside}{0.475} % drawn GIMP side (true side 0.5)
+
+\tikzset{
+  mesh/.style={draw=gridgrey, line width=1pt},
+  hidden/.style={draw=gridgrey, line width=0.6pt, dash pattern=on 2.5pt off 2pt},
+  dimline/.style={draw=dimpurple, line width=1pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  gimpedge/.style={draw=mpnavy, line width=0.5pt, line join=round},
+  activenode/.style={fill=activeorange, draw=black, line width=0.5pt},
+}
+
+\newcommand{\activenode}[1]{\path[activenode] #1 circle (3pt);}
+\newcommand{\mpoint}[1]{\fill[mpnavy] #1 circle (1.4pt);}
+
+% the mesh lines inside the cube or on its back, left and bottom faces
+\newcommand{\hiddenmesh}{%
+  \foreach \a in {0,1} {
+    \foreach \b in {1,2} {
+      \draw[hidden] (0,\b,\a) -- (2,\b,\a);   % along x
+      \draw[hidden] (\a,\b,0) -- (\a,\b,2);}  % along z
+    \foreach \b in {0,1} {
+      \draw[hidden] (\a,0,\b) -- (\a,2,\b);}} % along y
+  \foreach \x in {0,1} {\foreach \y in {1,2} {\foreach \z in {0,1} {
+    \path[activenode, opacity=0.45] (\x,\y,\z) circle (3pt);}}}}
+% the mesh lines on the front, right and top faces
+\newcommand{\visiblemesh}{%
+  \foreach \a in {0,1,2} {
+    \draw[mesh] (0,0,\a) -- (2,0,\a) -- (2,2,\a);   % front and right, across
+    \draw[mesh] (\a,0,0) -- (\a,0,2) -- (\a,2,2);   % front and top, up
+    \draw[mesh] (2,\a,0) -- (2,\a,2) -- (0,\a,2);}  % right and top, up
+  \foreach \a in {0,1,2} {\foreach \b in {0,1,2} {
+    \activenode{(\a,0,\b)}}}                        % front face
+  \foreach \a in {1,2} {\foreach \b in {0,1,2} {
+    \activenode{(2,\a,\b)}}}                        % right face
+  \foreach \a in {0,1} {\foreach \b in {1,2} {
+    \activenode{(\a,\b,2)}}}}                       % top face
+\newcommand{\dimensions}{%
+  \draw[dim] (-0.4,0,0) -- node[left=3pt, font=\sffamily] {0.8 m} (-0.4,0,2);
+  \draw[dim] (0,0,-0.35) -- node[below=1pt] {$h$} (1,0,-0.35);
+  \draw[dim] (2.35,0,0) -- node[below right=0pt, font=\sffamily] {0.8 m} (2.35,2,0);}
+
+% one GIMP domain, lower corner (#1,#2,#3), side #4: the material point at the
+% centre, then the three visible faces
+\newcommand{\gimp}[4]{%
+  \mpoint{(#1+#4/2,#2+#4/2,#3+#4/2)}
+  \filldraw[gimpedge, fill=gimpfill, fill opacity=0.4]
+    (#1,#2,#3) -- (#1+#4,#2,#3) -- (#1+#4,#2,#3+#4) -- (#1,#2,#3+#4) -- cycle;
+  \filldraw[gimpedge, fill=gimpside, fill opacity=0.4]
+    (#1+#4,#2,#3) -- (#1+#4,#2+#4,#3) -- (#1+#4,#2+#4,#3+#4) -- (#1+#4,#2,#3+#4) -- cycle;
+  \filldraw[gimpedge, fill=gimptop, fill opacity=0.4]
+    (#1,#2,#3+#4) -- (#1+#4,#2,#3+#4) -- (#1+#4,#2+#4,#3+#4) -- (#1,#2+#4,#3+#4) -- cycle;}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legmp}\sbox{\legmp}{\tikz[baseline=-0.6ex]\fill[mpnavy] (0,0) circle (1.4pt);}
+\newsavebox{\leggimp}\sbox{\leggimp}{\tikz[baseline=-0.6ex]\filldraw[gimpedge, fill=gimpfill, fill opacity=0.55] (0,-0.15) rectangle (0.3,0.15);}
+\newsavebox{\legnode}\sbox{\legnode}{\tikz[baseline=-0.6ex]\path[activenode] (0,0) circle (3pt);}
+\newsavebox{\legsupport}\sbox{\legsupport}{\tikz[baseline=-0.6ex]\fill[support] (0,-0.15) rectangle (0.3,0.15);}
+
+\begin{tikzpicture}[x={(1.5cm,0cm)}, y={(0.75cm,0.6cm)}, z={(0cm,1.5cm)}]
+
+  % (a) background mesh, with the elements shaded as the support
+  \begin{scope}
+    \fill[support] (0,0,0) -- (2,0,0) -- (2,0,2) -- (0,0,2) -- cycle;
+    \fill[supportside] (2,0,0) -- (2,2,0) -- (2,2,2) -- (2,0,2) -- cycle;
+    \fill[supporttop] (0,0,2) -- (2,0,2) -- (2,2,2) -- (0,2,2) -- cycle;
+    \hiddenmesh
+    \visiblemesh
+    \dimensions
+    \node[font=\sffamily] at (1.25,0,-1.0) {(a) background mesh};
+  \end{scope}
+
+  % (b) a 2 x 2 x 2 grid of GIMP domains in each element, drawn back to front
+  \begin{scope}[xshift=7cm]
+    \hiddenmesh
+    \pgfmathsetmacro{\gap}{(0.5-\gimpside)/2}
+    \foreach \j in {3,2,1,0} {
+      \foreach \i in {0,1,2,3} {
+        \foreach \k in {0,1,2,3} {
+          \gimp{0.5*\i+\gap}{0.5*\j+\gap}{0.5*\k+\gap}{\gimpside}}}}
+    \visiblemesh
+    \dimensions
+    \node[font=\sffamily] at (1.25,0,-1.0) {(b) GIMP domains};
+  \end{scope}
+
+  % legend, centred under the two panels
+  \node[font=\sffamily, anchor=north] at (5.6cm,-1.95cm) {%
+    \usebox{\legmp}~material point\hspace{1.6em}%
+    \usebox{\leggimp}~GIMP domain\hspace{1.6em}%
+    \usebox{\legnode}~active node\hspace{1.6em}%
+    \usebox{\legsupport}~support};
+
+\end{tikzpicture}
+\end{document}
