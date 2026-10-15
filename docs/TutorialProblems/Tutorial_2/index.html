@@ -2905,8 +2905,8 @@
 \sigma_{zz} = E \ln\!\left(\frac{L}{L_0}\right) \frac{L_0}{L} = \frac{10^6}{0.75} \ln(0.75) \approx -3.84 \times 10^5 \text{ Pa},
 \]</div>
 <p>where <span class="arithmatex">\(L_0 = 0.8\)</span> m is the initial cube height, <span class="arithmatex">\(\Delta z = -0.2\)</span> m is the prescribed compression and <span class="arithmatex">\(L = L_0 + \Delta z = 0.6\)</span> m is the final height after the <span class="arithmatex">\(25\%\)</span> axial compression.</p>
-<p>As in <a href="../Tutorial_1/#background-the-gimpm">Tutorial 1</a> the material is homogeneous Hencky elastic, here with <span class="arithmatex">\(E = 10^6\)</span> Pa, <span class="arithmatex">\(\nu = 0\)</span> and <span class="arithmatex">\(\rho = 1000\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The cube is discretised by a uniform <span class="arithmatex">\(0.4\)</span> m mesh (<span class="arithmatex">\(2 \times 2 \times 2 = 8\)</span> elements) with a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, and the top face is left free for the rigid cube to push on.</p>
-<p>The rigid cube is a <span class="arithmatex">\(1.2 \times 1.2 \times 1.0\)</span> m box that overhangs the top of the soil on every side. It starts resting on the soil and is pushed down <span class="arithmatex">\(0.2\)</span> m over 20 load steps.</p>
+<p>As in <a href="../Tutorial_1/#background-the-gimpm">Tutorial 1</a> the material is homogeneous Hencky elastic, here with <span class="arithmatex">\(E = 10^6\)</span> Pa, <span class="arithmatex">\(\nu = 0\)</span> and <span class="arithmatex">\(\rho = 1000\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The whole <span class="arithmatex">\(1.6\)</span> m background domain is discretised by a uniform <span class="arithmatex">\(0.4\)</span> m mesh (<span class="arithmatex">\(4 \times 4 \times 4 = 64\)</span> elements); the soil fills <span class="arithmatex">\(2 \times 2 \times 2 = 8\)</span> of them, with a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs per element. Roller boundaries are imposed on the four side faces and the base, and the top face is left free for the rigid cube to push on.</p>
+<p>The rigid cube is a <span class="arithmatex">\(1.2 \times 1.2 \times 1.0\)</span> m box, centred over the soil, that overhangs its top by <span class="arithmatex">\(0.2\)</span> m on every side. It starts resting on the soil and is pushed down <span class="arithmatex">\(0.2\)</span> m over 20 load steps.</p>
 <p>Gravity is switched off, so all of the load on the soil comes from the rigid cube.</p>
 <p><figure id="_figure-2"><img alt="The cube of soil. (a) The background mesh, with element size \(h = 0.4\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element." id="fig-cube-mesh" src="../../../img/cube_setup.png" width="70%"><figcaption>Figure 2: The cube of soil. (a) The background mesh, with element size \(h = 0.4\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element.</figcaption></figure></p>
 <p><figure id="_figure-3"><img alt="A vertical section through the soil and the rigid cube. Rollers act on the base and the four sides (the front and back faces are not shown), and the two rows of empty elements above the soil lie inside the rigid cube. The red dashed line marks the base of the rigid cube after the 0.2 m of compression imposed over 20 load steps." id="fig-cube-bcs" src="../../../img/cube_bcs.png" width="50%"><figcaption>Figure 3: A vertical section through the soil and the rigid cube. Rollers act on the base and the four sides (the front and back faces are not shown), and the two rows of empty elements above the soil lie inside the rigid cube. The red dashed line marks the base of the rigid cube after the 0.2 m of compression imposed over 20 load steps.</figcaption></figure></p>
@@ -2959,7 +2959,7 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="rigid-body">Rigid body<a class="headerlink" href="#rigid-body" title="Permanent link">¶</a></h3>
-<p>A rigid body is a <em>system</em> of one or more <em>points</em>. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, <span class="arithmatex">\((0.4, 0.5, 1.3)\)</span> m.</p>
+<p>A rigid body is a <em>system</em> of one or more <em>points</em>. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, <span class="arithmatex">\((0.4, 0.4, 1.3)\)</span> m.</p>
 <p>Its <code>"boundary conditions"</code> list the six degrees of freedom in the order <span class="arithmatex">\([u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]\)</span>. Five are <code>"fixed"</code>, and the vertical displacement is prescribed as <span class="arithmatex">\(-0.01\)</span> m per load step, so the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.</p>
 <p>The geometry comes from <code>cube.stl</code>, welded to point 1. It is drawn in global coordinates - the same frame as the point - with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and stores it in <code>cube_mesh.txt</code> for later runs.</p>
 </div>
@@ -2967,7 +2967,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">1.3</span><span class="p">],</span><span class="w"> </span><span class="nt">"mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"rotational inertia"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.24</span><span class="p">],</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">1.3</span><span class="p">],</span><span class="w"> </span><span class="nt">"mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"rotational inertia"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.24</span><span class="p">],</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">              </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"prescribed"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.01</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="p">],</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -2995,6 +2995,7 @@
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">¶</a></h3>
 <p>A single static stage of 20 load steps with the rigid body switched on. Gravity is zero, so <code>"load": "full"</code> has nothing to apply; all of the load comes from the rigid cube, which is pushed down a little further at every step.</p>
 <p><code>"rigid body surface placement": "on"</code> moves the rigid cube vertically at the start of the stage so that its base rests exactly on the top of the soil. Rollers are applied on the four sides and the base, and the top is free.</p>
+<p><code>"adaptivity": { "type": "uniform" }</code> meshes the whole background domain at the <span class="arithmatex">\(0.4\)</span> m element size. Without it, only the elements holding material points are <span class="arithmatex">\(0.4\)</span> m and the empty space is filled with coarser elements, so the rigid cube would move through <span class="arithmatex">\(0.8\)</span> m elements above the soil.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -3004,9 +3005,10 @@
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nt">"load"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nt">"rigid body surface placement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">]</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uniform"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">]</span>
 </code></pre></div>
 </div>
 </div>
@@ -3084,21 +3086,21 @@
 </code></pre></div>
 <h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
 <p>Before the first load step, MPM3S reports the rigid body surface placement: the lowest point of the rigid cube (<code>body base</code>) and the top of the soil (<code>material top</code>) are both at <span class="arithmatex">\(0.8\)</span> m, so the rigid cube is moved by just <code>Δz = 2.23517e-8</code> m, a small tolerance above the soil.</p>
-<p>The progress line then works as in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>. The load fraction <code>t</code> rises by <code>Δt 0.05</code> per load step, each step converges in 4 to 8 Newton-Raphson iterations (<code>NR</code>), and no steps are cut or material points deleted. The background mesh has <code>N 46</code> nodes.</p>
+<p>The progress line then works as in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>. The load fraction <code>t</code> rises by <code>Δt 0.05</code> per load step, each step converges in 4 Newton-Raphson iterations (<code>NR</code>), and no steps are cut or material points deleted. The uniform background mesh has <code>N 125</code> nodes, a <span class="arithmatex">\(5 \times 5 \times 5\)</span> grid.</p>
 </div>
 <div class="js-code">
 <div class="terminal">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("input_data.json");</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 2.23517e-8</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 5 cuts 0 del 0 N 46</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="go">...</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="go">stage 1/1 █░░░░░░░░░░░   5.0% t 0.05/1.0 step 2 Δt 0.05 NR 7 cuts 0 del 0 N 46</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="go">stage 1/1 █░░░░░░░░░░░  10.0% t 0.1/1.0 step 3 Δt 0.05 NR 8 cuts 0 del 0 N 46</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 6 cuts 0 del 0 N 46</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="go">stage 1/1 █░░░░░░░░░░░   5.0% t 0.05/1.0 step 2 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="go">stage 1/1 █░░░░░░░░░░░  10.0% t 0.1/1.0 step 3 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="go">...</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">stage 1/1 ███████████░  90.0% t 0.9/1.0 step 19 Δt 0.05 NR 5 cuts 0 del 0 N 46</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="go">stage 1/1 ███████████░  95.0% t 0.95/1.0 step 20 Δt 0.05 NR 5 cuts 0 del 0 N 46</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 5 cuts 0 del 0 N 46</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">stage 1/1 ███████████░  90.0% t 0.9/1.0 step 19 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="go">stage 1/1 ███████████░  95.0% t 0.95/1.0 step 20 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
 </code></pre></div>
 </div>
 </div>
@@ -3106,91 +3108,62 @@
 <h2 id="viewing-the-results">Viewing the results<a class="headerlink" href="#viewing-the-results" title="Permanent link">¶</a></h2>
 <p>The simulation results appear as the simulation runs, so you do not need to wait until it has finished. <code>vtk_cube</code> holds three series of files, numbered from <code>00002</code> to <code>00021</code>: <code>mps_1_...vtu</code> for the GIMPs, <code>surface_...vtu</code> for the surface of the rigid cube and <code>body_...vtu</code> for the rigid cube's point.</p>
 <h3 id="visualising-the-output-in-paraview">Visualising the output in ParaView<a class="headerlink" href="#visualising-the-output-in-paraview" title="Permanent link">¶</a></h3>
-<p>The walkthrough below follows the same pattern as the <a href="../Tutorial_1/#visualising-the-output-in-paraview">ParaView walkthrough from Tutorial 1</a>, but also loads the surface of the rigid cube, and finishes by hiding it so that the compressed soil can be inspected on its own. The same <a href="../Tutorial_1/#visualising-the-output-in-paraview">3D-navigation controls</a> (left-drag to rotate, scroll to zoom) apply throughout.</p>
+<p>The walkthrough below follows the same pattern as the <a href="../Tutorial_1/#visualising-the-output-in-paraview">ParaView walkthrough from Tutorial 1</a>, but also loads the surface of the rigid cube and makes it see-through, so that the soil beneath it can be inspected. The same <a href="../Tutorial_1/#visualising-the-output-in-paraview">3D-navigation controls</a> (left-drag to rotate, scroll to zoom) apply throughout.</p>
 <div class="walkthrough">
 <div>
-<p><strong>1. Open ParaView.</strong> Launch ParaView from your applications menu or terminal. You should see an empty render view with the orientation axes in the bottom-left corner.</p>
+<p><strong>1. Open ParaView.</strong> Launch ParaView from your applications menu or terminal; you should see an empty render view.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_1.png</code> - ParaView on launch, with an empty render view.</p>
-</div>
+<p><figure id="_figure-4"><img alt="ParaView on launch, with an empty render view." id="fig-paraview-1" src="../../../img/Column_1.png"><figcaption>Figure 4: ParaView on launch, with an empty render view.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>2. Open the output files.</strong> Use <em>File → Open</em> and navigate to <code>vtk_cube</code>. Hold <code>Ctrl</code> and click the <code>mps_1_..vtu</code> and <code>surface_..vtu</code> series so both are highlighted, then click <em>OK</em>.</p>
+<p><strong>2. Open the output files.</strong> Use <em>File → Open</em> and navigate to <code>vtk_cube</code>. ParaView groups the numbered files into three series: <code>body_..vtu</code>, <code>mps_1_..vtu</code> and <code>surface_..vtu</code>. Hold <code>Ctrl</code> and click <code>mps_1_..vtu</code> and <code>surface_..vtu</code> so both are highlighted, then click <em>OK</em>.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_2.png</code> - the Open File dialog with both series selected.</p>
-</div>
+<p><figure id="_figure-5"><img alt="The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series." id="fig-paraview-2" src="../../../img/cube_2.png"><figcaption>Figure 5: The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>3. Apply the readers.</strong> Click <em>Apply</em> in the Properties panel. The cube of GIMPs appears with the rigid cube sitting on top of it. The rigid cube overhangs the soil, so rotate the view to see both bodies.</p>
+<p><strong>3. Apply the readers.</strong> Click <em>Apply</em> in the Properties panel. Both series appear in the <em>Pipeline Browser</em>, and the render view shows the rigid cube resting on the soil. The rigid cube overhangs the soil and hides it from most directions, so zoom out and rotate the view to see both bodies.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_3.png</code> - the cube of GIMPs with the rigid cube resting on top.</p>
-</div>
+<p><figure id="_figure-6"><img alt="Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil." id="fig-paraview-3" src="../../../img/cube_1.png"><figcaption>Figure 6: Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>4. Make the rigid cube see-through.</strong> Select <code>surface_..vtu</code> and change its <em>Representation</em> to <em>Wireframe</em>, so that the GIMPs beneath it can be seen.</p>
+<p><strong>4. Make the rigid cube see-through.</strong> Select <code>surface_..vtu</code> in the <em>Pipeline Browser</em> and set <em>Opacity</em>, under <em>Styling</em>, to <code>0.6</code>. The soil can now be seen through the rigid cube, which overhangs it on every side.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_4.png</code> - the rigid cube drawn as a wireframe over the GIMPs.</p>
-</div>
+<p><figure id="_figure-7"><img alt="The rigid cube with an opacity of 0.6, showing the soil beneath it." id="fig-paraview-4" src="../../../img/cube_3.png"><figcaption>Figure 7: The rigid cube with an opacity of 0.6, showing the soil beneath it.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>5. Colour the GIMPs by vertical displacement at the final step.</strong> Select <code>mps_1_..vtu</code>, change <em>Coloring</em> to <code>displacement</code> → <code>Z</code>, click <em>Go to Last</em> (<code>▶|</code>) and then <em>Rescale to Data Range</em>. The rigid cube has moved <span class="arithmatex">\(0.2\)</span> m down, and the displacement of the GIMPs increases evenly from the base to the top of the soil.</p>
+<p><strong>5. Choose a field to colour the GIMPs by.</strong> Select <code>mps_1_..vtu</code> and open the <em>Coloring</em> menu, which lists the fields written to the VTK files: <code>displacement</code>, <code>strain</code> and <code>stress</code>. Choosing <code>displacement</code> → <code>Z</code> and stepping through time shows the displacement of the GIMPs increasing evenly from the base to the top of the soil as the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_5.png</code> - the compressed soil coloured by vertical displacement, with the rigid cube at its final position.</p>
-</div>
+<p><figure id="_figure-8"><img alt="The Coloring menu for mps_1_..vtu, listing displacement, strain and stress." id="fig-paraview-5" src="../../../img/cube_displacement.png"><figcaption>Figure 8: The Coloring menu for mps_1_..vtu, listing displacement, strain and stress.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>6. Inspect the final stress distribution.</strong> Click the eye icon next to <code>surface_..vtu</code> in the <em>Pipeline Browser</em> to hide the rigid cube. Change the GIMPs' <em>Coloring</em> to <code>stress</code> → <code>ZZ</code> and click <em>Rescale to Data Range</em>. The colour is almost the same throughout the soil - the visual signature of the uniform vertical stress predicted by the Hencky solution in the <a href="#problem-summary">Problem summary</a>.</p>
+<p><strong>6. Inspect the final stress distribution.</strong> Change the GIMPs' <em>Coloring</em> to <code>stress</code> → <code>ZZ</code>, click <em>Go to Last</em> (<code>▶|</code>) and then <em>Rescale to Data Range</em>. The soil has been compressed to about <span class="arithmatex">\(0.6\)</span> m under the rigid cube. Additionally to inspect the contact force select <code>surface_..vtu</code> and change its <em>Coloring</em> to <code>contact force</code> → <code>Magnitude</code>. The force is zero over the sides and top of the rigid cube and is carried by the triangles of its base, which is in contact with the soil.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_6.png</code> - the compressed soil, with the rigid cube hidden, coloured by vertical stress.</p>
-</div>
-</div>
-</div>
-<div class="walkthrough">
-<div>
-<p><strong>7. Look at the contact force.</strong> Show <code>surface_..vtu</code> again, change its <em>Representation</em> back to <em>Surface</em> and colour it by <code>contact force</code> → <code>Z</code>. The load is carried by the triangles of the rigid cube's base, which is in contact with the soil.</p>
-</div>
-<div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_2/paraview_7.png</code> - the rigid cube coloured by the vertical contact force on each triangle.</p>
-</div>
+<p><figure id="_figure-9"><img alt="The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube." id="fig-paraview-6" src="../../../img/cube_stress.png"><figcaption>Figure 9: The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.</figcaption></figure></p>
 </div>
 </div>
 <h2 id="analysing-the-stress-in-the-domain">Analysing the stress in the domain<a class="headerlink" href="#analysing-the-stress-in-the-domain" title="Permanent link">¶</a></h2>
 <p><code>csv_cube/rigid_body.csv</code> has one row per load step for the rigid cube's point, <code>body1</code>. The <code>time</code> column is the load fraction, <code>body1_position_z</code> is the height of the rigid cube's centre and <code>body1_reaction force_z</code> is the vertical force needed to push the rigid cube down, in N:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>time,body1_position_x,body1_position_y,body1_position_z,body1_reaction force_x,body1_reaction force_y,body1_reaction force_z
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>0.05,0.4,0.5,1.290000022351742,0.0,0.0,8022.186499835726
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>0.1,0.4,0.5,1.280000022351742,0.0,0.0,16343.582579162417
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>0.05,0.4,0.4,1.290000022351742,0.0,0.0,8022.186499840163
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>0.1,0.4,0.4,1.280000022351742,0.0,0.0,16343.582579162323
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>...
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>1.0000000000000002,0.4,0.5,1.1000000223517419,0.0,0.0,237097.96125687705
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>1.0000000000000002,0.4,0.4,1.1000000223517419,0.0,0.0,237097.96125687487
 </code></pre></div>
 <p>The GIMP files, <code>csv_cube/mps_1_00002.csv</code> to <code>mps_1_00021.csv</code>, have the same layout as in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, with the addition of the domain half-widths <code>lp_x</code>, <code>lp_y</code> and <code>lp_z</code>.</p>
 <p>The short Julia script below compares the final state with the analytical solution from the <a href="#problem-summary">Problem summary</a>. As in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, you can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as <code>check_stress.jl</code> in the run folder and running <code>include("check_stress.jl")</code>. It needs only <code>DelimitedFiles</code>, which comes with Julia.</p>
