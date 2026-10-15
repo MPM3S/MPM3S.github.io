@@ -3110,10 +3110,7 @@
 <p><strong>1. Open ParaView.</strong> Launch ParaView from your applications menu or terminal; you should see an empty render view.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_1.png</code> - ParaView on launch, with an empty render view.</p>
-</div>
+<p><figure id="_figure-3"><img alt="ParaView on launch, with an empty render view." id="fig-paraview-1" src="../../../img/Column_1.png"><figcaption>Figure 3: ParaView on launch, with an empty render view.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3121,10 +3118,7 @@
 <p><strong>2. Open the output files.</strong> <em>File → Open</em> and navigate to <code>vtk_column</code>. ParaView groups the numbered files into one series, <code>mps_1_..vtu</code>; select it and click <em>OK</em>.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_2.png</code> - the Open File dialog with the <code>mps_1_..vtu</code> series selected.</p>
-</div>
+<p><figure id="_figure-4"><img alt="The Open File dialog with the mps_1_..vtu series selected." id="fig-paraview-2" src="../../../img/Column_2.png"><figcaption>Figure 4: The Open File dialog with the mps_1_..vtu series selected.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3132,10 +3126,7 @@
 <p><strong>3. Apply the reader.</strong> Click <em>Apply</em> in the Properties panel. The column of GIMPs appears at the first load step.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_3.png</code> - the column of GIMPs after <em>Apply</em>.</p>
-</div>
+<p><figure id="_figure-5"><img alt="The series in the Pipeline Browser, with Apply highlighted in the Properties panel." id="fig-paraview-3" src="../../../img/Column_3.png"><figcaption>Figure 5: The series in the Pipeline Browser, with Apply highlighted in the Properties panel.</figcaption></figure></p>
 </div>
 </div>
 <div class="admonition tip">
@@ -3153,10 +3144,7 @@
 <p><strong>4. Colour the GIMPs by vertical displacement.</strong> Change <em>Coloring</em> to <code>displacement</code> → <code>Z</code>. At the first load step the displacements are still small.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_4.png</code> - GIMPs coloured by vertical displacement at the first load step.</p>
-</div>
+<p><figure id="_figure-6"><img alt="The column of GIMPs at the first load step, with displacement chosen in the Coloring menu." id="fig-paraview-4" src="../../../img/Column_4.png"><figcaption>Figure 6: The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3164,10 +3152,7 @@
 <p><strong>5. Advance to the final step.</strong> Click the <em>Go to Last</em> button (<code>▶|</code>) in the time toolbar, then <em>Rescale to Data Range</em> in the colour-bar toolbar so the colour scale matches the deformed column. The column has shortened from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m, so the top has moved down by about <span class="arithmatex">\(0.26\)</span> m.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_5.png</code> - the deformed column at the final load step, coloured by vertical displacement.</p>
-</div>
+<p><figure id="_figure-7"><img alt="The deformed column at the final load step, coloured by displacement." id="fig-paraview-5" src="../../../img/Column_5.png"><figcaption>Figure 7: The deformed column at the final load step, coloured by displacement.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3175,10 +3160,7 @@
 <p><strong>6. Colour by vertical stress.</strong> Change <em>Coloring</em> to <code>stress</code> → <code>ZZ</code> and rescale. The compressive stress increases steadily from zero at the top to its largest value at the base.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_6.png</code> - the final column coloured by vertical stress.</p>
-</div>
+<p><figure id="_figure-8"><img alt="Choosing the ZZ component of stress in the Coloring menu." id="fig-paraview-6" src="../../../img/Column_6.png"><figcaption>Figure 8: Choosing the ZZ component of stress in the Coloring menu.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3186,10 +3168,7 @@
 <p><strong>7. Look at the GIMP domains.</strong> Change the <em>Representation</em> to <em>Surface With Edges</em> and zoom in on the base and the top of the column. With <code>"domain update": "stretch"</code> the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/paraview_7.png</code> - close-up of the squashed GIMP domains at the base of the column.</p>
-</div>
+<p><figure id="_figure-9"><img alt="Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress." id="fig-paraview-7" src="../../../img/Column_7.png"><figcaption>Figure 9: Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.</figcaption></figure></p>
 </div>
 </div>
 <h2 id="analysing-the-stress-variation-with-height">Analysing the stress variation with height<a class="headerlink" href="#analysing-the-stress-variation-with-height" title="Permanent link">¶</a></h2>
@@ -3228,7 +3207,7 @@ The commands to run the plot are:
 <a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">szz</span><span class="p">,</span><span class="w"> </span><span class="n">z0</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"vertical compressive stress (Pa)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"initial height (m)"</span><span class="p">)</span>
 <a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">plot!</span><span class="p">(</span><span class="o">-</span><span class="n">σ</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"analytical"</span><span class="p">)</span>
 </code></pre></div>
-<p><figure id="_figure-3"><img alt="Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution." id="fig-column-stress" src="../../../img/column_analytical_stress.png" width="40%"><figcaption>Figure 3: Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.</figcaption></figure></p>
+<p><figure id="_figure-10"><img alt="Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution." id="fig-column-stress" src="../../../img/column_analytical_stress.png" width="40%"><figcaption>Figure 10: Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.</figcaption></figure></p>
 <p>The numerical stresses agree with the analytical solution to within 2% of the stress at the base (<span class="arithmatex">\(392.4\)</span> Pa), with the largest differences in the elements at the base and at the free surface. </p>
 <p>To see how the accuracy depends on the mesh, halve <code>"element size"</code> in <a href="#material-points">Material points</a> to <code>0.025</code> and run the problem again.</p>
 
