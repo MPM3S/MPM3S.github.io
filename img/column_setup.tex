@@ -1,0 +1,129 @@
+% Self-weight column (Tutorial 1): background mesh and GIMP domains, in the
+% style of GIMP_example2.png. The column is 0.05 x 0.05 x 0.8 m: 16 elements of
+% size h = 0.05 m, each holding a 2 x 2 x 2 grid of GIMPs. Only the bottom two
+% elements and the top element are drawn; the dots between them stand for the
+% 13 elements left out.
+% Build: pdflatex column_setup.tex
+%        pdftocairo -png -transp -r 300 -singlefile column_setup.pdf column_setup
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\definecolor{gridgrey}{RGB}{185,185,185}
+\definecolor{gapgrey}{RGB}{140,140,140}
+\definecolor{activeorange}{RGB}{245,130,32}
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{gimpside}{RGB}{158,158,212}
+\definecolor{gimptop}{RGB}{204,204,238}
+\definecolor{support}{RGB}{254,238,224}
+\definecolor{supportside}{RGB}{250,224,201}
+\definecolor{supporttop}{RGB}{255,246,238}
+\definecolor{dimpurple}{RGB}{104,36,109}
+
+% heights in units of h
+\newcommand{\zb}{2}           % top of the bottom two elements
+\newcommand{\zt}{3.2}         % bottom of the top element
+\newcommand{\ztop}{4.2}       % top of the column
+\newcommand{\gimpside}{0.475} % drawn GIMP side (true side 0.5)
+
+\tikzset{
+  mesh/.style={draw=gridgrey, line width=1pt},
+  hidden/.style={draw=gridgrey, line width=0.6pt, dash pattern=on 2.5pt off 2pt},
+  dimline/.style={draw=dimpurple, line width=1pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  gimpedge/.style={draw=mpnavy, line width=0.5pt, line join=round},
+  activenode/.style={fill=activeorange, draw=black, line width=0.5pt},
+}
+
+\newcommand{\activenode}[1]{\path[activenode] #1 circle (3pt);}
+\newcommand{\mpoint}[1]{\fill[mpnavy] #1 circle (1.4pt);}
+% three dots at (#2,#3) across the gap, standing for the elements left out;
+% lowered with depth #3 so that they stay in the gap seen in front of them
+\newcommand{\gapdots}[3]{%
+  \foreach \dz in {-0.25,0,0.25} {\fill[#1] (#2,#3,{2.6-0.2*#3+\dz}) circle (1.2pt);}}
+
+% x and y in [0,1]
+\newcommand{\hiddenmesh}{%
+  \draw[hidden] (0,1,0) -- (0,1,\zb);
+  \draw[hidden] (0,1,\zt) -- (0,1,\ztop);
+  \gapdots{gridgrey}{0}{1}
+  \foreach \z in {0,1,\zt} {
+    \draw[hidden] (0,0,\z) -- (0,1,\z) -- (1,1,\z);
+    \path[activenode, opacity=0.45] (0,1,\z) circle (3pt);}}
+\newcommand{\visiblemesh}{%
+  \foreach \x/\y in {0/0,1/0,1/1} {
+    \draw[mesh] (\x,\y,0) -- (\x,\y,\zb);
+    \draw[mesh] (\x,\y,\zt) -- (\x,\y,\ztop);
+    \gapdots{gapgrey}{\x}{\y}}
+  \foreach \z in {0,1,\zt} {\draw[mesh] (0,0,\z) -- (1,0,\z) -- (1,1,\z);}
+  \foreach \z in {\zb,\ztop} {\draw[mesh] (0,0,\z) -- (1,0,\z) -- (1,1,\z) -- (0,1,\z) -- cycle;}
+  \foreach \z in {0,1,\zb,\zt,\ztop} {
+    \activenode{(0,0,\z)} \activenode{(1,0,\z)} \activenode{(1,1,\z)}}
+  \activenode{(0,1,\zb)} \activenode{(0,1,\ztop)}}
+\newcommand{\dimensions}{%
+  \draw[dimline, {Latex[length=5pt]}-] (-0.4,0,0) -- (-0.4,0,2.1);
+  \draw[dimline, -{Latex[length=5pt]}] (-0.4,0,3.1) -- (-0.4,0,\ztop);
+  \gapdots{dimpurple}{-0.4}{0}
+  \node[left=3pt, font=\sffamily] at (-0.4,0,2.6) {0.8 m};
+  \draw[dim] (0,0,-0.35) -- node[below=1pt] {$h$} (1,0,-0.35);}
+% the support: the visible faces of the elements drawn
+\newcommand{\supportblock}[2]{%
+  \fill[support] (0,0,#1) -- (1,0,#1) -- (1,0,#2) -- (0,0,#2) -- cycle;
+  \fill[supportside] (1,0,#1) -- (1,1,#1) -- (1,1,#2) -- (1,0,#2) -- cycle;}
+
+% one GIMP domain, lower corner (#1,#2,#3), side #4: the material point at the
+% centre, then the three visible faces
+\newcommand{\gimp}[4]{%
+  \mpoint{(#1+#4/2,#2+#4/2,#3+#4/2)}
+  \filldraw[gimpedge, fill=gimpfill, fill opacity=0.55]
+    (#1,#2,#3) -- (#1+#4,#2,#3) -- (#1+#4,#2,#3+#4) -- (#1,#2,#3+#4) -- cycle;
+  \filldraw[gimpedge, fill=gimpside, fill opacity=0.55]
+    (#1+#4,#2,#3) -- (#1+#4,#2+#4,#3) -- (#1+#4,#2+#4,#3+#4) -- (#1+#4,#2,#3+#4) -- cycle;
+  \filldraw[gimpedge, fill=gimptop, fill opacity=0.55]
+    (#1,#2,#3+#4) -- (#1+#4,#2,#3+#4) -- (#1+#4,#2+#4,#3+#4) -- (#1,#2+#4,#3+#4) -- cycle;}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legmp}\sbox{\legmp}{\tikz[baseline=-0.6ex]\fill[mpnavy] (0,0) circle (1.4pt);}
+\newsavebox{\leggimp}\sbox{\leggimp}{\tikz[baseline=-0.6ex]\filldraw[gimpedge, fill=gimpfill, fill opacity=0.55] (0,-0.15) rectangle (0.3,0.15);}
+\newsavebox{\legnode}\sbox{\legnode}{\tikz[baseline=-0.6ex]\path[activenode] (0,0) circle (3pt);}
+\newsavebox{\legsupport}\sbox{\legsupport}{\tikz[baseline=-0.6ex]\fill[support] (0,-0.15) rectangle (0.3,0.15);}
+
+\begin{tikzpicture}[x={(1.5cm,0cm)}, y={(0.75cm,0.6cm)}, z={(0cm,1.5cm)}]
+
+  % (a) background mesh, with the elements shaded as the support
+  \begin{scope}
+    \supportblock{0}{\zb}
+    \supportblock{\zt}{\ztop}
+    \foreach \z in {\zb,\ztop} {\fill[supporttop] (0,0,\z) -- (1,0,\z) -- (1,1,\z) -- (0,1,\z) -- cycle;}
+    \hiddenmesh
+    \visiblemesh
+    \dimensions
+    \node[font=\sffamily] at (0.65,0,-1.0) {(a) background mesh};
+  \end{scope}
+
+  % (b) a 2 x 2 x 2 grid of GIMP domains in each element, drawn back to front
+  \begin{scope}[xshift=5cm]
+    \hiddenmesh
+    \pgfmathsetmacro{\gap}{(0.5-\gimpside)/2}
+    \foreach \j in {1,0} {
+      \foreach \i in {0,1} {
+        \foreach \z in {0,0.5,1,1.5,\zt,\zt+0.5} {
+          \gimp{0.5*\i+\gap}{0.5*\j+\gap}{\z+\gap}{\gimpside}}}}
+    \foreach \x in {0.25,0.75} {\gapdots{mpnavy!45}{\x}{0.75}} % back GIMP columns
+    \foreach \x in {0.25,0.75} {\gapdots{mpnavy}{\x}{0.25}}    % front GIMP columns
+    \visiblemesh
+    \dimensions
+    \node[font=\sffamily] at (0.65,0,-1.0) {(b) GIMP domains};
+  \end{scope}
+
+  % legend, centred under the two panels
+  \node[font=\sffamily, anchor=north] at (3.45cm,-1.95cm) {%
+    \usebox{\legmp}~material point\hspace{1.6em}%
+    \usebox{\leggimp}~GIMP domain\hspace{1.6em}%
+    \usebox{\legnode}~active node\hspace{1.6em}%
+    \usebox{\legsupport}~support};
+
+\end{tikzpicture}
+\end{document}

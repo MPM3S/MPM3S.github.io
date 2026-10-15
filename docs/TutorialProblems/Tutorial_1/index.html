@@ -2899,13 +2899,10 @@
 <div class="arithmatex">\[
 \sigma_{zz} = -\rho\, g\, (L - z_p),
 \]</div>
-<p>where <span class="arithmatex">\(\rho\)</span> is the density, <span class="arithmatex">\(g = 9.81\)</span> m/s<span class="arithmatex">\(^2\)</span> is the acceleration due to gravity, <span class="arithmatex">\(L = 0.8\)</span> m is the initial height of the column and <span class="arithmatex">\(z_p\)</span> is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change, so this Cauchy stress holds however large the deformation.</p>
-<p>The column is <span class="arithmatex">\(0.05 \times 0.05 \times 0.8\)</span> m, made of a homogeneous Hencky elastic material with Poisson's ratio <span class="arithmatex">\(\nu = 0\)</span> and density <span class="arithmatex">\(\rho = 50\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The Young's modulus, <span class="arithmatex">\(E = \rho g L / (2 \ln 2) = 283\)</span> Pa, is chosen to make the deformation large: the material at the base is compressed to half its original length, and the column shortens from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m.</p>
+<p>where <span class="arithmatex">\(\rho\)</span> is the density, <span class="arithmatex">\(g = 9.81\)</span> m/s<span class="arithmatex">\(^2\)</span> is the acceleration due to gravity, <span class="arithmatex">\(L = 0.8\)</span> m is the initial height of the column and <span class="arithmatex">\(z_p\)</span> is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change and this Cauchy stress calculation is true for any magnitude of deformation.</p>
+<p>The column is <span class="arithmatex">\(0.05 \times 0.05 \times 0.8\)</span> m, made of a homogeneous Hencky elastic material with Poisson's ratio <span class="arithmatex">\(\nu = 0\)</span> and density <span class="arithmatex">\(\rho = 50\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The Young's modulus, <span class="arithmatex">\(E = 283\)</span> Pa, is chosen so the column will be significantly compressed from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m.</p>
 <p>The column is divided into 16 elements of <span class="arithmatex">\(0.05\)</span> m, each filled with a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.</p>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_1/column_setup.png</code> - the column of material points at the first output step, with the element size marked.</p>
-</div>
+<p><figure id="_figure-2"><img alt="The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element." id="fig-column-setup" src="../../../img/column_setup.png" width="50%"><figcaption>Figure 2: The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element.</figcaption></figure></p>
 <p>The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found <a href="../Tutorial_1_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
 <div class="json-side-header">
 <div>Description</div>
@@ -3032,7 +3029,7 @@
 </div>
 </div>
 <h2 id="deploying-and-running-the-problem">Deploying and running the problem<a class="headerlink" href="#deploying-and-running-the-problem" title="Permanent link">¶</a></h2>
-<p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language, and there are two ways to run the code, both explored on the <a href="../../UsingTheSoftware/DeployingTheSoftware/">deployment page</a>. As this is a small problem that runs quickly, this tutorial uses Julia directly; see the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S.</p>
+<p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language, and there are multiple ways to run the code, all explored on the <a href="../../UsingTheSoftware/DeployingTheSoftware/">deployment page</a>. As this is a small problem that runs quickly, this tutorial uses Julia directly; see the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S.</p>
 <div class="json-side-header">
 <div>Deployment instructions</div>
 <div><code>terminal</code></div>
@@ -3049,7 +3046,7 @@
 <p>Then load MPM3S:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>using MPM3S
 </code></pre></div>
-<p>The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in the <a href="../../GettingStarted/install_and_run/">installation guide</a>.</p>
+<p>The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in <a href="../../GettingStarted/install_and_run/#mpm3s-installation">MPM3S installation</a>.</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
@@ -3073,7 +3070,7 @@
 <div class="js-text">
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
 <p>With Julia running in the run folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>MPM3S.non_linear_solve("input_data.json");
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 </code></pre></div>
 <p>This reads <code>input_data.json</code> from the current folder, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.</p>
 <h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
@@ -3093,14 +3090,13 @@
 </div>
 <div class="js-code">
 <div class="terminal">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("input_data.json");</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257</span>
-</code></pre></div>
-<p>In a log file, the last lines are:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>stage 1/1 ███████████░  94.0% t 0.94/1.0 step 48 Δt 0.02 NR 3 cuts 0 del 0 N 257
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>stage 1/1 ████████████  96.0% t 0.96/1.0 step 49 Δt 0.02 NR 3 cuts 0 del 0 N 257
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>stage 1/1 ████████████  98.0% t 0.98/1.0 step 50 Δt 0.02 NR 3 cuts 0 del 0 N 257
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="go">...</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="go">stage 1/1 ███████████░  94.0% t 0.94/1.0 step 48 Δt 0.02 NR 3 cuts 0 del 0 N 257</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="go">stage 1/1 ████████████  96.0% t 0.96/1.0 step 49 Δt 0.02 NR 3 cuts 0 del 0 N 257</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="go">stage 1/1 ████████████  98.0% t 0.98/1.0 step 50 Δt 0.02 NR 3 cuts 0 del 0 N 257</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257</span>
 </code></pre></div>
 </div>
 </div>
@@ -3198,44 +3194,42 @@
 </div>
 <h2 id="analysing-the-stress-variation-with-height">Analysing the stress variation with height<a class="headerlink" href="#analysing-the-stress-variation-with-height" title="Permanent link">¶</a></h2>
 <p><code>csv_column</code> holds one CSV file per load step. The first line of each file is the load fraction, <code>time</code>, and the second line holds the column headers; after that there is one row per GIMP. The final step, <code>mps_1_00051.csv</code>, starts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>time,1.0000000000000004
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>initial position_x,initial position_y,initial position_z,position_x,position_y,position_z,stress_xx,stress_yy,stress_zz,stress_xy,stress_yz,stress_xz
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>0.0125,0.0125,0.0125,0.0125,0.0125,0.0063402156514166625,0.0,0.0,-378.74281316505846,0.0,0.0,0.0
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.01902064695425,0.0,0.0,-378.74281316505824,0.0,0.0,0.0
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>0.0125,0.0125,0.0625,0.0125,0.0125,0.03176546486174408,0.0,0.0,-365.6843044912428,0.0,0.0,0.0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>time,1.0000000000000004
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>initial position_x,initial position_y,initial position_z,position_x,position_y,position_z,stress_xx,stress_yy,stress_zz,stress_xy,stress_yz,stress_xz
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>0.0125,0.0125,0.0125,0.0125,0.0125,0.00634021565216069,0.0,0.0,-378.742813055138,0.0,0.0,0.0
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.019020646956482066,0.0,0.0,-378.742813055138,0.0,0.0,0.0
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>0.0125,0.0125,0.0625,0.0125,0.0125,0.031765464864891575,6.107727604173849e-14,6.107727604173849e-14,-365.68430455127134,0.0,0.0,0.0
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>--- many more rows of data ---
 </code></pre></div>
 <p><code>initial position_z</code> is <span class="arithmatex">\(z_p\)</span> in the analytical solution, <code>position_z</code> is the GIMP's current height, and <code>stress_zz</code> is the vertical Cauchy stress in Pa.</p>
 <div class="admonition note">
 <p class="admonition-title">Floating-point spellings in the raw CSV</p>
 <p>Values such as <code>1.0000000000000004</code> and <code>0.037500000000000006</code> are the exact binary representations Julia stores for <code>1.0</code> and <code>0.0375</code>, and the trailing digits of the stresses are floating-point noise.</p>
 </div>
-<p>The short Python script below, run from the run folder, plots the stresses from the final step against the analytical solution from the <a href="#problem-summary">Problem summary</a>. It needs <a href="https://numpy.org/">NumPy</a> and <a href="https://matplotlib.org/">Matplotlib</a>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># the final output step of the column</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"csv_column/mps_1_00051.csv"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="n">header</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                                  <span class="c1"># rows[0] is the "time" line</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">z0</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">header</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"initial position_z"</span><span class="p">)]</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">szz</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">header</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"stress_zz"</span><span class="p">)]</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">rho</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">9.81</span><span class="p">,</span> <span class="mf">0.8</span>
-<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">szz</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"MPM3S"</span><span class="p">)</span>
-<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rho</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="p">(</span><span class="n">L</span> <span class="o">-</span> <span class="n">z</span><span class="p">),</span> <span class="n">z</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"analytical"</span><span class="p">)</span>
-<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"vertical compressive stress (Pa)"</span><span class="p">)</span>
-<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"initial height (m)"</span><span class="p">)</span>
-<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<p>The short Julia script below plots the stresses from the final step against the analytical solution from the <a href="#problem-summary">Problem summary</a>. You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as <code>plot_stress.jl</code> in the run folder and running <code>include("plot_stress.jl")</code>. It needs <a href="https://docs.juliaplots.org/">Plots</a>; <code>DelimitedFiles</code> comes with Julia.</p>
+<p>To install Plots, once, start <code>julia</code> without <code>--project</code> (so that Plots is not added to MPM3S itself) and use:</p>
+<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">"Plots"</span><span class="p">)</span>
 </code></pre></div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: results plot</p>
-<p><code>img/tutorial_1/stress_validation.png</code> - the plot produced by the script: GIMP stresses against the analytical solution.</p>
-</div>
-<p>The numerical stresses agree with the analytical solution to within 2% of the stress at the base (<span class="arithmatex">\(392.4\)</span> Pa), with the largest differences in the elements at the base and at the free surface. The GIMPs' final heights also match the large-deformation solution - in which each slice of the column is compressed by the stretch <span class="arithmatex">\(\lambda\)</span> satisfying <span class="arithmatex">\(E \ln\lambda / \lambda = \sigma_{zz}\)</span> - to within <span class="arithmatex">\(1\)</span> mm.</p>
+The commands to run the plot are:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c"># the final output step of the column; skip the "time" line, then read the header</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_column/mps_1_00051.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">skipstart</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">header</span><span class="p">))]</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">z0</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"initial position_z"</span><span class="p">)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">szz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"stress_zz"</span><span class="p">)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c"># analytical vertical stress</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">ρ</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">50.0</span><span class="p">,</span><span class="w"> </span><span class="mf">9.81</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">σ</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ρ</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">z</span><span class="p">)</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">szz</span><span class="p">,</span><span class="w"> </span><span class="n">z0</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"vertical compressive stress (Pa)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"initial height (m)"</span><span class="p">)</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">plot!</span><span class="p">(</span><span class="o">-</span><span class="n">σ</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"analytical"</span><span class="p">)</span>
+</code></pre></div>
+<p><figure id="_figure-3"><img alt="Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution." id="fig-column-stress" src="../../../img/column_analytical_stress.png" width="40%"><figcaption>Figure 3: Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.</figcaption></figure></p>
+<p>The numerical stresses agree with the analytical solution to within 2% of the stress at the base (<span class="arithmatex">\(392.4\)</span> Pa), with the largest differences in the elements at the base and at the free surface. </p>
 <p>To see how the accuracy depends on the mesh, halve <code>"element size"</code> in <a href="#material-points">Material points</a> to <code>0.025</code> and run the problem again.</p>
 
 
