@@ -1,0 +1,110 @@
+% The three steps of a GIMPM solution step (Tutorial 1): (a) the GIMPs on the
+% background mesh, (b) the mesh and GIMPs deformed together, and (c) the mesh
+% reset with the GIMPs left where they moved to, as axis-aligned domains. Lengths
+% are in elements of 1 cm.
+% Build: pdflatex GIMP_example2.tex
+%        pdftocairo -svg GIMP_example2.pdf GIMP_example2.svg
+%        pdftocairo -png -transp -scale-to-x 2000 -scale-to-y -1 -singlefile GIMP_example2.pdf GIMP_example2
+\documentclass[border=0pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{graphicx}
+
+\definecolor{gridgrey}{RGB}{185,185,185}
+\definecolor{activeorange}{RGB}{245,130,32}
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{support}{RGB}{254,238,224}
+\definecolor{dimpurple}{RGB}{104,36,109}
+
+% the deformation in (b): x' = x + \shear y, y' = \squash y, about the bottom-left node
+\newcommand{\shear}{0.22}
+\newcommand{\squash}{0.9}
+\newcommand{\hw}{0.17}        % GIMP half-width
+\newcommand{\bx}{5.6}         % left of panel (b)
+\newcommand{\cx}{11.2}        % left of panel (c)
+% the material points of (a), x/y, in drawing order (bottom to top)
+\newcommand{\gimps}{1.40/2.55, 1.85/2.55, 2.55/2.25, 2.40/2.35, 2.30/2.60, 2.60/2.55, 1.50/2.20,
+  2.25/1.90, 1.95/2.15, 2.15/2.45, 1.75/2.35, 2.60/1.80, 1.35/1.80, 1.80/1.75, 1.60/2.00,
+  2.35/1.45, 1.45/1.40, 1.90/1.35, 2.10/1.60, 1.65/1.55}
+
+\tikzset{
+  mesh/.style={draw=gridgrey, line width=0.56pt},
+  gimp/.style={draw=mpnavy, line width=0.64pt, fill=gimpfill, fill opacity=0.55},
+  activenode/.style={fill=activeorange, draw=black, line width=0.5pt},
+  steparrow/.style={draw=dimpurple, line width=1pt, -{Stealth}},
+}
+
+\newcommand{\txt}[1]{\scalebox{1.029}[1]{#1}}   % the text is set 2.9% wide
+\newcommand{\activenode}[1]{\path[activenode] #1 circle (3.37pt);}
+\newcommand{\gridnode}[1]{\fill[black] #1 circle (1.9pt);}
+\newcommand{\mpoint}[1]{\fill[mpnavy] #1 circle (1.57pt);}
+
+% a 4 x 4 mesh mapped by \M{x}{y}, with active nodes #1..#2 across by #3..#4 up and
+% the support between them
+\newcommand{\meshpanel}[4]{%
+  \fill[support] \M{#1}{#3} -- \M{#2}{#3} -- \M{#2}{#4} -- \M{#1}{#4} -- cycle;
+  \foreach \a in {0,...,4} {
+    \draw[mesh] \M{\a}{0} -- \M{\a}{4};
+    \draw[mesh] \M{0}{\a} -- \M{4}{\a};}
+  \foreach \i in {0,...,4} {\foreach \j in {0,...,4} {
+    \pgfmathparse{and(and(\i>=#1, \i<=#2), and(\j>=#3, \j<=#4)) ? 1 : 0}
+    \ifnum\pgfmathresult=1 \activenode{\M{\i}{\j}} \else \gridnode{\M{\i}{\j}} \fi}}}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legmp}\sbox{\legmp}{\tikz[baseline=-0.6ex]\fill[mpnavy] (0,0) circle (1.75pt);}%
+\newsavebox{\leggimp}\sbox{\leggimp}{\tikz[baseline=-0.6ex]\filldraw[gimp, line width=0.55pt] (0,-0.144) rectangle (0.288,0.144);}%
+\newsavebox{\legnode}\sbox{\legnode}{\tikz[baseline=-0.6ex]\path[activenode] (0,0) circle (3.7pt);}%
+\newsavebox{\leggrid}\sbox{\leggrid}{\tikz[baseline=-0.6ex]\fill[black] (0,0) circle (2pt);}%
+\newsavebox{\legsupport}\sbox{\legsupport}{\tikz[baseline=-0.6ex]\fill[support] (0,-0.144) rectangle (0.288,0.144);}%
+
+\begin{tikzpicture}[x=1cm, y=1cm, font=\sffamily]
+  \useasboundingbox (-0.0619,-2.0319) rectangle (15.3231,4.0604);
+
+  % (a) initial state: each GIMP domain is drawn, then its material point
+  \begin{scope}
+    \def\M#1#2{(#1,#2)}
+    \meshpanel{1}{3}{1}{3}
+    \foreach \x/\y in \gimps {
+      \filldraw[gimp] (\x-\hw,\y-\hw) rectangle (\x+\hw,\y+\hw);
+      \mpoint{(\x,\y)}}
+    \node at (2,-0.8) {\txt{(a) initial state}};
+  \end{scope}
+
+  \draw[steparrow] (4.3,2) -- node[above=1pt] {\txt{deform}} (5.29,2);
+
+  % (b) deformed state: the mesh and the GIMPs deform together
+  \begin{scope}
+    \def\M#1#2{({\bx+(#1)+\shear*(#2)},{\squash*(#2)})}
+    \meshpanel{1}{3}{1}{3}
+    \foreach \x/\y in \gimps {
+      \filldraw[gimp] \M{\x-\hw}{\y-\hw} -- \M{\x+\hw}{\y-\hw} -- \M{\x+\hw}{\y+\hw} -- \M{\x-\hw}{\y+\hw} -- cycle;
+      \mpoint{\M{\x}{\y}}}
+    \node at (\bx+2,-0.8) {\txt{(b) deformed state}};
+  \end{scope}
+
+  \draw[steparrow] (10.3,2) -- node[above=1pt] {\txt{reset}} (10.99,2);
+
+  % (c) mesh reset: the mesh returns to (a), the GIMPs stay where (b) moved them,
+  % as axis-aligned domains, and the support grows to the elements they now touch
+  \begin{scope}
+    \def\M#1#2{(\cx+#1,#2)}
+    \meshpanel{1}{4}{1}{3}
+    \foreach \x/\y in \gimps {
+      \pgfmathsetmacro{\X}{\cx+\x+\shear*\y}\pgfmathsetmacro{\Y}{\squash*\y}
+      \filldraw[gimp] (\X-\hw,\Y-\hw) rectangle (\X+\hw,\Y+\hw);
+      \mpoint{(\X,\Y)}}
+    \node at (\cx+2,-0.8) {\txt{(c) mesh reset}};
+  \end{scope}
+
+  % legend, centred under the three panels
+  \node at (8,-1.866) {%
+    \usebox{\legmp}~\txt{material point}\hspace{13.6pt}%
+    \usebox{\leggimp}~\txt{GIMP domain}\hspace{13.6pt}%
+    \usebox{\legnode}~\txt{active node}\hspace{13.6pt}%
+    \usebox{\leggrid}~\txt{grid node}\hspace{13.6pt}%
+    \usebox{\legsupport}~\txt{support}};
+
+\end{tikzpicture}
+\end{document}
