@@ -10,7 +10,7 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
 
     "domain": {
         "size": 1.6,
-        "gravity": [0.0, 0.0, -9.81]
+        "gravity": [0.0, 0.0, 0.0]
     },
 
     "material points": {
@@ -33,7 +33,7 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
                   "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
             ],
             "stl files": [
-                { "name": "platen", "stl": "platen.stl", "mesh cache": "platen_mesh.txt", "point": 1 }
+                { "name": "cube", "stl": "cube.stl", "mesh cache": "cube_mesh.txt", "point": 1 }
             ]
         }
     ],
@@ -77,12 +77,12 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
 }
 ```
 
-## platen.stl
+## cube.stl
 
-The rigid platen is a $1.2 \times 1.2 \times 1.0$ m box, drawn in global coordinates with its base on the top of the soil at $z = 0.8$ m. Save the text below as `platen.stl` in the same folder as `input_data.json`. `platen_mesh.txt` is generated from it on the first run.
+The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box, drawn in global coordinates with its base on the top of the soil at $z = 0.8$ m. Save the text below as `cube.stl` in the same folder as `input_data.json`. `cube_mesh.txt` is generated from it on the first run.
 
 ```text
-solid platen
+solid cube
   facet normal 0 0 -1
     outer loop
       vertex -0.2 -0.1 0.8
@@ -167,5 +167,5 @@ solid platen
       vertex 1.0 -0.1 1.8
     endloop
   endfacet
-endsolid platen
+endsolid cube
 ```
