@@ -366,8 +366,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_1.png` - ParaView on launch, with an empty render view.
+![ParaView on launch, with an empty render view.](../../img/Column_1.png){ #fig-paraview-1 }
 </div>
 </div>
 
@@ -376,8 +375,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it and click *OK*.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_2.png` - the Open File dialog with the `mps_1_..vtu` series selected.
+![The Open File dialog with the mps_1_..vtu series selected.](../../img/Column_2.png){ #fig-paraview-2 }
 </div>
 </div>
 
@@ -386,8 +384,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **3. Apply the reader.** Click *Apply* in the Properties panel. The column of GIMPs appears at the first load step.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_3.png` - the column of GIMPs after *Apply*.
+![The series in the Pipeline Browser, with Apply highlighted in the Properties panel.](../../img/Column_3.png){ #fig-paraview-3 }
 </div>
 </div>
 
@@ -404,8 +401,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **4. Colour the GIMPs by vertical displacement.** Change *Coloring* to `displacement` → `Z`. At the first load step the displacements are still small.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_4.png` - GIMPs coloured by vertical displacement at the first load step.
+![The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.](../../img/Column_4.png){ #fig-paraview-4 }
 </div>
 </div>
 
@@ -414,8 +410,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **5. Advance to the final step.** Click the *Go to Last* button (`▶|`) in the time toolbar, then *Rescale to Data Range* in the colour-bar toolbar so the colour scale matches the deformed column. The column has shortened from $0.8$ m to about $0.54$ m, so the top has moved down by about $0.26$ m.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_5.png` - the deformed column at the final load step, coloured by vertical displacement.
+![The deformed column at the final load step, coloured by displacement.](../../img/Column_5.png){ #fig-paraview-5 }
 </div>
 </div>
 
@@ -424,8 +419,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **6. Colour by vertical stress.** Change *Coloring* to `stress` → `ZZ` and rescale. The compressive stress increases steadily from zero at the top to its largest value at the base.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_6.png` - the final column coloured by vertical stress.
+![Choosing the ZZ component of stress in the Coloring menu.](../../img/Column_6.png){ #fig-paraview-6 }
 </div>
 </div>
 
@@ -434,8 +428,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_1/paraview_7.png` - close-up of the squashed GIMP domains at the base of the column.
+![Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.](../../img/Column_7.png){ #fig-paraview-7 }
 </div>
 </div>
 
