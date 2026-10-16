@@ -2913,14 +2913,14 @@
 <p>The simulation is configured through a single JSON object - a human-readable, editable text file. It extends <a href="../Tutorial_1/#input-setup">Tutorial 1</a> with a rigid body. The complete file for this problem, and the rigid cube geometry, can be found <a href="../Tutorial_2_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_compress.json</code></div>
 </div>
 
 <div class="json-side">
 <div class="js-text">
 <h3 id="machine-and-domain">Machine and domain<a class="headerlink" href="#machine-and-domain" title="Permanent link">¶</a></h3>
 <p><code>"GPU": "off"</code> runs the analysis on the CPU.</p>
-<p><code>"domain update": "stretch"</code> lets the GIMP domains shrink as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.</p>
+<p><code>"domain update": "stretch"</code> lets the GIMP domains to compress as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.</p>
 <p>The background mesh is sized automatically to hold the soil and the same height of empty space above it, so it is a cube of side <span class="arithmatex">\(1.6\)</span> m. <code>"gravity"</code> is zero, so the soil carries no weight.</p>
 </div>
 <div class="js-code">
@@ -2960,7 +2960,7 @@
 <h3 id="rigid-body">Rigid body<a class="headerlink" href="#rigid-body" title="Permanent link">¶</a></h3>
 <p>A rigid body is a <em>system</em> of one or more <em>points</em>. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, <span class="arithmatex">\((0.4, 0.4, 1.3)\)</span> m.</p>
 <p>Its <code>"boundary conditions"</code> list the six degrees of freedom in the order <span class="arithmatex">\([u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]\)</span>. Five are <code>"fixed"</code>, and the vertical displacement is prescribed as <span class="arithmatex">\(-0.01\)</span> m per load step, so the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.</p>
-<p>The geometry comes from <code>cube.stl</code>, welded to point 1. It is drawn in global coordinates - the same frame as the point - with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and stores it in <code>cube_mesh.txt</code> for later runs.</p>
+<p>The geometry comes from <code>cube.stl</code>, which sits in the same folder as the input file: the <code>"stl"</code> path is relative to the input file, so only file name means the same folder. It is attached to point 1 and drawn in global coordinates (the same global coordinates as point 1) with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and saves it in <code>cube_mesh.txt</code>, which later runs read instead. If you change <code>cube.stl</code>, delete <code>cube_mesh.txt</code> so that the mesh is rebuilt.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -2994,7 +2994,7 @@
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">¶</a></h3>
 <p>A single static stage of 20 load steps with the rigid body switched on. Gravity is zero, so <code>"load": "full"</code> has nothing to apply; all of the load comes from the rigid cube, which is pushed down a little further at every step.</p>
 <p><code>"rigid body surface placement": "on"</code> moves the rigid cube vertically at the start of the stage so that its base rests exactly on the top of the soil. Rollers are applied on the four sides and the base, and the top is free.</p>
-<p><code>"adaptivity": { "type": "uniform" }</code> meshes the whole background domain at the <span class="arithmatex">\(0.4\)</span> m element size. Without it, only the elements holding material points are <span class="arithmatex">\(0.4\)</span> m and the empty space is filled with coarser elements, so the rigid cube would move through <span class="arithmatex">\(0.8\)</span> m elements above the soil.</p>
+<p><code>"adaptivity": { "type": "uniform" }</code> meshes the whole background domain at the <span class="arithmatex">\(0.4\)</span> m element size. Without it, only the elements holding material points are <span class="arithmatex">\(0.4\)</span> m and the empty space is filled with coarser elements.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -3059,20 +3059,18 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="setting-up-and-running-the-problem">Setting up and running the problem<a class="headerlink" href="#setting-up-and-running-the-problem" title="Permanent link">¶</a></h3>
-<p>Create a folder for the run containing two files, both provided <a href="../Tutorial_2_input_data/">here</a>:</p>
-<ul>
-<li><code>input_data.json</code>;</li>
-<li><code>cube.stl</code>, the geometry of the rigid cube.</li>
-</ul>
-<p>The STL path in the input file is relative to the input file, and the output folders <code>vtk_cube</code> and <code>csv_cube</code> are created in the folder Julia is started from.</p>
-<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal in the run folder, start Julia with the MPM3S project active and load MPM3S.</p>
+<p>The input file for this tutorial comes with MPM3S, as <code>validation_data_and_jsons/input_data_compress.json</code>, together with the geometry of the rigid cube, <code>cube.stl</code>, and its mesh cache, <code>cube_mesh.txt</code>; they are the same files as the ones provided <a href="../Tutorial_2_input_data/">here</a>. The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.</p>
+<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal, start Julia with every CPU thread available (<code>-t auto</code>), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders <code>vtk_cube</code> and <code>csv_cube</code> are created in the <code>MPM3S</code> folder.</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>path/to/run_folder
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="gp">$ </span>julia<span class="w"> </span>--project<span class="o">=</span>path/to/MPM3S<span class="w"> </span>-t<span class="w"> </span>auto
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="go">julia&gt; using MPM3S</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>julia<span class="w"> </span>-t<span class="w"> </span>auto
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="go">julia&gt; cd("path/to/MPM3S")</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="go">julia&gt; using MPM3S</span>
 </code></pre></div>
 </div>
 </div>
@@ -3080,8 +3078,8 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
-<p>With Julia running in the run folder and MPM3S loaded, start the simulation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>MPM3S.non_linear_solve("input_data.json");
+<p>Julia is now running in the <code>MPM3S</code> folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder <code>validation_data_and_jsons</code>, the simulations are started with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");
 </code></pre></div>
 <h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
 <p>Before the first load step, MPM3S reports the rigid body surface placement: the lowest point of the rigid cube (<code>body base</code>) and the top of the soil (<code>material top</code>) are both at <span class="arithmatex">\(0.8\)</span> m, so the rigid cube is moved by just <code>Δz = 2.23517e-8</code> m, a small tolerance above the soil.</p>
@@ -3089,23 +3087,15 @@
 </div>
 <div class="js-code">
 <div class="terminal">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("input_data.json");</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 2.23517e-8</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="go">...</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="go">stage 1/1 █░░░░░░░░░░░   5.0% t 0.05/1.0 step 2 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="go">stage 1/1 █░░░░░░░░░░░  10.0% t 0.1/1.0 step 3 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="go">...</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">stage 1/1 ███████████░  90.0% t 0.9/1.0 step 19 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="go">stage 1/1 ███████████░  95.0% t 0.95/1.0 step 20 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
 </code></pre></div>
 </div>
 </div>
 </div>
 <h2 id="viewing-the-results">Viewing the results<a class="headerlink" href="#viewing-the-results" title="Permanent link">¶</a></h2>
-<p>The simulation results appear as the simulation runs, so you do not need to wait until it has finished. <code>vtk_cube</code> holds three series of files, numbered from <code>00002</code> to <code>00021</code>: <code>mps_1_...vtu</code> for the GIMPs, <code>surface_...vtu</code> for the surface of the rigid cube and <code>body_...vtu</code> for the rigid cube's point.</p>
+<p>The simulation results appear as the simulation runs, so you do not need to wait until it has finished. <code>vtk_cube</code> holds three series of files, numbered from <code>00002</code> to <code>00021</code>: <code>mps_1_...vtu</code> for the GIMPs, <code>surface_...vtu</code> for the surface of the rigid cube and <code>body_...vtu</code> for the rigid cube's point which contains information such as force and moment reactions.</p>
 <h3 id="visualising-the-output-in-paraview">Visualising the output in ParaView<a class="headerlink" href="#visualising-the-output-in-paraview" title="Permanent link">¶</a></h3>
 <p>The walkthrough below follows the same pattern as the <a href="../Tutorial_1/#visualising-the-output-in-paraview">ParaView walkthrough from Tutorial 1</a>, but also loads the surface of the rigid cube and makes it see-through, so that the soil beneath it can be inspected. The same <a href="../Tutorial_1/#visualising-the-output-in-paraview">3D-navigation controls</a> (left-drag to rotate, scroll to zoom) apply throughout.</p>
 <div class="walkthrough">
@@ -3165,7 +3155,7 @@
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>1.0000000000000002,0.4,0.4,1.1000000223517419,0.0,0.0,237097.96125687487
 </code></pre></div>
 <p>The GIMP files, <code>csv_cube/mps_1_00002.csv</code> to <code>mps_1_00021.csv</code>, have the same layout as in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, with the addition of the domain half-widths <code>lp_x</code>, <code>lp_y</code> and <code>lp_z</code>.</p>
-<p>The short Julia script below compares the final state with the analytical solution from the <a href="#problem-summary">Problem summary</a>. As in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, you can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as <code>check_stress.jl</code> in the run folder and running <code>include("check_stress.jl")</code>. It needs only <code>DelimitedFiles</code>, which comes with Julia.</p>
+<p>The short Julia script below compares the final state with the analytical solution from the <a href="#problem-summary">Problem summary</a>. As in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, you can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as <code>check_stress.jl</code> in the <code>MPM3S</code> folder and running <code>include("check_stress.jl")</code>. It needs only <code>DelimitedFiles</code>, which comes with Julia.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c"># the soil at the final load step; skip the "time" line, then read the header</span>
