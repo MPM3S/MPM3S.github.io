@@ -83,7 +83,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 `"GPU": "on"` runs the analysis on an NVIDIA GPU. This is recommended here, because refining the cone surface to $0.025$ m creates a large number of material points; set it to `"off"` to run on the CPU.
 
-The domain `"size"` is only a lower bound. The background grid is enlarged automatically to hold the soil block and the empty space above it, which here makes it a cube of side $51.2$ m. Gravity acts in $-z$.
+The background grid is sized automatically to hold the soil block and the empty space above it, which here makes it a cube of side $51.2$ m. Gravity acts in $-z$.
 
 </div>
 
@@ -93,7 +93,6 @@ The domain `"size"` is only a lower bound. The background grid is enlarged autom
 "GPU" : "on",
 
 "domain": {
-    "size": 10.0,
     "gravity": [0.0, 0.0, -9.81]
 }
 ```

@@ -78,7 +78,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 `"domain update": "stretch"` lets the GIMP domains shrink as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.
 
-The background mesh must hold the cube and the same height of empty space above it, so it is a cube of side $1.6$ m, the same as `"size"`. `"gravity"` is zero, so the soil carries no weight.
+The background mesh is sized automatically to hold the soil and the same height of empty space above it, so it is a cube of side $1.6$ m. `"gravity"` is zero, so the soil carries no weight.
 
 </div>
 
@@ -90,7 +90,6 @@ The background mesh must hold the cube and the same height of empty space above 
 "domain update": "stretch",
 
 "domain": {
-    "size": 1.6,
     "gravity": [0.0, 0.0, 0.0]
 }
 ```

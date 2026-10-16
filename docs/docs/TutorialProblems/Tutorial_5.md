@@ -73,7 +73,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Machine and domain
 
-`"GPU": "off"` runs the analysis on the CPU. The domain `"size"` of $12.8$ m matches the length of the slab, so the background grid is a $12.8$ m cube.
+`"GPU": "off"` runs the analysis on the CPU. The background grid is sized automatically to hold the slab, and its $12.8$ m length makes the grid a $12.8$ m cube.
 
 `"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
 
@@ -85,7 +85,6 @@ The input file is a single JSON object - a human-readable, editable text file. T
 "GPU": "off",
 
 "domain": {
-    "size": 12.8,
     "gravity": [6.93672, 0.0, -6.93672]
 }
 ```

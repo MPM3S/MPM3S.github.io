@@ -9,7 +9,6 @@ The run folder also needs the cone geometry `CPT.stl` and its mesh cache `CPT_me
     "GPU" : "on",
 
     "domain": {
-        "size": 10.0,
         "gravity": [0.0, 0.0, -9.81]
     },
 

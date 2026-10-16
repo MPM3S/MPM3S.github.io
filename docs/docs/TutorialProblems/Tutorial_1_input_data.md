@@ -1,6 +1,6 @@
-# Self-weight column - input_data.json
+# Self-weight column - input_data_gravity_column.json
 
-The complete `input_data.json` for [Tutorial 1](Tutorial_1.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_gravity_column.json` for [Tutorial 1](Tutorial_1.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 ```json
 {
@@ -9,7 +9,6 @@ The complete `input_data.json` for [Tutorial 1](Tutorial_1.md). Every key is des
     "domain update": "stretch",
 
     "domain": {
-        "size": 0.1,
         "gravity": [0.0, 0.0, -9.81]
     },
 

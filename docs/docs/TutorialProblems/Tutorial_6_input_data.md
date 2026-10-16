@@ -9,7 +9,6 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
     "GPU": "on",
 
     "domain": {
-        "size": 2.0,
         "gravity": [0.0, 0.0, -9.81]
     },
 

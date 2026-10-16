@@ -9,7 +9,6 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
     "domain update": "stretch",
 
     "domain": {
-        "size": 1.6,
         "gravity": [0.0, 0.0, 0.0]
     },
 
