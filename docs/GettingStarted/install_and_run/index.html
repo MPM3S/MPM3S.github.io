@@ -793,6 +793,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#terminal-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command/terminal window
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#julia-runtime" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2551,6 +2562,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#terminal-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command/terminal window
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#julia-runtime" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2735,18 +2757,60 @@
 <li><a href="https://git-scm.com/">Git</a> for cloning the source repository.</li>
 <li>A container runtime (<a href="https://www.docker.com/">Docker</a>, or <a href="https://apptainer.org/">Apptainer</a>/<a href="https://sylabs.io/singularity/">Singularity</a> on HPC) to run Julia and MPM3S without installation - see <a href="../../UsingTheSoftware/DeployingTheSoftware/">deploying with containers</a>.</li>
 </ul>
+<h2 id="terminal-window">Command/terminal window<a class="headerlink" href="#terminal-window" title="Permanent link">¶</a></h2>
+<p>Julia, MPM3S and the containers are all operated through the terminal (macOS/Linux) or command (Windows) window. To open one:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">Linux</label><label for="__tabbed_1_3">macOS</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Press the <em>Windows</em> key, type <code>PowerShell</code> and select <em>Windows PowerShell</em>.</p>
+<ul>
+<li>To open it in a particular folder, open the folder in File Explorer, right-click an empty space and choose <em>Open in Terminal</em> (Windows 11), or hold <code>Shift</code> while right-clicking and choose <em>Open PowerShell window here</em> (Windows 10).</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>Press <code>Ctrl</code> + <code>Alt</code> + <code>T</code>, or search for <em>Terminal</em> in your applications menu.</p>
+<ul>
+<li>To open it in a particular folder, right-click an empty space in the folder in your file manager and choose <em>Open in Terminal</em>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>Press <code>Cmd</code> + <code>Space</code>, type <code>Terminal</code> and press <code>Return</code>. Terminal is also in <em>Applications → Utilities</em>.</p>
+<ul>
+<li>To open it in a particular folder, right-click the folder in Finder and choose <em>Services → New Terminal at Folder</em>.</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Code snippets are provided throughout the documentation, these can be copied and pasted into the Terminal/Command window.</p>
 <h2 id="julia-runtime">Julia runtime<a class="headerlink" href="#julia-runtime" title="Permanent link">¶</a></h2>
-<p>The simplest deployment is to install Julia and run MPM3S from source.</p>
+<p>The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the <a href="#terminal-window">command/terminal window</a>.</p>
 <h3 id="julia-installation">Julia installation<a class="headerlink" href="#julia-installation" title="Permanent link">¶</a></h3>
-<p>Use the official installer from <a href="https://julialang.org/downloads/">julialang.org/downloads</a>, or on Linux/macOS use the <a href="https://github.com/JuliaLang/juliaup"><code>juliaup</code></a> toolchain manager:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://install.julialang.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<p>Install Julia with the <a href="https://github.com/JuliaLang/juliaup"><code>juliaup</code></a> toolchain manager, as recommended at <a href="https://julialang.org/downloads/">julialang.org/downloads</a>, by running the command for your system in the <a href="#terminal-window">command/terminal window</a>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Windows</label><label for="__tabbed_2_2">Linux</label><label for="__tabbed_2_3">macOS</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-name</span> <span class="n">Julia</span> <span class="p">-</span><span class="n">-id</span> <span class="n">9NJNWW8PVKMN</span> <span class="n">-e</span> <span class="n">-s</span> <span class="n">msstore</span>
 </code></pre></div>
-<p>Verify the install with <code>julia --version</code>.</p>
+<ul>
+<li>Alternatively, install <em>Julia</em> from the Microsoft Store, or use the <code>.exe</code> installer from <a href="https://julialang.org/downloads/">julialang.org/downloads</a>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://install.julialang.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://install.julialang.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Close and reopen the window, then verify the install with <code>julia --version</code>.</p>
 <h3 id="downloading-mpm3s-from-github">Downloading MPM3S from GitHub<a class="headerlink" href="#downloading-mpm3s-from-github" title="Permanent link">¶</a></h3>
 <p>The source lives at <a href="https://github.com/MPM3S/MPM3S">github.com/MPM3S/MPM3S</a>.</p>
 <p>Use <code>git clone</code> to pull the code from GitHub into your current directory; updating later is then a single <code>git pull</code> from inside the folder:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/MPM3S/MPM3S.git
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/MPM3S/MPM3S.git
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
 </code></pre></div>
 <p>If you prefer to download the ZIP containing the code, go to <a href="https://github.com/MPM3S/MPM3S">github.com/MPM3S/MPM3S</a>.</p>
 <p><figure id="_figure-1"><img alt="The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu." id="fig-github-zip" src="../../../img/git_download.png" width="90%"><figcaption>Figure 1: The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.</figcaption></figure></p>
@@ -2755,23 +2819,23 @@
 <h3 id="mpm3s-installation">MPM3S installation<a class="headerlink" href="#mpm3s-installation" title="Permanent link">¶</a></h3>
 <p><strong>1. Download the code</strong> from GitHub, as described above.</p>
 <p><strong>2. Start Julia and install the MPM3S package.</strong> Open a PowerShell (Windows) or terminal (Linux/macOS) window and start Julia with:</p>
-<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>julia<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>julia<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <code>-t 4</code> sets the number of CPU threads. Four threads is sufficient when the analysis is on a GPU; for a CPU run, set the number of threads to the number of physical cores minus 2. Julia runs on one thread if <code>-t</code> is omitted.
 <p>In the Julia REPL, change directory to <code>MPM3S</code> and install the MPM3S package. This installs the exact dependencies recorded in <code>Manifest.toml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/MPM3S"</span><span class="p">)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span><span class="p">;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">instantiate</span><span class="p">()</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/MPM3S"</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span><span class="p">;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">instantiate</span><span class="p">()</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
 </code></pre></div>
 <p>If everything succeeds the REPL prints the package versions being resolved.</p>
-<p><strong>3. Run a problem.</strong> Copy a tutorial <code>input_data.json</code> (for example from <a href="../../TutorialProblems/Tutorial_1_input_data/">Tutorial 1</a> or <a href="../../TutorialProblems/Tutorial_2_input_data/">Tutorial 2</a>) into the folder you want to work in, and run it from that folder:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">CPU</label><label for="__tabbed_1_2">GPU</label></div>
+<p><strong>3. Run a problem.</strong> Copy a tutorial <code>input_data.json</code> (for example from <a href="../../TutorialProblems/Tutorial_1_input_data/">Tutorial 1</a>) into the folder you want to work in, and run it from that folder:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">CPU</label><label for="__tabbed_3_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"input_data.json"</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"input_data.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li><code>cd</code> moves the REPL to the folder holding your input file, since step 2 left it in <code>MPM3S</code>.</li>
@@ -2781,8 +2845,8 @@
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"intut_data.json"</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"intut_data.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li><code>cd</code> moves the REPL to the folder holding your input file, since step 2 left it in <code>MPM3S</code>.</li>
@@ -2793,11 +2857,16 @@
 </div>
 </div>
 </div>
-<p>This steps through the load increments configured in the JSON and writes <code>.vtu</code>, <code>.vtk</code> and <code>.csv</code> output files into the folder you ran from. Open the VTU/VTK files in <a href="https://www.paraview.org/">ParaView</a> (or <a href="https://visit-dav.github.io/visit-website/">VisIt</a>) to inspect the deformed mesh and the stress / displacement fields.</p>
+<p>This steps through the load increments set in the input file and writes the <code>.vtu</code>, <code>.vtk</code> and <code>.csv</code> output files to the folder you ran it from.</p>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>The paths to any <code>.stl</code> files in <code>input_data.json</code> are relative to the input file, not to the folder Julia is running in. The simplest set-up is to keep the <code>.stl</code> files in the same folder as <code>input_data.json</code>.</p>
+</div>
+<p>Open the VTU/VTK files in <a href="https://www.paraview.org/">ParaView</a> (or <a href="https://visit-dav.github.io/visit-website/">VisIt</a>) to inspect the deformed mesh and the stress / displacement fields.</p>
 <h2 id="container-runtime">Container runtime<a class="headerlink" href="#container-runtime" title="Permanent link">¶</a></h2>
 <p>A container image bundles Julia, MPM3S and its dependencies, so nothing needs installing on the host machine. This is the usual route on HPC.</p>
 <p>Images are built by a GitHub Actions workflow in the MPM3S repository and published to the GitHub container registry. The latest build of the default branch is:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ghcr.io/mpm3s/mpm3s:latest
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 <p>For work you need to reproduce later, pull a fixed version tag such as <code>ghcr.io/mpm3s/mpm3s:v1.0.0</code> rather than <code>latest</code>, so that the image cannot change underneath you.</p>
 <div class="admonition note">
@@ -2808,11 +2877,11 @@
 <h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">¶</a></h3>
 <p><strong>1. Install Docker</strong> using the official guide for your system: <a href="https://docs.docker.com/desktop/setup/install/windows-install/">Windows</a>, <a href="https://docs.docker.com/desktop/setup/install/mac-install/">macOS</a> or <a href="https://docs.docker.com/desktop/setup/install/linux/">Linux</a>.</p>
 <p><strong>2. Pull the image and start a container</strong> from the folder holding your <code>input_data.json</code>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:5"><input checked id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><input id="__tabbed_2_4" name="__tabbed_2" type="radio"><input id="__tabbed_2_5" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Windows (CPU)</label><label for="__tabbed_2_2">Windows (GPU)</label><label for="__tabbed_2_3">Linux (CPU)</label><label for="__tabbed_2_4">Linux (GPU)</label><label for="__tabbed_2_5">macOS (CPU)</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:5"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><input id="__tabbed_4_3" name="__tabbed_4" type="radio"><input id="__tabbed_4_4" name="__tabbed_4" type="radio"><input id="__tabbed_4_5" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">Windows (CPU)</label><label for="__tabbed_4_2">Windows (GPU)</label><label for="__tabbed_4_3">Linux (CPU)</label><label for="__tabbed_4_4">Linux (GPU)</label><label for="__tabbed_4_5">macOS (CPU)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">docker</span> <span class="n">pull</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">docker</span> <span class="n">pull</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
 </code></pre></div>
 <ul>
 <li><code>input_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2822,8 +2891,8 @@
 </div>
 <div class="tabbed-block">
 <p>Requirements: Docker Desktop's WSL 2 engine, which is the default. The NVIDIA driver you already have on Windows is all that is needed.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">docker</span> <span class="n">pull</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-gpus</span> <span class="n">all</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">intut_data</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">docker</span> <span class="n">pull</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-gpus</span> <span class="n">all</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">intut_data</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2832,8 +2901,8 @@
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2843,8 +2912,8 @@
 </div>
 <div class="tabbed-block">
 <p>Requirements: the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Container Toolkit</a>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2854,8 +2923,8 @@
 </div>
 <div class="tabbed-block">
 <p>Note: Macs have no NVIDIA GPU, so MPM3S runs on the CPU.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2870,13 +2939,13 @@
 <p>Apptainer is the usual choice on HPC as it runs without administrator rights. Check whether your cluster already provides it with <code>apptainer --version</code>; if not, ask your administrator.</p>
 <p>To install locally on your Linux machine follow the <a href="https://apptainer.org/docs/admin/main/installation.html">installation guide</a>. The <code>--nv</code> flag passes NVIDIA GPUs into the container, as described in the <a href="https://apptainer.org/docs/user/main/gpu.html">GPU support guide</a>.</p>
 <p>To obtain the image, pull it into a local <code>.sif</code> file in your current directory:</p>
-<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>apptainer<span class="w"> </span>pull<span class="w"> </span>mpm3s.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
+<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>apptainer<span class="w"> </span>pull<span class="w"> </span>mpm3s.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 To run the file, call it in the terminal or include it in your job script:
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">CPU</label><label for="__tabbed_3_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked id="__tabbed_5_1" name="__tabbed_5" type="radio"><input id="__tabbed_5_2" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="__tabbed_5_1">CPU</label><label for="__tabbed_5_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2885,7 +2954,7 @@ To run the file, call it in the terminal or include it in your job script:
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2900,13 +2969,13 @@ To run the file, call it in the terminal or include it in your job script:
 <p>SingularityCE is a common choice on HPC as it runs without administrator rights. Check whether your cluster already provides it with <code>singularity --version</code>; if not, ask your administrator.</p>
 <p>To install locally on your Linux machine follow the <a href="https://docs.sylabs.io/guides/latest/admin-guide/installation.html">installation guide</a>. The <code>--nv</code> flag passes NVIDIA GPUs into the container, as described in the <a href="https://docs.sylabs.io/guides/latest/user-guide/gpu.html">GPU support guide</a>.</p>
 <p>To obtain the image, pull it into a local <code>.sif</code> file in your current directory:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>singularity<span class="w"> </span>pull<span class="w"> </span>mpm3s.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>singularity<span class="w"> </span>pull<span class="w"> </span>mpm3s.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 <p>To run the file, call it in the terminal or include it in your job script:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">CPU</label><label for="__tabbed_4_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked id="__tabbed_6_1" name="__tabbed_6" type="radio"><input id="__tabbed_6_2" name="__tabbed_6" type="radio"><div class="tabbed-labels"><label for="__tabbed_6_1">CPU</label><label for="__tabbed_6_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2915,7 +2984,7 @@ To run the file, call it in the terminal or include it in your job script:
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
 <li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
@@ -2932,7 +3001,7 @@ To run the file, call it in the terminal or include it in your job script:
 <p>MPM3S writes <code>.vtu</code>, <code>.vtk</code> and <code>.csv</code> files. <a href="https://www.paraview.org/">ParaView</a> opens the VTU and VTK output, and is the viewer the tutorials use.</p>
 <h3 id="paraview-installation">ParaView installation<a class="headerlink" href="#paraview-installation" title="Permanent link">¶</a></h3>
 <p>Download the latest release from <a href="https://www.paraview.org/download/">paraview.org/download</a>. The standard build is all that is needed.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:3"><input checked id="__tabbed_5_1" name="__tabbed_5" type="radio"><input id="__tabbed_5_2" name="__tabbed_5" type="radio"><input id="__tabbed_5_3" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="__tabbed_5_1">Windows</label><label for="__tabbed_5_2">macOS</label><label for="__tabbed_5_3">Linux</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:3"><input checked id="__tabbed_7_1" name="__tabbed_7" type="radio"><input id="__tabbed_7_2" name="__tabbed_7" type="radio"><input id="__tabbed_7_3" name="__tabbed_7" type="radio"><div class="tabbed-labels"><label for="__tabbed_7_1">Windows</label><label for="__tabbed_7_2">macOS</label><label for="__tabbed_7_3">Linux</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Download the <code>.msi</code> installer and run it.</p>
