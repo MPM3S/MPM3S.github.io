@@ -30,18 +30,57 @@ Please go to the relevant section for your installation (see the table of conten
 - [Git](https://git-scm.com/) for cloning the source repository.
 - A container runtime ([Docker](https://www.docker.com/), or [Apptainer](https://apptainer.org/)/[Singularity](https://sylabs.io/singularity/) on HPC) to run Julia and MPM3S without installation - see [deploying with containers](../UsingTheSoftware/DeployingTheSoftware.md).
 
+## Command/terminal window { #terminal-window }
+Julia, MPM3S and the containers are all operated through the terminal (macOS/Linux) or command (Windows) window. To open one:
+
+=== "Windows"
+
+    Press the *Windows* key, type `PowerShell` and select *Windows PowerShell*.
+
+    - To open it in a particular folder, open the folder in File Explorer, right-click an empty space and choose *Open in Terminal* (Windows 11), or hold `Shift` while right-clicking and choose *Open PowerShell window here* (Windows 10).
+
+=== "Linux"
+
+    Press `Ctrl` + `Alt` + `T`, or search for *Terminal* in your applications menu.
+
+    - To open it in a particular folder, right-click an empty space in the folder in your file manager and choose *Open in Terminal*.
+
+=== "macOS"
+
+    Press `Cmd` + `Space`, type `Terminal` and press `Return`. Terminal is also in *Applications → Utilities*.
+
+    - To open it in a particular folder, right-click the folder in Finder and choose *Services → New Terminal at Folder*.
+
+Code snippets are provided throughout the documentation, these can be copied and pasted into the Terminal/Command window.
+
 ## Julia runtime
-The simplest deployment is to install Julia and run MPM3S from source.
+The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the [command/terminal window](#terminal-window).
 
 ### Julia installation
 
-Use the official installer from [julialang.org/downloads](https://julialang.org/downloads/), or on Linux/macOS use the [`juliaup`](https://github.com/JuliaLang/juliaup) toolchain manager:
+Install Julia with the [`juliaup`](https://github.com/JuliaLang/juliaup) toolchain manager, as recommended at [julialang.org/downloads](https://julialang.org/downloads/), by running the command for your system in the [command/terminal window](#terminal-window):
 
-```bash
-curl -fsSL https://install.julialang.org | sh
-```
+=== "Windows"
 
-Verify the install with `julia --version`.
+    ```powershell
+    winget install --name Julia --id 9NJNWW8PVKMN -e -s msstore
+    ```
+
+    - Alternatively, install *Julia* from the Microsoft Store, or use the `.exe` installer from [julialang.org/downloads](https://julialang.org/downloads/).
+
+=== "Linux"
+
+    ```bash
+    curl -fsSL https://install.julialang.org | sh
+    ```
+
+=== "macOS"
+
+    ```bash
+    curl -fsSL https://install.julialang.org | sh
+    ```
+
+Close and reopen the window, then verify the install with `julia --version`.
 
 ### Downloading MPM3S from GitHub
 
@@ -86,7 +125,7 @@ julia> using MPM3S
 
 If everything succeeds the REPL prints the package versions being resolved.
 
-**3. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md) or [Tutorial 2](../TutorialProblems/Tutorial_2_input_data.md)) into the folder you want to work in, and run it from that folder:
+**3. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md)) into the folder you want to work in, and run it from that folder:
 
 === "CPU"
 
@@ -112,7 +151,12 @@ If everything succeeds the REPL prints the package versions being resolved.
     - The semicolon stops the REPL printing the material-point data that is returned.
     - The input file must have `"GPU": "on"`, and the machine needs an NVIDIA GPU with CUDA.
 
-This steps through the load increments configured in the JSON and writes `.vtu`, `.vtk` and `.csv` output files into the folder you ran from. Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
+This steps through the load increments set in the input file and writes the `.vtu`, `.vtk` and `.csv` output files to the folder you ran it from.
+
+!!! warning "Important"
+    The paths to any `.stl` files in `input_data.json` are relative to the input file, not to the folder Julia is running in. The simplest set-up is to keep the `.stl` files in the same folder as `input_data.json`.
+
+Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.
 
 ## Container runtime
 A container image bundles Julia, MPM3S and its dependencies, so nothing needs installing on the host machine. This is the usual route on HPC.
