@@ -9,7 +9,6 @@ The run folder also needs the sphere geometry `sphere.stl` and its mesh cache `s
     "GPU": "off",
 
     "domain": {
-        "size": 12.8,
         "gravity": [6.93672, 0.0, -6.93672]
     },
 

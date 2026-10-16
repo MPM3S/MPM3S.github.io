@@ -104,7 +104,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 `"GPU": "on"` runs the analysis on an NVIDIA GPU; a problem of this size is intended for a GPU or an HPC node.
 
-The domain `"size"` is only a lower bound. The background grid is enlarged automatically to hold the soil block, which here makes it a cube of side $102.4$ m.
+The background grid is sized automatically to hold the soil block, which here makes it a cube of side $102.4$ m.
 
 </div>
 
@@ -114,7 +114,6 @@ The domain `"size"` is only a lower bound. The background grid is enlarged autom
 "GPU": "on",
 
 "domain": {
-    "size": 2.0,
     "gravity": [0.0, 0.0, -9.81]
 }
 ```

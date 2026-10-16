@@ -46,7 +46,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_gravity_column.json</code></div>
 </div>
 
 <div class="json-side" markdown>
@@ -79,7 +79,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Domain
 
-`"size"` is a lower bound on the side of the cubic background mesh. The mesh is enlarged automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side $1.6$ m. Gravity acts in $-z$.
+The background mesh is a cube sized automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side $1.6$ m. Gravity acts in $-z$.
 
 </div>
 
@@ -87,7 +87,6 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ```json
 "domain": {
-    "size": 0.1,
     "gravity": [0.0, 0.0, -9.81]
 }
 ```
@@ -257,22 +256,23 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language, an
 
 ### Setting up and running the problem
 
-Create a folder for the run and copy into it the `input_data.json` provided [here](Tutorial_1_input_data.md). The output folders `vtk_column` and `csv_column` are created in the folder Julia is started from.
+The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_gravity_column.json`; it is the same file as the one provided [here](Tutorial_1_input_data.md).
 
-Open a terminal (a command prompt or PowerShell on Windows), change into the run folder and start Julia with the MPM3S project active. `--project` points to the folder where you downloaded MPM3S, and `-t auto` makes every CPU core available:
-
-```
-cd path/to/run_folder
-julia --project=path/to/MPM3S -t auto
-```
-
-Then load MPM3S:
+Open a terminal and start Julia; `-t auto` makes every CPU core available:
 
 ```
+julia -t auto
+```
+
+Then, in Julia, move into the folder where you downloaded MPM3S, activate it and load MPM3S:
+
+```
+cd("path/to/MPM3S")
+using Pkg; Pkg.activate(".")
 using MPM3S
 ```
 
-The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in [MPM3S installation](../GettingStarted/install_and_run.md#mpm3s-installation).
+The output folders `vtk_column` and `csv_column` are created in the `MPM3S` folder. The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in [MPM3S installation](../GettingStarted/install_and_run.md#mpm3s-installation). If you are unsure how to open a command/terminal window on your operating system, see [Command/terminal window](../GettingStarted/install_and_run.md#terminal-window).
 
 </div>
 
@@ -281,8 +281,7 @@ The commands work the same on Windows, macOS and Linux. The first time you use M
 <div class="terminal terminal-full" markdown>
 
 ```console
-$ cd path/to/run_folder
-$ julia --project=path/to/MPM3S -t auto
+$ julia -t auto
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |
@@ -291,6 +290,10 @@ $ julia --project=path/to/MPM3S -t auto
   | | |_| | | | (_| |  |  Version 1.12.4 (2026-01-06)
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org release
 |__/                   |
+
+julia> cd("path/to/MPM3S")
+julia> using Pkg; Pkg.activate(".")
+  Activating project at `path/to/MPM3S`
 
 julia> using MPM3S
 ```
@@ -307,13 +310,13 @@ julia> using MPM3S
 
 ### Running the problem
 
-With Julia running in the run folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:
+With Julia running in the `MPM3S` folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:
 
 ```
 MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 ```
 
-This reads `input_data.json` from the current folder, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.
+This reads the input file, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.
 
 #### Reading the output
 
