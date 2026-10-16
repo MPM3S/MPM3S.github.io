@@ -64,7 +64,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_sphere.json</code></div>
 </div>
 
 <div class="json-side" markdown>
@@ -293,18 +293,21 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language. Se
 
 <div class="js-text" markdown>
 
-### Setting up the run folder
+### Setting up the problem
 
-Create a folder for the run containing:
+The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_sphere.json`, together with the sphere geometry, `sphere.stl`, and its mesh cache, `sphere_mesh.txt`; the input file is the same as the [complete input file](Tutorial_5_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
 
-- `input_data.json`, copied from the [complete input file](Tutorial_5_input_data.md);
-- `sphere.stl` and `sphere_mesh.txt`, from the top level of the MPM3S repository.
-
-The STL and mesh-cache paths in the input file are relative to the input file, and the output folders are created in the folder Julia is started from.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders are created in the `MPM3S` folder.
 
 ### Running the problem
 
-Start Julia in the run folder with the MPM3S project active (`--project`) and every CPU thread available (`-t auto`), then load MPM3S and run the input file. The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
+Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder `validation_data_and_jsons`, the simulations are started with:
+
+```
+MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");
+```
+
+The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
 
 The progress line shows the simulated time out of the $1$ s final time. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
 
@@ -315,12 +318,15 @@ The progress line shows the simulated time out of the $1$ s final time. Its fiel
 <div class="terminal terminal-full" markdown>
 
 ```console
-$ cd path/to/run_folder
-$ julia --project=path/to/MPM3S -t auto
+$ julia -t auto
+
+julia> cd("path/to/MPM3S")
+julia> using Pkg; Pkg.activate(".")
+  Activating project at `path/to/MPM3S`
 
 julia> using MPM3S
 
-julia> MPM3S.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");
 ```
 
 </div>

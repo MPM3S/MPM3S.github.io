@@ -65,7 +65,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_compress.json</code></div>
 </div>
 
 <div class="json-side" markdown>
@@ -76,7 +76,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 `"GPU": "off"` runs the analysis on the CPU.
 
-`"domain update": "stretch"` lets the GIMP domains shrink as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.
+`"domain update": "stretch"` lets the GIMP domains to compress as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.
 
 The background mesh is sized automatically to hold the soil and the same height of empty space above it, so it is a cube of side $1.6$ m. `"gravity"` is zero, so the soil carries no weight.
 
@@ -139,7 +139,7 @@ A rigid body is a *system* of one or more *points*. Each point has six degrees o
 
 Its `"boundary conditions"` list the six degrees of freedom in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$. Five are `"fixed"`, and the vertical displacement is prescribed as $-0.01$ m per load step, so the rigid cube moves $0.2$ m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.
 
-The geometry comes from `cube.stl`, welded to point 1. It is drawn in global coordinates - the same frame as the point - with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and stores it in `cube_mesh.txt` for later runs.
+The geometry comes from `cube.stl`, which sits in the same folder as the input file: the `"stl"` path is relative to the input file, so only file name means the same folder. It is attached to point 1 and drawn in global coordinates (the same global coordinates as point 1) with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and saves it in `cube_mesh.txt`, which later runs read instead. If you change `cube.stl`, delete `cube_mesh.txt` so that the mesh is rebuilt.
 
 </div>
 
@@ -195,7 +195,7 @@ A single static stage of 20 load steps with the rigid body switched on. Gravity 
 
 `"rigid body surface placement": "on"` moves the rigid cube vertically at the start of the stage so that its base rests exactly on the top of the soil. Rollers are applied on the four sides and the base, and the top is free.
 
-`"adaptivity": { "type": "uniform" }` meshes the whole background domain at the $0.4$ m element size. Without it, only the elements holding material points are $0.4$ m and the empty space is filled with coarser elements, so the rigid cube would move through $0.8$ m elements above the soil.
+`"adaptivity": { "type": "uniform" }` meshes the whole background domain at the $0.4$ m element size. Without it, only the elements holding material points are $0.4$ m and the empty space is filled with coarser elements.
 
 </div>
 
@@ -292,14 +292,9 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language, an
 
 ### Setting up and running the problem
 
-Create a folder for the run containing two files, both provided [here](Tutorial_2_input_data.md):
+The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_compress.json`, together with the geometry of the rigid cube, `cube.stl`, and its mesh cache, `cube_mesh.txt`; they are the same files as the ones provided [here](Tutorial_2_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
 
-- `input_data.json`;
-- `cube.stl`, the geometry of the rigid cube.
-
-The STL path in the input file is relative to the input file, and the output folders `vtk_cube` and `csv_cube` are created in the folder Julia is started from.
-
-As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal in the run folder, start Julia with the MPM3S project active and load MPM3S.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders `vtk_cube` and `csv_cube` are created in the `MPM3S` folder.
 
 </div>
 
@@ -308,8 +303,11 @@ As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a ter
 <div class="terminal terminal-full" markdown>
 
 ```console
-$ cd path/to/run_folder
-$ julia --project=path/to/MPM3S -t auto
+$ julia -t auto
+
+julia> cd("path/to/MPM3S")
+julia> using Pkg; Pkg.activate(".")
+  Activating project at `path/to/MPM3S`
 
 julia> using MPM3S
 ```
@@ -326,10 +324,10 @@ julia> using MPM3S
 
 ### Running the problem
 
-With Julia running in the run folder and MPM3S loaded, start the simulation:
+Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder `validation_data_and_jsons`, the simulations are started with:
 
 ```
-MPM3S.non_linear_solve("input_data.json");
+MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");
 ```
 
 #### Reading the output
@@ -345,17 +343,9 @@ The progress line then works as in [Tutorial 1](Tutorial_1.md#reading-the-output
 <div class="terminal" markdown>
 
 ```console
-julia> MPM3S.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");
 [ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 2.23517e-8
-stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125
-...
-stage 1/1 █░░░░░░░░░░░   5.0% t 0.05/1.0 step 2 Δt 0.05 NR 4 cuts 0 del 0 N 125
-stage 1/1 █░░░░░░░░░░░  10.0% t 0.1/1.0 step 3 Δt 0.05 NR 4 cuts 0 del 0 N 125
 stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125
-...
-stage 1/1 ███████████░  90.0% t 0.9/1.0 step 19 Δt 0.05 NR 4 cuts 0 del 0 N 125
-stage 1/1 ███████████░  95.0% t 0.95/1.0 step 20 Δt 0.05 NR 4 cuts 0 del 0 N 125
-stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05 NR 4 cuts 0 del 0 N 125
 ```
 
 </div>
@@ -366,7 +356,7 @@ stage 1/1 ████████████ 100.0% t 1.0/1.0 step 21 Δt 0.05
 
 ## Viewing the results
 
-The simulation results appear as the simulation runs, so you do not need to wait until it has finished. `vtk_cube` holds three series of files, numbered from `00002` to `00021`: `mps_1_...vtu` for the GIMPs, `surface_...vtu` for the surface of the rigid cube and `body_...vtu` for the rigid cube's point.
+The simulation results appear as the simulation runs, so you do not need to wait until it has finished. `vtk_cube` holds three series of files, numbered from `00002` to `00021`: `mps_1_...vtu` for the GIMPs, `surface_...vtu` for the surface of the rigid cube and `body_...vtu` for the rigid cube's point which contains information such as force and moment reactions.
 
 ### Visualising the output in ParaView
 
@@ -441,7 +431,7 @@ time,body1_position_x,body1_position_y,body1_position_z,body1_reaction force_x,b
 
 The GIMP files, `csv_cube/mps_1_00002.csv` to `mps_1_00021.csv`, have the same layout as in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height), with the addition of the domain half-widths `lp_x`, `lp_y` and `lp_z`.
 
-The short Julia script below compares the final state with the analytical solution from the [Problem summary](#problem-summary). As in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height), you can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `check_stress.jl` in the run folder and running `include("check_stress.jl")`. It needs only `DelimitedFiles`, which comes with Julia.
+The short Julia script below compares the final state with the analytical solution from the [Problem summary](#problem-summary). As in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height), you can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `check_stress.jl` in the `MPM3S` folder and running `include("check_stress.jl")`. It needs only `DelimitedFiles`, which comes with Julia.
 
 ```julia
 using DelimitedFiles

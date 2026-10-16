@@ -310,13 +310,12 @@ julia> using MPM3S
 
 ### Running the problem
 
-With Julia running in the `MPM3S` folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:
+Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder `validation_data_and_jsons`, the simulations are started with:
 
 ```
 MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 ```
-
-This reads the input file, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.
+This reads the input file, steps through the 50 load steps and writes the VTK and CSV output as it goes.
 
 #### Reading the output
 
@@ -342,11 +341,6 @@ In dynamic analyses a `P2G-fail` count is added if a velocity projection fails t
 
 ```console
 julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
-stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257
-...
-stage 1/1 ███████████░  94.0% t 0.94/1.0 step 48 Δt 0.02 NR 3 cuts 0 del 0 N 257
-stage 1/1 ████████████  96.0% t 0.96/1.0 step 49 Δt 0.02 NR 3 cuts 0 del 0 N 257
-stage 1/1 ████████████  98.0% t 0.98/1.0 step 50 Δt 0.02 NR 3 cuts 0 del 0 N 257
 stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257
 ```
 
@@ -453,7 +447,7 @@ initial position_x,initial position_y,initial position_z,position_x,position_y,p
 !!! note "Floating-point spellings in the raw CSV"
     Values such as `1.0000000000000004` and `0.037500000000000006` are the exact binary representations Julia stores for `1.0` and `0.0375`, and the trailing digits of the stresses are floating-point noise.
 
-The short Julia script below plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `plot_stress.jl` in the run folder and running `include("plot_stress.jl")`. It needs [Plots](https://docs.juliaplots.org/); `DelimitedFiles` comes with Julia.
+The short Julia script below plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `plot_stress.jl` in the `MPM3S` folder and running `include("plot_stress.jl")`. It needs [Plots](https://docs.juliaplots.org/); `DelimitedFiles` comes with Julia.
 
 To install Plots, once, start `julia` without `--project` (so that Plots is not added to MPM3S itself) and use:
 

@@ -1,6 +1,6 @@
-# Compaction via a rigid body - input_data.json
+# Compaction via a rigid body - input_data_compress.json
 
-The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 ```json
 {
@@ -79,7 +79,7 @@ The complete `input_data.json` for [Tutorial 2](Tutorial_2.md). Every key is des
 
 ## cube.stl
 
-The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box, drawn in global coordinates with its base on the top of the soil at $z = 0.8$ m. Save the text below as `cube.stl` in the same folder as `input_data.json`. `cube_mesh.txt` is generated from it on the first run.
+The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box, drawn in global coordinates with its base on the top of the soil at $z = 0.8$ m. Save the text below as `cube.stl` in the same folder as `input_data_compress.json`. `cube_mesh.txt` is generated from it on the first run.
 
 ```text
 solid cube
