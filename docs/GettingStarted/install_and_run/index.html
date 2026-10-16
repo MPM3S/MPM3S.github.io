@@ -2771,22 +2771,22 @@
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"input_data_sim.json"</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"input_data.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li><code>cd</code> moves the REPL to the folder holding your input file, since step 2 left it in <code>MPM3S</code>.</li>
-<li><code>input_data_sim.json</code> contains the simulation data; <code>MPM3S.non_linear_solve()</code> with no argument reads <code>input_data.json</code>.</li>
+<li><code>input_data.json</code> contains the simulation data; <code>MPM3S.non_linear_solve()</code> with no argument reads <code>input_data.json</code>.</li>
 <li>The semicolon stops the REPL printing the material-point data that is returned.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"input_data_sim.json"</span><span class="p">);</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"intut_data.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li><code>cd</code> moves the REPL to the folder holding your input file, since step 2 left it in <code>MPM3S</code>.</li>
-<li><code>input_data_sim.json</code> contains the simulation data; <code>MPM3S.non_linear_solve()</code> with no argument reads <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; <code>MPM3S.non_linear_solve()</code> with no argument reads <code>input_data.json</code>.</li>
 <li>The semicolon stops the REPL printing the material-point data that is returned.</li>
 <li>The input file must have <code>"GPU": "on"</code>, and the machine needs an NVIDIA GPU with CUDA.</li>
 </ul>
@@ -2812,10 +2812,10 @@
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">docker</span> <span class="n">pull</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data_sim</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>input_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2; if the analysis is on a GPU, 4 threads is sufficient.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
@@ -2823,20 +2823,20 @@
 <div class="tabbed-block">
 <p>Requirements: Docker Desktop's WSL 2 engine, which is the default. The NVIDIA driver you already have on Windows is all that is needed.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">docker</span> <span class="n">pull</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-gpus</span> <span class="n">all</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data_sim</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="p">-</span><span class="n">-gpus</span> <span class="n">all</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">intut_data</span><span class="p">.</span><span class="n">json</span> <span class="n">-t</span> <span class="n">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.</li>
 <li><code>--gpus all</code> only makes the GPU visible to the container; the input file must also have <code>"GPU": "on"</code>.</li>
 </ul>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
@@ -2844,10 +2844,10 @@
 <div class="tabbed-block">
 <p>Requirements: the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Container Toolkit</a>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.</li>
 <li><code>--gpus all</code> only makes the GPU visible to the container; the input file must also have <code>"GPU": "on"</code>.</li>
 </ul>
@@ -2855,10 +2855,10 @@
 <div class="tabbed-block">
 <p>Note: Macs have no NVIDIA GPU, so MPM3S runs on the CPU.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance use the number of physical cores minus 2.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
@@ -2876,19 +2876,19 @@ To run the file, call it in the terminal or include it in your job script:
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">CPU</label><label for="__tabbed_3_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.</li>
 <li><code>--nv</code> only makes the GPU visible to the container; the input file must also have <code>"GPU": "on"</code>.</li>
 </ul>
@@ -2906,19 +2906,19 @@ To run the file, call it in the terminal or include it in your job script:
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">CPU</label><label for="__tabbed_4_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>input_data_sim.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>mpm3s.sif<span class="w"> </span>intut_data.json<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <ul>
-<li><code>input_data_sim.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
+<li><code>intut_data.json</code> contains the simulation data; if it is not given it defaults to <code>input_data.json</code>.</li>
 <li><code>-t 4</code> is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.</li>
 <li><code>--nv</code> only makes the GPU visible to the container; the input file must also have <code>"GPU": "on"</code>.</li>
 </ul>
