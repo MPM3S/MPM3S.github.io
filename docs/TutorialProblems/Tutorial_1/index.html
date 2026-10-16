@@ -2906,7 +2906,7 @@
 <p>The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found <a href="../Tutorial_1_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_gravity_column.json</code></div>
 </div>
 
 <div class="json-side">
@@ -2925,13 +2925,12 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
-<p><code>"size"</code> is a lower bound on the side of the cubic background mesh. The mesh is enlarged automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side <span class="arithmatex">\(1.6\)</span> m. Gravity acts in <span class="arithmatex">\(-z\)</span>.</p>
+<p>The background mesh is a cube sized automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side <span class="arithmatex">\(1.6\)</span> m. Gravity acts in <span class="arithmatex">\(-z\)</span>.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-9.81</span><span class="p">]</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-9.81</span><span class="p">]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
@@ -3038,30 +3037,34 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="setting-up-and-running-the-problem">Setting up and running the problem<a class="headerlink" href="#setting-up-and-running-the-problem" title="Permanent link">¶</a></h3>
-<p>Create a folder for the run and copy into it the <code>input_data.json</code> provided <a href="../Tutorial_1_input_data/">here</a>. The output folders <code>vtk_column</code> and <code>csv_column</code> are created in the folder Julia is started from.</p>
-<p>Open a terminal (a command prompt or PowerShell on Windows), change into the run folder and start Julia with the MPM3S project active. <code>--project</code> points to the folder where you downloaded MPM3S, and <code>-t auto</code> makes every CPU core available:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cd path/to/run_folder
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>julia --project=path/to/MPM3S -t auto
+<p>The input file for this tutorial comes with MPM3S, as <code>validation_data_and_jsons/input_data_gravity_column.json</code>; it is the same file as the one provided <a href="../Tutorial_1_input_data/">here</a>.</p>
+<p>Open a terminal and start Julia; <code>-t auto</code> makes every CPU core available:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>julia -t auto
 </code></pre></div>
-<p>Then load MPM3S:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>using MPM3S
+<p>Then, in Julia, move into the folder where you downloaded MPM3S, activate it and load MPM3S:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cd("path/to/MPM3S")
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>using Pkg; Pkg.activate(".")
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>using MPM3S
 </code></pre></div>
-<p>The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in <a href="../../GettingStarted/install_and_run/#mpm3s-installation">MPM3S installation</a>.</p>
+<p>The output folders <code>vtk_column</code> and <code>csv_column</code> are created in the <code>MPM3S</code> folder. The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in <a href="../../GettingStarted/install_and_run/#mpm3s-installation">MPM3S installation</a>. If you are unsure how to open a command/terminal window on your operating system, see <a href="../../GettingStarted/install_and_run/#terminal-window">Command/terminal window</a>.</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>path/to/run_folder
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="gp">$ </span>julia<span class="w"> </span>--project<span class="o">=</span>path/to/MPM3S<span class="w"> </span>-t<span class="w"> </span>auto
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">               _</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="go">   _       _ _(_)_     |  Documentation: https://docs.julialang.org</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="go">  (_)     | (_) (_)    |</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="go">   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">  | | | | | | |/ _` |  |</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="go">  | | |_| | | | (_| |  |  Version 1.12.4 (2026-01-06)</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go"> _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org release</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="go">|__/                   |</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="go">julia&gt; using MPM3S</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>julia<span class="w"> </span>-t<span class="w"> </span>auto
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">               _</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">   _       _ _(_)_     |  Documentation: https://docs.julialang.org</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="go">  (_)     | (_) (_)    |</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="go">   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="go">  | | | | | | |/ _` |  |</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">  | | |_| | | | (_| |  |  Version 1.12.4 (2026-01-06)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="go"> _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org release</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">|__/                   |</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">julia&gt; cd("path/to/MPM3S")</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="go">julia&gt; using MPM3S</span>
 </code></pre></div>
 </div>
 </div>
@@ -3069,10 +3072,10 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
-<p>With Julia running in the run folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:</p>
+<p>With Julia running in the <code>MPM3S</code> folder and MPM3S loaded, start the simulation by calling the MPM3S entry point:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 </code></pre></div>
-<p>This reads <code>input_data.json</code> from the current folder, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.</p>
+<p>This reads the input file, steps through the 50 load steps and writes the VTK and CSV output as it goes. The semicolon stops Julia printing the returned material-point data. The first run in a Julia session takes longer, because the code is compiled as it is first used.</p>
 <h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
 <p>MPM3S prints a single progress line, redrawn in place after every step; in a log file a new line is kept for every whole percent. When the analysis finishes, the line reads:</p>
 <ul>

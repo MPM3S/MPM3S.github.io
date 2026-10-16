@@ -2921,7 +2921,7 @@
 <h3 id="machine-and-domain">Machine and domain<a class="headerlink" href="#machine-and-domain" title="Permanent link">¶</a></h3>
 <p><code>"GPU": "off"</code> runs the analysis on the CPU.</p>
 <p><code>"domain update": "stretch"</code> lets the GIMP domains shrink as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.</p>
-<p>The background mesh must hold the cube and the same height of empty space above it, so it is a cube of side <span class="arithmatex">\(1.6\)</span> m, the same as <code>"size"</code>. <code>"gravity"</code> is zero, so the soil carries no weight.</p>
+<p>The background mesh is sized automatically to hold the soil and the same height of empty space above it, so it is a cube of side <span class="arithmatex">\(1.6\)</span> m. <code>"gravity"</code> is zero, so the soil carries no weight.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
@@ -2929,9 +2929,8 @@
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">"domain update"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stretch"</span><span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.6</span><span class="p">,</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">]</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">]</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
