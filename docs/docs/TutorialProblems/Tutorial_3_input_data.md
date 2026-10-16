@@ -1,8 +1,8 @@
-# Vertical penetration (Cone Penetration Test) - input_data.json
+# Vertical penetration (Cone Penetration Test) - input_data_CPT_dr38.json
 
-The complete `input_data.json` for [Tutorial 3](Tutorial_3.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_CPT_dr38.json` for [Tutorial 3](Tutorial_3.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
-The run folder also needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt`, from the top level of the MPM3S repository.
+It needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt` in the same folder; both are in `validation_data_and_jsons`.
 
 ```json
 {

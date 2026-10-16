@@ -6,7 +6,7 @@ hide:
 # Tutorial 3: Vertical penetration (Cone Penetration Test)
 
 ## Introduction
-This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements.
+This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements. This tuto
 
 A rigid cone is pushed quasi-statically $4.5$ m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson et al. [@davidson2022physical] and Cerfontaine et al. [@Cerfontaine2020]. The problem builds on [Tutorial 2](Tutorial_2.md) and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.
 
@@ -72,7 +72,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_CPT_dr38.json</code></div>
 </div>
 
 <div class="json-side" markdown>
@@ -338,18 +338,19 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language. Se
 
 <div class="js-text" markdown>
 
-### Setting up the run folder
+### Setting up the problem
 
-Create a folder for the run containing:
+The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_CPT_dr38.json`, together with the cone geometry, `CPT.stl`, and its mesh cache, `CPT_mesh.txt`; the input file is the same as the [complete input file](Tutorial_3_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
 
-- `input_data.json`, copied from the [complete input file](Tutorial_3_input_data.md);
-- `CPT.stl` and `CPT_mesh.txt`, from the top level of the MPM3S repository.
-
-The STL and mesh-cache paths in the input file are relative to the input file, and the output folders `vtk_CPT_dr38` and `csv_CPT_dr38` are created in the folder Julia is started from.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders `vtk_CPT_dr38` and `csv_CPT_dr38` are created in the `MPM3S` folder.
 
 ### Running the problem
 
-Start Julia in the run folder with the MPM3S project active (`--project`) and every CPU thread available (`-t auto`), then load MPM3S and run the input file.
+Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder `validation_data_and_jsons`, the simulations are started with:
+
+```
+MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
+```
 
 This is a large analysis: with $0.025$ m elements around the cone it is intended for a GPU or an HPC node. On a workstation without a GPU, set `"GPU": "off"` and use `"element size": 0.1` in stage 2.
 
@@ -362,12 +363,15 @@ The progress line shows `stage 1/2` while the initial stresses are set up and `s
 <div class="terminal terminal-full" markdown>
 
 ```console
-$ cd path/to/run_folder
-$ julia --project=path/to/MPM3S -t auto
+$ julia -t auto
+
+julia> cd("path/to/MPM3S")
+julia> using Pkg; Pkg.activate(".")
+  Activating project at `path/to/MPM3S`
 
 julia> using MPM3S
 
-julia> MPM3S.non_linear_solve("input_data.json");
+julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
 ```
 
 </div>

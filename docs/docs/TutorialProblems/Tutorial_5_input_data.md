@@ -1,8 +1,8 @@
-# Rolling sphere - input_data.json
+# Rolling sphere - input_data_sphere.json
 
-The complete `input_data.json` for [Tutorial 5](Tutorial_5.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_sphere.json` for [Tutorial 5](Tutorial_5.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
-The run folder also needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt`, from the top level of the MPM3S repository.
+It needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt` in the same folder; both are in `validation_data_and_jsons`.
 
 ```json
 {
