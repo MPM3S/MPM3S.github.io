@@ -299,6 +299,12 @@ h1, h2, h3, h4, h5, h6 {
   border-color: #f5ca1a;
 }
 
+/* Admonition text at the same size as the main text (Material shrinks it to 0.64rem) */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: inherit;
+}
+
 /* Admonitions using Durham colors */
 .md-typeset .admonition.note,
 .md-typeset .admonition.info {

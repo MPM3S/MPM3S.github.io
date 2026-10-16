@@ -226,7 +226,7 @@ A single static stage of 20 load steps with the rigid body switched on. Gravity 
 
 ### Solver
 
-The same settings as [Tutorial 1](Tutorial_1.md#solver): Newton-Raphson iterations to a tolerance of $10^{-6}$, and no ghost stabilisation, because the cube fills its elements completely.
+The same settings as [Tutorial 1](Tutorial_1.md#solver): Newton-Raphson iterations to a tolerance of $10^{-6}$, as there are no small ovelaps in this example there is no need for ghost stabilisation.
 
 </div>
 
