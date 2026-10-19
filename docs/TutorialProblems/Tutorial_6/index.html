@@ -3004,9 +3004,10 @@
 </div>
 <p><span class="arithmatex">\(\gamma_w = 9.81\)</span> kN/m<span class="arithmatex">\(^3\)</span> is the unit weight of water. Because the sand is submerged, its buoyant density is used, so that gravity produces effective stresses; it is entered as the unit weight divided by <span class="arithmatex">\(10\)</span> m/s<span class="arithmatex">\(^2\)</span>. As in <a href="../Tutorial_3/#problem-description">Tutorial 3</a>, the reference stress for the depth-dependent stiffness is <span class="arithmatex">\(p^{ref}/K_0 = 100/0.4701 = 212.7\)</span> kPa.</p>
 <p><strong>Anchor:</strong> The AC-14 anchor (see <a href="#fig-anchor-design">Figure 2</a>) has two parts, a <strong>fluke</strong> and a <strong>shank</strong>, joined by a hinge. Each part is a rigid body welded to a point at its centre of mass. A third point with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is <span class="arithmatex">\(8700\)</span> kg).</p>
-<p><figure id="_figure-2"><img alt="Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c)." id="fig-anchor-design" src="../../../img/Tutorial_6/anchor_design.png" width="100%"><figcaption>Figure 2: Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).</figcaption></figure></p>
-<p><em>Figure reproduced from <sup id="fnref:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">3</a></sup>.</em></p>
-<div class="centered-table">
+<p><figure id="_figure-2"><img alt="The AC-14 anchor, drawn from its STL files: (a) from above, with both halves; (b) from the side, with the hinge fully open (\(\theta = 35^\circ\)), showing the hinge, the centres of mass of the fluke and shank, the eyelet, the distance stop and the tracked tip; (c) the anchor and its \(9.5\) m pull line." id="fig-anchor-design" src="../../../img/Tutorial_6/anchor_design.png" width="70%"><figcaption>Figure 2: The AC-14 anchor, drawn from its STL files: (a) from above, with both halves; (b) from the side, with the hinge fully open (\(\theta = 35^\circ\)), showing the hinge, the centres of mass of the fluke and shank, the eyelet, the distance stop and the tracked tip; (c) the anchor and its \(9.5\) m pull line.</figcaption></figure></p>
+<p><em>Figure adapted from <sup id="fnref:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">3</a></sup>.</em></p>
+<p>The anchor is made of three points, and three constraints join them:</p>
+<div class="small-tables">
 <table>
 <thead>
 <tr>
@@ -3045,9 +3046,6 @@
 </tr>
 </tbody>
 </table>
-</div>
-<p>Three constraints join the points:</p>
-<div class="centered-table">
 <table>
 <thead>
 <tr>
