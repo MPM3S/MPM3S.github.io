@@ -245,6 +245,9 @@ CSV output is written to `csv_column`, also at every load step, with each GIMP's
 
 MPM3S is written in the [Julia](https://julialang.org/) programming language, and there are multiple ways to run the code, all explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S.
 
+!!! note "Working in the MPM3S folder"
+    Julia runs in the `MPM3S` folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from `validation_data_and_jsons/input_data_gravity_column.json`, and the output folders `vtk_column` and `csv_column` are written to, and read back from, the `MPM3S` folder.
+
 <div class="json-side-header">
 <div>Deployment instructions</div>
 <div><code>terminal</code></div>
@@ -449,7 +452,7 @@ initial position_x,initial position_y,initial position_z,position_x,position_y,p
 
 The short Julia script below plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `plot_stress.jl` in the `MPM3S` folder and running `include("plot_stress.jl")`. It needs [Plots](https://docs.juliaplots.org/); `DelimitedFiles` comes with Julia.
 
-To install Plots, once, start `julia` without `--project` (so that Plots is not added to MPM3S itself) and use:
+To install Plots, once, start Julia and, before activating MPM3S (so that Plots is not added to MPM3S itself), use:
 
 ```julia
 using Pkg

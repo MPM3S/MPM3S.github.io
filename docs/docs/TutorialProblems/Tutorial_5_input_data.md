@@ -39,7 +39,7 @@ It needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt` i
     ],
 
     "contact": {
-        "friction coefficient": 0.0
+        "friction coefficient": 0.2
     },
 
     "analysis": [
@@ -73,11 +73,11 @@ It needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt` i
 
     "output": {
         "vtk": "on",
-        "vtk directory": "vtk_sphere_mu0.0",
+        "vtk directory": "vtk_sphere_mu0.2",
         "vtk percent": 0,
 
         "csv": "on",
-        "csv directory": "csv_sphere_mu0.0",
+        "csv directory": "csv_sphere_mu0.2",
         "csv percent": 0,
         "csv material point fields": [],
         "csv rigid body fields": ["position", "velocity", "acceleration", "angular velocity"]

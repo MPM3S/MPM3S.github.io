@@ -125,33 +125,29 @@ julia> using MPM3S
 
 If everything succeeds the REPL prints the package versions being resolved.
 
-**3. Run a problem.** Copy a tutorial `input_data.json` (for example from [Tutorial 1](../TutorialProblems/Tutorial_1_input_data.md)) into the folder you want to work in, and run it from that folder:
+**3. Run a problem.** Step 2 left Julia in the `MPM3S` folder with MPM3S loaded, and MPM3S is always run from there: every path is relative to the `MPM3S` folder. The tutorial input files are in `validation_data_and_jsons`, so Tutorial 1, for example, is run with:
 
 === "CPU"
 
     ```julia-repl
-    julia> cd("path/to/run_folder")
-    julia> MPM3S.non_linear_solve("input_data.json");
+    julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
     ```
 
-    - `cd` moves the REPL to the folder holding your input file, since step 2 left it in `MPM3S`.
-    - `input_data.json` contains the simulation data; `MPM3S.non_linear_solve()` with no argument reads `input_data.json`.
+    - The path to the input file is relative to the `MPM3S` folder.
     - The semicolon stops the REPL printing the material-point data that is returned.
     - The input file must have `"GPU": "off"`.
 
 === "GPU"
 
     ```julia-repl
-    julia> cd("path/to/run_folder")
-    julia> MPM3S.non_linear_solve("intut_data.json");
+    julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
     ```
 
-    - `cd` moves the REPL to the folder holding your input file, since step 2 left it in `MPM3S`.
-    - `intut_data.json` contains the simulation data; `MPM3S.non_linear_solve()` with no argument reads `input_data.json`.
+    - The path to the input file is relative to the `MPM3S` folder; Tutorial 3's input file has `"GPU": "on"`.
     - The semicolon stops the REPL printing the material-point data that is returned.
     - The input file must have `"GPU": "on"`, and the machine needs an NVIDIA GPU with CUDA.
 
-This steps through the load increments set in the input file and writes the `.vtu`, `.vtk` and `.csv` output files to the folder you ran it from.
+This steps through the load increments set in the input file and writes the `.vtu`, `.vtk` and `.csv` output files to the `MPM3S` folder. To run your own problem, put its input file in a folder inside `MPM3S`, for example `my_runs/input_data.json`, and give that path: `MPM3S.non_linear_solve("my_runs/input_data.json")`.
 
 !!! warning "Important"
     The paths to any `.stl` files in `input_data.json` are relative to the input file, not to the folder Julia is running in. The simplest set-up is to keep the `.stl` files in the same folder as `input_data.json`.
