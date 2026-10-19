@@ -1,12 +1,12 @@
-# Drag anchor - input_data.json
+# Drag anchor - input_data_AC14_dr32.json
 
-The complete `input_data.json` for [Tutorial 6](Tutorial_6.md). Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_AC14_dr32.json` for [Tutorial 6](Tutorial_6.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
-The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt` - from the top level of the MPM3S repository.
+It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt` - in the same folder; all four are in `validation_data_and_jsons`.
 
 ```json
 {
-    "GPU": "on",
+    "GPU" : "off",
 
     "domain": {
         "gravity": [0.0, 0.0, -9.81]
@@ -21,10 +21,10 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
             {
                 "thickness": 18.123,
                 "material": { "type": "willam warnke",
-                              "E": 2.4e6, "nu": 0.25,
-                              "friction angle": 28.5, "dilation angle": 0.0, "cohesion": 300.0,
-                              "density": 925.4,
-                              "E overburden": { "reference stress": 1.913e5, "exponent": 0.6875 } }
+                              "E": 1.92e7, "nu": 0.25,
+                              "friction angle": 32, "dilation angle": 2, "cohesion": 300.0,
+                              "density": 970.2,
+                              "E overburden": { "reference stress": 2.12729e5, "exponent": 0.6 } }
             }
         ]
     },
@@ -63,8 +63,11 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
                   "mesh cache": "fluke_round_nose_mesh.txt", "point": 1 },
                 { "name": "shank", "stl": "shank_scv2.stl",
                   "mesh cache": "shank_scv2_mesh.txt", "point": 2 }
+            ],
+            "tracked nodes": [
+                { "position": [2.0906, 0.6489, 0.0], "point": 1 }
             ]
-        }
+	}
     ],
 
     "contact": {
@@ -80,7 +83,7 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
             "adaptivity": { "type": "uniform" },
             "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
         },
-        {
+	{
             "type": "dynamic",
             "dt": 5.0e-3,
             "final time": 1.0,
@@ -95,12 +98,12 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
             "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
             "boundary track": {
                 "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-                "max": { "type": ["fixed", "off", "off"], "distance": [2.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
+                "max": { "type": ["fixed", "off", "off"], "distance": [2.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no",  "no", "no"] }
             }
-        },
-        {
+	},
+	{
             "type": "dynamic",
-            "dt": 8.0e-2,
+            "dt": 0.02,
             "final time": 3.0,
             "beta": 0.5,
             "gamma": 1.0,
@@ -108,17 +111,19 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
             "rigid body surface placement": "off",
             "adaptivity": {
                 "type": "rigid body surface",
-                "element size": 0.1
+                "element size": 0.1,
+                "region": 0.06,
+                "element size in region": 0.1
             },
             "rigid body boundary conditions": [
-                { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.008 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
+                { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.002 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
             ],
             "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
             "boundary track": {
                 "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-                "max": { "type": ["fixed", "off", "off"], "distance": [5.0, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
+                "max": { "type": ["fixed", "off", "off"], "distance": [5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no",  "no", "no"] }
             }
-        }
+	}
     ],
 
     "solver": {
@@ -126,18 +131,18 @@ The run folder also needs the anchor geometry - `fluke_round_nose.stl`, `fluke_r
         "max newton iterations": 20,
         "poor factor": 0.25,
         "ghost factor": 0.025,
-        "ghost factor mass": 0.25
+        "ghost factor mass":0.25
     },
 
     "output": {
-        "vtk": "on",
-        "vtk directory": "vtk_AC14",
+        "vtk": "off",
+        "vtk directory": "vtk_AC14_dr32",
         "vtk percent": 0.25,
         "vtk material point fields": ["displacement", "velocity", "stress", "strain", "volume"],
         "vtk rigid body fields": ["position", "velocity", "reaction force"],
 
         "csv": "on",
-        "csv directory": "csv_AC14",
+        "csv directory": "csv_AC14_dr32",
         "csv percent": 0.25,
         "csv material point fields": ["initial position", "position", "stress"],
         "csv rigid body fields": ["position", "velocity", "reaction force", "reaction moment"]
