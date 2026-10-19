@@ -993,9 +993,12 @@ h1, h2, h3, h4, h5, h6 {
 .md-typeset .walkthrough > div > :first-child { margin-top: 0; }
 .md-typeset .walkthrough > div > :last-child  { margin-bottom: 0; }
 
+/* ParaView screenshots at 70% of the column width, centred */
 .md-typeset .walkthrough img {
-  width: 100%;
+  display: block;
+  width: 70%;
   height: auto;
+  margin: 0 auto;
 }
 
 /* ============================================================
