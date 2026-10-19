@@ -16,7 +16,7 @@ This tutorial has three main sections after the introduction:
 This problem introduces you to the MPM3S code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method: the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid the distorted mesh issues normally associated with finite elements.
 
 The GIMPM broadly works in three steps:
-![The three steps to a GIMPM solution step.](../../img/GIMP_example2.png){ #fig-example-GIMPM width="70%" }
+![The three steps to a GIMPM solution step.](../../img/Tutorial_1/GIMP_example2.png){ #fig-example-GIMPM width="70%" }
 
 - (a) initial state which loads the material point data on the background mesh
 - (b) deforming the mesh and the material points together
@@ -40,7 +40,7 @@ The column is $0.05 \times 0.05 \times 0.8$ m, made of a homogeneous Hencky elas
 
 The column is divided into 16 elements of $0.05$ m, each filled with a $2 \times 2 \times 2$ grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.
 
-![The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size $h = 0.05$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/column_setup.png){ #fig-column-setup width="50%" }
+![The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size $h = 0.05$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/Tutorial_1/column_setup.png){ #fig-column-setup width="50%" }
 
 The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_1_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
@@ -363,7 +363,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
 </div>
 <div markdown>
-![ParaView on launch, with an empty render view.](../../img/Column_1.png){ #fig-paraview-1 }
+![ParaView on launch, with an empty render view.](../../img/Tutorial_1/Column_1.png){ #fig-paraview-1 }
 </div>
 </div>
 
@@ -372,7 +372,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it and click *OK*.
 </div>
 <div markdown>
-![The Open File dialog with the mps_1_..vtu series selected.](../../img/Column_2.png){ #fig-paraview-2 }
+![The Open File dialog with the mps_1_..vtu series selected.](../../img/Tutorial_1/Column_2.png){ #fig-paraview-2 }
 </div>
 </div>
 
@@ -381,7 +381,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **3. Apply the reader.** Click *Apply* in the Properties panel. The column of GIMPs appears at the first load step.
 </div>
 <div markdown>
-![The series in the Pipeline Browser, with Apply highlighted in the Properties panel.](../../img/Column_3.png){ #fig-paraview-3 }
+![The series in the Pipeline Browser, with Apply highlighted in the Properties panel.](../../img/Tutorial_1/Column_3.png){ #fig-paraview-3 }
 </div>
 </div>
 
@@ -398,7 +398,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **4. Colour the GIMPs by vertical displacement.** Change *Coloring* to `displacement` → `Z`. At the first load step the displacements are still small.
 </div>
 <div markdown>
-![The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.](../../img/Column_4.png){ #fig-paraview-4 }
+![The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.](../../img/Tutorial_1/Column_4.png){ #fig-paraview-4 }
 </div>
 </div>
 
@@ -407,7 +407,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **5. Advance to the final step.** Click the *Go to Last* button (`▶|`) in the time toolbar, then *Rescale to Data Range* in the colour-bar toolbar so the colour scale matches the deformed column. The column has shortened from $0.8$ m to about $0.54$ m, so the top has moved down by about $0.26$ m.
 </div>
 <div markdown>
-![The deformed column at the final load step, coloured by displacement.](../../img/Column_5.png){ #fig-paraview-5 }
+![The deformed column at the final load step, coloured by displacement.](../../img/Tutorial_1/Column_5.png){ #fig-paraview-5 }
 </div>
 </div>
 
@@ -416,7 +416,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **6. Colour by vertical stress.** Change *Coloring* to `stress` → `ZZ` and rescale. The compressive stress increases steadily from zero at the top to its largest value at the base.
 </div>
 <div markdown>
-![Choosing the ZZ component of stress in the Coloring menu.](../../img/Column_6.png){ #fig-paraview-6 }
+![Choosing the ZZ component of stress in the Coloring menu.](../../img/Tutorial_1/Column_6.png){ #fig-paraview-6 }
 </div>
 </div>
 
@@ -425,7 +425,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 **7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.
 </div>
 <div markdown>
-![Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.](../../img/Column_7.png){ #fig-paraview-7 }
+![Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.](../../img/Tutorial_1/Column_7.png){ #fig-paraview-7 }
 </div>
 </div>
 
@@ -475,7 +475,7 @@ scatter(-szz, z0, label="MPM3S", xlabel="vertical compressive stress (Pa)", ylab
 plot!(-σ.(z), z, label="analytical")
 ```
 
-![Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.](../../img/column_analytical_stress.png){ #fig-column-stress width="40%" }
+![Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.](../../img/Tutorial_1/column_analytical_stress.png){ #fig-column-stress width="40%" }
 
 The numerical stresses agree with the analytical solution to within 2% of the stress at the base ($392.4$ Pa), with the largest differences in the elements at the base and at the free surface. 
 

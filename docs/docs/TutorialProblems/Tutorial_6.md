@@ -23,7 +23,7 @@ You will define the soil, the anchor, the three loading stages, the solver and t
 
 Only half of the anchor and soil is modelled, using the vertical $xz$ plane of symmetry through the anchor at $y = 0$. Instead of solving the whole length of soil the anchor will pass through, a boundary track keeps only a window of soil around the anchor active.
 
-![Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface.](../../img/anchor_schematic_combined.png){ #fig-anchor-setup width="50%" }
+![Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface.](../../img/Tutorial_6/anchor_schematic_combined.png){ #fig-anchor-setup width="50%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
@@ -52,7 +52,7 @@ $\gamma_w = 9.81$ kN/m$^3$ is the unit weight of water. Because the sand is subm
 
 **Anchor:** The AC-14 anchor (see [](#fig-anchor-design)) has two parts, a **fluke** and a **shank**, joined by a hinge. Each part is a rigid body welded to a point at its centre of mass. A third point with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is $8700$ kg).
 
-![Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/anchor_design.png){ #fig-anchor-design width="100%" }
+![Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/Tutorial_6/anchor_design.png){ #fig-anchor-design width="100%" }
 
 *Figure reproduced from [@birdanchors2026].*
 
@@ -510,7 +510,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_6/paraview_1.png` - the soil and the anchor after *Apply*.
+    `img/Tutorial_6/paraview_1.png` - the soil and the anchor after *Apply*.
 </div>
 </div>
 
@@ -520,7 +520,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_6/paraview_2.png` - the full soil window and the full anchor after reflecting.
+    `img/Tutorial_6/paraview_2.png` - the full soil window and the full anchor after reflecting.
 </div>
 </div>
 
@@ -530,7 +530,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_6/paraview_3.png` - the anchor embedded in the clipped soil.
+    `img/Tutorial_6/paraview_3.png` - the anchor embedded in the clipped soil.
 </div>
 </div>
 
@@ -540,7 +540,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_6/paraview_4.png` - soil displacement and contact force on the anchor at the end of the drag.
+    `img/Tutorial_6/paraview_4.png` - soil displacement and contact force on the anchor at the end of the drag.
 </div>
 </div>
 
@@ -550,7 +550,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_6/paraview_5.png` - a frame part-way through the drag.
+    `img/Tutorial_6/paraview_5.png` - a frame part-way through the drag.
 </div>
 </div>
 
@@ -565,19 +565,19 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 The `time` column restarts at the start of each stage.
 
 !!! example "Placeholder: results plot"
-    `img/tutorial_6/anchor_trajectory.png` - embedment depth and pull-line force against drag distance.
+    `img/Tutorial_6/anchor_trajectory.png` - embedment depth and pull-line force against drag distance.
 
 ### Published results
 
 The figures below are reproduced from [@bird2026implicitoctreebasedadaptivematerial], for anchors dragged $19$ m and compared against the structured-mesh reference solution of Bird et al. [@birdanchors2026] and the centrifuge measurements of Sharif et al. [@sharif]. The octree background mesh and GIMP distribution around the anchor at $19$ m of drag, with elements coloured by refinement age (oldest blue, youngest red), is shown in [](#fig-anchor-example):
 
-![Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.](../../img/anchor_example.png){ #fig-anchor-example width="70%" }
+![Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.](../../img/Tutorial_6/anchor_example.png){ #fig-anchor-example width="70%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 The anchor trajectories (penetration depth against horizontal travel) are compared in [](#fig-anchor-results):
 
-![Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.](../../img/anchor_results.png){ #fig-anchor-results width="70%" }
+![Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.](../../img/Tutorial_6/anchor_results.png){ #fig-anchor-results width="70%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 

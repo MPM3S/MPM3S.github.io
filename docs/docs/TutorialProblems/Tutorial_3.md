@@ -8,7 +8,7 @@ hide:
 ## Introduction
 This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements. This tuto
 
-A rigid cone is pushed quasi-statically $4.5$ m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson et al. [@davidson2022physical] and Cerfontaine et al. [@Cerfontaine2020]. The problem builds on [Tutorial 2](Tutorial_2.md) and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.
+A rigid cone is pushed quasi-statically $4.0$ m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson *et al.* [@davidson2022physical] and Cerfontaine *et al.* [@Cerfontaine2020]. The problem builds on [Tutorial 2](Tutorial_2.md) and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.
 
 This tutorial has four sections:
 
@@ -21,17 +21,17 @@ This tutorial has four sections:
 
 You will define the soil, the cone, the two loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
-Only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at $x = y = 0$, and the two faces that meet there carry roller conditions.
+To reduce the computational cost the symmetry of the problem is exploited and therefore only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at $x = y = 0$, and the two faces that meet there carry roller conditions.
 
-![Initial geometry and mesh for the CPT problem. The cone sits just above the soil surface; the mesh is refined around the rigid body and coarsens with distance.](../../img/CPT_domain.png){ #fig-cpt-domain width="30%" }
+![The quarter model: a $10 \times 10 \times 20$ m block of sand with the cone above the corner at $x = y = 0$, where the two symmetry planes meet. Rollers act on the four vertical faces and the base is fixed. The cone, $0.8$ m across with a $60^\circ$ tip, is not drawn to scale.](../../img/Tutorial_3/cpt_setup.png){ #fig-cpt-domain width="25%" }
 
-*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+*Figure adapted from [@bird2026implicitoctreebasedadaptivematerial].*
 
 **Soil block:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)).
 
-**Boundary conditions:** Rollers on the four vertical faces - on $x = 0$ and $y = 0$ these are the symmetry conditions - and a fixed base. The soil surface is free.
+**Boundary conditions:** Rollers on the four vertical faces and a fixed base, at $x = 0$ and $y = 0$ these are the symmetry conditions. The soil surface is free.
 
-**Material:** Willam-Warnke elasto-plastic sand at a relative density of $D_r = 38\%$, with the parameters from the Brinkgreve correlations [@brinkgreve2010validation]:
+**Material:** an elasto-plastic sand. Yield is governed by a frictional cone with a Willam-Warnke deviatoric section, and plastic flow by a Drucker-Prager cone set by the dilation angle, so the flow is non-associated. The elastic behaviour is linear in logarithmic (Hencky) strain. The model is described in [isotropic elasto-plasticity](../TechnicalReferences/ElastoPlasticity.md#lode-angle-dependent-deviatoric-section). The sand has a relative density of $D_r = 38\%$, and its parameters come from the Brinkgreve correlations [@brinkgreve2010validation]:
 
 <div class="centered-table" markdown>
 
@@ -40,7 +40,8 @@ Only a quarter of the problem is modelled, using the two vertical planes of symm
 | Reference Young's modulus    | $E^{ref} = 60\,000\; D_r/100$ kPa          | $22.8$ MPa            | `"E": 2.28e7`                 |
 | Friction angle               | $\phi = 28 + 12.5\; D_r/100$               | $32.75^\circ$         | `"friction angle": 32.75`     |
 | Dilation angle               | $\psi = -2 + 12.5\; D_r/100$               | $2.75^\circ$          | `"dilation angle": 2.75`      |
-| Dry unit weight              | $\gamma = 15 + 4\; D_r/100$ kN/m$^3$       | $16.52$ kN/m$^3$      | `"density": 1652.0`           |
+| Dry unit weight              | $\gamma = 15 + 4\; D_r/100$ kN/m$^3$       | $16.52$ kN/m$^3$      | -           |
+| Density                      | $\gamma = (15 + 4\; D_r/100)/10$ kg/m$^3$  | $1.652$ kg/m$^3$      | `"density": 1652.0`           |
 | Stiffness exponent           | $m = 0.7 - D_r/320$                        | $0.58125$             | `"exponent": 0.58125`         |
 | Earth pressure at rest       | $K_0 = 1 - \sin\phi$                       | $0.459$               | `"reference stress"` (below)  |
 | Poisson's ratio              | -                                          | $0.25$                | `"nu": 0.25`                  |
@@ -63,7 +64,7 @@ $\sigma_v$ is calculated from the weight of the soil above each material point's
 **Loading:** Two static stages:
 
 - **Stage 1 - initial stresses:** the cone is switched off and gravity is ramped up over 5 load steps.
-- **Stage 2 - penetration:** the cone is placed on the soil surface and pushed down $10$ mm per load step for 450 load steps ($4.5$ m), with the mesh refined to $0.025$ m wherever the cone surface is.
+- **Stage 2 - penetration:** the cone is placed on the soil surface and pushed down $10$ mm per load step for 400 load steps ($4.0$ m), with the mesh refined to $0.025$ m wherever the cone surface is.
 
 **Solver:** Newton-Raphson, quasi-static, for both stages.
 
@@ -202,7 +203,7 @@ Coulomb friction with $\mu = 0.33$ between the cone and the sand.
 
 ### Stage 1: initial stresses
 
-The first entry in `"analysis"` is a static stage with the cone switched off (`"rigid bodies": "off"`). Gravity is ramped from zero to its full value over 5 load steps, setting up the initial stresses in the sand. `"adaptivity": {"type": "uniform"}` meshes the whole grid at the $1.6$ m base size.
+The first entry in `"analysis"` is a static stage with the cone switched off (`"rigid bodies": "off"`). Gravity is ramped from zero to its full value over 5 load steps, setting up the initial stresses in the sand. `"adaptivity": {"type": "none"}` uses the base mesh: elements of the $1.6$ m base size wherever there are material points, and coarser elements in the empty space above the soil.
 
 The four vertical faces are rollers and the base is fixed. The top face is fixed too, but it lies at twice the soil depth, in the empty space above the soil, so the soil surface stays free.
 
@@ -216,7 +217,7 @@ The four vertical faces are rollers and the base is fixed. The top face is fixed
     "load steps": 5,
     "load": "gravity ramp",
     "rigid bodies": "off",
-    "adaptivity": { "type": "uniform" },
+    "adaptivity": { "type": "none" },
     "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
 }
 ```
@@ -233,7 +234,7 @@ The four vertical faces are rollers and the base is fixed. The top face is fixed
 
 The second stage switches the cone on. `"rigid body surface placement": "on"` moves it vertically at the start of the stage so that its tip rests on the soil surface, and `"load": "full"` keeps gravity at its full value throughout.
 
-`"rigid body boundary conditions"` replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of $-0.01$ m per load step. Over the 450 load steps the cone penetrates $4.5$ m.
+`"rigid body boundary conditions"` replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of $-0.01$ m per load step. Over the 400 load steps the cone penetrates $4.0$ m.
 
 `"rigid body surface"` adaptivity refines the elements the cone surface passes through to $0.025$ m at every step, so the fine mesh travels down with the cone. For a quicker, coarser first run use `"element size": 0.1`.
 
@@ -244,7 +245,7 @@ The second stage switches the cone on. `"rigid body surface placement": "on"` mo
 ```json
 {
     "type": "static",
-    "load steps": 450,
+    "load steps": 400,
     "load": "full",
     "rigid bodies": "on",
     "rigid body surface placement": "on",
@@ -297,9 +298,9 @@ Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}
 
 ### Output
 
-VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr38` every $0.5\%$ of each stage's load steps - every 2 load steps during penetration - and CSV files to `csv_CPT_dr38` every $0.25\%$, which is every load step here.
+VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr38` every $0.5\%$ of each stage's load steps, which for 400 load steps in stage 2 cooresponds to every 2 load steps. The CSV files go to `csv_CPT_dr38` every $0.25\%$, which is every load step here.
 
-The rigid-body CSV output includes the `reaction force` on the cone, from which the tip resistance is calculated in [Cone resistance](#cone-resistance).
+The rigid-body CSV output includes the `reaction force` on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve. [Cone resistance](#cone-resistance) shows how the tip resistance is calculated from it.
 
 </div>
 
@@ -354,7 +355,13 @@ MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
 
 This is a large analysis: with $0.025$ m elements around the cone it is intended for a GPU or an HPC node. On a workstation without a GPU, set `"GPU": "off"` and use `"element size": 0.1` in stage 2.
 
-The progress line shows `stage 1/2` while the initial stresses are set up and `stage 2/2` during penetration. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
+#### Reading the output
+
+The progress line works as in [Tutorial 1](Tutorial_1.md#reading-the-output), showing `stage 1/2` while the initial stresses are set up and `stage 2/2` during penetration.
+
+At the start of stage 2, MPM3S reports the rigid body surface placement: the cone tip (`body base`, at the origin of `CPT.stl`) is moved up by `Δz` to the soil surface (`material top`), which has settled to $19.87$ m under the weight of the sand.
+
+During penetration `N` grows as the mesh is refined around the cone. Load steps that do not converge are retried with half the increment (`cuts`), and material points next to the cone that become too distorted are deleted (`del`).
 
 </div>
 
@@ -372,6 +379,9 @@ julia> using Pkg; Pkg.activate(".")
 julia> using MPM3S
 
 julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
+stage 1/2 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 1640
+[ Info: rigid body surface placement: body base 0.0 → material top 19.8694   Δz = 19.8694
+stage 2/2 ████████████ 100.0% t 1.001/1.0 step 460 Δt 0.00222 NR 9 cuts 7 del 2133 N 57067
 ```
 
 </div>
@@ -392,7 +402,7 @@ The output can be viewed while the analysis runs. The walkthrough below uses the
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_3/paraview_1.png` - the quarter soil block and the cone after *Apply*.
+    `img/Tutorial_3/paraview_1.png` - the quarter soil block and the cone after *Apply*.
 </div>
 </div>
 
@@ -402,7 +412,7 @@ The output can be viewed while the analysis runs. The walkthrough below uses the
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_3/paraview_2.png` - the full soil block after the two reflections.
+    `img/Tutorial_3/paraview_2.png` - the full soil block after the two reflections.
 </div>
 </div>
 
@@ -412,7 +422,7 @@ The output can be viewed while the analysis runs. The walkthrough below uses the
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_3/paraview_3.png` - the clipped soil block with the cone visible in the section.
+    `img/Tutorial_3/paraview_3.png` - the clipped soil block with the cone visible in the section.
 </div>
 </div>
 
@@ -422,7 +432,7 @@ The output can be viewed while the analysis runs. The walkthrough below uses the
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_3/paraview_4.png` - displacement magnitude on the section at the end of penetration.
+    `img/Tutorial_3/paraview_4.png` - displacement magnitude on the section at the end of penetration.
 </div>
 </div>
 
@@ -432,7 +442,7 @@ The output can be viewed while the analysis runs. The walkthrough below uses the
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_3/paraview_5.png` - vertical stress in the soil and contact force on the cone surface.
+    `img/Tutorial_3/paraview_5.png` - vertical stress in the soil and contact force on the cone surface.
 </div>
 </div>
 
@@ -444,21 +454,21 @@ $$
 q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 $$
 
-and the penetration depth is the height of the soil surface, $20$ m, minus `body1_position_z`. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the `time` column is the load fraction, which runs from 0 to 1 over the $4.5$ m of penetration.
+and the penetration depth is the height at which the cone is placed on the soil, minus `body1_position_z`. The sand settles under its own weight in stage 1, so the surface is at about $19.87$ m rather than $20$ m; MPM3S prints the exact value as `material top` in the `rigid body surface placement` message at the start of stage 2. $F_z$ includes the friction along the sleeve as well as the force on the tip, which is why $q_c$ is approximate; the [published results](#published-results) were calculated in the same way. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the `time` column is the load fraction, which runs from 0 to 1 over the $4.0$ m of penetration.
 
 !!! example "Placeholder: results plot"
-    `img/tutorial_3/cone_resistance.png` - $q_c$ against penetration depth from `rigid_body.csv`, compared with the centrifuge data.
+    `img/Tutorial_3/cone_resistance.png` - $q_c$ against penetration depth from `rigid_body.csv`, compared with the centrifuge data.
 
 ### Published results
 
 The deformed mesh and GIMP displacement field at $1.2$ m penetration from [@bird2026implicitoctreebasedadaptivematerial] is shown below: the displacement magnitude rises from $0$ m (blue) in the far field to roughly $0.5$ m (red) immediately under the cone tip.
 
-![CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.](../../img/CPT_result.png){ #fig-cpt-final width="50%" }
+![CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.](../../img/Tutorial_3/CPT_result.png){ #fig-cpt-final width="50%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
 In the same study the cone-tip resistance $q_c$, normalised by the cone radius $r$, was compared against the centrifuge measurements of Davidson et al. [@davidson2022physical] and Cerfontaine et al. [@Cerfontaine2020], with convergence checked by halving the smallest element size.
 
-![Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below.](../../img/cpt_results.png){ #fig-cpt-results width="70%" }
+![Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below.](../../img/Tutorial_3/cpt_results.png){ #fig-cpt-results width="70%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*

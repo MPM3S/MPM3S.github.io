@@ -53,12 +53,12 @@ It needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt` in the sa
             "load steps": 5,
             "load": "gravity ramp",
             "rigid bodies": "off",
-            "adaptivity": { "type": "uniform" },
+            "adaptivity": { "type": "none" },
             "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
         },
         {
             "type": "static",
-            "load steps": 450,
+            "load steps": 400,
             "load": "full",
             "rigid bodies": "on",
             "rigid body surface placement": "on",

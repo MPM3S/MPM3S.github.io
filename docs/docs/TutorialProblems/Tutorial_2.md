@@ -33,7 +33,7 @@ After the springs have been activated the GIMPs and the mesh deform due to the c
 
 <div class="js-code" markdown>
 
-![Schematic of the steps for penalty contact between a rigid body and a deformable GIMP domain.](../../img/contact_example_image.png){ #fig-contact-schematic width="100%" }
+![Schematic of the steps for penalty contact between a rigid body and a deformable GIMP domain.](../../img/Tutorial_2/contact_example_image.png){ #fig-contact-schematic width="100%" }
 
 </div>
 
@@ -57,9 +57,9 @@ The rigid cube is a $1.2 \times 1.2 \times 1.0$ m box, centred over the soil, th
 
 Gravity is switched off, so all of the load on the soil comes from the rigid cube.
 
-![The cube of soil. (a) The background mesh, with element size $h = 0.4$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/cube_setup.png){ #fig-cube-mesh width="70%" }
+![The cube of soil. (a) The background mesh, with element size $h = 0.4$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/Tutorial_2/cube_setup.png){ #fig-cube-mesh width="70%" }
 
-![A vertical section through the soil and the rigid cube. Rollers act on the base and the four sides (the front and back faces are not shown), and the two rows of empty elements above the soil lie inside the rigid cube. The red dashed line marks the base of the rigid cube after the 0.2 m of compression imposed over 20 load steps.](../../img/cube_bcs.png){ #fig-cube-bcs width="50%" }
+![A vertical section through the soil and the rigid cube. Rollers act on the base and the four sides (the front and back faces are not shown), and the two rows of empty elements above the soil lie inside the rigid cube. The red dashed line marks the base of the rigid cube after the 0.2 m of compression imposed over 20 load steps.](../../img/Tutorial_2/cube_bcs.png){ #fig-cube-bcs width="50%" }
 
 The simulation is configured through a single JSON object - a human-readable, editable text file. It extends [Tutorial 1](Tutorial_1.md#input-setup) with a rigid body. The complete file for this problem, and the rigid cube geometry, can be found [here](Tutorial_2_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
@@ -367,7 +367,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 **1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
 </div>
 <div markdown>
-![ParaView on launch, with an empty render view.](../../img/Column_1.png){ #fig-paraview-1 }
+![ParaView on launch, with an empty render view.](../../img/Tutorial_2/Column_1.png){ #fig-paraview-1 }
 </div>
 </div>
 
@@ -376,7 +376,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 **2. Open the output files.** Use *File → Open* and navigate to `vtk_cube`. ParaView groups the numbered files into three series: `body_..vtu`, `mps_1_..vtu` and `surface_..vtu`. Hold `Ctrl` and click `mps_1_..vtu` and `surface_..vtu` so both are highlighted, then click *OK*.
 </div>
 <div markdown>
-![The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.](../../img/cube_2.png){ #fig-paraview-2 }
+![The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.](../../img/Tutorial_2/cube_2.png){ #fig-paraview-2 }
 </div>
 </div>
 
@@ -385,7 +385,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 **3. Apply the readers.** Click *Apply* in the Properties panel. Both series appear in the *Pipeline Browser*, and the render view shows the rigid cube resting on the soil. The rigid cube overhangs the soil and hides it from most directions, so zoom out and rotate the view to see both bodies.
 </div>
 <div markdown>
-![Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.](../../img/cube_1.png){ #fig-paraview-3 }
+![Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.](../../img/Tutorial_2/cube_1.png){ #fig-paraview-3 }
 </div>
 </div>
 
@@ -394,7 +394,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 **4. Make the rigid cube see-through.** Select `surface_..vtu` in the *Pipeline Browser* and set *Opacity*, under *Styling*, to `0.6`. The soil can now be seen through the rigid cube, which overhangs it on every side.
 </div>
 <div markdown>
-![The rigid cube with an opacity of 0.6, showing the soil beneath it.](../../img/cube_3.png){ #fig-paraview-4 }
+![The rigid cube with an opacity of 0.6, showing the soil beneath it.](../../img/Tutorial_2/cube_3.png){ #fig-paraview-4 }
 </div>
 </div>
 
@@ -403,7 +403,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 **5. Choose a field to colour the GIMPs by.** Select `mps_1_..vtu` and open the *Coloring* menu, which lists the fields written to the VTK files: `displacement`, `strain` and `stress`. Choosing `displacement` → `Z` and stepping through time shows the displacement of the GIMPs increasing evenly from the base to the top of the soil as the rigid cube moves $0.2$ m down.
 </div>
 <div markdown>
-![The Coloring menu for mps_1_..vtu, listing displacement, strain and stress.](../../img/cube_displacement.png){ #fig-paraview-5 }
+![The Coloring menu for mps_1_..vtu, listing displacement, strain and stress.](../../img/Tutorial_2/cube_displacement.png){ #fig-paraview-5 }
 </div>
 </div>
 
@@ -412,7 +412,7 @@ The walkthrough below follows the same pattern as the [ParaView walkthrough from
 **6. Inspect the final stress distribution.** Change the GIMPs' *Coloring* to `stress` → `ZZ`, click *Go to Last* (`▶|`) and then *Rescale to Data Range*. The soil has been compressed to about $0.6$ m under the rigid cube. Additionally to inspect the contact force select `surface_..vtu` and change its *Coloring* to `contact force` → `Magnitude`. The force is zero over the sides and top of the rigid cube and is carried by the triangles of its base, which is in contact with the soil.
 </div>
 <div markdown>
-![The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.](../../img/cube_stress.png){ #fig-paraview-6 }
+![The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.](../../img/Tutorial_2/cube_stress.png){ #fig-paraview-6 }
 </div>
 </div>
 

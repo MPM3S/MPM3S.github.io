@@ -11,7 +11,7 @@ Durham University has over 10 years of experience developing and applying the Ma
 ### Project Team
 
 <div class="profile-section">
-<img src="../img/w-coombs.jpg" alt="Dr William Coombs" class="profile-picture">
+<img src="../img/partners/w-coombs.jpg" alt="Dr William Coombs" class="profile-picture">
 <div class="profile-content">
 <h4>Principal Investigator: <a href="https://www.durham.ac.uk/staff/w-m-coombs/">Dr William Coombs</a></h4>
 <em>Department of Engineering, Durham University</em></p>
@@ -20,7 +20,7 @@ Durham University has over 10 years of experience developing and applying the Ma
 </div>
 
 <div class="profile-section">
-<img src="../img/c-augarde.jpg" alt="Professor Charles Augarde" class="profile-picture">
+<img src="../img/partners/c-augarde.jpg" alt="Professor Charles Augarde" class="profile-picture">
 <div class="profile-content">
 <h4>Co-Investigator: <a href="https://www.durham.ac.uk/staff/charles-augarde/">Professor Charles Augarde</a></h4>
 <em>Department of Engineering, Durham University</em></p>
@@ -29,7 +29,7 @@ Durham University has over 10 years of experience developing and applying the Ma
 </div>
 
 <div class="profile-section">
-<img src="../img/r-bird.jpg" alt="Dr Robert Bird" class="profile-picture">
+<img src="../img/partners/r-bird.jpg" alt="Dr Robert Bird" class="profile-picture">
 <div class="profile-content">
 <h4>Research Associate: <a href="https://www.durham.ac.uk/staff/robert-e-bird/">Dr Robert Bird</a></h4>
 <em>Department of Engineering, Durham University</em></p>
@@ -38,7 +38,7 @@ Durham University has over 10 years of experience developing and applying the Ma
 </div>
 
 <div class="profile-section">
-<img src="../img/s-finnigan.jpg" alt="Dr Samantha Finnigan" class="profile-picture">
+<img src="../img/partners/s-finnigan.jpg" alt="Dr Samantha Finnigan" class="profile-picture">
 <div class="profile-content">
 <h4>Research Software Engineer: <a href="https://www.durham.ac.uk/staff/samantha-finnigan/">Dr Samantha Finnigan</a></h4>
 <em>Advanced Research Computing, Durham University</em></p>
