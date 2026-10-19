@@ -8,7 +8,7 @@ hide:
 ## Introduction
 This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements. This tuto
 
-A rigid cone is pushed quasi-statically $4.0$ m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson *et al.* [@davidson2022physical] and Cerfontaine *et al.* [@Cerfontaine2020]. The problem builds on [Tutorial 2](Tutorial_2.md) and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.
+A rigid cone is pushed quasi-statically $4.5$ m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson *et al.* [@davidson2022physical] and Cerfontaine *et al.* [@Cerfontaine2020]. The problem builds on [Tutorial 2](Tutorial_2.md) and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.
 
 This tutorial has four sections:
 
@@ -64,7 +64,7 @@ $\sigma_v$ is calculated from the weight of the soil above each material point's
 **Loading:** Two static stages:
 
 - **Stage 1 - initial stresses:** the cone is switched off and gravity is ramped up over 5 load steps.
-- **Stage 2 - penetration:** the cone is placed on the soil surface and pushed down $10$ mm per load step for 400 load steps ($4.0$ m), with the mesh refined to $0.025$ m wherever the cone surface is.
+- **Stage 2 - penetration:** the cone is placed on the soil surface and pushed down $10$ mm per load step for 450 load steps ($4.5$ m), with the mesh refined to $0.025$ m wherever the cone surface is.
 
 **Solver:** Newton-Raphson, quasi-static, for both stages.
 
@@ -234,7 +234,7 @@ The four vertical faces are rollers and the base is fixed. The top face is fixed
 
 The second stage switches the cone on. `"rigid body surface placement": "on"` moves it vertically at the start of the stage so that its tip rests on the soil surface, and `"load": "full"` keeps gravity at its full value throughout.
 
-`"rigid body boundary conditions"` replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of $-0.01$ m per load step. Over the 400 load steps the cone penetrates $4.0$ m.
+`"rigid body boundary conditions"` replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of $-0.01$ m per load step. Over the 450 load steps the cone penetrates $4.5$ m.
 
 `"rigid body surface"` adaptivity refines the elements the cone surface passes through to $0.025$ m at every step, so the fine mesh travels down with the cone. For a quicker, coarser first run use `"element size": 0.1`.
 
@@ -245,7 +245,7 @@ The second stage switches the cone on. `"rigid body surface placement": "on"` mo
 ```json
 {
     "type": "static",
-    "load steps": 400,
+    "load steps": 450,
     "load": "full",
     "rigid bodies": "on",
     "rigid body surface placement": "on",
@@ -298,7 +298,7 @@ Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}
 
 ### Output
 
-VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr38` every $0.5\%$ of each stage's load steps, which for 400 load steps in stage 2 cooresponds to every 2 load steps. The CSV files go to `csv_CPT_dr38` every $0.25\%$, which is every load step here.
+VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr38` every $0.5\%$ of each stage's load steps, which for the 450 load steps of stage 2 corresponds to every 2 load steps. The CSV files go to `csv_CPT_dr38` every $0.25\%$, which is every load step here.
 
 The rigid-body CSV output includes the `reaction force` on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve. [Cone resistance](#cone-resistance) shows how the tip resistance is calculated from it.
 
@@ -392,59 +392,8 @@ stage 2/2 ████████████ 100.0% t 1.001/1.0 step 460 Δt 0
 
 ## Viewing the results
 
-### Visualising the output in ParaView
-
-The output can be viewed while the analysis runs. The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1.md#visualising-the-output-in-paraview).
-
-<div class="walkthrough" markdown>
-<div markdown>
-**1. Open the soil and the cone.** *File → Open*, go to `vtk_CPT_dr38`, hold `Ctrl` and select the `mps_1_..vtu` (soil) and `surface_..vtu` (cone) series, click *OK* and then *Apply*.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_3/paraview_1.png` - the quarter soil block and the cone after *Apply*.
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**2. Mirror the quarter model.** Select `mps_1_..vtu` and apply *Filters → Alphabetical → Reflect* with *Plane* `X` and *Center* `0`. Select the new `Reflect1` and apply a second *Reflect* with *Plane* `Y` and *Center* `0`, giving the full soil block around the cone.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_3/paraview_2.png` - the full soil block after the two reflections.
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**3. Cut through the cone axis.** With `Reflect2` selected, apply *Filters → Common → Clip* with *Normal* `(0, 1, 0)` and *Origin* `(0, 0, 0)`, and untick *Show Plane*. The clip opens a vertical section through the soil beside the cone.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_3/paraview_3.png` - the clipped soil block with the cone visible in the section.
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**4. Colour by displacement at the final step.** Set the clip's *Coloring* to `displacement` → `Magnitude`, click *Go to Last* (`▶|`) and then *Rescale to Data Range*. The largest displacements are in the sand immediately beneath and beside the cone tip.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_3/paraview_4.png` - displacement magnitude on the section at the end of penetration.
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**5. Look at the stresses and the contact force.** Colour the clip by `stress` → `ZZ` for the vertical stress. Then select `surface_..vtu` and colour it by `contact force` → `Magnitude` to see which parts of the cone carry the load.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_3/paraview_5.png` - vertical stress in the soil and contact force on the cone surface.
-</div>
-</div>
+!!! note "Displacements and stresses"
+    To see the displacements and stresses during the simulation, follow the same steps as for the compression cube in [Tutorial 2](Tutorial_2.md#visualising-the-output-in-paraview). All the VTK files for this problem are in `path/to/MPM3S/vtk_CPT_dr38`. This section shows how to extract the load on the cone and its penetration from them.
 
 ### Cone resistance
 
@@ -454,21 +403,167 @@ $$
 q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 $$
 
-and the penetration depth is the height at which the cone is placed on the soil, minus `body1_position_z`. The sand settles under its own weight in stage 1, so the surface is at about $19.87$ m rather than $20$ m; MPM3S prints the exact value as `material top` in the `rigid body surface placement` message at the start of stage 2. $F_z$ includes the friction along the sleeve as well as the force on the tip, which is why $q_c$ is approximate; the [published results](#published-results) were calculated in the same way. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the `time` column is the load fraction, which runs from 0 to 1 over the $4.0$ m of penetration.
+and the penetration depth is the height at which the cone is placed on the soil, minus `body1_position_z`. The sand settles under its own weight in stage 1, so the surface is at about $19.87$ m rather than $20$ m; MPM3S prints the exact value as `material top` in the `rigid body surface placement` message at the start of stage 2. $F_z$ includes the friction along the sleeve as well as the force on the tip, which is why $q_c$ is approximate; the [published results](#published-results) were calculated in the same way. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the `time` column is the load fraction, which runs from 0 to 1 over the $4.5$ m of penetration.
 
-!!! example "Placeholder: results plot"
-    `img/Tutorial_3/cone_resistance.png` - $q_c$ against penetration depth from `rigid_body.csv`, compared with the centrifuge data.
+#### Tip resistance without the sleeve friction
 
-### Published results
+The reaction force in `rigid_body.csv` includes the friction along the sleeve. To find the force on the tip alone, sum the vertical contact force on the triangles of the conical tip in ParaView, and track the height of the tip:
 
-The deformed mesh and GIMP displacement field at $1.2$ m penetration from [@bird2026implicitoctreebasedadaptivematerial] is shown below: the displacement magnitude rises from $0$ m (blue) in the far field to roughly $0.5$ m (red) immediately under the cone tip.
+<div class="walkthrough" markdown>
+<div markdown>
+**1. Open the cone.** *File → Open*, go to `vtk_CPT_dr38`, select the `surface_..vtu` series on its own, click *OK* and then *Apply*. The cone appears in the render view.
+</div>
+<div markdown>
+![The cone surface after Apply.](../../img/Tutorial_3/CPT_plot1.png){ #fig-cpt-tip-1 }
+</div>
+</div>
 
-![CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.](../../img/Tutorial_3/CPT_result.png){ #fig-cpt-final width="50%" }
+<div class="walkthrough" markdown>
+<div markdown>
+**2. Select the triangles of the conical tip.** Click *Select Cells On* in the render-view toolbar (or press `S`) and drag a box around the conical tip, so that its triangles are highlighted in pink and the cylindrical sleeve is not. Hold `Ctrl` and drag again to add any triangles that were missed.
+</div>
+<div markdown>
+![The triangles of the conical tip selected and highlighted in pink.](../../img/Tutorial_3/CPT_plot2.png){ #fig-cpt-tip-2 }
+</div>
+</div>
 
-*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+<div class="walkthrough" markdown>
+<div markdown>
+**3. Find the Extract Selection filter.** Open the *Filters* menu. `Ctrl` + `Space` opens the same filter search from anywhere in ParaView.
+</div>
+<div markdown>
+![The Filters menu.](../../img/Tutorial_3/CPT_plot3.png){ #fig-cpt-tip-3 }
+</div>
+</div>
 
-In the same study the cone-tip resistance $q_c$, normalised by the cone radius $r$, was compared against the centrifuge measurements of Davidson et al. [@davidson2022physical] and Cerfontaine et al. [@Cerfontaine2020], with convergence checked by halving the smallest element size.
+<div class="walkthrough" markdown>
+<div markdown>
+**4. Extract the selection.** Type `extract sel`, choose *Extract Selection* and press `Enter`.
+</div>
+<div markdown>
+![The filter search with Extract Selection highlighted.](../../img/Tutorial_3/CPT_plot4.png){ #fig-cpt-tip-4 }
+</div>
+</div>
 
-![Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below.](../../img/Tutorial_3/cpt_results.png){ #fig-cpt-results width="70%" }
+<div class="walkthrough" markdown>
+<div markdown>
+**5. Apply it, then select the tip point.** `ExtractSelection1` appears in the *Pipeline Browser*; click *Apply*. It holds only the triangles of the tip. Then (1) click *Clear Selection* to remove the selected triangles, and (2) click *Select Points On* (or press `D`) and drag a small box around the very tip of the cone, which is highlighted as a single pink point.
+</div>
+<div markdown>
+![ExtractSelection1 in the Pipeline Browser, with the tip point selected.](../../img/Tutorial_3/CPT_plot5.png){ #fig-cpt-tip-5 }
+</div>
+</div>
 
-*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+<div class="walkthrough" markdown>
+<div markdown>
+**6. Extract the tip point and name the two extracts.** Apply *Extract Selection* again to extract the tip point. Right-click each extract in the *Pipeline Browser*, choose *Rename*, and call the triangles `cone load` and the point `cone tip`.
+</div>
+<div markdown>
+![Renaming the second extract in the Pipeline Browser.](../../img/Tutorial_3/CPT_plot6.png){ #fig-cpt-tip-6 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**7. Check the extracts.** Hide `surface_..vtu` with its eye icon. Only the conical tip is left.
+</div>
+<div markdown>
+![The cone load and cone tip extracts, with the full surface hidden.](../../img/Tutorial_3/CPT_plot7.png){ #fig-cpt-tip-7 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**8. Open a layout for the plots.** Click `+` beside *Layout #1* to open *Layout #2* and choose *Line Chart View*.
+</div>
+<div markdown>
+![A new layout with the list of views.](../../img/Tutorial_3/CPT_plot8.png){ #fig-cpt-tip-8 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**9. Plot the load on the tip over time.** Select `cone load`, go to `Filters`, then `Search`, and then type `plot da` and choose *Plot Data Over Time*.
+</div>
+<div markdown>
+![The filter search with Plot Data Over Time highlighted.](../../img/Tutorial_3/CPT_plot9.png){ #fig-cpt-tip-9 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**10. Use the cell data.** The contact force is stored on the triangles, so set *Field Association* to *Cells*. Keep *Only Report Selection Statistics* ticked and click *Apply*. ParaView reads every output step, which takes a moment, and draws a quartile chart.
+</div>
+<div markdown>
+![Choosing Cells for the Field Association.](../../img/Tutorial_3/CPT_plot10.png){ #fig-cpt-tip-10 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**11. Choose the vertical force.** In *Series Parameters*, untick every series except `contact force (2) (stats)`, the $z$ component. The chart shows its average over the tip triangles, with the spread between them shaded.
+</div>
+<div markdown>
+![The average vertical contact force on the tip triangles, with the quartiles shaded.](../../img/Tutorial_3/CPT_plot11.png){ #fig-cpt-tip-11 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**12. Show the total.** Further down, untick *Show Quartiles* and *Show Average* and tick *Show Sum*. `sum contact force (2) (stats)` is the vertical force on the tip of the quarter cone, which grows steadily as the cone penetrates.
+</div>
+<div markdown>
+![The summed vertical contact force on the tip against output step.](../../img/Tutorial_3/CPT_plot12.png){ #fig-cpt-tip-12 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**13. Export the load.** *File → Export View*, choose *Comma or Tab Delimited Files* and save the chart in `vtk_CPT_dr38` as `load_data.csv`.
+</div>
+<div markdown>
+![The Export View dialog, saving load_data.csv.](../../img/Tutorial_3/CPT_plot13.png){ #fig-cpt-tip-13 }
+</div>
+</div>
+
+<div class="walkthrough" markdown>
+<div markdown>
+**14. Plot the tip height.** Select `cone tip` and apply *Plot Data Over Time* again, keeping *Field Association* as *Points*, and show only `Z (stats)`. The tip height is $0$ in stage 1, jumps to the soil surface at about $19.87$ m when the cone is placed at the start of stage 2, and then falls steadily as the cone is pushed down. Export it in the same way, as `position_data.csv` in `vtk_CPT_dr38`.
+</div>
+<div markdown>
+![The height of the cone tip against output step.](../../img/Tutorial_3/CPT_plot14.png){ #fig-cpt-tip-14 }
+</div>
+</div>
+
+With $F_{tip}$ the summed vertical contact force from `load_data.csv`, the tip resistance of the full cone is
+
+$$
+q_c = \frac{4\, F_{tip}}{\pi r^2},
+$$
+
+and the penetration depth is the height at which the cone is placed on the soil - $19.8694$ m, the `material top` in the rigid body surface placement message - minus the tip height from `position_data.csv`. Both files have one row per output step; the first rows, from stage 1, have a tip height of $0$ and are skipped.
+
+The short Julia script below plots $q_c$ against the penetration depth. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `plot_qc.jl` and running `include("plot_qc.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
+
+```julia
+using DelimitedFiles, Plots
+
+# the two files exported from ParaView, one row per output step
+load, _ = readdlm("vtk_CPT_dr38/load_data.csv", ',', Float64; header=true)
+tip,  _ = readdlm("vtk_CPT_dr38/position_data.csv", ',', Float64; header=true)
+F = load[:, 2]    # vertical contact force on the tip of the quarter cone (N)
+z = tip[:, 2]     # height of the cone tip (m)
+
+# skip stage 1, before the cone is placed on the soil (tip height 0)
+s2 = z .> 0
+
+r = 0.4               # cone radius (m)
+z_surface = 19.8694   # "material top" in the rigid body surface placement message
+depth = (z_surface .- z[s2])/r
+qc = 4 .* F[s2] ./ (π * r^2) ./ 1e6   # tip resistance of the full cone (MPa)
+
+plot(qc, depth, yflip=true, label="MPM3S", xlabel="tip resistance q_c (MPa)", ylabel="normalised penetration depth (m/m)")
+```
+
+![Tip resistance against penetration depth normalised by the cone radius, from the script above.](../../img/Tutorial_3/cone_resistance.png){ #fig-cpt-qc width="50%" }
+

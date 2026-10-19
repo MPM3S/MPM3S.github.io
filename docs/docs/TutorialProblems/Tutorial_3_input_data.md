@@ -58,7 +58,7 @@ It needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt` in the sa
         },
         {
             "type": "static",
-            "load steps": 400,
+            "load steps": 450,
             "load": "full",
             "rigid bodies": "on",
             "rigid body surface placement": "on",
