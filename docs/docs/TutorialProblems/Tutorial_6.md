@@ -52,23 +52,19 @@ $\gamma_w = 9.81$ kN/m$^3$ is the unit weight of water. Because the sand is subm
 
 **Anchor:** The AC-14 anchor (see [](#fig-anchor-design)) has two parts, a **fluke** and a **shank**, joined by a hinge. Each part is a rigid body welded to a point at its centre of mass. A third point with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is $8700$ kg).
 
-![Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).](../../img/Tutorial_6/anchor_design.png){ #fig-anchor-design width="100%" }
+![The AC-14 anchor, drawn from its STL files: (a) from above, with both halves; (b) from the side, with the hinge fully open ($\theta = 35^\circ$), showing the hinge, the centres of mass of the fluke and shank, the eyelet, the distance stop and the tracked tip; (c) the anchor and its $9.5$ m pull line.](../../img/Tutorial_6/anchor_design.png){ #fig-anchor-design width="70%" }
 
-*Figure reproduced from [@birdanchors2026].*
+*Figure adapted from [@birdanchors2026].*
 
-<div class="centered-table" markdown>
+The anchor is made of three points, and three constraints join them:
+
+<div class="small-tables" markdown>
 
 | Point | Represents             | Position as drawn (m) | Mass (kg) | Rotational inertia (kg$\cdot$m$^2$) | Geometry               |
 |:-----:|------------------------|:---------------------:|:---------:|:-----------------------------------:|------------------------|
 | 1     | Fluke centre of mass   | $(0.62, 0, 0)$        | $3291.6$  | $275$                               | `fluke_round_nose.stl` |
 | 2     | Shank centre of mass   | $(1.7592, 0, 0)$      | $1058.4$  | $337.5$                             | `shank_scv2.stl`       |
 | 3     | Pull point             | $(12.5294, 0, 0)$     | $1$       | $10^{-6}$                           | none                   |
-
-</div>
-
-Three constraints join the points:
-
-<div class="centered-table" markdown>
 
 | Constraint          | Type               | Points | Details                                                                                                           |
 |---------------------|--------------------|:------:|-------------------------------------------------------------------------------------------------------------------|
