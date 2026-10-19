@@ -36,8 +36,8 @@ copyright: Copyright &copy; 2025 Durham University | UKRI Project Reference UKRI
 # Theme
 theme:
   name: material
-  logo: img/logo.png
-  favicon: img/logo.png
+  logo: img/mkdocs/logo.png
+  favicon: img/mkdocs/logo.png
   palette:
     primary: custom
     accent: custom

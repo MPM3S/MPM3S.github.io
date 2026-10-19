@@ -69,11 +69,11 @@ Floating offshore wind is projected to reach 5GW by 2030, with future wind farms
 
 <div class="image-grid" markdown="1">
 <div class="image-item">
-![Anchor drag simulation - initial embedment](../img/drag-000.png)
+![Anchor drag simulation - initial embedment](../img/applications/drag-000.png)
 *MPM simulation of drag anchor initial embedment*
 </div>
 <div class="image-item">
-![Anchor drag simulation - trajectory](../img/drag-001.png)
+![Anchor drag simulation - trajectory](../img/applications/drag-001.png)
 *MPM simulation showing anchor drag trajectory and soil deformation*
 </div>
 </div>

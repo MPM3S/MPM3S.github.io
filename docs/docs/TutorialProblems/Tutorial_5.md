@@ -23,7 +23,7 @@ You will define the slope, the sphere, the dynamic stage, the solver and the out
 
 To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane component of gravity.
 
-![Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.](../../img/sphere_slope.png){ #fig-sphere-setup width="70%" }
+![Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.](../../img/Tutorial_5/sphere_slope.png){ #fig-sphere-setup width="70%" }
 
 *Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
 
@@ -347,7 +347,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_5/paraview_1.png` - the active slab section and the sphere at the first output step.
+    `img/Tutorial_5/paraview_1.png` - the active slab section and the sphere at the first output step.
 </div>
 </div>
 
@@ -357,7 +357,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_5/paraview_2.png` - close-up of the refined material points beneath the sphere.
+    `img/Tutorial_5/paraview_2.png` - close-up of the refined material points beneath the sphere.
 </div>
 </div>
 
@@ -367,7 +367,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_5/paraview_3.png` - the sphere coloured by velocity magnitude.
+    `img/Tutorial_5/paraview_3.png` - the sphere coloured by velocity magnitude.
 </div>
 </div>
 
@@ -377,7 +377,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 </div>
 <div markdown>
 !!! example "Placeholder: ParaView screenshot"
-    `img/tutorial_5/paraview_4.png` - the sphere and the active slab section at the final step.
+    `img/Tutorial_5/paraview_4.png` - the sphere and the active slab section at the final step.
 </div>
 </div>
 
@@ -386,7 +386,7 @@ The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1
 `csv_sphere_mu0.0/rigid_body.csv` has one row per time step. The distance travelled is $d_x = $ `body1_position_x` $- 1.5$ m, to be plotted against the `time` column and compared with $d_x(t)$ from the [Problem description](#problem-description). When the sphere sticks, it rolls without slipping, so `body1_angular velocity_y` equals `body1_velocity_x` (the radius is $1$ m); when it slips, the angular velocity lags behind.
 
 !!! example "Placeholder: results plot"
-    `img/tutorial_5/distance_travelled.png` - $d_x$ against time for each friction coefficient, with the analytical solution.
+    `img/Tutorial_5/distance_travelled.png` - $d_x$ against time for each friction coefficient, with the analytical solution.
 
 ### Published results
 
@@ -394,9 +394,9 @@ The figures below are reproduced from [@bird2026implicitoctreebasedadaptivemater
 
 <div class="grid" markdown>
 
-![GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.](../../img/rolling_sphere_3D.png){ #fig-sphere-3d width="100%" }
+![GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.](../../img/Tutorial_5/rolling_sphere_3D.png){ #fig-sphere-3d width="100%" }
 
-![Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.](../../img/sphere_error.png){ #fig-sphere-results width="100%" }
+![Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.](../../img/Tutorial_5/sphere_error.png){ #fig-sphere-results width="100%" }
 
 </div>
 

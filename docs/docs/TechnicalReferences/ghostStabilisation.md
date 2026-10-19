@@ -8,7 +8,7 @@ For implicit MPM formulations using generalised interpolation basis functions, t
 
 Without stabilisation the material point method has the potential to be highly unstable. This is because the nature of the linear system of equations being solved is highly dependent on the positioning of material points relative to the background grid. There is the potential for very small values of mass/stiffness to be generated at background grid degrees of freedom if small overlaps are generated between the physical body (i.e. the material points) and the background grid. This can result in large spurious incremental displacements/velocities/accelerations being generated at the boundary of the physical body, which have the potential to lead to failure of the numerical solver within a time step. An example of this is shown below for a quasi-static elasto-plastic collapse problem, where at a given time step the original, non-stabilised, Generalised Interpolation Material Point Method (GIMPM) predicts very large spurious incremental nodal displacements, which are removed with stabilisation.  
 
-![Elasto-plastic collapse: background mesh incremental displacements](../../img/ghostCollapseVectors.png)
+![Elasto-plastic collapse: background mesh incremental displacements](../../img/ghostStabilisation/ghostCollapseVectors.png)
 
 To explore this issue in more detail, consider the simpler problem shown in Figure 2, where a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of $E=1$ Pa, a Poisson's ratio of $\nu=0$ and a density of $\rho=1~\text{kg/m}^3$.   
 
@@ -33,7 +33,7 @@ The process consists of two steps (shown graphically in Figure 4):
 
 These faces are stabilised. Each of the faces will connect two elements, one of which is labelled as the *positive* element, $K^+$, and the other the *negative* element, $K^-$. The labelling is arbitrary and flipping positive/negative elements has no impact of the stabilisation. 
 
-![MPM boundary element identification](../../img/MPMboundaries.png)
+![MPM boundary element identification](../../img/ghostStabilisation/MPMboundaries.png)
 
 The stabilisation of the faces between between boundary elements and active (populated) elements is important as it enforces gradient continuity between the well-conditioned interior region and the partially filled boundary elements, greatly improving stability. For simulations involving multiple bodies defined by material point, the procedure is applied independently to each body, and the stabilisation faces are taken as the union of all identified faces.
 
@@ -47,7 +47,7 @@ $$
 
 where $h$ is the background mesh grid size, $u_i$ and $w_i$ are the test and trial functions, $x_j$ are the Cartesian coordinates, $n_j$ is the outward normal to the face of the positive element (see Figure 5) and $\Gamma$ are the boundary element faces that require stabilisation.  
 
-![Boundary stabilisation normal and positive/negative elements](../../img/MPMboundariesStab.png)
+![Boundary stabilisation normal and positive/negative elements](../../img/ghostStabilisation/MPMboundariesStab.png)
 
 
 Introducing the finite element approximation space for the test and trial functions and eliminating the nodal values associated with the test function (full derivation given in Coombs (2023)) results in a matrix comprised of four sub components multiplied by the physical displacements of the positive, $\{d^+\}$, and negative, $\{d^-\}$, elements 

@@ -1,6 +1,6 @@
 <div class="hero-section">
 <div class="hero-image">
-<img src="img/nicholas-doherty-pONBhDyOFoM-unsplash.jpg" alt="Offshore Wind Turbines">
+<img src="img/index/nicholas-doherty-pONBhDyOFoM-unsplash.jpg" alt="Offshore Wind Turbines">
 <div class="hero-content">
 <h1>MPM for Net Zero</h1>
 <h2>Leveraging The Material Point Method For Large Deformation Soil-Structure Interaction To Realise Net Zero</h2>
@@ -29,8 +29,8 @@ Currently, the industry lacks convenient, accurate, and robust modelling framewo
 
 This project transitions Durham University's world-leading, UKRI-funded, MPM-based modelling software into the offshore renewable energy geotechnical community. The Material Point Method overcomes limitations of traditional finite element approaches when dealing with extreme deformations, providing engineers with powerful new capabilities.
 
-![Anchor drag 1 at start of drag](img/drag-000.png)
-![Anchor drag 2 showing deformation](img/drag-001.png)
+![Anchor drag 1 at start of drag](img/index/drag-000.png)
+![Anchor drag 2 showing deformation](img/index/drag-001.png)
 
 ## Key Objectives
 
@@ -58,10 +58,10 @@ By reducing uncertainty and enabling more optimized technical solutions, this pr
 
 <div class="project-logos">
 <div class="logo-container">
-<img src="img/DurhamUniversityMasterLogo_CMYK.svg" alt="Durham University" class="partner-logo durham-logo">
+<img src="img/index/DurhamUniversityMasterLogo_CMYK.svg" alt="Durham University" class="partner-logo durham-logo">
 </div>
 <div class="logo-container">
-<img src="img/ukri_logo_new-6d752aa0a1e6d8477ce5fcac6a04b3b8.svg" alt="UK Research and Innovation" class="partner-logo ukri-logo">
+<img src="img/index/ukri_logo_new-6d752aa0a1e6d8477ce5fcac6a04b3b8.svg" alt="UK Research and Innovation" class="partner-logo ukri-logo">
 </div>
 </div>
 

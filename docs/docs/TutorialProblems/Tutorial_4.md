@@ -25,11 +25,11 @@ Only half of the domain is modelled, exploiting the symmetry of the plough in $x
 
 <div class="grid" markdown>
 
-![Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).](../../img/plough_figure_1.png){ #fig-plough-setup width="100%" }
+![Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).](../../img/Tutorial_4/plough_figure_1.png){ #fig-plough-setup width="100%" }
 
-![Side view of Signorini boundary conditions.](../../img/plough_figure_2.png){ #fig-plough-setup-BCs width="100%" }
+![Side view of Signorini boundary conditions.](../../img/Tutorial_4/plough_figure_2.png){ #fig-plough-setup-BCs width="100%" }
 
-![Schematic of the plough](../../img/plough_schematic.png){ #fig-plough_schematic width="100%" }
+![Schematic of the plough](../../img/Tutorial_4/plough_schematic.png){ #fig-plough_schematic width="100%" }
 
 </div>
 
@@ -298,13 +298,13 @@ VTU and VTK output is enabled for visualisation in [ParaView](https://www.paravi
 
 The deformed soil state at $10$ m plough travel, with the GIMPs coloured by $x$-displacement (red 3 m, blue 0 m), shows how material flows around the wedge and is pushed forward (see [](#fig-plough-final)):
 
-![Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.](../../img/at_10_m_plough.png){ #fig-plough-final width="70%" }
+![Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.](../../img/Tutorial_4/at_10_m_plough.png){ #fig-plough-final width="70%" }
 
 *Figure reproduced from [@bird_dynamic_2025].*
 
 After post-processing each run, plot the horizontal pull force as a function of plough position and overlay the centrifuge data of [@robinson2021cone] for the three mesh refinements - see [](#fig-plough-results):
 
-![Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.](../../img/plough_result.png){ #fig-plough-results width="70%" }
+![Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.](../../img/Tutorial_4/plough_result.png){ #fig-plough-results width="70%" }
 
 *Figure reproduced from [@bird_dynamic_2025].*
 
