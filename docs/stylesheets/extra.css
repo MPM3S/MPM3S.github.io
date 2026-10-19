@@ -631,6 +631,27 @@ h1, h2, h3, h4, h5, h6 {
   max-width: none;
 }
 
+/* Tables in 2pt smaller text than the main text (0.9rem), one below the other and
+   centred, with compact rows; they wrap rather than scroll sideways, and long code
+   (e.g. file names) may break across lines. Use <div class="small-tables" markdown>. */
+.md-typeset .small-tables table:not([class]) {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: calc(0.9rem - 2pt);
+  line-height: 1.4;
+}
+
+.md-typeset .small-tables table:not([class]) th,
+.md-typeset .small-tables table:not([class]) td {
+  padding: 0.35em 0.8em;
+  vertical-align: middle;
+}
+
+.md-typeset .small-tables table:not([class]) code {
+  overflow-wrap: anywhere;
+}
+
 /* Centre items horizontally within their grid cells so figures sized smaller
    than the cell don't hug the cell edge. */
 .md-typeset .grid {
