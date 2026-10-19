@@ -24,7 +24,7 @@
         
       
       
-      <link rel="icon" href="../../../img/logo.png">
+      <link rel="icon" href="../../../img/mkdocs/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -96,7 +96,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="MPM for Net Zero" class="md-header__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -343,7 +343,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="MPM for Net Zero" class="md-nav__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     MPM for Net Zero
@@ -2935,7 +2935,7 @@
 <h2 id="problem-description">Problem description<a class="headerlink" href="#problem-description" title="Permanent link">¶</a></h2>
 <p>You will define the soil, the anchor, the three loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
 <p>Only half of the anchor and soil is modelled, using the vertical <span class="arithmatex">\(xz\)</span> plane of symmetry through the anchor at <span class="arithmatex">\(y = 0\)</span>. Instead of solving the whole length of soil the anchor will pass through, a boundary track keeps only a window of soil around the anchor active.</p>
-<p><figure id="_figure-1"><img alt="Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface." id="fig-anchor-setup" src="../../../img/anchor_schematic_combined.png" width="50%"><figcaption>Figure 1: Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface.</figcaption></figure></p>
+<p><figure id="_figure-1"><img alt="Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface." id="fig-anchor-setup" src="../../../img/Tutorial_6/anchor_schematic_combined.png" width="50%"><figcaption>Figure 1: Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p><strong>Soil block:</strong> One layer <span class="arithmatex">\(100\)</span> m long, <span class="arithmatex">\(10\)</span> m wide and <span class="arithmatex">\(18.123\)</span> m deep, with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each element. The base element size is given as <span class="arithmatex">\(4.0\)</span> m, which is rounded to <span class="arithmatex">\(0.1 \times 2^5 = 3.2\)</span> m because the mesh around the anchor is refined to <span class="arithmatex">\(0.1\)</span> m. The footprint is then rounded up to whole elements (<span class="arithmatex">\(102.4 \times 12.8\)</span> m) and the soil surface up to a whole row of material points, at <span class="arithmatex">\(19.2\)</span> m (see <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>).</p>
 <p><strong>Boundary conditions:</strong> The side at <span class="arithmatex">\(y = 0\)</span> is the symmetry plane and carries rollers, as does the opposite side. The base is fixed. While the soil settles, the two ends are rollers; once the anchor is in place they become fixed planes that move with the anchor.</p>
@@ -3004,7 +3004,7 @@
 </div>
 <p><span class="arithmatex">\(\gamma_w = 9.81\)</span> kN/m<span class="arithmatex">\(^3\)</span> is the unit weight of water. Because the sand is submerged, its buoyant density is used, so that gravity produces effective stresses; it is entered as the unit weight divided by <span class="arithmatex">\(10\)</span> m/s<span class="arithmatex">\(^2\)</span>. As in <a href="../Tutorial_3/#problem-description">Tutorial 3</a>, the reference stress for the depth-dependent stiffness is <span class="arithmatex">\(p^{ref}/K_0 = 100/0.5228 = 191.3\)</span> kPa.</p>
 <p><strong>Anchor:</strong> The AC-14 anchor (see <a href="#fig-anchor-design">Figure 2</a>) has two parts, a <strong>fluke</strong> and a <strong>shank</strong>, joined by a hinge. Each part is a rigid body welded to a point at its centre of mass. A third point with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is <span class="arithmatex">\(8700\)</span> kg).</p>
-<p><figure id="_figure-2"><img alt="Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c)." id="fig-anchor-design" src="../../../img/anchor_design.png" width="100%"><figcaption>Figure 2: Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c)." id="fig-anchor-design" src="../../../img/Tutorial_6/anchor_design.png" width="100%"><figcaption>Figure 2: Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">3</a></sup>.</em></p>
 <div class="centered-table">
 <table>
@@ -3376,7 +3376,7 @@
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_6/paraview_1.png</code> - the soil and the anchor after <em>Apply</em>.</p>
+<p><code>img/Tutorial_6/paraview_1.png</code> - the soil and the anchor after <em>Apply</em>.</p>
 </div>
 </div>
 </div>
@@ -3387,7 +3387,7 @@
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_6/paraview_2.png</code> - the full soil window and the full anchor after reflecting.</p>
+<p><code>img/Tutorial_6/paraview_2.png</code> - the full soil window and the full anchor after reflecting.</p>
 </div>
 </div>
 </div>
@@ -3398,7 +3398,7 @@
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_6/paraview_3.png</code> - the anchor embedded in the clipped soil.</p>
+<p><code>img/Tutorial_6/paraview_3.png</code> - the anchor embedded in the clipped soil.</p>
 </div>
 </div>
 </div>
@@ -3409,7 +3409,7 @@
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_6/paraview_4.png</code> - soil displacement and contact force on the anchor at the end of the drag.</p>
+<p><code>img/Tutorial_6/paraview_4.png</code> - soil displacement and contact force on the anchor at the end of the drag.</p>
 </div>
 </div>
 </div>
@@ -3420,7 +3420,7 @@
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_6/paraview_5.png</code> - a frame part-way through the drag.</p>
+<p><code>img/Tutorial_6/paraview_5.png</code> - a frame part-way through the drag.</p>
 </div>
 </div>
 </div>
@@ -3434,14 +3434,14 @@
 <p>The <code>time</code> column restarts at the start of each stage.</p>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: results plot</p>
-<p><code>img/tutorial_6/anchor_trajectory.png</code> - embedment depth and pull-line force against drag distance.</p>
+<p><code>img/Tutorial_6/anchor_trajectory.png</code> - embedment depth and pull-line force against drag distance.</p>
 </div>
 <h3 id="published-results">Published results<a class="headerlink" href="#published-results" title="Permanent link">¶</a></h3>
 <p>The figures below are reproduced from <sup id="fnref2:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>, for anchors dragged <span class="arithmatex">\(19\)</span> m and compared against the structured-mesh reference solution of Bird et al. <sup id="fnref2:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">3</a></sup> and the centrifuge measurements of Sharif et al. <sup id="fnref:sharif"><a class="footnote-ref" href="#fn:sharif">4</a></sup>. The octree background mesh and GIMP distribution around the anchor at <span class="arithmatex">\(19\)</span> m of drag, with elements coloured by refinement age (oldest blue, youngest red), is shown in <a href="#fig-anchor-example">Figure 3</a>:</p>
-<p><figure id="_figure-3"><img alt="Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age." id="fig-anchor-example" src="../../../img/anchor_example.png" width="70%"><figcaption>Figure 3: Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.</figcaption></figure></p>
+<p><figure id="_figure-3"><img alt="Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age." id="fig-anchor-example" src="../../../img/Tutorial_6/anchor_example.png" width="70%"><figcaption>Figure 3: Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref3:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p>The anchor trajectories (penetration depth against horizontal travel) are compared in <a href="#fig-anchor-results">Figure 4</a>:</p>
-<p><figure id="_figure-4"><img alt="Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data." id="fig-anchor-results" src="../../../img/anchor_results.png" width="70%"><figcaption>Figure 4: Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.</figcaption></figure></p>
+<p><figure id="_figure-4"><img alt="Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data." id="fig-anchor-results" src="../../../img/Tutorial_6/anchor_results.png" width="70%"><figcaption>Figure 4: Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref4:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p>In that study, simulations A and B (both with a smallest element size of <span class="arithmatex">\(0.1\)</span> m) match or exceed the accuracy of the structured-mesh reference. Simulation B is <span class="arithmatex">\(5.5\)</span> times faster than the structured-mesh reference and emits approximately <span class="arithmatex">\(21\)</span> times less CO<span class="arithmatex">\(_2\)</span>e. The trajectory becomes insensitive to the size of the refined region once its element size is at least twice the smallest element size, showing that the octree refinement is well converged in the near field.</p>
 <div class="footnote">

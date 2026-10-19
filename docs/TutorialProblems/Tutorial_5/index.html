@@ -24,7 +24,7 @@
         
       
       
-      <link rel="icon" href="../../../img/logo.png">
+      <link rel="icon" href="../../../img/mkdocs/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -96,7 +96,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="MPM for Net Zero" class="md-header__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -343,7 +343,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="MPM for Net Zero" class="md-nav__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     MPM for Net Zero
@@ -2847,7 +2847,7 @@
 <h2 id="problem-description">Problem description<a class="headerlink" href="#problem-description" title="Permanent link">¶</a></h2>
 <p>You will define the slope, the sphere, the dynamic stage, the solver and the output in the input file. All the inputs to the simulation are defined using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
 <p>To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by <span class="arithmatex">\(45^\circ\)</span> instead (see <a href="#fig-sphere-setup">Figure 1</a>). The sphere then rolls along <span class="arithmatex">\(+x\)</span> under the in-plane component of gravity.</p>
-<p><figure id="_figure-1"><img alt="Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion." id="fig-sphere-setup" src="../../../img/sphere_slope.png" width="70%"><figcaption>Figure 1: Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.</figcaption></figure></p>
+<p><figure id="_figure-1"><img alt="Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion." id="fig-sphere-setup" src="../../../img/Tutorial_5/sphere_slope.png" width="70%"><figcaption>Figure 1: Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p><strong>Slope:</strong> A slab <span class="arithmatex">\(12.8\)</span> m long, <span class="arithmatex">\(1.6\)</span> m wide and <span class="arithmatex">\(0.8\)</span> m thick, made of <span class="arithmatex">\(0.8\)</span> m base elements with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each. The elements the sphere touches are refined to <span class="arithmatex">\(0.025\)</span> m.</p>
 <p><strong>Boundary conditions:</strong> The two ends of the slab (<span class="arithmatex">\(x = 0\)</span> and <span class="arithmatex">\(x = 12.8\)</span> m) and its base are fixed, and its two sides are rollers. The top surface is free.</p>
@@ -3059,7 +3059,7 @@ d_x(t) =
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_5/paraview_1.png</code> - the active slab section and the sphere at the first output step.</p>
+<p><code>img/Tutorial_5/paraview_1.png</code> - the active slab section and the sphere at the first output step.</p>
 </div>
 </div>
 </div>
@@ -3070,7 +3070,7 @@ d_x(t) =
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_5/paraview_2.png</code> - close-up of the refined material points beneath the sphere.</p>
+<p><code>img/Tutorial_5/paraview_2.png</code> - close-up of the refined material points beneath the sphere.</p>
 </div>
 </div>
 </div>
@@ -3081,7 +3081,7 @@ d_x(t) =
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_5/paraview_3.png</code> - the sphere coloured by velocity magnitude.</p>
+<p><code>img/Tutorial_5/paraview_3.png</code> - the sphere coloured by velocity magnitude.</p>
 </div>
 </div>
 </div>
@@ -3092,7 +3092,7 @@ d_x(t) =
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_5/paraview_4.png</code> - the sphere and the active slab section at the final step.</p>
+<p><code>img/Tutorial_5/paraview_4.png</code> - the sphere and the active slab section at the final step.</p>
 </div>
 </div>
 </div>
@@ -3100,13 +3100,13 @@ d_x(t) =
 <p><code>csv_sphere_mu0.0/rigid_body.csv</code> has one row per time step. The distance travelled is $d_x = $ <code>body1_position_x</code> <span class="arithmatex">\(- 1.5\)</span> m, to be plotted against the <code>time</code> column and compared with <span class="arithmatex">\(d_x(t)\)</span> from the <a href="#problem-description">Problem description</a>. When the sphere sticks, it rolls without slipping, so <code>body1_angular velocity_y</code> equals <code>body1_velocity_x</code> (the radius is <span class="arithmatex">\(1\)</span> m); when it slips, the angular velocity lags behind.</p>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: results plot</p>
-<p><code>img/tutorial_5/distance_travelled.png</code> - <span class="arithmatex">\(d_x\)</span> against time for each friction coefficient, with the analytical solution.</p>
+<p><code>img/Tutorial_5/distance_travelled.png</code> - <span class="arithmatex">\(d_x\)</span> against time for each friction coefficient, with the analytical solution.</p>
 </div>
 <h3 id="published-results">Published results<a class="headerlink" href="#published-results" title="Permanent link">¶</a></h3>
 <p>The figures below are reproduced from <sup id="fnref2:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>. The deformed slope and GIMP positions show how the refinement follows the sphere down the slope (left, <a href="#fig-sphere-3d">Figure 2</a>), and the simulated <span class="arithmatex">\(d_x(t)\)</span> traces are overlaid on the analytical solution for each friction coefficient, in both the slipping and sticking regimes (right, <a href="#fig-sphere-results">Figure 3</a>).</p>
 <div class="grid">
-<p><figure id="_figure-2"><img alt="GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track." id="fig-sphere-3d" src="../../../img/rolling_sphere_3D.png" width="100%"><figcaption>Figure 2: GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.</figcaption></figure></p>
-<p><figure id="_figure-3"><img alt="Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}." id="fig-sphere-results" src="../../../img/sphere_error.png" width="100%"><figcaption>Figure 3: Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track." id="fig-sphere-3d" src="../../../img/Tutorial_5/rolling_sphere_3D.png" width="100%"><figcaption>Figure 2: GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.</figcaption></figure></p>
+<p><figure id="_figure-3"><img alt="Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}." id="fig-sphere-results" src="../../../img/Tutorial_5/sphere_error.png" width="100%"><figcaption>Figure 3: Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.</figcaption></figure></p>
 </div>
 <p><em>Figures reproduced from <sup id="fnref3:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p>The agreement is excellent across the full friction range and across the slip/stick boundary at <span class="arithmatex">\(\tan(45^\circ)/3.5 \approx 0.286\)</span>, validating the dynamic frictional contact formulation in the presence of hanging nodes.</p>

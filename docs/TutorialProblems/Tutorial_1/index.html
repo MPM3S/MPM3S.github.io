@@ -24,7 +24,7 @@
         
       
       
-      <link rel="icon" href="../../../img/logo.png">
+      <link rel="icon" href="../../../img/mkdocs/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -96,7 +96,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="MPM for Net Zero" class="md-header__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -341,7 +341,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="MPM for Net Zero" class="md-nav__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     MPM for Net Zero
@@ -2886,7 +2886,7 @@
 <h3 id="background-the-gimpm">Background: the GIMPM<a class="headerlink" href="#background-the-gimpm" title="Permanent link">¶</a></h3>
 <p>This problem introduces you to the MPM3S code, and how it is different to methods such as finite element analysis. The GIMPM can be classed as a fictitious domain method: the mesh and boundary conditions do not necessarily align with the material domain, the body that is being modelled by the material points. This enables the GIMPM to avoid the distorted mesh issues normally associated with finite elements.</p>
 <p>The GIMPM broadly works in three steps:
-<figure id="_figure-1"><img alt="The three steps to a GIMPM solution step." id="fig-example-GIMPM" src="../../../img/GIMP_example2.png" width="70%"><figcaption>Figure 1: The three steps to a GIMPM solution step.</figcaption></figure></p>
+<figure id="_figure-1"><img alt="The three steps to a GIMPM solution step." id="fig-example-GIMPM" src="../../../img/Tutorial_1/GIMP_example2.png" width="70%"><figcaption>Figure 1: The three steps to a GIMPM solution step.</figcaption></figure></p>
 <ul>
 <li>(a) initial state which loads the material point data on the background mesh</li>
 <li>(b) deforming the mesh and the material points together</li>
@@ -2902,7 +2902,7 @@
 <p>where <span class="arithmatex">\(\rho\)</span> is the density, <span class="arithmatex">\(g = 9.81\)</span> m/s<span class="arithmatex">\(^2\)</span> is the acceleration due to gravity, <span class="arithmatex">\(L = 0.8\)</span> m is the initial height of the column and <span class="arithmatex">\(z_p\)</span> is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change and this Cauchy stress calculation is true for any magnitude of deformation.</p>
 <p>The column is <span class="arithmatex">\(0.05 \times 0.05 \times 0.8\)</span> m, made of a homogeneous Hencky elastic material with Poisson's ratio <span class="arithmatex">\(\nu = 0\)</span> and density <span class="arithmatex">\(\rho = 50\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The Young's modulus, <span class="arithmatex">\(E = 283\)</span> Pa, is chosen so the column will be significantly compressed from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m.</p>
 <p>The column is divided into 16 elements of <span class="arithmatex">\(0.05\)</span> m, each filled with a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.</p>
-<p><figure id="_figure-2"><img alt="The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element." id="fig-column-setup" src="../../../img/column_setup.png" width="50%"><figcaption>Figure 2: The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element.</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element." id="fig-column-setup" src="../../../img/Tutorial_1/column_setup.png" width="50%"><figcaption>Figure 2: The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element.</figcaption></figure></p>
 <p>The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found <a href="../Tutorial_1_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
 <div class="json-side-header">
 <div>Description</div>
@@ -3108,7 +3108,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>1. Open ParaView.</strong> Launch ParaView from your applications menu or terminal; you should see an empty render view.</p>
 </div>
 <div>
-<p><figure id="_figure-3"><img alt="ParaView on launch, with an empty render view." id="fig-paraview-1" src="../../../img/Column_1.png"><figcaption>Figure 3: ParaView on launch, with an empty render view.</figcaption></figure></p>
+<p><figure id="_figure-3"><img alt="ParaView on launch, with an empty render view." id="fig-paraview-1" src="../../../img/Tutorial_1/Column_1.png"><figcaption>Figure 3: ParaView on launch, with an empty render view.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3116,7 +3116,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>2. Open the output files.</strong> <em>File → Open</em> and navigate to <code>vtk_column</code>. ParaView groups the numbered files into one series, <code>mps_1_..vtu</code>; select it and click <em>OK</em>.</p>
 </div>
 <div>
-<p><figure id="_figure-4"><img alt="The Open File dialog with the mps_1_..vtu series selected." id="fig-paraview-2" src="../../../img/Column_2.png"><figcaption>Figure 4: The Open File dialog with the mps_1_..vtu series selected.</figcaption></figure></p>
+<p><figure id="_figure-4"><img alt="The Open File dialog with the mps_1_..vtu series selected." id="fig-paraview-2" src="../../../img/Tutorial_1/Column_2.png"><figcaption>Figure 4: The Open File dialog with the mps_1_..vtu series selected.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3124,7 +3124,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>3. Apply the reader.</strong> Click <em>Apply</em> in the Properties panel. The column of GIMPs appears at the first load step.</p>
 </div>
 <div>
-<p><figure id="_figure-5"><img alt="The series in the Pipeline Browser, with Apply highlighted in the Properties panel." id="fig-paraview-3" src="../../../img/Column_3.png"><figcaption>Figure 5: The series in the Pipeline Browser, with Apply highlighted in the Properties panel.</figcaption></figure></p>
+<p><figure id="_figure-5"><img alt="The series in the Pipeline Browser, with Apply highlighted in the Properties panel." id="fig-paraview-3" src="../../../img/Tutorial_1/Column_3.png"><figcaption>Figure 5: The series in the Pipeline Browser, with Apply highlighted in the Properties panel.</figcaption></figure></p>
 </div>
 </div>
 <div class="admonition tip">
@@ -3142,7 +3142,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>4. Colour the GIMPs by vertical displacement.</strong> Change <em>Coloring</em> to <code>displacement</code> → <code>Z</code>. At the first load step the displacements are still small.</p>
 </div>
 <div>
-<p><figure id="_figure-6"><img alt="The column of GIMPs at the first load step, with displacement chosen in the Coloring menu." id="fig-paraview-4" src="../../../img/Column_4.png"><figcaption>Figure 6: The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.</figcaption></figure></p>
+<p><figure id="_figure-6"><img alt="The column of GIMPs at the first load step, with displacement chosen in the Coloring menu." id="fig-paraview-4" src="../../../img/Tutorial_1/Column_4.png"><figcaption>Figure 6: The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3150,7 +3150,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>5. Advance to the final step.</strong> Click the <em>Go to Last</em> button (<code>▶|</code>) in the time toolbar, then <em>Rescale to Data Range</em> in the colour-bar toolbar so the colour scale matches the deformed column. The column has shortened from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m, so the top has moved down by about <span class="arithmatex">\(0.26\)</span> m.</p>
 </div>
 <div>
-<p><figure id="_figure-7"><img alt="The deformed column at the final load step, coloured by displacement." id="fig-paraview-5" src="../../../img/Column_5.png"><figcaption>Figure 7: The deformed column at the final load step, coloured by displacement.</figcaption></figure></p>
+<p><figure id="_figure-7"><img alt="The deformed column at the final load step, coloured by displacement." id="fig-paraview-5" src="../../../img/Tutorial_1/Column_5.png"><figcaption>Figure 7: The deformed column at the final load step, coloured by displacement.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3158,7 +3158,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>6. Colour by vertical stress.</strong> Change <em>Coloring</em> to <code>stress</code> → <code>ZZ</code> and rescale. The compressive stress increases steadily from zero at the top to its largest value at the base.</p>
 </div>
 <div>
-<p><figure id="_figure-8"><img alt="Choosing the ZZ component of stress in the Coloring menu." id="fig-paraview-6" src="../../../img/Column_6.png"><figcaption>Figure 8: Choosing the ZZ component of stress in the Coloring menu.</figcaption></figure></p>
+<p><figure id="_figure-8"><img alt="Choosing the ZZ component of stress in the Coloring menu." id="fig-paraview-6" src="../../../img/Tutorial_1/Column_6.png"><figcaption>Figure 8: Choosing the ZZ component of stress in the Coloring menu.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3166,7 +3166,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>7. Look at the GIMP domains.</strong> Change the <em>Representation</em> to <em>Surface With Edges</em> and zoom in on the base and the top of the column. With <code>"domain update": "stretch"</code> the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.</p>
 </div>
 <div>
-<p><figure id="_figure-9"><img alt="Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress." id="fig-paraview-7" src="../../../img/Column_7.png"><figcaption>Figure 9: Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.</figcaption></figure></p>
+<p><figure id="_figure-9"><img alt="Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress." id="fig-paraview-7" src="../../../img/Tutorial_1/Column_7.png"><figcaption>Figure 9: Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.</figcaption></figure></p>
 </div>
 </div>
 <h2 id="analysing-the-stress-variation-with-height">Analysing the stress variation with height<a class="headerlink" href="#analysing-the-stress-variation-with-height" title="Permanent link">¶</a></h2>
@@ -3205,7 +3205,7 @@ The commands to run the plot are:
 <a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">szz</span><span class="p">,</span><span class="w"> </span><span class="n">z0</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"vertical compressive stress (Pa)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"initial height (m)"</span><span class="p">)</span>
 <a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">plot!</span><span class="p">(</span><span class="o">-</span><span class="n">σ</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"analytical"</span><span class="p">)</span>
 </code></pre></div>
-<p><figure id="_figure-10"><img alt="Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution." id="fig-column-stress" src="../../../img/column_analytical_stress.png" width="40%"><figcaption>Figure 10: Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.</figcaption></figure></p>
+<p><figure id="_figure-10"><img alt="Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution." id="fig-column-stress" src="../../../img/Tutorial_1/column_analytical_stress.png" width="40%"><figcaption>Figure 10: Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.</figcaption></figure></p>
 <p>The numerical stresses agree with the analytical solution to within 2% of the stress at the base (<span class="arithmatex">\(392.4\)</span> Pa), with the largest differences in the elements at the base and at the free surface. </p>
 <p>To see how the accuracy depends on the mesh, halve <code>"element size"</code> in <a href="#material-points">Material points</a> to <code>0.025</code> and run the problem again.</p>
 

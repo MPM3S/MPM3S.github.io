@@ -24,7 +24,7 @@
         
       
       
-      <link rel="icon" href="../../../img/logo.png">
+      <link rel="icon" href="../../../img/mkdocs/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -96,7 +96,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="MPM for Net Zero" class="md-header__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -341,7 +341,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="MPM for Net Zero" class="md-nav__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     MPM for Net Zero
@@ -2622,7 +2622,7 @@
 <p>For implicit MPM formulations using generalised interpolation basis functions, two stabilisation strategies currently exist: ghost stabilisation  and mesh aggregation. This code adopts ghost stabilisation, which introduces a penalty term into the mass and/or stiffness matrix to control the gradient of the solution across background mesh faces adjacent to the boundary of the physical body. This restores coercivity, improves the conditioning of the linear system, and significantly enhances solution quality in boundary regions.</p>
 <h2 id="small-cut-instability">Small cut instability<a class="headerlink" href="#small-cut-instability" title="Permanent link">¶</a></h2>
 <p>Without stabilisation the material point method has the potential to be highly unstable. This is because the nature of the linear system of equations being solved is highly dependent on the positioning of material points relative to the background grid. There is the potential for very small values of mass/stiffness to be generated at background grid degrees of freedom if small overlaps are generated between the physical body (i.e. the material points) and the background grid. This can result in large spurious incremental displacements/velocities/accelerations being generated at the boundary of the physical body, which have the potential to lead to failure of the numerical solver within a time step. An example of this is shown below for a quasi-static elasto-plastic collapse problem, where at a given time step the original, non-stabilised, Generalised Interpolation Material Point Method (GIMPM) predicts very large spurious incremental nodal displacements, which are removed with stabilisation.  </p>
-<p><figure id="_figure-1"><img alt="Elasto-plastic collapse: background mesh incremental displacements" src="../../../img/ghostCollapseVectors.png"><figcaption>Figure 1: Elasto-plastic collapse: background mesh incremental displacements</figcaption></figure></p>
+<p><figure id="_figure-1"><img alt="Elasto-plastic collapse: background mesh incremental displacements" src="../../../img/ghostStabilisation/ghostCollapseVectors.png"><figcaption>Figure 1: Elasto-plastic collapse: background mesh incremental displacements</figcaption></figure></p>
 <p>To explore this issue in more detail, consider the simpler problem shown in Figure 2, where a block of material is displaced with a value of <span class="arithmatex">\(a\)</span>, as a rigid body through a 2D background mesh with element size <span class="arithmatex">\(h\)</span>. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of <span class="arithmatex">\(E=1\)</span> Pa, a Poisson's ratio of <span class="arithmatex">\(\nu=0\)</span> and a density of <span class="arithmatex">\(\rho=1~\text{kg/m}^3\)</span>.   </p>
 <iframe src="../../../interactive/smallCut.html" style="border:none;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:128/100;" loading="lazy" title="Rigid translation test case"></iframe>
 
@@ -2637,7 +2637,7 @@
 <li>Boundary face extraction: relevant faces are then defined as those belonging to boundary elements that border either: another boundary element; or an element populated by material points.</li>
 </ul>
 <p>These faces are stabilised. Each of the faces will connect two elements, one of which is labelled as the <em>positive</em> element, <span class="arithmatex">\(K^+\)</span>, and the other the <em>negative</em> element, <span class="arithmatex">\(K^-\)</span>. The labelling is arbitrary and flipping positive/negative elements has no impact of the stabilisation. </p>
-<p><figure id="_figure-2"><img alt="MPM boundary element identification" src="../../../img/MPMboundaries.png"><figcaption>Figure 2: MPM boundary element identification</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="MPM boundary element identification" src="../../../img/ghostStabilisation/MPMboundaries.png"><figcaption>Figure 2: MPM boundary element identification</figcaption></figure></p>
 <p>The stabilisation of the faces between between boundary elements and active (populated) elements is important as it enforces gradient continuity between the well-conditioned interior region and the partially filled boundary elements, greatly improving stability. For simulations involving multiple bodies defined by material point, the procedure is applied independently to each body, and the stabilisation faces are taken as the union of all identified faces.</p>
 <h2 id="ghost-stabilsation">Ghost stabilsation<a class="headerlink" href="#ghost-stabilsation" title="Permanent link">¶</a></h2>
 <p>The ghost stabilisation term for linear elements can be expressed as</p>
@@ -2645,7 +2645,7 @@
     j(u_i,w_i) = \frac{h^{3}}{3} \int_{\Gamma} \left( \frac{\partial u^+_i}{\partial x_j}n_j- \frac{\partial u^-_i}{\partial x_j}n_j\right) \left( \frac{\partial w^+_i}{\partial x_j}n_j- \frac{\partial w^-_i}{\partial x_j}n_j\right) d\Gamma,
 \]</div>
 <p>where <span class="arithmatex">\(h\)</span> is the background mesh grid size, <span class="arithmatex">\(u_i\)</span> and <span class="arithmatex">\(w_i\)</span> are the test and trial functions, <span class="arithmatex">\(x_j\)</span> are the Cartesian coordinates, <span class="arithmatex">\(n_j\)</span> is the outward normal to the face of the positive element (see Figure 5) and <span class="arithmatex">\(\Gamma\)</span> are the boundary element faces that require stabilisation.  </p>
-<p><figure id="_figure-3"><img alt="Boundary stabilisation normal and positive/negative elements" src="../../../img/MPMboundariesStab.png"><figcaption>Figure 3: Boundary stabilisation normal and positive/negative elements</figcaption></figure></p>
+<p><figure id="_figure-3"><img alt="Boundary stabilisation normal and positive/negative elements" src="../../../img/ghostStabilisation/MPMboundariesStab.png"><figcaption>Figure 3: Boundary stabilisation normal and positive/negative elements</figcaption></figure></p>
 <p>Introducing the finite element approximation space for the test and trial functions and eliminating the nodal values associated with the test function (full derivation given in Coombs (2023)) results in a matrix comprised of four sub components multiplied by the physical displacements of the positive, <span class="arithmatex">\(\{d^+\}\)</span>, and negative, <span class="arithmatex">\(\{d^-\}\)</span>, elements </p>
 <div class="arithmatex">\[
     \{f_G\} = \left[\begin{array}{cc}

@@ -1,0 +1,116 @@
+% CPT (Tutorial 3): the quarter model, in the style of column_setup.png and
+% cube_bcs.png. The sand block is 10 x 10 x 20 m with the cone above the corner at
+% x = y = 0, where the two symmetry planes meet. Rollers act on the four vertical
+% faces and the base is fixed. The cone (d = 0.8 m, 60 degree tip) is not to scale.
+% Lengths are in units of 5 m.
+% Build: pdflatex cpt_setup.tex
+%        pdftocairo -png -transp -r 300 -singlefile cpt_setup.pdf cpt_setup
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc}
+
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{gimpside}{RGB}{158,158,212}
+\definecolor{gimptop}{RGB}{204,204,238}
+\definecolor{dimpurple}{RGB}{104,36,109}
+\definecolor{rigidred}{RGB}{237,28,36}
+
+\tikzset{
+  soiledge/.style={draw=mpnavy, line width=0.8pt, line join=round},
+  hidden/.style={draw=mpnavy, line width=0.6pt, dash pattern=on 2.5pt off 2pt},
+  dimline/.style={draw=dimpurple, line width=1pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  rigid/.style={draw=rigidred, line width=1.4pt, line join=round, fill=rigidred!10},
+  zoom/.style={draw=dimpurple, line width=0.8pt, dash pattern=on 4pt off 2.5pt},
+  roller/.style={fill=white, draw=black, line width=0.6pt},
+  wall/.style={draw=black, line width=0.8pt},
+  hatch/.style={draw=black, line width=0.4pt},
+}
+
+% rollers against a vertical edge at #1 (x, y, z), on the left (-1) or right (1) of it
+\newcommand{\rollers}[2]{%
+  \begin{scope}[shift={#1}, x={(1cm,0cm)}, y={(0cm,1cm)}]
+    \foreach \dz in {-0.2,0,0.2} {\path[roller] (#2*0.1,\dz) circle (0.1);}
+    \draw[wall] (#2*0.2,-0.34) -- (#2*0.2,0.34);
+    \foreach \dz in {-0.26,-0.14,...,0.34} {\draw[hatch] (#2*0.2,\dz) -- ++(#2*0.12,-0.1);}
+  \end{scope}}
+% a fixed support along the edge #1 -- #2: the edge is the wall, hatched beneath it
+\newcommand{\fixed}[2]{%
+  \draw[wall] #1 -- #2;
+  \foreach \t in {0.02,0.07,...,1.0} {\draw[hatch] ($#1!\t!#2$) -- ++(-0.1cm,-0.14cm);}}
+
+% the cone with its tip at the origin, in cm: half-width #1, tip height #2, shaft length #3
+\newcommand{\cone}[3]{%
+  \filldraw[rigid] (0,0) -- (-#1,#2) -- (-#1,#2+#3)
+    .. controls (-#1/2,#2+#3+0.08) and (0,#2+#3-0.08) .. (#1/2,#2+#3)
+    .. controls (#1*0.75,#2+#3+0.04) .. (#1,#2+#3) -- (#1,#2) -- cycle;
+  \draw[rigid, fill=none] (-#1,#2) .. controls (-#1,#2-0.1) and (#1,#2-0.1) .. (#1,#2);}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legsoil}\sbox{\legsoil}{\tikz[baseline=-0.6ex]\filldraw[soiledge, fill=gimpfill] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legrigid}\sbox{\legrigid}{\tikz[baseline=-0.6ex]\filldraw[rigid] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legroller}\sbox{\legroller}{\tikz[baseline=-0.6ex]{%
+  \path[roller] (0,0.1) circle (0.1); \draw[wall] (-0.2,0) -- (0.2,0);
+  \foreach \x in {-0.15,-0.05,...,0.2} {\draw[hatch] (\x,0) -- (\x-0.07,-0.08);}}}%
+\newsavebox{\legfixed}\sbox{\legfixed}{\tikz[baseline=-0.6ex]{%
+  \draw[wall] (-0.2,0.05) -- (0.2,0.05);
+  \foreach \x in {-0.15,-0.05,...,0.2} {\draw[hatch] (\x,0.05) -- (\x-0.07,-0.03);}}}%
+\begin{tikzpicture}[x={(1.5cm,0cm)}, y={(0.75cm,0.6cm)}, z={(0cm,1.5cm)}, font=\sffamily]
+
+  % the sand block: visible faces, then the hidden edges and the visible edges
+  \fill[gimpfill] (0,0,0) -- (2,0,0) -- (2,0,4) -- (0,0,4) -- cycle;
+  \fill[gimpside] (2,0,0) -- (2,2,0) -- (2,2,4) -- (2,0,4) -- cycle;
+  \fill[gimptop] (0,0,4) -- (2,0,4) -- (2,2,4) -- (0,2,4) -- cycle;
+  \draw[hidden] (0,2,0) -- (0,2,4);
+  \draw[hidden] (0,0,0) -- (0,2,0) -- (2,2,0);
+  \draw[soiledge] (0,0,0) -- (2,0,0) -- (2,2,0) -- (2,2,4) -- (0,2,4) -- (0,0,4) -- cycle;
+  \draw[soiledge] (0,0,4) -- (2,0,4) -- (2,0,0) (2,0,4) -- (2,2,4);
+
+  % boundary conditions: rollers on the vertical faces, a fixed base
+  \rollers{(0,0,3.5)}{-1}
+  \rollers{(0,0,0.5)}{-1}
+  \rollers{(2,2,3.5)}{1}
+  \rollers{(2,2,0.5)}{1}
+  \fixed{(0,0,0)}{(2,0,0)}
+  \fixed{(2,0,0)}{(2,2,0)}
+
+  % dimensions
+  \draw[dim] ($(0,0,0)+(0,-0.55cm)$) -- node[below=1pt] {10 m} ($(2,0,0)+(0,-0.55cm)$);
+  \draw[dim] ($(2,0,0)+(0.4cm,-0.3cm)$) -- node[below right=0pt] {10 m} ($(2,2,0)+(0.4cm,-0.3cm)$);
+  \draw[dim] ($(2,2,0)+(0.85cm,0)$) -- node[right=2pt] {20 m} ($(2,2,4)+(0.85cm,0)$);
+
+  % the cone above the corner at x = y = 0, and its tip enlarged
+  \begin{scope}[shift={(0,0,4.08)}, x={(1cm,0cm)}, y={(0cm,1cm)}]
+    \cone{0.3}{0.52}{1.7}
+    \draw[dim] (-0.3,2.5) -- node[above=1pt] {$d = 0.8$ m} (0.3,2.5);
+    \coordinate (small) at (0,0.3);
+    \coordinate (big) at (2.25,2.3);
+    \draw[zoom] (small) circle (0.5);
+    \draw[zoom] ($(small)!0.5cm!(big)$) -- ($(big)!0.95cm!(small)$);
+    \begin{scope}[shift={(2.25,1.55)}]   % the enlarged tip, at this scope's origin
+      \begin{scope}
+        \clip (0,0.75) circle (0.95);
+        \begin{scope}[scale=2.2]\cone{0.3}{0.52}{1.7}\end{scope}
+      \end{scope}
+      \draw[zoom] (0,0.75) circle (0.95);
+      \draw[dimline, line width=0.8pt, {Latex[length=3.5pt]}-{Latex[length=3.5pt]}] (120:0.55) arc (120:60:0.55);
+      \node[dimpurple, inner sep=1pt] at (0,0.82) {$60^\circ$};
+    \end{scope}
+  \end{scope}
+
+  % axes
+  \begin{scope}[shift={(-0.85,0,0)}]
+    \draw[-{Latex[length=4pt]}, line width=0.6pt] (0,0,0) -- (0.4,0,0) node[right=-1pt] {$x$};
+    \draw[-{Latex[length=4pt]}, line width=0.6pt] (0,0,0) -- (0,0.6,0) node[above right=-2pt] {$y$};
+    \draw[-{Latex[length=4pt]}, line width=0.6pt] (0,0,0) -- (0,0,0.3) node[above=-1pt] {$z$};
+  \end{scope}
+
+  % legend, centred under the block
+  \node[anchor=north, align=center] at ($(1,0,0)+(0.5cm,-1.15cm)$) {%
+    \usebox{\legsoil}~sand\hspace{1.4em}\usebox{\legrigid}~cone\\[0.5em]%
+    \usebox{\legroller}~roller\hspace{1.4em}\usebox{\legfixed}~fixed};
+
+\end{tikzpicture}
+\end{document}

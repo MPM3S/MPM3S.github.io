@@ -24,7 +24,7 @@
         
       
       
-      <link rel="icon" href="../../../img/logo.png">
+      <link rel="icon" href="../../../img/mkdocs/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -96,7 +96,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="MPM for Net Zero" class="md-header__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -343,7 +343,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="MPM for Net Zero" class="md-nav__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     MPM for Net Zero
@@ -1167,6 +1167,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Running the problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2776,6 +2793,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Running the problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -2858,7 +2892,7 @@
 <h1 id="tutorial-3-vertical-penetration-cone-penetration-test">Tutorial 3: Vertical penetration (Cone Penetration Test)<a class="headerlink" href="#tutorial-3-vertical-penetration-cone-penetration-test" title="Permanent link">¶</a></h1>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
 <p>This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements. This tuto</p>
-<p>A rigid cone is pushed quasi-statically <span class="arithmatex">\(4.5\)</span> m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson et al. <sup id="fnref:davidson2022physical"><a class="footnote-ref" href="#fn:davidson2022physical">1</a></sup> and Cerfontaine et al. <sup id="fnref:Cerfontaine2020"><a class="footnote-ref" href="#fn:Cerfontaine2020">2</a></sup>. The problem builds on <a href="../Tutorial_2/">Tutorial 2</a> and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.</p>
+<p>A rigid cone is pushed quasi-statically <span class="arithmatex">\(4.0\)</span> m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson <em>et al.</em> <sup id="fnref:davidson2022physical"><a class="footnote-ref" href="#fn:davidson2022physical">1</a></sup> and Cerfontaine <em>et al.</em> <sup id="fnref:Cerfontaine2020"><a class="footnote-ref" href="#fn:Cerfontaine2020">2</a></sup>. The problem builds on <a href="../Tutorial_2/">Tutorial 2</a> and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.</p>
 <p>This tutorial has four sections:</p>
 <ul>
 <li><a href="#problem-description">Problem description</a></li>
@@ -2868,12 +2902,12 @@
 </ul>
 <h2 id="problem-description">Problem description<a class="headerlink" href="#problem-description" title="Permanent link">¶</a></h2>
 <p>You will define the soil, the cone, the two loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
-<p>Only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at <span class="arithmatex">\(x = y = 0\)</span>, and the two faces that meet there carry roller conditions.</p>
-<p><figure id="_figure-1"><img alt="Initial geometry and mesh for the CPT problem. The cone sits just above the soil surface; the mesh is refined around the rigid body and coarsens with distance." id="fig-cpt-domain" src="../../../img/CPT_domain.png" width="30%"><figcaption>Figure 1: Initial geometry and mesh for the CPT problem. The cone sits just above the soil surface; the mesh is refined around the rigid body and coarsens with distance.</figcaption></figure></p>
-<p><em>Figure reproduced from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
+<p>To reduce the computational cost the symmetry of the problem is exploited and therefore only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at <span class="arithmatex">\(x = y = 0\)</span>, and the two faces that meet there carry roller conditions.</p>
+<p><figure id="_figure-1"><img alt="The quarter model: a \(10 \times 10 \times 20\) m block of sand with the cone above the corner at \(x = y = 0\), where the two symmetry planes meet. Rollers act on the four vertical faces and the base is fixed. The cone, \(0.8\) m across with a \(60^\circ\) tip, is not drawn to scale." id="fig-cpt-domain" src="../../../img/Tutorial_3/cpt_setup.png" width="25%"><figcaption>Figure 1: The quarter model: a \(10 \times 10 \times 20\) m block of sand with the cone above the corner at \(x = y = 0\), where the two symmetry planes meet. Rollers act on the four vertical faces and the base is fixed. The cone, \(0.8\) m across with a \(60^\circ\) tip, is not drawn to scale.</figcaption></figure></p>
+<p><em>Figure adapted from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
 <p><strong>Soil block:</strong> <span class="arithmatex">\(10 \times 10\)</span> m in plan and <span class="arithmatex">\(20\)</span> m deep, starting with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each element. The base element size is given as <span class="arithmatex">\(2.0\)</span> m, but every element size must be a power-of-two multiple of the smallest one - <span class="arithmatex">\(0.025\)</span> m at the cone - so the base size becomes <span class="arithmatex">\(0.025 \times 2^6 = 1.6\)</span> m and the footprint is rounded up to seven elements, <span class="arithmatex">\(11.2 \times 11.2\)</span> m (see <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>).</p>
-<p><strong>Boundary conditions:</strong> Rollers on the four vertical faces - on <span class="arithmatex">\(x = 0\)</span> and <span class="arithmatex">\(y = 0\)</span> these are the symmetry conditions - and a fixed base. The soil surface is free.</p>
-<p><strong>Material:</strong> Willam-Warnke elasto-plastic sand at a relative density of <span class="arithmatex">\(D_r = 38\%\)</span>, with the parameters from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">4</a></sup>:</p>
+<p><strong>Boundary conditions:</strong> Rollers on the four vertical faces and a fixed base, at <span class="arithmatex">\(x = 0\)</span> and <span class="arithmatex">\(y = 0\)</span> these are the symmetry conditions. The soil surface is free.</p>
+<p><strong>Material:</strong> an elasto-plastic sand. Yield is governed by a frictional cone with a Willam-Warnke deviatoric section, and plastic flow by a Drucker-Prager cone set by the dilation angle, so the flow is non-associated. The elastic behaviour is linear in logarithmic (Hencky) strain. The model is described in <a href="../../TechnicalReferences/ElastoPlasticity/#lode-angle-dependent-deviatoric-section">isotropic elasto-plasticity</a>. The sand has a relative density of <span class="arithmatex">\(D_r = 38\%\)</span>, and its parameters come from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">4</a></sup>:</p>
 <div class="centered-table">
 <table>
 <thead>
@@ -2907,6 +2941,12 @@
 <td>Dry unit weight</td>
 <td><span class="arithmatex">\(\gamma = 15 + 4\; D_r/100\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
 <td><span class="arithmatex">\(16.52\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
+<td>-</td>
+</tr>
+<tr>
+<td>Density</td>
+<td><span class="arithmatex">\(\gamma = (15 + 4\; D_r/100)/10\)</span> kg/m<span class="arithmatex">\(^3\)</span></td>
+<td><span class="arithmatex">\(1.652\)</span> kg/m<span class="arithmatex">\(^3\)</span></td>
 <td><code>"density": 1652.0</code></td>
 </tr>
 <tr>
@@ -2946,7 +2986,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <p><strong>Loading:</strong> Two static stages:</p>
 <ul>
 <li><strong>Stage 1 - initial stresses:</strong> the cone is switched off and gravity is ramped up over 5 load steps.</li>
-<li><strong>Stage 2 - penetration:</strong> the cone is placed on the soil surface and pushed down <span class="arithmatex">\(10\)</span> mm per load step for 450 load steps (<span class="arithmatex">\(4.5\)</span> m), with the mesh refined to <span class="arithmatex">\(0.025\)</span> m wherever the cone surface is.</li>
+<li><strong>Stage 2 - penetration:</strong> the cone is placed on the soil surface and pushed down <span class="arithmatex">\(10\)</span> mm per load step for 400 load steps (<span class="arithmatex">\(4.0\)</span> m), with the mesh refined to <span class="arithmatex">\(0.025\)</span> m wherever the cone surface is.</li>
 </ul>
 <p><strong>Solver:</strong> Newton-Raphson, quasi-static, for both stages.</p>
 <h2 id="input-setup">Input setup<a class="headerlink" href="#input-setup" title="Permanent link">¶</a></h2>
@@ -3036,7 +3076,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="json-side">
 <div class="js-text">
 <h3 id="stage-1-initial-stresses">Stage 1: initial stresses<a class="headerlink" href="#stage-1-initial-stresses" title="Permanent link">¶</a></h3>
-<p>The first entry in <code>"analysis"</code> is a static stage with the cone switched off (<code>"rigid bodies": "off"</code>). Gravity is ramped from zero to its full value over 5 load steps, setting up the initial stresses in the sand. <code>"adaptivity": {"type": "uniform"}</code> meshes the whole grid at the <span class="arithmatex">\(1.6\)</span> m base size.</p>
+<p>The first entry in <code>"analysis"</code> is a static stage with the cone switched off (<code>"rigid bodies": "off"</code>). Gravity is ramped from zero to its full value over 5 load steps, setting up the initial stresses in the sand. <code>"adaptivity": {"type": "none"}</code> uses the base mesh: elements of the <span class="arithmatex">\(1.6\)</span> m base size wherever there are material points, and coarser elements in the empty space above the soil.</p>
 <p>The four vertical faces are rollers and the base is fixed. The top face is fixed too, but it lies at twice the soil depth, in the empty space above the soil, so the soil surface stays free.</p>
 </div>
 <div class="js-code">
@@ -3045,7 +3085,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">"load steps"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">"load"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gravity ramp"</span><span class="p">,</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uniform"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">},</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">}</span>
 </code></pre></div>
@@ -3055,13 +3095,13 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="js-text">
 <h3 id="stage-2-cone-penetration">Stage 2: cone penetration<a class="headerlink" href="#stage-2-cone-penetration" title="Permanent link">¶</a></h3>
 <p>The second stage switches the cone on. <code>"rigid body surface placement": "on"</code> moves it vertically at the start of the stage so that its tip rests on the soil surface, and <code>"load": "full"</code> keeps gravity at its full value throughout.</p>
-<p><code>"rigid body boundary conditions"</code> replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of <span class="arithmatex">\(-0.01\)</span> m per load step. Over the 450 load steps the cone penetrates <span class="arithmatex">\(4.5\)</span> m.</p>
+<p><code>"rigid body boundary conditions"</code> replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of <span class="arithmatex">\(-0.01\)</span> m per load step. Over the 400 load steps the cone penetrates <span class="arithmatex">\(4.0\)</span> m.</p>
 <p><code>"rigid body surface"</code> adaptivity refines the elements the cone surface passes through to <span class="arithmatex">\(0.025\)</span> m at every step, so the fine mesh travels down with the cone. For a quicker, coarser first run use <code>"element size": 0.1</code>.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"static"</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">"load steps"</span><span class="p">:</span><span class="w"> </span><span class="mi">450</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">"load steps"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">"load"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">"rigid body surface placement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
@@ -3097,8 +3137,8 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="json-side">
 <div class="js-text">
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h3>
-<p>VTK files for <a href="https://www.paraview.org/">ParaView</a> are written to <code>vtk_CPT_dr38</code> every <span class="arithmatex">\(0.5\%\)</span> of each stage's load steps - every 2 load steps during penetration - and CSV files to <code>csv_CPT_dr38</code> every <span class="arithmatex">\(0.25\%\)</span>, which is every load step here.</p>
-<p>The rigid-body CSV output includes the <code>reaction force</code> on the cone, from which the tip resistance is calculated in <a href="#cone-resistance">Cone resistance</a>.</p>
+<p>VTK files for <a href="https://www.paraview.org/">ParaView</a> are written to <code>vtk_CPT_dr38</code> every <span class="arithmatex">\(0.5\%\)</span> of each stage's load steps, which for 400 load steps in stage 2 cooresponds to every 2 load steps. The CSV files go to <code>csv_CPT_dr38</code> every <span class="arithmatex">\(0.25\%\)</span>, which is every load step here.</p>
+<p>The rigid-body CSV output includes the <code>reaction force</code> on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve. <a href="#cone-resistance">Cone resistance</a> shows how the tip resistance is calculated from it.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -3134,7 +3174,10 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
 </code></pre></div>
 <p>This is a large analysis: with <span class="arithmatex">\(0.025\)</span> m elements around the cone it is intended for a GPU or an HPC node. On a workstation without a GPU, set <code>"GPU": "off"</code> and use <code>"element size": 0.1</code> in stage 2.</p>
-<p>The progress line shows <code>stage 1/2</code> while the initial stresses are set up and <code>stage 2/2</code> during penetration. Its fields are explained in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>.</p>
+<h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
+<p>The progress line works as in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>, showing <code>stage 1/2</code> while the initial stresses are set up and <code>stage 2/2</code> during penetration.</p>
+<p>At the start of stage 2, MPM3S reports the rigid body surface placement: the cone tip (<code>body base</code>, at the origin of <code>CPT.stl</code>) is moved up by <code>Δz</code> to the soil surface (<code>material top</code>), which has settled to <span class="arithmatex">\(19.87\)</span> m under the weight of the sand.</p>
+<p>During penetration <code>N</code> grows as the mesh is refined around the cone. Load steps that do not converge are retried with half the increment (<code>cuts</code>), and material points next to the cone that become too distorted are deleted (<code>del</code>).</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
@@ -3147,6 +3190,9 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">julia&gt; using MPM3S</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="go">stage 1/2 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 1640</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">[ Info: rigid body surface placement: body base 0.0 → material top 19.8694   Δz = 19.8694</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="go">stage 2/2 ████████████ 100.0% t 1.001/1.0 step 460 Δt 0.00222 NR 9 cuts 7 del 2133 N 57067</span>
 </code></pre></div>
 </div>
 </div>
@@ -3161,7 +3207,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_3/paraview_1.png</code> - the quarter soil block and the cone after <em>Apply</em>.</p>
+<p><code>img/Tutorial_3/paraview_1.png</code> - the quarter soil block and the cone after <em>Apply</em>.</p>
 </div>
 </div>
 </div>
@@ -3172,7 +3218,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_3/paraview_2.png</code> - the full soil block after the two reflections.</p>
+<p><code>img/Tutorial_3/paraview_2.png</code> - the full soil block after the two reflections.</p>
 </div>
 </div>
 </div>
@@ -3183,7 +3229,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_3/paraview_3.png</code> - the clipped soil block with the cone visible in the section.</p>
+<p><code>img/Tutorial_3/paraview_3.png</code> - the clipped soil block with the cone visible in the section.</p>
 </div>
 </div>
 </div>
@@ -3194,7 +3240,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_3/paraview_4.png</code> - displacement magnitude on the section at the end of penetration.</p>
+<p><code>img/Tutorial_3/paraview_4.png</code> - displacement magnitude on the section at the end of penetration.</p>
 </div>
 </div>
 </div>
@@ -3205,7 +3251,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/tutorial_3/paraview_5.png</code> - vertical stress in the soil and contact force on the cone surface.</p>
+<p><code>img/Tutorial_3/paraview_5.png</code> - vertical stress in the soil and contact force on the cone surface.</p>
 </div>
 </div>
 </div>
@@ -3214,17 +3260,17 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="arithmatex">\[
 q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 \]</div>
-<p>and the penetration depth is the height of the soil surface, <span class="arithmatex">\(20\)</span> m, minus <code>body1_position_z</code>. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the <code>time</code> column is the load fraction, which runs from 0 to 1 over the <span class="arithmatex">\(4.5\)</span> m of penetration.</p>
+<p>and the penetration depth is the height at which the cone is placed on the soil, minus <code>body1_position_z</code>. The sand settles under its own weight in stage 1, so the surface is at about <span class="arithmatex">\(19.87\)</span> m rather than <span class="arithmatex">\(20\)</span> m; MPM3S prints the exact value as <code>material top</code> in the <code>rigid body surface placement</code> message at the start of stage 2. <span class="arithmatex">\(F_z\)</span> includes the friction along the sleeve as well as the force on the tip, which is why <span class="arithmatex">\(q_c\)</span> is approximate; the <a href="#published-results">published results</a> were calculated in the same way. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the <code>time</code> column is the load fraction, which runs from 0 to 1 over the <span class="arithmatex">\(4.0\)</span> m of penetration.</p>
 <div class="admonition example">
 <p class="admonition-title">Placeholder: results plot</p>
-<p><code>img/tutorial_3/cone_resistance.png</code> - <span class="arithmatex">\(q_c\)</span> against penetration depth from <code>rigid_body.csv</code>, compared with the centrifuge data.</p>
+<p><code>img/Tutorial_3/cone_resistance.png</code> - <span class="arithmatex">\(q_c\)</span> against penetration depth from <code>rigid_body.csv</code>, compared with the centrifuge data.</p>
 </div>
 <h3 id="published-results">Published results<a class="headerlink" href="#published-results" title="Permanent link">¶</a></h3>
 <p>The deformed mesh and GIMP displacement field at <span class="arithmatex">\(1.2\)</span> m penetration from <sup id="fnref2:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup> is shown below: the displacement magnitude rises from <span class="arithmatex">\(0\)</span> m (blue) in the far field to roughly <span class="arithmatex">\(0.5\)</span> m (red) immediately under the cone tip.</p>
-<p><figure id="_figure-2"><img alt="CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone." id="fig-cpt-final" src="../../../img/CPT_result.png" width="50%"><figcaption>Figure 2: CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone." id="fig-cpt-final" src="../../../img/Tutorial_3/CPT_result.png" width="50%"><figcaption>Figure 2: CPT penetrated 1.2 m. The displacement magnitude is shown on the GIMPs - blue 0 m, red 0.5 m - with the adaptive mesh visible around the cone.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref3:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
 <p>In the same study the cone-tip resistance <span class="arithmatex">\(q_c\)</span>, normalised by the cone radius <span class="arithmatex">\(r\)</span>, was compared against the centrifuge measurements of Davidson et al. <sup id="fnref2:davidson2022physical"><a class="footnote-ref" href="#fn:davidson2022physical">1</a></sup> and Cerfontaine et al. <sup id="fnref2:Cerfontaine2020"><a class="footnote-ref" href="#fn:Cerfontaine2020">2</a></sup>, with convergence checked by halving the smallest element size.</p>
-<p><figure id="_figure-3"><img alt="Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below." id="fig-cpt-results" src="../../../img/cpt_results.png" width="70%"><figcaption>Figure 3: Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below.</figcaption></figure></p>
+<p><figure id="_figure-3"><img alt="Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below." id="fig-cpt-results" src="../../../img/Tutorial_3/cpt_results.png" width="70%"><figcaption>Figure 3: Cone tip load with depth, normalised: numerical results for several values of the minimum element size dx_min compared against the experimental data. Refinement converges the response from below.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref4:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
 <div class="footnote">
 <hr>

@@ -20,7 +20,7 @@
         
       
       
-      <link rel="icon" href="../../../img/logo.png">
+      <link rel="icon" href="../../../img/mkdocs/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -92,7 +92,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="MPM for Net Zero" class="md-header__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -337,7 +337,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="MPM for Net Zero" class="md-nav__button md-logo" aria-label="MPM for Net Zero" data-md-component="logo">
       
-  <img src="../../../img/logo.png" alt="logo">
+  <img src="../../../img/mkdocs/logo.png" alt="logo">
 
     </a>
     MPM for Net Zero
@@ -2525,9 +2525,9 @@
 <p>You will define the geometry, mesh, boundary conditions, material, rigid body and solver in the input file. All the inputs to the simulation are defined using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
 <p>Only half of the domain is modelled, exploiting the symmetry of the plough in <span class="arithmatex">\(x\)</span>. The plough is held at a fixed embedment depth of <span class="arithmatex">\(D = 1.85\)</span> m and is dragged through the soil over a total horizontal travel of <span class="arithmatex">\(20\)</span> m at a step size of <span class="arithmatex">\(0.025\)</span> m.</p>
 <div class="grid">
-<p><figure id="_figure-1"><img alt="Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C)." id="fig-plough-setup" src="../../../img/plough_figure_1.png" width="100%"><figcaption>Figure 1: Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).</figcaption></figure></p>
-<p><figure id="_figure-2"><img alt="Side view of Signorini boundary conditions." id="fig-plough-setup-BCs" src="../../../img/plough_figure_2.png" width="100%"><figcaption>Figure 2: Side view of Signorini boundary conditions.</figcaption></figure></p>
-<p><figure id="_figure-3"><img alt="Schematic of the plough" id="fig-plough_schematic" src="../../../img/plough_schematic.png" width="100%"><figcaption>Figure 3: Schematic of the plough</figcaption></figure></p>
+<p><figure id="_figure-1"><img alt="Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C)." id="fig-plough-setup" src="../../../img/Tutorial_4/plough_figure_1.png" width="100%"><figcaption>Figure 1: Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="Side view of Signorini boundary conditions." id="fig-plough-setup-BCs" src="../../../img/Tutorial_4/plough_figure_2.png" width="100%"><figcaption>Figure 2: Side view of Signorini boundary conditions.</figcaption></figure></p>
+<p><figure id="_figure-3"><img alt="Schematic of the plough" id="fig-plough_schematic" src="../../../img/Tutorial_4/plough_schematic.png" width="100%"><figcaption>Figure 3: Schematic of the plough</figcaption></figure></p>
 </div>
 <p><strong>Mesh:</strong> Half-symmetric domain dimensions <span class="arithmatex">\(L_x = 20\)</span> m, <span class="arithmatex">\(L_y = 10\)</span> m, <span class="arithmatex">\(L_z = 7.5\)</span> m. As in <a href="../Tutorial_3/">Tutorial 3</a>, adaptive octree refinement is driven by the rigid body position. The smallest element size near the plough surface is <span class="arithmatex">\(dx_{\min}\)</span>, and the surrounding "buffer" region uses elements of size <span class="arithmatex">\(2\, dx_{\min}\)</span>. For a quick first run set <span class="arithmatex">\(dx_{\min} = 0.2\)</span> m; for a high-accuracy comparison against the experimental data drop to <span class="arithmatex">\(dx_{\min} = 0.075\)</span> m. Try the values <span class="arithmatex">\(dx_{\min} \in \{0.075,\, 0.15,\, 0.2\}\)</span> m to reproduce the validation envelope reported in <sup id="fnref2:robinson2021cone"><a class="footnote-ref" href="#fn:robinson2021cone">1</a></sup>.</p>
 <p><strong>Initial GIMP distribution:</strong> <span class="arithmatex">\(2\times2\times2\)</span> material points within each element, filling the soil domain.</p>
@@ -2701,10 +2701,10 @@
 <h2 id="deploying-and-running-the-problem">Deploying and running the problem<a class="headerlink" href="#deploying-and-running-the-problem" title="Permanent link">¶</a></h2>
 <h2 id="viewing-the-results">Viewing the results<a class="headerlink" href="#viewing-the-results" title="Permanent link">¶</a></h2>
 <p>The deformed soil state at <span class="arithmatex">\(10\)</span> m plough travel, with the GIMPs coloured by <span class="arithmatex">\(x\)</span>-displacement (red 3 m, blue 0 m), shows how material flows around the wedge and is pushed forward (see <a href="#fig-plough-final">Figure 4</a>):</p>
-<p><figure id="_figure-4"><img alt="Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m." id="fig-plough-final" src="../../../img/at_10_m_plough.png" width="70%"><figcaption>Figure 4: Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.</figcaption></figure></p>
+<p><figure id="_figure-4"><img alt="Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m." id="fig-plough-final" src="../../../img/Tutorial_4/at_10_m_plough.png" width="70%"><figcaption>Figure 4: Deformed GIMP positions coloured according to x-displacement (red 3 m, blue 0 m) for a plough embedded 10 m into the soil at dx = 0.075 m.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref:bird_dynamic_2025"><a class="footnote-ref" href="#fn:bird_dynamic_2025">4</a></sup>.</em></p>
 <p>After post-processing each run, plot the horizontal pull force as a function of plough position and overlay the centrifuge data of <sup id="fnref4:robinson2021cone"><a class="footnote-ref" href="#fn:robinson2021cone">1</a></sup> for the three mesh refinements - see <a href="#fig-plough-results">Figure 5</a>:</p>
-<p><figure id="_figure-5"><img alt="Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m." id="fig-plough-results" src="../../../img/plough_result.png" width="70%"><figcaption>Figure 5: Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.</figcaption></figure></p>
+<p><figure id="_figure-5"><img alt="Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m." id="fig-plough-results" src="../../../img/Tutorial_4/plough_result.png" width="70%"><figcaption>Figure 5: Comparison of numerical pull force vs plough position against centrifuge data, for the three mesh refinements dx = 0.075, 0.15, 0.2 m.</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref2:bird_dynamic_2025"><a class="footnote-ref" href="#fn:bird_dynamic_2025">4</a></sup>.</em></p>
 <p>The first <span class="arithmatex">\(7.45\)</span> m of travel is the embedment phase, during which the force oscillates as different parts of the plough engage with the soil. Beyond that the force reaches a steady-state regime - this is the regime to compare against the experimental measurement. Refinement consistently moves the numerical result towards the experimental data; <span class="arithmatex">\(dx \in \{0.075,\, 0.15\}\)</span> m give good agreement with no parameter tuning.</p>
 <div class="footnote">
