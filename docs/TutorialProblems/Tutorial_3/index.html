@@ -3149,6 +3149,10 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 </div>
 <h2 id="deploying-and-running-the-problem">Deploying and running the problem<a class="headerlink" href="#deploying-and-running-the-problem" title="Permanent link">¶</a></h2>
 <p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language. See the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S, and <a href="../Tutorial_1/#deploying-and-running-the-problem">Tutorial 1</a> for a first, small run.</p>
+<div class="admonition note">
+<p class="admonition-title">Working in the MPM3S folder</p>
+<p>Julia runs in the <code>MPM3S</code> folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from <code>validation_data_and_jsons/input_data_CPT_dr38.json</code>, and the output folders <code>vtk_CPT_dr38</code> and <code>csv_CPT_dr38</code> are written to, and read back from, the <code>MPM3S</code> folder. The CSV files exported from ParaView are saved in <code>vtk_CPT_dr38</code> too.</p>
+</div>
 <div class="json-side-header">
 <div>Deployment instructions</div>
 <div><code>terminal</code></div>

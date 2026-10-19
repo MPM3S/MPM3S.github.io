@@ -1,0 +1,118 @@
+% Rolling sphere (Tutorial 5), in the style of cube_setup.png and cpt_setup.png.
+% The domain is a 12.8 x 1.6 x 0.8 m slab of 0.8 m elements with a 2 x 2 x 2 grid
+% of GIMPs in each. The four elements beneath the sphere are refined once (shown
+% schematically; the finest elements are 0.025 m), and their GIMPs follow the refined
+% mesh, two per direction in every element. The sphere, radius 1 m, has its centre
+% at (1.5, 0.8, 1.8) m, and gravity is tilted 45 degrees towards +x. The ends and
+% the base of the slab are fixed (only the base is drawn); its sides are rollers.
+% Lengths are in units of the 0.8 m element.
+% Build: pdflatex sphere_setup.tex
+%        pdftocairo -png -transp -r 300 -singlefile sphere_setup.pdf sphere_setup
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc}
+
+\definecolor{gridgrey}{RGB}{185,185,185}
+\definecolor{activeorange}{RGB}{245,130,32}
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{gimpside}{RGB}{158,158,212}
+\definecolor{gimptop}{RGB}{204,204,238}
+\definecolor{dimpurple}{RGB}{104,36,109}
+\definecolor{rigidred}{RGB}{237,28,36}
+
+\tikzset{
+  mesh/.style={draw=gridgrey, line width=0.6pt},
+  hidden/.style={draw=gridgrey, line width=0.45pt, dash pattern=on 2pt off 1.5pt},
+  gimpedge/.style={draw=mpnavy, line width=0.3pt, line join=round},
+  activenode/.style={fill=activeorange, draw=black, line width=0.35pt},
+  dimline/.style={draw=dimpurple, line width=1pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  rigid/.style={draw=rigidred, line width=1.4pt},
+  rigidthin/.style={draw=rigidred, line width=0.5pt},
+  wall/.style={draw=black, line width=0.8pt},
+  hatch/.style={draw=black, line width=0.4pt},
+}
+
+\newcommand{\mpoint}[1]{\fill[mpnavy] #1 circle (0.9pt);}
+\newcommand{\activenode}[1]{\path[activenode] #1 circle (1.8pt);}
+% one GIMP domain, lower corner (#1,#2,#3), side #4: the material point at the
+% centre, then the three visible faces
+\newcommand{\gimp}[4]{%
+  \mpoint{({#1+#4/2},{#2+#4/2},{#3+#4/2})}
+  \filldraw[gimpedge, fill=gimpfill, fill opacity=0.4]
+    (#1,#2,#3) -- ({#1+#4},#2,#3) -- ({#1+#4},#2,{#3+#4}) -- (#1,#2,{#3+#4}) -- cycle;
+  \filldraw[gimpedge, fill=gimpside, fill opacity=0.4]
+    ({#1+#4},#2,#3) -- ({#1+#4},{#2+#4},#3) -- ({#1+#4},{#2+#4},{#3+#4}) -- ({#1+#4},#2,{#3+#4}) -- cycle;
+  \filldraw[gimpedge, fill=gimptop, fill opacity=0.4]
+    (#1,#2,{#3+#4}) -- ({#1+#4},#2,{#3+#4}) -- ({#1+#4},{#2+#4},{#3+#4}) -- (#1,{#2+#4},{#3+#4}) -- cycle;}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legmp}\sbox{\legmp}{\tikz[baseline=-0.6ex]\fill[mpnavy] (0,0) circle (1.4pt);}%
+\newsavebox{\leggimp}\sbox{\leggimp}{\tikz[baseline=-0.6ex]\filldraw[draw=mpnavy, line width=0.5pt, fill=gimpfill, fill opacity=0.55] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legnode}\sbox{\legnode}{\tikz[baseline=-0.6ex]\path[activenode] (0,0) circle (2.4pt);}%
+\newsavebox{\legrigid}\sbox{\legrigid}{\tikz[baseline=-0.6ex]\filldraw[rigid, fill=rigidred!10] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legfixed}\sbox{\legfixed}{\tikz[baseline=-0.6ex]{%
+  \draw[wall] (-0.2,0.05) -- (0.2,0.05);
+  \foreach \x in {-0.15,-0.05,...,0.2} {\draw[hatch] (\x,0.05) -- (\x-0.07,-0.03);}}}%
+\begin{tikzpicture}[x={(0.8cm,0cm)}, y={(0.4cm,0.32cm)}, z={(0cm,0.8cm)}, font=\sffamily]
+
+  % the hidden mesh lines and nodes, on the back, the base and inside the slab
+  \foreach \y in {1,2} {\draw[hidden] (0,\y,0) -- (16,\y,0);}
+  \foreach \x in {0,...,15} {
+    \draw[hidden] (\x,0,0) -- (\x,2,0);
+    \foreach \y in {1,2} {\draw[hidden] (\x,\y,0) -- (\x,\y,1); \path[activenode, opacity=0.45] (\x,\y,0) circle (1.8pt);}}
+
+  % the GIMP domains, back to front: the elements before, beneath and after the sphere
+  \foreach \y in {1.5,1,0.5,0} {\foreach \x in {0,0.5} {\foreach \z in {0,0.5} {\gimp{\x+0.0125}{\y+0.0125}{\z+0.0125}{0.475}}}}
+  \foreach \y in {1.75,1.5,...,0} {\foreach \x in {1,1.25,...,2.8} {\foreach \z in {0,0.25,0.5,0.75} {\gimp{\x+0.00625}{\y+0.00625}{\z+0.00625}{0.2375}}}}
+  \foreach \y in {1.5,1,0.5,0} {\foreach \x in {3,3.5,...,15.6} {\foreach \z in {0,0.5} {\gimp{\x+0.0125}{\y+0.0125}{\z+0.0125}{0.475}}}}
+
+  % the visible mesh: front, top and right-hand faces, with the refined elements
+  \foreach \x in {0,...,16,1.5,2.5} {\draw[mesh] (\x,0,0) -- (\x,0,1) -- (\x,2,1);}
+  \foreach \z in {0,1} {\draw[mesh] (0,0,\z) -- (16,0,\z);}
+  \draw[mesh] (1,0,0.5) -- (3,0,0.5);
+  \foreach \y in {1,2} {\draw[mesh] (0,\y,1) -- (16,\y,1);}
+  \foreach \y in {0.5,1.5} {\draw[mesh] (1,\y,1) -- (3,\y,1);}
+  \foreach \y in {0,1,2} {\draw[mesh] (16,\y,0) -- (16,\y,1);}
+  \draw[mesh] (16,0,0) -- (16,2,0);
+
+  % the fixed base
+  \draw[wall] (0,0,0) -- (16,0,0);
+  \foreach \t in {0.01,0.03,...,1.0} {\draw[hatch] ($(0,0,0)!\t!(16,0,0)$) -- ++(-0.1cm,-0.14cm);}
+
+  % active nodes on the visible faces
+  \foreach \i in {0,...,16} {\foreach \z in {0,1} {\activenode{(\i,0,\z)}} \foreach \j in {1,2} {\activenode{(\i,\j,1)}}}
+  \foreach \p in {(1.5,0,0),(2.5,0,0),(1.5,0,1),(2.5,0,1),(1,0,0.5),(1.5,0,0.5),(2,0,0.5),(2.5,0,0.5),(3,0,0.5)} {\activenode{\p}}
+  \foreach \x in {1.5,2.5} {\foreach \y in {0.5,1,1.5,2} {\activenode{(\x,\y,1)}}}
+  \foreach \x in {1,2,3} {\foreach \y in {0.5,1.5} {\activenode{(\x,\y,1)}}}
+  \activenode{(16,1,0)} \activenode{(16,2,0)}
+
+  % the sphere, centred at (1.5, 0.8, 1.8) m, resting on the domain
+  \coordinate (c) at (1.875,1,2.25);
+  \filldraw[rigid, fill=rigidred!10, fill opacity=0.75] (c) circle (1.0cm);
+  \draw[rigidthin] ($(c)+(-1.0cm,0)$) arc[start angle=180, end angle=360, x radius=1.0cm, y radius=0.27cm];
+  \draw[rigidthin, dash pattern=on 2pt off 1.5pt] ($(c)+(1.0cm,0)$) arc[start angle=0, end angle=180, x radius=1.0cm, y radius=0.27cm];
+  \fill[rigidred] (c) circle (1.5pt);
+
+  % gravity, tilted 45 degrees from the vertical towards +x
+  \draw[dimline, dash pattern=on 2pt off 1.5pt, line width=0.6pt] (c) -- ++(0,-0.8cm);
+  \draw[dimline, -{Latex[length=6pt, width=5pt]}, line width=1.3pt] (c) -- ++(0.6cm,-0.6cm) coordinate (gtip);
+  \draw[dimline, line width=0.6pt] ($(c)+(0,-0.5cm)$) arc[start angle=-90, end angle=-45, radius=0.5cm];
+  \node[dimpurple, anchor=west, align=left] (glabel) at ($(c)+(1.25cm,0.35cm)$) {$g = 9.81$ m/s$^2$,\\$45^\circ$ from vertical};
+  \draw[dimpurple, line width=0.4pt] (glabel.west) -- ($(gtip)+(0.06cm,0.06cm)$);
+
+  % dimensions
+  \draw[dim] ($(c)+(-1.0cm,1.3cm)$) -- node[above=1pt] {2 m} ($(c)+(1.0cm,1.3cm)$);
+  \draw[dim] ($(0,0,0)+(0,-0.5cm)$) -- node[below=1pt] {12.8 m} ($(16,0,0)+(0,-0.5cm)$);
+  \draw[dim] ($(16,0,0)+(0.35cm,-0.3cm)$) -- node[below right=0pt] {1.6 m} ($(16,2,0)+(0.35cm,-0.3cm)$);
+  \draw[dim] ($(16,2,0)+(0.4cm,0)$) -- node[right=2pt] {0.8 m} ($(16,2,1)+(0.4cm,0)$);
+
+  % legend
+  \node[anchor=north] at ($(8,0,0)+(0,-1.25cm)$) {%
+    \usebox{\legmp}~material point\hspace{1.4em}\usebox{\leggimp}~GIMP domain\hspace{1.4em}%
+    \usebox{\legnode}~active node\hspace{1.4em}\usebox{\legrigid}~sphere\hspace{1.4em}\usebox{\legfixed}~fixed};
+
+\end{tikzpicture}
+\end{document}

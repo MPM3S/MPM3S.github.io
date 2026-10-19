@@ -1243,6 +1243,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Running the problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -1263,32 +1280,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#visualising-the-output-in-paraview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Visualising the output in ParaView
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#distance-travelled" class="md-nav__link">
     <span class="md-ellipsis">
       
         Distance travelled
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#published-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Published results
       
     </span>
   </a>
@@ -2754,6 +2749,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Running the problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -2774,32 +2786,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#visualising-the-output-in-paraview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Visualising the output in ParaView
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#distance-travelled" class="md-nav__link">
     <span class="md-ellipsis">
       
         Distance travelled
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#published-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Published results
       
     </span>
   </a>
@@ -2847,8 +2837,8 @@
 <h2 id="problem-description">Problem description<a class="headerlink" href="#problem-description" title="Permanent link">¶</a></h2>
 <p>You will define the slope, the sphere, the dynamic stage, the solver and the output in the input file. All the inputs to the simulation are defined using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
 <p>To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by <span class="arithmatex">\(45^\circ\)</span> instead (see <a href="#fig-sphere-setup">Figure 1</a>). The sphere then rolls along <span class="arithmatex">\(+x\)</span> under the in-plane component of gravity.</p>
-<p><figure id="_figure-1"><img alt="Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion." id="fig-sphere-setup" src="../../../img/Tutorial_5/sphere_slope.png" width="70%"><figcaption>Figure 1: Setup of the rolling sphere problem: a horizontal stiff slope with the sphere placed on top and gravity tilted to 45 degrees so the in-plane component drives the motion.</figcaption></figure></p>
-<p><em>Figure reproduced from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
+<p><figure id="_figure-1"><img alt="The rolling sphere problem: a \(12.8 \times 1.6 \times 0.8\) m slab of \(0.8\) m elements with a \(2 \times 2 \times 2\) grid of GIMPs in each. The elements beneath the sphere are refined, shown schematically as one level (the finest elements are \(0.025\) m), and their GIMPs follow the refined mesh. The sphere, of radius \(1\) m, rests on the slab, and gravity is tilted \(45^\circ\) towards \(+x\). The ends and base of the slab are fixed and its sides are rollers." id="fig-sphere-setup" src="../../../img/Tutorial_5/sphere_setup.png" width="70%"><figcaption>Figure 1: The rolling sphere problem: a \(12.8 \times 1.6 \times 0.8\) m slab of \(0.8\) m elements with a \(2 \times 2 \times 2\) grid of GIMPs in each. The elements beneath the sphere are refined, shown schematically as one level (the finest elements are \(0.025\) m), and their GIMPs follow the refined mesh. The sphere, of radius \(1\) m, rests on the slab, and gravity is tilted \(45^\circ\) towards \(+x\). The ends and base of the slab are fixed and its sides are rollers.</figcaption></figure></p>
+<p><em>Figure adapted from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p><strong>Slope:</strong> A slab <span class="arithmatex">\(12.8\)</span> m long, <span class="arithmatex">\(1.6\)</span> m wide and <span class="arithmatex">\(0.8\)</span> m thick, made of <span class="arithmatex">\(0.8\)</span> m base elements with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each. The elements the sphere touches are refined to <span class="arithmatex">\(0.025\)</span> m.</p>
 <p><strong>Boundary conditions:</strong> The two ends of the slab (<span class="arithmatex">\(x = 0\)</span> and <span class="arithmatex">\(x = 12.8\)</span> m) and its base are fixed, and its two sides are rollers. The top surface is free.</p>
 <p><strong>Material:</strong> A very stiff Hencky elastic slab: Young's modulus <span class="arithmatex">\(E = 10^9\)</span> Pa, Poisson's ratio <span class="arithmatex">\(\nu = 0\)</span> and density <span class="arithmatex">\(\rho = 1000\)</span> kg/m<span class="arithmatex">\(^3\)</span>. It deforms negligibly, but modelling it with material points is what exercises the contact between a rigid body and a refined mesh - the point of the test.</p>
@@ -2937,11 +2927,11 @@ d_x(t) =
 <div class="json-side">
 <div class="js-text">
 <h3 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">¶</a></h3>
-<p>The friction coefficient between the sphere and the slab. Change it between runs to reproduce the friction sweep, and change the output directory names to match so the runs do not overwrite each other.</p>
+<p>The friction coefficient between the sphere and the slab, here <span class="arithmatex">\(\mu = 0.2\)</span>. This is below <span class="arithmatex">\(\tan(45^\circ)/3.5 \approx 0.286\)</span>, so the sphere slips as it rolls. Change it between runs to reproduce the friction sweep, and change the output directory names to match so the runs do not overwrite each other.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">"friction coefficient"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">"friction coefficient"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">}</span>
 </code></pre></div>
 </div>
@@ -2998,16 +2988,16 @@ d_x(t) =
 <div class="json-side">
 <div class="js-text">
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h3>
-<p><code>"vtk percent": 0</code> writes a VTK frame at every time step, with every field, to <code>vtk_sphere_mu0.0</code>. The CSV output writes no material-point files (an empty list) but records the sphere's position, velocity, acceleration and angular velocity in <code>csv_sphere_mu0.0/rigid_body.csv</code>.</p>
+<p><code>"vtk percent": 0</code> writes a VTK frame at every time step, with every field, to <code>vtk_sphere_mu0.2</code>. The CSV output writes no material-point files (an empty list) but records the sphere's position, velocity, acceleration and angular velocity in <code>csv_sphere_mu0.2/rigid_body.csv</code>.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_sphere_mu0.0"</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_sphere_mu0.2"</span><span class="p">,</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">"vtk percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">"csv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_sphere_mu0.0"</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_sphere_mu0.2"</span><span class="p">,</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">"csv percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="nt">"csv material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="nt">"csv rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"acceleration"</span><span class="p">,</span><span class="w"> </span><span class="s2">"angular velocity"</span><span class="p">]</span>
@@ -3017,6 +3007,10 @@ d_x(t) =
 </div>
 <h2 id="deploying-and-running-the-problem">Deploying and running the problem<a class="headerlink" href="#deploying-and-running-the-problem" title="Permanent link">¶</a></h2>
 <p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language. See the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S, and <a href="../Tutorial_1/#deploying-and-running-the-problem">Tutorial 1</a> for a first, small run.</p>
+<div class="admonition note">
+<p class="admonition-title">Working in the MPM3S folder</p>
+<p>Julia runs in the <code>MPM3S</code> folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from <code>validation_data_and_jsons/input_data_sphere.json</code>, and the output folders <code>vtk_sphere_mu0.2</code> and <code>csv_sphere_mu0.2</code> are written to, and read back from, the <code>MPM3S</code> folder.</p>
+</div>
 <div class="json-side-header">
 <div>Deployment instructions</div>
 <div><code>terminal</code></div>
@@ -3032,7 +3026,9 @@ d_x(t) =
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");
 </code></pre></div>
 <p>The analysis runs on a workstation CPU but takes a while; set <code>"GPU": "on"</code> if a GPU is available.</p>
-<p>The progress line shows the simulated time out of the <span class="arithmatex">\(1\)</span> s final time. Its fields are explained in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>.</p>
+<h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
+<p>Before the first time step, MPM3S reports the rigid body surface placement: the lowest point of the sphere (<code>body base</code>) and the top of the slab (<code>material top</code>) are both at <span class="arithmatex">\(0.8\)</span> m, so the sphere is moved by only <code>Δz = 1.87755e-7</code> m.</p>
+<p>The progress line works as in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>, except that in a dynamic stage <code>t</code> is the simulated time, out of the <span class="arithmatex">\(1\)</span> s final time. The <span class="arithmatex">\(200\)</span> time steps of <code>Δt 0.005</code> s end at <code>step 201</code>, each converging in about 4 Newton-Raphson iterations (<code>NR</code>) with no steps cut or material points deleted. <code>N</code> is large, over <span class="arithmatex">\(100\,000\)</span> nodes, because the mesh is refined to <span class="arithmatex">\(0.025\)</span> m around the sphere.</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
@@ -3045,76 +3041,66 @@ d_x(t) =
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="go">julia&gt; using MPM3S</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 1.87755e-7</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 201 Δt 0.005 NR 4 cuts 0 del 0 N 109572</span>
 </code></pre></div>
 </div>
 </div>
 </div>
 <h2 id="viewing-the-results">Viewing the results<a class="headerlink" href="#viewing-the-results" title="Permanent link">¶</a></h2>
-<h3 id="visualising-the-output-in-paraview">Visualising the output in ParaView<a class="headerlink" href="#visualising-the-output-in-paraview" title="Permanent link">¶</a></h3>
-<p>The walkthrough below uses the same ParaView controls as <a href="../Tutorial_1/#visualising-the-output-in-paraview">Tutorial 1</a>. Only active material points are written, so the slab appears as a short section that travels with the sphere: the boundary track has deleted the slab behind it, and the slab ahead has not yet been reached.</p>
-<div class="walkthrough">
-<div>
-<p><strong>1. Open the slab and the sphere.</strong> <em>File → Open</em>, go to <code>vtk_sphere_mu0.0</code>, hold <code>Ctrl</code> and select the <code>mps_1_..vtu</code> (slab) and <code>surface_..vtu</code> (sphere) series, click <em>OK</em> and then <em>Apply</em>.</p>
-</div>
-<div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_5/paraview_1.png</code> - the active slab section and the sphere at the first output step.</p>
-</div>
-</div>
-</div>
-<div class="walkthrough">
-<div>
-<p><strong>2. Show the refinement.</strong> Select <code>mps_1_..vtu</code> and change its <em>Representation</em> to <em>Surface With Edges</em>. Each box is one material point, so the refinement shows as a patch of much smaller boxes under the sphere.</p>
-</div>
-<div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_5/paraview_2.png</code> - close-up of the refined material points beneath the sphere.</p>
-</div>
-</div>
-</div>
-<div class="walkthrough">
-<div>
-<p><strong>3. Colour the sphere by velocity.</strong> Select <code>surface_..vtu</code> and set <em>Coloring</em> to <code>velocity</code> → <code>Magnitude</code>.</p>
-</div>
-<div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_5/paraview_3.png</code> - the sphere coloured by velocity magnitude.</p>
-</div>
-</div>
-</div>
-<div class="walkthrough">
-<div>
-<p><strong>4. Play the animation.</strong> Click <em>Play</em> (<code>▶</code>) in the time toolbar to watch the sphere roll down the slope, with the refined patch and the active slab section moving with it. Click <em>Rescale to Data Range</em> on the last step so the colour scale covers the final velocity.</p>
-</div>
-<div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_5/paraview_4.png</code> - the sphere and the active slab section at the final step.</p>
-</div>
-</div>
+<div class="admonition note">
+<p class="admonition-title">Watching the sphere roll</p>
+<p>The VTK files in <code>path/to/MPM3S/vtk_sphere_mu0.2</code> can be opened in ParaView to watch the sphere roll, following the same steps as for the compression cube in <a href="../Tutorial_2/#visualising-the-output-in-paraview">Tutorial 2</a>. Everything needed to check the result is in <code>rigid_body.csv</code>, used below.</p>
 </div>
 <h3 id="distance-travelled">Distance travelled<a class="headerlink" href="#distance-travelled" title="Permanent link">¶</a></h3>
-<p><code>csv_sphere_mu0.0/rigid_body.csv</code> has one row per time step. The distance travelled is $d_x = $ <code>body1_position_x</code> <span class="arithmatex">\(- 1.5\)</span> m, to be plotted against the <code>time</code> column and compared with <span class="arithmatex">\(d_x(t)\)</span> from the <a href="#problem-description">Problem description</a>. When the sphere sticks, it rolls without slipping, so <code>body1_angular velocity_y</code> equals <code>body1_velocity_x</code> (the radius is <span class="arithmatex">\(1\)</span> m); when it slips, the angular velocity lags behind.</p>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: results plot</p>
-<p><code>img/Tutorial_5/distance_travelled.png</code> - <span class="arithmatex">\(d_x\)</span> against time for each friction coefficient, with the analytical solution.</p>
-</div>
-<h3 id="published-results">Published results<a class="headerlink" href="#published-results" title="Permanent link">¶</a></h3>
-<p>The figures below are reproduced from <sup id="fnref2:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>. The deformed slope and GIMP positions show how the refinement follows the sphere down the slope (left, <a href="#fig-sphere-3d">Figure 2</a>), and the simulated <span class="arithmatex">\(d_x(t)\)</span> traces are overlaid on the analytical solution for each friction coefficient, in both the slipping and sticking regimes (right, <a href="#fig-sphere-results">Figure 3</a>).</p>
-<div class="grid">
-<p><figure id="_figure-2"><img alt="GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track." id="fig-sphere-3d" src="../../../img/Tutorial_5/rolling_sphere_3D.png" width="100%"><figcaption>Figure 2: GIMP positions and sphere for mu = 1.0, with red corresponding to the maximum displacement of 1e-4 m. The refinement persists along the sphere's track.</figcaption></figure></p>
-<p><figure id="_figure-3"><img alt="Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}." id="fig-sphere-results" src="../../../img/Tutorial_5/sphere_error.png" width="100%"><figcaption>Figure 3: Comparison of numerical sphere displacement against the analytical slip/stick solution for the friction sweep mu in {0, 0.1, 0.2, 0.4, 1.0}.</figcaption></figure></p>
-</div>
-<p><em>Figures reproduced from <sup id="fnref3:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
-<p>The agreement is excellent across the full friction range and across the slip/stick boundary at <span class="arithmatex">\(\tan(45^\circ)/3.5 \approx 0.286\)</span>, validating the dynamic frictional contact formulation in the presence of hanging nodes.</p>
+<p><code>csv_sphere_mu0.2/rigid_body.csv</code> has one row per time step. The distance travelled is $d_x = $ <code>body1_position_x</code> <span class="arithmatex">\(- 1.5\)</span> m, to be plotted against the <code>time</code> column and compared with <span class="arithmatex">\(d_x(t)\)</span> from the <a href="#problem-description">Problem description</a>. When the sphere sticks, it rolls without slipping, so <code>body1_angular velocity_y</code> equals <code>body1_velocity_x</code> (the radius is <span class="arithmatex">\(1\)</span> m); when it slips, the angular velocity lags behind.</p>
+<p>The short Julia script below compares the distance travelled with the analytical solution. Run it from the <code>MPM3S</code> folder, either by copying it into the REPL or by saving it as <code>distance.jl</code> and running <code>include("distance.jl")</code>. It needs <a href="https://docs.juliaplots.org/">Plots</a>, installed as described in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c"># one row per time step for the sphere's point, body1</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_sphere_mu0.2/rigid_body.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">header</span><span class="p">))]</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">t</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"time"</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"body1_position_x"</span><span class="p">)</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="mf">1.5</span><span class="w">   </span><span class="c"># distance travelled (m)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c"># analytical solution: the sphere slips if tan θ &gt; 3.5 μ, otherwise it rolls without slipping</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">θ</span><span class="p">,</span><span class="w"> </span><span class="n">μ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">9.81</span><span class="p">,</span><span class="w"> </span><span class="nb">π</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">slipping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tan</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">3.5</span><span class="n">μ</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slipping</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">μ</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">))</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">5</span><span class="o">/</span><span class="mi">7</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span><span class="w">   </span><span class="c"># acceleration along x (m/s²)</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">dx_exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">t</span><span class="o">.^</span><span class="mi">2</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="mi">2</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="n">println</span><span class="p">(</span><span class="n">slipping</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"slipping"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">"sticking"</span><span class="p">)</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">println</span><span class="p">(</span><span class="s">"distance after 1 s: MPM3S "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">" m, analytical "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">dx_exact</span><span class="p">[</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s">" m"</span><span class="p">)</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">dx_exact</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"analytical"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"time (s)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"distance travelled (m)"</span><span class="p">)</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="n">scatter!</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">dx</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+<p>For this run it prints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>slipping
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>distance after 1 s: MPM3S 2.77 m, analytical 2.775 m
+</code></pre></div>
+<p><figure id="_figure-2"><img alt="Distance travelled by the sphere against time for mu = 0.2, compared with the analytical slipping solution." id="fig-sphere-distance" src="../../../img/Tutorial_5/distance_travelled.png" width="50%"><figcaption>Figure 2: Distance travelled by the sphere against time for mu = 0.2, compared with the analytical slipping solution.</figcaption></figure></p>
+<p>The second script, run after the first, compares the speed of the sphere's centre, <span class="arithmatex">\(v_x\)</span>, with the speed of its surface, <span class="arithmatex">\(r\omega\)</span>. With <span class="arithmatex">\(\mu = 0.2\)</span> the sphere slips, so <span class="arithmatex">\(r\omega\)</span> grows more slowly than <span class="arithmatex">\(v_x\)</span>; with <span class="arithmatex">\(\mu \geq 0.286\)</span> it rolls without slipping and the two lines lie on top of each other.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c"># run after distance.jl, which reads the data and sets t, g, θ, μ, a and slipping</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"body1_velocity_x"</span><span class="p">)</span><span class="w">           </span><span class="c"># speed of the centre (m/s)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">ω</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"body1_angular velocity_y"</span><span class="p">)</span><span class="w">   </span><span class="c"># spin (rad/s)</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">r</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w">                                   </span><span class="c"># sphere radius (m)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c"># analytical: the centre speeds up at a; while slipping, friction spins the sphere up at 5μg cos θ / 2r</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">v_exact</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">t</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">rω_exact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slipping</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mf">2.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">μ</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">v_exact</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">v_exact</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"v_x analytical"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"time (s)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"speed (m/s)"</span><span class="p">)</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="n">plot!</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">rω_exact</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"r ω analytical"</span><span class="p">)</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">scatter!</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">vx</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"v_x MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="n">scatter!</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">ω</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"r ω MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+<p><figure id="_figure-3"><img alt="Speed of the sphere's centre and of its surface against time for mu = 0.2, compared with the analytical slipping solution." id="fig-sphere-slip" src="../../../img/Tutorial_5/sphere_slip.png" width="50%"><figcaption>Figure 3: Speed of the sphere's centre and of its surface against time for mu = 0.2, compared with the analytical slipping solution.</figcaption></figure></p>
 <div class="footnote">
 <hr>
 <ol>
 <li id="fn:bird2026implicitoctreebasedadaptivematerial">
-<p>Robert E. Bird, William M. Coombs, Charles E. Augarde, Giuliano Pretti, and Ted J. O'Hare. An implicit octree-based adaptive material point method. 2026. URL: <a href="https://arxiv.org/abs/2606.09275">https://arxiv.org/abs/2606.09275</a>, <a href="https://arxiv.org/abs/2606.09275">arXiv:2606.09275</a>. <a class="footnote-backref" href="#fnref:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref3:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>Robert E. Bird, William M. Coombs, Charles E. Augarde, Giuliano Pretti, and Ted J. O'Hare. An implicit octree-based adaptive material point method. 2026. URL: <a href="https://arxiv.org/abs/2606.09275">https://arxiv.org/abs/2606.09275</a>, <a href="https://arxiv.org/abs/2606.09275">arXiv:2606.09275</a>. <a class="footnote-backref" href="#fnref:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 </ol>
 </div>

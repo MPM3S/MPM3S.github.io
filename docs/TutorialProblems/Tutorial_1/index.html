@@ -3029,6 +3029,10 @@
 </div>
 <h2 id="deploying-and-running-the-problem">Deploying and running the problem<a class="headerlink" href="#deploying-and-running-the-problem" title="Permanent link">¶</a></h2>
 <p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language, and there are multiple ways to run the code, all explored on the <a href="../../UsingTheSoftware/DeployingTheSoftware/">deployment page</a>. As this is a small problem that runs quickly, this tutorial uses Julia directly; see the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S.</p>
+<div class="admonition note">
+<p class="admonition-title">Working in the MPM3S folder</p>
+<p>Julia runs in the <code>MPM3S</code> folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from <code>validation_data_and_jsons/input_data_gravity_column.json</code>, and the output folders <code>vtk_column</code> and <code>csv_column</code> are written to, and read back from, the <code>MPM3S</code> folder.</p>
+</div>
 <div class="json-side-header">
 <div>Deployment instructions</div>
 <div><code>terminal</code></div>
@@ -3184,7 +3188,7 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p>Values such as <code>1.0000000000000004</code> and <code>0.037500000000000006</code> are the exact binary representations Julia stores for <code>1.0</code> and <code>0.0375</code>, and the trailing digits of the stresses are floating-point noise.</p>
 </div>
 <p>The short Julia script below plots the stresses from the final step against the analytical solution from the <a href="#problem-summary">Problem summary</a>. You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as <code>plot_stress.jl</code> in the <code>MPM3S</code> folder and running <code>include("plot_stress.jl")</code>. It needs <a href="https://docs.juliaplots.org/">Plots</a>; <code>DelimitedFiles</code> comes with Julia.</p>
-<p>To install Plots, once, start <code>julia</code> without <code>--project</code> (so that Plots is not added to MPM3S itself) and use:</p>
+<p>To install Plots, once, start Julia and, before activating MPM3S (so that Plots is not added to MPM3S itself), use:</p>
 <p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">"Plots"</span><span class="p">)</span>
 </code></pre></div>

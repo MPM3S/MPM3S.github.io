@@ -2830,34 +2830,30 @@
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
 </code></pre></div>
 <p>If everything succeeds the REPL prints the package versions being resolved.</p>
-<p><strong>3. Run a problem.</strong> Copy a tutorial <code>input_data.json</code> (for example from <a href="../../TutorialProblems/Tutorial_1_input_data/">Tutorial 1</a>) into the folder you want to work in, and run it from that folder:</p>
+<p><strong>3. Run a problem.</strong> Step 2 left Julia in the <code>MPM3S</code> folder with MPM3S loaded, and MPM3S is always run from there: every path is relative to the <code>MPM3S</code> folder. The tutorial input files are in <code>validation_data_and_jsons</code>, so Tutorial 1, for example, is run with:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">CPU</label><label for="__tabbed_3_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"input_data.json"</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_gravity_column.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
-<li><code>cd</code> moves the REPL to the folder holding your input file, since step 2 left it in <code>MPM3S</code>.</li>
-<li><code>input_data.json</code> contains the simulation data; <code>MPM3S.non_linear_solve()</code> with no argument reads <code>input_data.json</code>.</li>
+<li>The path to the input file is relative to the <code>MPM3S</code> folder.</li>
 <li>The semicolon stops the REPL printing the material-point data that is returned.</li>
 <li>The input file must have <code>"GPU": "off"</code>.</li>
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/run_folder"</span><span class="p">)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"intut_data.json"</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_CPT_dr38.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
-<li><code>cd</code> moves the REPL to the folder holding your input file, since step 2 left it in <code>MPM3S</code>.</li>
-<li><code>intut_data.json</code> contains the simulation data; <code>MPM3S.non_linear_solve()</code> with no argument reads <code>input_data.json</code>.</li>
+<li>The path to the input file is relative to the <code>MPM3S</code> folder; Tutorial 3's input file has <code>"GPU": "on"</code>.</li>
 <li>The semicolon stops the REPL printing the material-point data that is returned.</li>
 <li>The input file must have <code>"GPU": "on"</code>, and the machine needs an NVIDIA GPU with CUDA.</li>
 </ul>
 </div>
 </div>
 </div>
-<p>This steps through the load increments set in the input file and writes the <code>.vtu</code>, <code>.vtk</code> and <code>.csv</code> output files to the folder you ran it from.</p>
+<p>This steps through the load increments set in the input file and writes the <code>.vtu</code>, <code>.vtk</code> and <code>.csv</code> output files to the <code>MPM3S</code> folder. To run your own problem, put its input file in a folder inside <code>MPM3S</code>, for example <code>my_runs/input_data.json</code>, and give that path: <code>MPM3S.non_linear_solve("my_runs/input_data.json")</code>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Important</p>
 <p>The paths to any <code>.stl</code> files in <code>input_data.json</code> are relative to the input file, not to the folder Julia is running in. The simplest set-up is to keep the <code>.stl</code> files in the same folder as <code>input_data.json</code>.</p>
