@@ -1296,10 +1296,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#setting-up-the-run-folder" class="md-nav__link">
+  <a href="#setting-up-the-problem" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setting up the run folder
+        Setting up the problem
       
     </span>
   </a>
@@ -2823,10 +2823,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#setting-up-the-run-folder" class="md-nav__link">
+  <a href="#setting-up-the-problem" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setting up the run folder
+        Setting up the problem
       
     </span>
   </a>
@@ -2923,7 +2923,7 @@
 
 <h1 id="tutorial-6-drag-anchor">Tutorial 6: Drag anchor<a class="headerlink" href="#tutorial-6-drag-anchor" title="Permanent link">¶</a></h1>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
-<p>This is the most ambitious tutorial - a 3D dynamic simulation of an AC-14 drag anchor being pulled through a bed of very loose, submerged sand.</p>
+<p>This is the most ambitious tutorial - a 3D dynamic simulation of an AC-14 drag anchor being pulled through a bed of loose, submerged sand.</p>
 <p>The problem combines almost everything in MPM3S: the Willam-Warnke sand with depth-dependent stiffness from <a href="../Tutorial_3/">Tutorial 3</a>, the dynamic time integration and moving boundaries from <a href="../Tutorial_5/">Tutorial 5</a>, and an articulated anchor built from three points joined by a hinge, an angle stop and a pull line.</p>
 <p>This tutorial has four sections:</p>
 <ul>
@@ -2935,18 +2935,18 @@
 <h2 id="problem-description">Problem description<a class="headerlink" href="#problem-description" title="Permanent link">¶</a></h2>
 <p>You will define the soil, the anchor, the three loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
 <p>Only half of the anchor and soil is modelled, using the vertical <span class="arithmatex">\(xz\)</span> plane of symmetry through the anchor at <span class="arithmatex">\(y = 0\)</span>. Instead of solving the whole length of soil the anchor will pass through, a boundary track keeps only a window of soil around the anchor active.</p>
-<p><figure id="_figure-1"><img alt="Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface." id="fig-anchor-setup" src="../../../img/Tutorial_6/anchor_schematic_combined.png" width="50%"><figcaption>Figure 1: Schematic of the half-symmetric anchor problem, with the soil block and the AC-14 anchor positioned at the surface.</figcaption></figure></p>
-<p><em>Figure reproduced from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
+<p><figure id="_figure-1"><img alt="The half model at the start of stage 2, drawn shortened. Only the window of soil between the two boundary-track planes, \(0.5\) m behind and \(2.5\) m ahead of the anchor, is active, with a \(2 \times 2 \times 2\) grid of GIMPs in each \(3.2\) m element; the elements the anchor rests in are refined (shown schematically as one level; the finest elements are \(0.1\) m). The anchor - fluke and shank, joined at the hinge - lies on the soil surface against the plane of symmetry, \(y = 0\), and is pulled by the pull line at \(0.1\) m/s; the tracked node follows the tip of the fluke. The anchor, pull line and tracked node are drawn to scale with the elements. The base is fixed and the side opposite the plane of symmetry is on rollers." id="fig-anchor-setup" src="../../../img/Tutorial_6/anchor_setup.png" width="80%"><figcaption>Figure 1: The half model at the start of stage 2, drawn shortened. Only the window of soil between the two boundary-track planes, \(0.5\) m behind and \(2.5\) m ahead of the anchor, is active, with a \(2 \times 2 \times 2\) grid of GIMPs in each \(3.2\) m element; the elements the anchor rests in are refined (shown schematically as one level; the finest elements are \(0.1\) m). The anchor - fluke and shank, joined at the hinge - lies on the soil surface against the plane of symmetry, \(y = 0\), and is pulled by the pull line at \(0.1\) m/s; the tracked node follows the tip of the fluke. The anchor, pull line and tracked node are drawn to scale with the elements. The base is fixed and the side opposite the plane of symmetry is on rollers.</figcaption></figure></p>
+<p><em>Figure adapted from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">1</a></sup>.</em></p>
 <p><strong>Soil block:</strong> One layer <span class="arithmatex">\(100\)</span> m long, <span class="arithmatex">\(10\)</span> m wide and <span class="arithmatex">\(18.123\)</span> m deep, with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each element. The base element size is given as <span class="arithmatex">\(4.0\)</span> m, which is rounded to <span class="arithmatex">\(0.1 \times 2^5 = 3.2\)</span> m because the mesh around the anchor is refined to <span class="arithmatex">\(0.1\)</span> m. The footprint is then rounded up to whole elements (<span class="arithmatex">\(102.4 \times 12.8\)</span> m) and the soil surface up to a whole row of material points, at <span class="arithmatex">\(19.2\)</span> m (see <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>).</p>
 <p><strong>Boundary conditions:</strong> The side at <span class="arithmatex">\(y = 0\)</span> is the symmetry plane and carries rollers, as does the opposite side. The base is fixed. While the soil settles, the two ends are rollers; once the anchor is in place they become fixed planes that move with the anchor.</p>
-<p><strong>Material:</strong> Willam-Warnke elasto-plastic sand at a relative density of <span class="arithmatex">\(D_r = 4\%\)</span>, below the water table, with the parameters from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">2</a></sup>:</p>
+<p><strong>Material:</strong> Willam-Warnke elasto-plastic sand at a relative density of <span class="arithmatex">\(D_r = 32\%\)</span>, below the water table, with the parameters from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">2</a></sup>:</p>
 <div class="centered-table">
 <table>
 <thead>
 <tr>
 <th>Property</th>
 <th>Correlation</th>
-<th>Value at <span class="arithmatex">\(D_r = 4\%\)</span></th>
+<th>Value at <span class="arithmatex">\(D_r = 32\%\)</span></th>
 <th>Input key</th>
 </tr>
 </thead>
@@ -2954,37 +2954,37 @@
 <tr>
 <td>Reference Young's modulus</td>
 <td><span class="arithmatex">\(E^{ref} = 60\,000\; D_r/100\)</span> kPa</td>
-<td><span class="arithmatex">\(2.4\)</span> MPa</td>
-<td><code>"E": 2.4e6</code></td>
+<td><span class="arithmatex">\(19.2\)</span> MPa</td>
+<td><code>"E": 1.92e7</code></td>
 </tr>
 <tr>
 <td>Friction angle</td>
 <td><span class="arithmatex">\(\phi = 28 + 12.5\; D_r/100\)</span></td>
-<td><span class="arithmatex">\(28.5^\circ\)</span></td>
-<td><code>"friction angle": 28.5</code></td>
+<td><span class="arithmatex">\(32^\circ\)</span></td>
+<td><code>"friction angle": 32</code></td>
 </tr>
 <tr>
 <td>Dilation angle</td>
 <td><span class="arithmatex">\(\psi = -2 + 12.5\; D_r/100\)</span>, not below 0</td>
-<td><span class="arithmatex">\(0^\circ\)</span></td>
-<td><code>"dilation angle": 0.0</code></td>
+<td><span class="arithmatex">\(2^\circ\)</span></td>
+<td><code>"dilation angle": 2</code></td>
 </tr>
 <tr>
 <td>Buoyant unit weight</td>
 <td><span class="arithmatex">\(\gamma' = 19 + 1.6\; D_r/100 - \gamma_w\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
-<td><span class="arithmatex">\(9.254\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
-<td><code>"density": 925.4</code></td>
+<td><span class="arithmatex">\(9.702\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
+<td><code>"density": 970.2</code></td>
 </tr>
 <tr>
 <td>Stiffness exponent</td>
 <td><span class="arithmatex">\(m = 0.7 - D_r/320\)</span></td>
-<td><span class="arithmatex">\(0.6875\)</span></td>
-<td><code>"exponent": 0.6875</code></td>
+<td><span class="arithmatex">\(0.6\)</span></td>
+<td><code>"exponent": 0.6</code></td>
 </tr>
 <tr>
 <td>Earth pressure at rest</td>
 <td><span class="arithmatex">\(K_0 = 1 - \sin\phi\)</span></td>
-<td><span class="arithmatex">\(0.5228\)</span></td>
+<td><span class="arithmatex">\(0.4701\)</span></td>
 <td><code>"reference stress"</code> (below)</td>
 </tr>
 <tr>
@@ -3002,7 +3002,7 @@
 </tbody>
 </table>
 </div>
-<p><span class="arithmatex">\(\gamma_w = 9.81\)</span> kN/m<span class="arithmatex">\(^3\)</span> is the unit weight of water. Because the sand is submerged, its buoyant density is used, so that gravity produces effective stresses; it is entered as the unit weight divided by <span class="arithmatex">\(10\)</span> m/s<span class="arithmatex">\(^2\)</span>. As in <a href="../Tutorial_3/#problem-description">Tutorial 3</a>, the reference stress for the depth-dependent stiffness is <span class="arithmatex">\(p^{ref}/K_0 = 100/0.5228 = 191.3\)</span> kPa.</p>
+<p><span class="arithmatex">\(\gamma_w = 9.81\)</span> kN/m<span class="arithmatex">\(^3\)</span> is the unit weight of water. Because the sand is submerged, its buoyant density is used, so that gravity produces effective stresses; it is entered as the unit weight divided by <span class="arithmatex">\(10\)</span> m/s<span class="arithmatex">\(^2\)</span>. As in <a href="../Tutorial_3/#problem-description">Tutorial 3</a>, the reference stress for the depth-dependent stiffness is <span class="arithmatex">\(p^{ref}/K_0 = 100/0.4701 = 212.7\)</span> kPa.</p>
 <p><strong>Anchor:</strong> The AC-14 anchor (see <a href="#fig-anchor-design">Figure 2</a>) has two parts, a <strong>fluke</strong> and a <strong>shank</strong>, joined by a hinge. Each part is a rigid body welded to a point at its centre of mass. A third point with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is <span class="arithmatex">\(8700\)</span> kg).</p>
 <p><figure id="_figure-2"><img alt="Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c)." id="fig-anchor-design" src="../../../img/Tutorial_6/anchor_design.png" width="100%"><figcaption>Figure 2: Anchor design: top-down schematic of the AC-14 anchor in (a), the frame abstraction with pivot point, centres of mass and the opening angle in (b), and the extended profile including the pull wire in (c).</figcaption></figure></p>
 <p><em>Figure reproduced from <sup id="fnref:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">3</a></sup>.</em></p>
@@ -3084,24 +3084,24 @@
 <ul>
 <li><strong>Stage 1 - initial stresses:</strong> static; the anchor is switched off and gravity is ramped up over 5 load steps.</li>
 <li><strong>Stage 2 - settling:</strong> dynamic, <span class="arithmatex">\(1\)</span> s in steps of <span class="arithmatex">\(0.005\)</span> s; the anchor is placed on the soil surface and settles under its own weight with the pull point held still.</li>
-<li><strong>Stage 3 - drag:</strong> dynamic, in steps of <span class="arithmatex">\(0.08\)</span> s; the pull point moves in <span class="arithmatex">\(+x\)</span> at <span class="arithmatex">\(0.1\)</span> m/s. The tutorial file runs for <span class="arithmatex">\(3\)</span> s, a drag of <span class="arithmatex">\(0.3\)</span> m; for a longer drag increase <code>"final time"</code> - for example <span class="arithmatex">\(190\)</span> s drags the pull point <span class="arithmatex">\(19\)</span> m.</li>
+<li><strong>Stage 3 - drag:</strong> dynamic, in steps of <span class="arithmatex">\(0.02\)</span> s; the pull point moves in <span class="arithmatex">\(+x\)</span> at <span class="arithmatex">\(0.1\)</span> m/s. The tutorial file runs for <span class="arithmatex">\(3\)</span> s, a drag of <span class="arithmatex">\(0.3\)</span> m; for a longer drag increase <code>"final time"</code> - for example <span class="arithmatex">\(190\)</span> s drags the pull point <span class="arithmatex">\(19\)</span> m.</li>
 </ul>
 <p><strong>Solver:</strong> Newton-Raphson, pseudo-static for stage 1 and implicit dynamic for stages 2 and 3.</p>
 <h2 id="input-setup">Input setup<a class="headerlink" href="#input-setup" title="Permanent link">¶</a></h2>
 <p>The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found <a href="../Tutorial_6_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data.json</code></div>
+<div><code>input_data_AC14_dr32.json</code></div>
 </div>
 
 <div class="json-side">
 <div class="js-text">
 <h3 id="machine-and-domain">Machine and domain<a class="headerlink" href="#machine-and-domain" title="Permanent link">¶</a></h3>
-<p><code>"GPU": "on"</code> runs the analysis on an NVIDIA GPU; a problem of this size is intended for a GPU or an HPC node.</p>
+<p><code>"GPU": "off"</code> runs the analysis on the CPU. A problem of this size is intended for an HPC node; set it to <code>"on"</code> to run on an NVIDIA GPU instead.</p>
 <p>The background grid is sized automatically to hold the soil block, which here makes it a cube of side <span class="arithmatex">\(102.4\)</span> m.</p>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-9.81</span><span class="p">]</span>
@@ -3124,10 +3124,10 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="p">{</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">            </span><span class="nt">"thickness"</span><span class="p">:</span><span class="w"> </span><span class="mf">18.123</span><span class="p">,</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">            </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"willam warnke"</span><span class="p">,</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">                          </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.4e6</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">                          </span><span class="nt">"friction angle"</span><span class="p">:</span><span class="w"> </span><span class="mf">28.5</span><span class="p">,</span><span class="w"> </span><span class="nt">"dilation angle"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"cohesion"</span><span class="p">:</span><span class="w"> </span><span class="mf">300.0</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">                          </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">925.4</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                          </span><span class="nt">"E overburden"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"reference stress"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.913e5</span><span class="p">,</span><span class="w"> </span><span class="nt">"exponent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.6875</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">                          </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.92e7</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">                          </span><span class="nt">"friction angle"</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="nt">"dilation angle"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"cohesion"</span><span class="p">:</span><span class="w"> </span><span class="mf">300.0</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">                          </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">970.2</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                          </span><span class="nt">"E overburden"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"reference stress"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.12729e5</span><span class="p">,</span><span class="w"> </span><span class="nt">"exponent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.6</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">]</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">}</span>
@@ -3191,6 +3191,7 @@
 <div class="js-text">
 <h3 id="rigid-body-geometry">Rigid body: geometry<a class="headerlink" href="#rigid-body-geometry" title="Permanent link">¶</a></h3>
 <p>The fluke surface is welded to point 1 and the shank surface to point 2. Both STL files are drawn in global coordinates, in the same frame as the point positions, and their tetrahedral meshes are stored in the mesh-cache files.</p>
+<p><code>"tracked nodes"</code> adds a marker at the tip of the fluke, <span class="arithmatex">\((2.0906, 0.6489, 0)\)</span>, welded to point 1. It has no mass and takes no part in the contact; its position is written to <code>rigid_body.csv</code> as <code>track1_x</code>, <code>track1_y</code> and <code>track1_z</code>, which follow the tip of the fluke through the drag.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">        </span><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -3198,9 +3199,12 @@
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">              </span><span class="nt">"mesh cache"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fluke_round_nose_mesh.txt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">},</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shank"</span><span class="p">,</span><span class="w"> </span><span class="nt">"stl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shank_scv2.stl"</span><span class="p">,</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">              </span><span class="nt">"mesh cache"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shank_scv2_mesh.txt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="p">]</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">]</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="p">],</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nt">"tracked nodes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">2.0906</span><span class="p">,</span><span class="w"> </span><span class="mf">0.6489</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="p">]</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">]</span>
 </code></pre></div>
 </div>
 </div>
@@ -3266,13 +3270,14 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="stage-3-drag">Stage 3: drag<a class="headerlink" href="#stage-3-drag" title="Permanent link">¶</a></h3>
-<p>The drag itself. <code>"rigid body boundary conditions"</code> replaces the conditions of the pull point (system 1, point 3) for this stage, prescribing a movement of <span class="arithmatex">\(0.008\)</span> m in <span class="arithmatex">\(+x\)</span> every <span class="arithmatex">\(0.08\)</span> s time step - <span class="arithmatex">\(0.1\)</span> m/s. The anchor is already in place, so <code>"rigid body surface placement"</code> is <code>"off"</code>, and the leading plane of the boundary track moves <span class="arithmatex">\(5\)</span> m ahead of the anchor.</p>
+<p>The drag itself. <code>"rigid body boundary conditions"</code> replaces the conditions of the pull point (system 1, point 3) for this stage, prescribing a movement of <span class="arithmatex">\(0.002\)</span> m in <span class="arithmatex">\(+x\)</span> every <span class="arithmatex">\(0.02\)</span> s time step - <span class="arithmatex">\(0.1\)</span> m/s. The anchor is already in place, so <code>"rigid body surface placement"</code> is <code>"off"</code>, and the leading plane of the boundary track moves <span class="arithmatex">\(5\)</span> m ahead of the anchor.</p>
+<p><code>"region": 0.06</code> also refines the elements within <span class="arithmatex">\(0.06\)</span> m of those the anchor's surface passes through to <code>"element size in region"</code>, <span class="arithmatex">\(0.1\)</span> m, so the fine mesh extends just beyond the anchor.</p>
 <p><code>"final time": 3.0</code> drags the pull point <span class="arithmatex">\(0.3\)</span> m. Increase it for a longer drag.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dynamic"</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">"dt"</span><span class="p">:</span><span class="w"> </span><span class="mf">8.0e-2</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">"dt"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">"final time"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="nt">"beta"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nt">"gamma"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
@@ -3280,19 +3285,21 @@
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">"rigid body surface placement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rigid body surface"</span><span class="p">,</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">        </span><span class="nt">"element size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="nt">"rigid body boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"system"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">"prescribed"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.008</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="p">],</span>
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="nt">"boundary track"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">        </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">],</span><span class="w"> </span><span class="nt">"distance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
-<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">                 </span><span class="nt">"advance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">],</span><span class="w"> </span><span class="nt">"remove"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"yes"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">        </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">],</span><span class="w"> </span><span class="nt">"distance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
-<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">                 </span><span class="nt">"advance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">],</span><span class="w"> </span><span class="nt">"remove"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"no"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="p">}</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">        </span><span class="nt">"element size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">        </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.06</span><span class="p">,</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">        </span><span class="nt">"element size in region"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="nt">"rigid body boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"system"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">"prescribed"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.002</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="p">],</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">    </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="nt">"boundary track"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">        </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">],</span><span class="w"> </span><span class="nt">"distance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">                 </span><span class="nt">"advance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">],</span><span class="w"> </span><span class="nt">"remove"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"yes"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">        </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="s2">"off"</span><span class="p">],</span><span class="w"> </span><span class="nt">"distance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">                 </span><span class="nt">"advance"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">,</span><span class="w"> </span><span class="s2">"positive"</span><span class="p">],</span><span class="w"> </span><span class="nt">"remove"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"no"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">,</span><span class="w"> </span><span class="s2">"no"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
@@ -3315,18 +3322,18 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h3>
-<p>VTK files are written to <code>vtk_AC14</code> and CSV files to <code>csv_AC14</code>, each every <span class="arithmatex">\(0.25\%\)</span> of a stage's steps. <code>rigid_body.csv</code> records the position, velocity, reaction force and reaction moment of all three points, which is what the anchor's trajectory and holding force are calculated from.</p>
+<p>VTK output is off: the full frames of a run this size are large, and everything needed for the results is in the CSV files. Set <code>"vtk"</code> to <code>"on"</code> to write them to <code>vtk_AC14_dr32</code> for ParaView. CSV files are written to <code>csv_AC14_dr32</code> every <span class="arithmatex">\(0.25\%\)</span> of a stage's steps. <code>rigid_body.csv</code> records the position, velocity, reaction force and reaction moment of all three points, followed by the position of the tracked fluke tip, which is what the anchor's trajectory and holding force are calculated from.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_AC14"</span><span class="p">,</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_AC14_dr32"</span><span class="p">,</span>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">"vtk percent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nt">"vtk material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"displacement"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"volume"</span><span class="p">],</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nt">"vtk rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">],</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
 <a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="nt">"csv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_AC14"</span><span class="p">,</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_AC14_dr32"</span><span class="p">,</span>
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="nt">"csv percent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
 <a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="nt">"csv material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"initial position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">],</span>
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="nt">"csv rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction moment"</span><span class="p">]</span>
@@ -3336,6 +3343,10 @@
 </div>
 <h2 id="deploying-and-running-the-problem">Deploying and running the problem<a class="headerlink" href="#deploying-and-running-the-problem" title="Permanent link">¶</a></h2>
 <p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language. See the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S, and <a href="../Tutorial_1/#deploying-and-running-the-problem">Tutorial 1</a> for a first, small run.</p>
+<div class="admonition note">
+<p class="admonition-title">Working in the MPM3S folder</p>
+<p>Julia runs in the <code>MPM3S</code> folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from <code>validation_data_and_jsons/input_data_AC14_dr32.json</code>, and the output folder <code>csv_AC14_dr32</code> (and <code>vtk_AC14_dr32</code>, if VTK output is switched on) is written to the <code>MPM3S</code> folder.</p>
+</div>
 <div class="json-side-header">
 <div>Deployment instructions</div>
 <div><code>terminal</code></div>
@@ -3343,35 +3354,37 @@
 
 <div class="json-side">
 <div class="js-text">
-<h3 id="setting-up-the-run-folder">Setting up the run folder<a class="headerlink" href="#setting-up-the-run-folder" title="Permanent link">¶</a></h3>
-<p>Create a folder for the run containing:</p>
-<ul>
-<li><code>input_data.json</code>, copied from the <a href="../Tutorial_6_input_data/">complete input file</a>;</li>
-<li><code>fluke_round_nose.stl</code>, <code>fluke_round_nose_mesh.txt</code>, <code>shank_scv2.stl</code> and <code>shank_scv2_mesh.txt</code>, from the top level of the MPM3S repository.</li>
-</ul>
-<p>The STL and mesh-cache paths in the input file are relative to the input file, and the output folders <code>vtk_AC14</code> and <code>csv_AC14</code> are created in the folder Julia is started from.</p>
+<h3 id="setting-up-the-problem">Setting up the problem<a class="headerlink" href="#setting-up-the-problem" title="Permanent link">¶</a></h3>
+<p>The input file for this tutorial comes with MPM3S, as <code>validation_data_and_jsons/input_data_AC14_dr32.json</code>, together with the anchor geometry - <code>fluke_round_nose.stl</code>, <code>shank_scv2.stl</code> and their mesh caches, <code>fluke_round_nose_mesh.txt</code> and <code>shank_scv2_mesh.txt</code>; the input file is the same as the <a href="../Tutorial_6_input_data/">complete input file</a>. The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.</p>
+<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal, start Julia with every CPU thread available (<code>-t auto</code>), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folder <code>csv_AC14_dr32</code> is created in the <code>MPM3S</code> folder.</p>
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
-<p>Start Julia in the run folder with the MPM3S project active (<code>--project</code>), then load MPM3S and run the input file. <code>"GPU": "on"</code> requires an NVIDIA GPU with CUDA; set it to <code>"off"</code> to run on the CPU, which will be slow for this problem.</p>
+<p>Julia is now running in the <code>MPM3S</code> folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder <code>validation_data_and_jsons</code>, the simulations are started with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_AC14_dr32.json");
+</code></pre></div>
+<p>This is a large analysis, intended for an HPC node or, with <code>"GPU": "on"</code>, an NVIDIA GPU.</p>
 <p>The progress line counts through <code>stage 1/3</code>, <code>stage 2/3</code> and <code>stage 3/3</code>. Its fields are explained in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>.</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>path/to/run_folder
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="gp">$ </span>julia<span class="w"> </span>--project<span class="o">=</span>path/to/MPM3S<span class="w"> </span>-t<span class="w"> </span>auto
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="go">julia&gt; using MPM3S</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="go">julia&gt; MPM3S.non_linear_solve("input_data.json");</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp">$ </span>julia<span class="w"> </span>-t<span class="w"> </span>auto
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="go">julia&gt; cd("path/to/MPM3S")</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="go">julia&gt; using MPM3S</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_AC14_dr32.json");</span>
 </code></pre></div>
 </div>
 </div>
 </div>
 <h2 id="viewing-the-results">Viewing the results<a class="headerlink" href="#viewing-the-results" title="Permanent link">¶</a></h2>
 <h3 id="visualising-the-output-in-paraview">Visualising the output in ParaView<a class="headerlink" href="#visualising-the-output-in-paraview" title="Permanent link">¶</a></h3>
-<p>The walkthrough below uses the same ParaView controls as <a href="../Tutorial_1/#visualising-the-output-in-paraview">Tutorial 1</a>. Only active material points are written, so once the anchor is on the soil the output shows the window of soil around it rather than the whole block.</p>
+<p>VTK output is off in this input file, so first set <code>"vtk"</code> to <code>"on"</code> in <a href="#output">Output</a>; the files are then written to <code>vtk_AC14_dr32</code>. The walkthrough below uses the same ParaView controls as <a href="../Tutorial_1/#visualising-the-output-in-paraview">Tutorial 1</a>. Only active material points are written, so once the anchor is on the soil the output shows the window of soil around it rather than the whole block.</p>
 <div class="walkthrough">
 <div>
-<p><strong>1. Open the soil and the anchor.</strong> <em>File → Open</em>, go to <code>vtk_AC14</code>, hold <code>Ctrl</code> and select the <code>mps_1_..vtu</code> (soil) and <code>surface_..vtu</code> (fluke and shank) series, click <em>OK</em> and then <em>Apply</em>.</p>
+<p><strong>1. Open the soil and the anchor.</strong> <em>File → Open</em>, go to <code>vtk_AC14_dr32</code>, hold <code>Ctrl</code> and select the <code>mps_1_..vtu</code> (soil) and <code>surface_..vtu</code> (fluke and shank) series, click <em>OK</em> and then <em>Apply</em>.</p>
 </div>
 <div>
 <div class="admonition example">
@@ -3425,11 +3438,11 @@
 </div>
 </div>
 <h3 id="anchor-trajectory-and-holding-force">Anchor trajectory and holding force<a class="headerlink" href="#anchor-trajectory-and-holding-force" title="Permanent link">¶</a></h3>
-<p><code>csv_AC14/rigid_body.csv</code> has one row per output step, with columns for each point - <code>body1</code> the fluke, <code>body2</code> the shank and <code>body3</code> the pull point:</p>
+<p><code>csv_AC14_dr32/rigid_body.csv</code> has one row per output step, with columns for each point - <code>body1</code> the fluke, <code>body2</code> the shank and <code>body3</code> the pull point - followed by <code>track1_x</code>, <code>track1_y</code> and <code>track1_z</code>, the position of the tracked fluke tip:</p>
 <ul>
 <li><strong>Pull-line force:</strong> <code>body3_reaction force_x</code> is the force needed to move the pull point, i.e. the tension the anchor develops.</li>
 <li><strong>Drag distance:</strong> <code>body3_position_x</code> minus its value at the start of stage 3.</li>
-<li><strong>Embedment:</strong> the soil surface height, <span class="arithmatex">\(19.2\)</span> m, minus <code>body1_position_z</code>, the height of the fluke's centre of mass.</li>
+<li><strong>Embedment:</strong> the height of the soil surface minus <code>track1_z</code>, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the <code>material top</code> that MPM3S prints in the rigid body surface placement message at the start of stage 2.</li>
 </ul>
 <p>The <code>time</code> column restarts at the start of each stage.</p>
 <div class="admonition example">

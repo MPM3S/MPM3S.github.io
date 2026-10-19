@@ -1,0 +1,149 @@
+% Drag anchor (Tutorial 6), in the style of cube_setup.png, cpt_setup.png and
+% sphere_setup.png, at the start of stage 2. A schematic of the half model: the soil
+% block (100 x 10 x 18.1 m, of 3.2 m base elements) is drawn shortened, with 5 x 2 x 2
+% elements. Only the window of soil between the two boundary-track planes - 0.5 m
+% behind and 2.5 m ahead of the anchor - is active, and only it is drawn with GIMP
+% domains; the two elements the anchor rests in are refined once (schematic; the
+% finest elements are 0.1 m). The anchor, its pull line and the tracked fluke tip are
+% at their true size and position relative to one element. Lengths are in units of
+% the 3.2 m element.
+% anchor_triangles.tex and anchor_gimps.tex are written by anchor_triangles.py.
+% Build: python3 anchor_triangles.py path/to/MPM3S/validation_data_and_jsons
+%        pdflatex anchor_setup.tex
+%        pdftocairo -png -transp -r 300 -singlefile anchor_setup.pdf anchor_setup
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc}
+
+\definecolor{gridgrey}{RGB}{185,185,185}
+\definecolor{activeorange}{RGB}{245,130,32}
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{gimpside}{RGB}{158,158,212}
+\definecolor{gimptop}{RGB}{204,204,238}
+\definecolor{dimpurple}{RGB}{104,36,109}
+\definecolor{rigidred}{RGB}{237,28,36}
+
+\tikzset{
+  mesh/.style={draw=gridgrey, line width=0.6pt},
+  hidden/.style={draw=gridgrey, line width=0.45pt, dash pattern=on 2pt off 1.5pt},
+  gimpedge/.style={draw=mpnavy, line width=0.3pt, line join=round},
+  activenode/.style={fill=activeorange, draw=black, line width=0.35pt},
+  track/.style={draw=dimpurple, line width=0.9pt, dash pattern=on 4pt off 2pt},
+  dimline/.style={draw=dimpurple, line width=1pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  wall/.style={draw=black, line width=0.8pt},
+  hatch/.style={draw=black, line width=0.4pt},
+  leader/.style={draw=black, line width=0.4pt},
+  label/.style={font=\sffamily\small},
+}
+
+\newcommand{\mpoint}[1]{\fill[mpnavy] #1 circle (0.8pt);}
+\newcommand{\activenode}[1]{\path[activenode] #1 circle (1.8pt);}
+\newcommand{\gridnode}[1]{\fill[black] #1 circle (1.1pt);}
+% one GIMP domain, lower corner (#1,#2,#3), side #4: the material point at the
+% centre, then the three visible faces
+\newcommand{\gimp}[4]{%
+  \mpoint{({#1+#4/2},{#2+#4/2},{#3+#4/2})}
+  \filldraw[gimpedge, fill=gimpfill, fill opacity=0.4]
+    (#1,#2,#3) -- ({#1+#4},#2,#3) -- ({#1+#4},#2,{#3+#4}) -- (#1,#2,{#3+#4}) -- cycle;
+  \filldraw[gimpedge, fill=gimpside, fill opacity=0.4]
+    ({#1+#4},#2,#3) -- ({#1+#4},{#2+#4},#3) -- ({#1+#4},{#2+#4},{#3+#4}) -- ({#1+#4},#2,{#3+#4}) -- cycle;
+  \filldraw[gimpedge, fill=gimptop, fill opacity=0.4]
+    (#1,#2,{#3+#4}) -- ({#1+#4},#2,{#3+#4}) -- ({#1+#4},{#2+#4},{#3+#4}) -- (#1,{#2+#4},{#3+#4}) -- cycle;}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legmp}\sbox{\legmp}{\tikz[baseline=-0.6ex]\fill[mpnavy] (0,0) circle (1.4pt);}%
+\newsavebox{\leggimp}\sbox{\leggimp}{\tikz[baseline=-0.6ex]\filldraw[draw=mpnavy, line width=0.5pt, fill=gimpfill, fill opacity=0.55] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legnode}\sbox{\legnode}{\tikz[baseline=-0.6ex]\path[activenode] (0,0) circle (2.4pt);}%
+\newsavebox{\leggrid}\sbox{\leggrid}{\tikz[baseline=-0.6ex]\fill[black] (0,0) circle (1.4pt);}%
+\newsavebox{\legrigid}\sbox{\legrigid}{\tikz[baseline=-0.6ex]\fill[rigidred!25] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legtrack}\sbox{\legtrack}{\tikz[baseline=-0.6ex]\draw[track] (0,0) -- (0.6,0);}%
+\newsavebox{\legfixed}\sbox{\legfixed}{\tikz[baseline=-0.6ex]{%
+  \draw[wall] (-0.2,0.05) -- (0.2,0.05);
+  \foreach \x in {-0.15,-0.05,...,0.2} {\draw[hatch] (\x,0.05) -- (\x-0.07,-0.03);}}}%
+\begin{tikzpicture}[x={(2.4cm,0cm)}, y={(1.2cm,0.96cm)}, z={(0cm,2.4cm)}, font=\sffamily]
+
+  % the inactive soil ahead of the leading plane: faint faces, mesh and grid nodes only
+  \fill[gimpfill!30] (2,0,0) -- (5,0,0) -- (5,0,2) -- (2,0,2) -- cycle;
+  \fill[gimptop!30] (2,0,2) -- (5,0,2) -- (5,2,2) -- (2,2,2) -- cycle;
+  \fill[gimpside!30] (5,0,0) -- (5,2,0) -- (5,2,2) -- (5,0,2) -- cycle;
+
+  % hidden edges of the active window
+  \draw[hidden] (0,2,0) -- (0,2,2);
+  \draw[hidden] (0,0,0) -- (0,2,0) -- (2,2,0);
+
+  % the GIMP domains of the active window, far to near
+  \input{anchor_gimps.tex}
+
+  % the visible mesh, with the two refined elements under the anchor
+  \foreach \x in {0,...,5} {\draw[mesh] (\x,0,0) -- (\x,0,2) -- (\x,2,2);}
+  \foreach \z in {0,1,2} {\draw[mesh] (0,0,\z) -- (5,0,\z) -- (5,2,\z);}
+  \foreach \y in {1,2} {\draw[mesh] (0,\y,2) -- (5,\y,2) -- (5,\y,0);}
+  \foreach \x in {0.5,1.5} {\draw[mesh] (\x,0,1) -- (\x,0,2) -- (\x,1,2);}
+  \draw[mesh] (0,0,1.5) -- (2,0,1.5);
+  \draw[mesh] (0,0.5,2) -- (2,0.5,2);
+
+  % the fixed base
+  \draw[wall] (0,0,0) -- (5,0,0);
+  \foreach \t in {0.01,0.025,...,1.0} {\draw[hatch] ($(0,0,0)!\t!(5,0,0)$) -- ++(-0.1cm,-0.14cm);}
+
+  % nodes: active in the window, grid nodes in the inactive soil
+  \foreach \x in {0,1,2} {\foreach \z in {0,1,2} {\activenode{(\x,0,\z)}} \foreach \y in {1,2} {\activenode{(\x,\y,2)}}}
+  \foreach \p in {(0.5,0,1),(1.5,0,1),(0.5,0,1.5),(1.5,0,1.5),(0.5,0,2),(1.5,0,2),(0,0,1.5),(1,0,1.5),(2,0,1.5),
+                  (0,0.5,2),(0.5,0.5,2),(1,0.5,2),(1.5,0.5,2),(2,0.5,2),(0.5,1,2),(1.5,1,2)} {\activenode{\p}}
+  \foreach \x in {3,4,5} {\foreach \z in {0,1,2} {\gridnode{(\x,0,\z)}} \foreach \y in {1,2} {\gridnode{(\x,\y,2)}}}
+  \foreach \y in {1,2} {\foreach \z in {0,1} {\gridnode{(5,\y,\z)}}}
+
+  % the boundary-track planes: 0.5 m behind and 2.5 m ahead of the anchor
+  \foreach \x in {0.156,2.084} {\draw[track] (\x,0,0) -- (\x,0,2) -- (\x,2,2) -- (\x,2,0) -- cycle;}
+
+  % the anchor (fluke and shank), the pull line and the pull point
+  \input{anchor_triangles.tex}
+  \coordinate (hinge) at (0.4653,0,2.1163);
+  \coordinate (eyelet) at (1.2592,0,2.1163);
+  \coordinate (pull) at (4.2280,0,2.1163);
+  \coordinate (tip) at (0.9658,0.2028,2.1163);
+  \draw[black, line width=1.4pt] (eyelet) -- (pull);
+  \fill[black] (hinge) circle (1.8pt);
+  \fill[rigidred] (eyelet) circle (1.8pt);
+  \filldraw[fill=rigidred!15, draw=rigidred, line width=0.8pt] (pull) circle (2.6pt);
+  \draw[black, line width=0.8pt] ($(tip)+(-2.2pt,-2.2pt)$) -- ($(tip)+(2.2pt,2.2pt)$) ($(tip)+(-2.2pt,2.2pt)$) -- ($(tip)+(2.2pt,-2.2pt)$);
+  \draw[dimline, -{Latex[length=6pt, width=5pt]}, line width=1.3pt] ($(pull)+(0.15cm,0)$) -- ++(0.9cm,0) node[right=1pt, dimpurple, label] {$0.1$ m/s};
+
+  % labels
+  \draw[leader] (hinge) -- ++(-0.9cm,1.5cm) node[above, label] {hinge};
+  \draw[leader] ($(0.62,0.25,2.18)$) -- ++(-0.1cm,1.8cm) node[above, label] {fluke};
+  \draw[leader] (tip) -- ++(0.5cm,1.6cm) node[above, label] {tracked tip};
+  \draw[leader] ($(1.2,0.02,2.17)$) -- ++(1.4cm,1.55cm) node[above, label] {shank};
+  \draw[leader] (eyelet) -- ++(0.9cm,-0.75cm) node[right, label, fill=white, inner sep=1.5pt] {eyelet};
+  \draw[leader] ($(eyelet)!0.72!(pull)$) -- ++(0.1cm,1.2cm) node[above, label] {pull line};
+  \draw[leader] (pull) -- ++(0.7cm,0.9cm) node[above, label] {pull point};
+  \draw[leader] (0.156,0,0.5) -- ++(-1.2cm,0) node[left, label, align=right] {trailing\\plane};
+  \draw[leader] (2.084,0,0.5) -- ++(1.1cm,-0.64cm) node[right, label, align=left] {leading\\plane};
+  \node[label, gray, align=center] at (4.0,0,0.9) {inactive soil, switched on\\as the leading plane advances};
+
+  % gravity
+  \draw[dimline, -{Latex[length=6pt, width=5pt]}, line width=1.3pt] (-0.55,0,2.0) -- ++(0,-1.0cm) node[below, dimpurple, label] {$g$};
+
+  % dimensions
+  \draw[dim] ($(0,0,0)+(0,-0.55cm)$) -- node[below=1pt] {100 m} ($(5,0,0)+(0,-0.55cm)$);
+  \draw[dim] ($(5,0,0)+(0.4cm,-0.3cm)$) -- node[below right=0pt] {10 m} ($(5,2,0)+(0.4cm,-0.3cm)$);
+  \draw[dim] ($(5,2,0)+(0.45cm,0)$) -- node[right=2pt] {18.1 m} ($(5,2,2)+(0.45cm,0)$);
+
+  % axes
+  \begin{scope}[shift={(-0.75,0,0)}]
+    \draw[-{Latex[length=4pt]}, line width=0.6pt] (0,0,0) -- (0.25,0,0) node[right=-1pt] {$x$};
+    \draw[-{Latex[length=4pt]}, line width=0.6pt] (0,0,0) -- (0,0.5,0) node[above right=-2pt] {$y$};
+    \draw[-{Latex[length=4pt]}, line width=0.6pt] (0,0,0) -- (0,0,0.25) node[above=-1pt] {$z$};
+  \end{scope}
+
+  % legend
+  \node[anchor=north, align=center] at ($(2.5,0,0)+(0,-1.3cm)$) {%
+    \usebox{\legmp}~material point\hspace{1.4em}\usebox{\leggimp}~GIMP domain\hspace{1.4em}%
+    \usebox{\legnode}~active node\hspace{1.4em}\usebox{\leggrid}~grid node\\[0.5em]%
+    \usebox{\legrigid}~anchor\hspace{1.4em}\usebox{\legtrack}~boundary-track plane\hspace{1.4em}\usebox{\legfixed}~fixed};
+
+\end{tikzpicture}
+\end{document}
