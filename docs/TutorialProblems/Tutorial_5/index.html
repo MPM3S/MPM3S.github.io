@@ -1613,6 +1613,62 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1625,10 +1681,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" >
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1646,8 +1702,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1692,14 +1748,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/" class="md-nav__link">
+      <a href="../../UsingTheSoftware/InputFormat/quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2846,6 +2986,13 @@
 
 
 <h1 id="tutorial-5-rolling-sphere">Tutorial 5: Rolling sphere<a class="headerlink" href="#tutorial-5-rolling-sphere" title="Permanent link">¶</a></h1>
+<div class="tutorial-facts level-intermediate-strip">
+<span class="level level-intermediate">Intermediate</span>
+<span><strong>Time to work through:</strong> about 1 h</span>
+<span><strong>Run time:</strong> about 5 min on a GPU, 30 min on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
 <p>This is the first dynamic tutorial in MPM3S. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.</p>
 <p>The problem validates frictional contact and dynamic time integration together. As the sphere moves, the elements beneath it are refined to a fine mesh that travels with it, and a boundary track keeps only the part of the slope around the sphere active.</p>
@@ -2892,7 +3039,7 @@ d_x(t) =
 <div class="js-text">
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>"GPU": "off"</code> runs the analysis on the CPU (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
+<li><code>"GPU": "off"</code> runs the analysis on the CPU (<a href="../../UsingTheSoftware/InputFormat/gpu/">GPU</a>).</li>
 </ul>
 </div>
 <div class="js-code">
@@ -2904,7 +3051,7 @@ d_x(t) =
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
 <ul>
-<li>The background grid is a cube, sized automatically to hold the slab: its <span class="arithmatex">\(12.8\)</span> m length makes it a <span class="arithmatex">\(12.8\)</span> m cube (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li>The background grid is a cube, sized automatically to hold the slab: its <span class="arithmatex">\(12.8\)</span> m length makes it a <span class="arithmatex">\(12.8\)</span> m cube (<a href="../../UsingTheSoftware/InputFormat/domain/">domain</a>).</li>
 <li><code>"gravity"</code> is the tilted vector from the <a href="#problem-description">Problem description</a>: its two non-zero components are <span class="arithmatex">\(9.81/\sqrt{2} \approx 6.93672\)</span> m/s<span class="arithmatex">\(^2\)</span>.</li>
 </ul>
 </div>
@@ -2919,7 +3066,7 @@ d_x(t) =
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
 <ul>
-<li>A single <span class="arithmatex">\(0.8\)</span> m layer over a <span class="arithmatex">\(12.8 \times 1.6\)</span> m footprint, with the stiff elastic properties from the <a href="#problem-description">Problem description</a> (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
+<li>A single <span class="arithmatex">\(0.8\)</span> m layer over a <span class="arithmatex">\(12.8 \times 1.6\)</span> m footprint, with the stiff elastic properties from the <a href="#problem-description">Problem description</a> (<a href="../../UsingTheSoftware/InputFormat/material_points/">material points</a>).</li>
 <li>The refinement size used later, <span class="arithmatex">\(0.025\)</span> m, is <span class="arithmatex">\(0.8/2^5\)</span>, so the base element size needs no rounding.</li>
 </ul>
 </div>

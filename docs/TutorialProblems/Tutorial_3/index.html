@@ -1641,6 +1641,62 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1653,10 +1709,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" >
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1674,8 +1730,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1720,14 +1776,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/" class="md-nav__link">
+      <a href="../../UsingTheSoftware/InputFormat/quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2902,6 +3042,13 @@
 
 
 <h1 id="tutorial-3-vertical-penetration-cone-penetration-test">Tutorial 3: Vertical penetration (Cone Penetration Test)<a class="headerlink" href="#tutorial-3-vertical-penetration-cone-penetration-test" title="Permanent link">¶</a></h1>
+<div class="tutorial-facts level-intermediate-strip">
+<span class="level level-intermediate">Intermediate</span>
+<span><strong>Time to work through:</strong> about 1 to 1.5 h</span>
+<span><strong>Run time:</strong> about 15 min on a GPU, 1 h on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
 <p>This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements. This tuto</p>
 <p>A rigid cone is pushed quasi-statically <span class="arithmatex">\(4.5\)</span> m into a bed of dry sand, and the cone-tip resistance can be compared against centrifuge data such as that of Davidson <em>et al.</em> <sup id="fnref:davidson2022physical"><a class="footnote-ref" href="#fn:davidson2022physical">1</a></sup> and Cerfontaine <em>et al.</em> <sup id="fnref:Cerfontaine2020"><a class="footnote-ref" href="#fn:Cerfontaine2020">2</a></sup>. The problem builds on <a href="../Tutorial_2/">Tutorial 2</a> and adds four things: an elasto-plastic sand whose stiffness increases with depth, frictional contact, mesh refinement that follows the cone, and an analysis made of two stages.</p>
@@ -2917,7 +3064,7 @@
 <p>To reduce the computational cost the symmetry of the problem is exploited and therefore only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at <span class="arithmatex">\(x = y = 0\)</span>, and the two faces that meet there carry roller conditions.</p>
 <p><figure id="_figure-1"><img alt="The quarter model: a \(10 \times 10 \times 20\) m block of sand with the cone above the corner at \(x = y = 0\), where the two symmetry planes meet. Rollers act on the four vertical faces and the base is fixed. The cone, \(0.8\) m across with a \(60^\circ\) tip, is not drawn to scale." id="fig-cpt-domain" src="../../../img/Tutorial_3/cpt_setup.png" width="25%"><figcaption>Figure 1: The quarter model: a \(10 \times 10 \times 20\) m block of sand with the cone above the corner at \(x = y = 0\), where the two symmetry planes meet. Rollers act on the four vertical faces and the base is fixed. The cone, \(0.8\) m across with a \(60^\circ\) tip, is not drawn to scale.</figcaption></figure></p>
 <p><em>Figure adapted from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
-<p><strong>Soil block:</strong> <span class="arithmatex">\(10 \times 10\)</span> m in plan and <span class="arithmatex">\(20\)</span> m deep, starting with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each element. The base element size is given as <span class="arithmatex">\(2.0\)</span> m, but every element size must be a power-of-two multiple of the smallest one - <span class="arithmatex">\(0.025\)</span> m at the cone - so the base size becomes <span class="arithmatex">\(0.025 \times 2^6 = 1.6\)</span> m and the footprint is rounded up to seven elements, <span class="arithmatex">\(11.2 \times 11.2\)</span> m (see <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>).</p>
+<p><strong>Soil block:</strong> <span class="arithmatex">\(10 \times 10\)</span> m in plan and <span class="arithmatex">\(20\)</span> m deep, starting with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each element. The base element size is given as <span class="arithmatex">\(2.0\)</span> m, but every element size must be a power-of-two multiple of the smallest one - <span class="arithmatex">\(0.025\)</span> m at the cone - so the base size becomes <span class="arithmatex">\(0.025 \times 2^6 = 1.6\)</span> m and the footprint is rounded up to seven elements, <span class="arithmatex">\(11.2 \times 11.2\)</span> m (see <a href="../../UsingTheSoftware/InputFormat/material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>).</p>
 <p><strong>Boundary conditions:</strong> Rollers on the four vertical faces and a fixed base, at <span class="arithmatex">\(x = 0\)</span> and <span class="arithmatex">\(y = 0\)</span> these are the symmetry conditions. The soil surface is free.</p>
 <p><strong>Material:</strong> an elasto-plastic sand. Yield is governed by a frictional cone with a Willam-Warnke deviatoric section, and plastic flow by a Drucker-Prager cone set by the dilation angle, so the flow is non-associated. The elastic behaviour is linear in logarithmic (Hencky) strain. The model is described in <a href="../../TechnicalReferences/ElastoPlasticity/#lode-angle-dependent-deviatoric-section">isotropic elasto-plasticity</a>. The sand has a relative density of <span class="arithmatex">\(D_r = 32\%\)</span>, and its parameters come from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">4</a></sup>:</p>
 <div class="centered-table">
@@ -2989,7 +3136,7 @@
 </table>
 </div>
 <p>The density is entered as the unit weight divided by <span class="arithmatex">\(10\)</span> m/s<span class="arithmatex">\(^2\)</span>.</p>
-<p>The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress <span class="arithmatex">\(K_0 \sigma_v\)</span> and a reference pressure <span class="arithmatex">\(p^{ref} = 100\)</span> kPa, whereas MPM3S's <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#stress-dependent-stiffness">stress-dependent stiffness</a> uses the vertical stress <span class="arithmatex">\(\sigma_v\)</span>. The two are the same when the reference stress is <span class="arithmatex">\(p^{ref}/K_0\)</span>:</p>
+<p>The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress <span class="arithmatex">\(K_0 \sigma_v\)</span> and a reference pressure <span class="arithmatex">\(p^{ref} = 100\)</span> kPa, whereas MPM3S's <a href="../../UsingTheSoftware/InputFormat/material_points/#stress-dependent-stiffness">stress-dependent stiffness</a> uses the vertical stress <span class="arithmatex">\(\sigma_v\)</span>. The two are the same when the reference stress is <span class="arithmatex">\(p^{ref}/K_0\)</span>:</p>
 <div class="arithmatex">\[
 E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \frac{\sigma_v}{\sigma^{ref}} \right)^{m}, \qquad \sigma^{ref} = \frac{p^{ref}}{K_0} = 212.73 \text{ kPa}.
 \]</div>
@@ -3012,7 +3159,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="js-text">
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>"GPU": "on"</code> runs the analysis on an NVIDIA GPU (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
+<li><code>"GPU": "on"</code> runs the analysis on an NVIDIA GPU (<a href="../../UsingTheSoftware/InputFormat/gpu/">GPU</a>).</li>
 <li>This is recommended here, because refining the cone surface to <span class="arithmatex">\(0.025\)</span> m creates a large number of material points.</li>
 <li>Set it to <code>"off"</code> to run on the CPU.</li>
 </ul>
@@ -3026,7 +3173,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
 <ul>
-<li>The background grid is a cube, sized automatically to hold the soil block and the empty space above it: here a cube of side <span class="arithmatex">\(51.2\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li>The background grid is a cube, sized automatically to hold the soil block and the empty space above it: here a cube of side <span class="arithmatex">\(51.2\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain/">domain</a>).</li>
 <li>Gravity acts in <span class="arithmatex">\(-z\)</span>.</li>
 </ul>
 </div>
@@ -3041,8 +3188,8 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
 <ul>
-<li>A single <span class="arithmatex">\(20\)</span> m layer of Willam-Warnke sand over a <span class="arithmatex">\(10 \times 10\)</span> m footprint, with the properties from the <a href="#problem-description">Problem description</a> (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
-<li>The <code>"E overburden"</code> block makes the Young's modulus increase with depth (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#stress-dependent-stiffness">stress-dependent stiffness</a>).</li>
+<li>A single <span class="arithmatex">\(20\)</span> m layer of Willam-Warnke sand over a <span class="arithmatex">\(10 \times 10\)</span> m footprint, with the properties from the <a href="#problem-description">Problem description</a> (<a href="../../UsingTheSoftware/InputFormat/material_points/">material points</a>).</li>
+<li>The <code>"E overburden"</code> block makes the Young's modulus increase with depth (<a href="../../UsingTheSoftware/InputFormat/material_points/#stress-dependent-stiffness">stress-dependent stiffness</a>).</li>
 <li><code>"extra capacity": 1.2</code> reserves 20% more storage than the initial material points need, because the refinement around the cone splits material points into smaller ones.</li>
 </ul>
 </div>

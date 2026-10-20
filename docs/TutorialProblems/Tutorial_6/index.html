@@ -1662,6 +1662,62 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1674,10 +1730,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" >
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1695,8 +1751,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1741,14 +1797,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/" class="md-nav__link">
+      <a href="../../UsingTheSoftware/InputFormat/quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2944,6 +3084,13 @@
 
 
 <h1 id="tutorial-6-drag-anchor">Tutorial 6: Drag anchor<a class="headerlink" href="#tutorial-6-drag-anchor" title="Permanent link">¶</a></h1>
+<div class="tutorial-facts level-advanced-strip">
+<span class="level level-advanced">Advanced</span>
+<span><strong>Time to work through:</strong> about 1.5 to 2 h</span>
+<span><strong>Run time:</strong> about 45 min on a GPU, 6 h on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
 <p>This tutorial combines all the features of the previous tutorials to create a 3D dynamic simulation of an AC-14 drag anchor being pulled through a bed of loose sand.</p>
 <p>The problem combines many features of MPM3S: the gravity stage from <a href="../Tutorial_1/">Tutorial 1</a>, the displacement-controlled rigid body with contact from <a href="../Tutorial_2/">Tutorial 2</a>, the Willam-Warnke sand with depth-dependent stiffness from <a href="../Tutorial_3/">Tutorial 3</a>, the frictional contact, dynamic time integration and moving boundaries from <a href="../Tutorial_5/">Tutorial 5</a>, and an articulated anchor built from three points joined by a hinge, an angle stop and a pull line.</p>
@@ -2958,7 +3105,7 @@
 <p>You will model an anchor (AC14) being dragged through a subsurface soil. To do this, you will define the soil, the anchor, the three loading stages, the solver and the output in the input file, using the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a>.</p>
 <p><a href="#fig-anchor-setup">Figure 1</a> shows the model at the start of stage 2. To reduce the problem size, only half of the anchor and soil is modelled, using the vertical <span class="arithmatex">\(xz\)</span> plane of symmetry at <span class="arithmatex">\(y = 0\)</span>. The anchor's fluke and shank are joined at a hinge, with the fluke starting turned <span class="arithmatex">\(20^\circ\)</span> tip-down, and a pull line drags the anchor at <span class="arithmatex">\(0.1\)</span> m/s. A tracked node at the fluke tip records its position as the anchor embeds. Instead of solving the whole length of soil the anchor passes through, a boundary track keeps only a window of soil active, from <span class="arithmatex">\(0.5\)</span> m behind to <span class="arithmatex">\(2.5\)</span> m ahead of the anchor. The elements around the anchor are refined down to <span class="arithmatex">\(0.1\)</span> m; the figure only shows this schematically.</p>
 <p><figure id="_figure-1"><img alt="The half model at the start of stage 2, drawn shortened." id="fig-anchor-setup" src="../../../img/Tutorial_6/anchor_setup.png" width="80%"><figcaption>Figure 1: The half model at the start of stage 2, drawn shortened.</figcaption></figure></p>
-<p><strong>Soil block:</strong> The soil is <span class="arithmatex">\(120\)</span> m long, <span class="arithmatex">\(10\)</span> m wide and <span class="arithmatex">\(18.123\)</span> m deep. As in <a href="../Tutorial_3/">Tutorial 3</a>, the mesh is refined around the rigid body: the elements which intersect the anchor are refined to <span class="arithmatex">\(0.1\)</span> m, while those far from it are <span class="arithmatex">\(2.0\)</span> m, and every element is created with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points. Because the mesh is an octree whose smallest element is <span class="arithmatex">\(0.1\)</span> m, MPM3S adjusts these sizes (see <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>):</p>
+<p><strong>Soil block:</strong> The soil is <span class="arithmatex">\(120\)</span> m long, <span class="arithmatex">\(10\)</span> m wide and <span class="arithmatex">\(18.123\)</span> m deep. As in <a href="../Tutorial_3/">Tutorial 3</a>, the mesh is refined around the rigid body: the elements which intersect the anchor are refined to <span class="arithmatex">\(0.1\)</span> m, while those far from it are <span class="arithmatex">\(2.0\)</span> m, and every element is created with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points. Because the mesh is an octree whose smallest element is <span class="arithmatex">\(0.1\)</span> m, MPM3S adjusts these sizes (see <a href="../../UsingTheSoftware/InputFormat/material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>):</p>
 <ul>
 <li>element sizes are rounded <strong>down</strong> to a power-of-two multiple of <span class="arithmatex">\(0.1\)</span> m, so the mesh is never coarser than requested: the <span class="arithmatex">\(2.0\)</span> m elements become <span class="arithmatex">\(0.1 \times 2^4 = 1.6\)</span> m;</li>
 <li>the <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span> dimensions are rounded <strong>up</strong> to whole elements: <span class="arithmatex">\(120 \times 11.2\)</span> m;</li>
@@ -3133,7 +3280,7 @@
 <div class="js-text">
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>"GPU": "on"</code> runs the analysis on an NVIDIA GPU, as the reference simulations were run (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
+<li><code>"GPU": "on"</code> runs the analysis on an NVIDIA GPU, as the reference simulations were run (<a href="../../UsingTheSoftware/InputFormat/gpu/">GPU</a>).</li>
 <li>Without a GPU, set it to <code>"off"</code> to run on the CPU: the results are the same, but the analysis will be slower.</li>
 </ul>
 </div>
@@ -3146,7 +3293,7 @@
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
 <ul>
-<li>The background mesh is a cube, sized automatically to hold the soil block plus the same height of empty space above it (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li>The background mesh is a cube, sized automatically to hold the soil block plus the same height of empty space above it (<a href="../../UsingTheSoftware/InputFormat/domain/">domain</a>).</li>
 <li>Here the <span class="arithmatex">\(120\)</span> m length governs: the side is rounded up to a power-of-two number of <span class="arithmatex">\(1.6\)</span> m elements, <span class="arithmatex">\(1.6 \times 2^7 = 204.8\)</span> m.</li>
 <li>Gravity acts in <span class="arithmatex">\(-z\)</span>.</li>
 </ul>
@@ -3162,7 +3309,7 @@
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
 <ul>
-<li>One layer of Willam-Warnke sand, with the properties from the <a href="#problem-description">Problem description</a> (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
+<li>One layer of Willam-Warnke sand, with the properties from the <a href="#problem-description">Problem description</a> (<a href="../../UsingTheSoftware/InputFormat/material_points/">material points</a>).</li>
 <li>A <span class="arithmatex">\(120 \times 10\)</span> m footprint, whose <span class="arithmatex">\(y = 0\)</span> side is the plane of symmetry.</li>
 <li><span class="arithmatex">\(2.0\)</span> m base elements (rounded to <span class="arithmatex">\(1.6\)</span> m), each starting with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points.</li>
 </ul>

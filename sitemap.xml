@@ -149,6 +149,14 @@
          <lastmod>2026-10-20</lastmod>
     </url>
     <url>
+         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/common_tasks/</loc>
+         <lastmod>2026-10-20</lastmod>
+    </url>
+    <url>
+         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/writing_an_input_file/</loc>
+         <lastmod>2026-10-20</lastmod>
+    </url>
+    <url>
          <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/</loc>
          <lastmod>2026-10-20</lastmod>
     </url>
@@ -161,11 +169,23 @@
          <lastmod>2026-10-20</lastmod>
     </url>
     <url>
-         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/domain_and_material_points/</loc>
+         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/domain/</loc>
+         <lastmod>2026-10-20</lastmod>
+    </url>
+    <url>
+         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/gpu/</loc>
+         <lastmod>2026-10-20</lastmod>
+    </url>
+    <url>
+         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/material_points/</loc>
          <lastmod>2026-10-20</lastmod>
     </url>
     <url>
          <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/output/</loc>
+         <lastmod>2026-10-20</lastmod>
+    </url>
+    <url>
+         <loc>https://mpm3s.github.io/docs/UsingTheSoftware/InputFormat/quick_reference/</loc>
          <lastmod>2026-10-20</lastmod>
     </url>
     <url>

@@ -1363,6 +1363,62 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1375,10 +1431,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" >
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1396,8 +1452,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1442,14 +1498,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/" class="md-nav__link">
+      <a href="../../UsingTheSoftware/InputFormat/quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2373,16 +2513,16 @@
 
 
 <h1 id="rolling-sphere-input_data_spherejson">Rolling sphere - input_data_sphere.json<a class="headerlink" href="#rolling-sphere-input_data_spherejson" title="Permanent link">¶</a></h1>
-<p>The complete <code>input_data_sphere.json</code> for <a href="../Tutorial_5/">Tutorial 5</a>, also included with MPM3S in <code>validation_data_and_jsons</code>. Every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
+<p>The complete <code>input_data_sphere.json</code> for <a href="../Tutorial_5/">Tutorial 5</a>, also included with MPM3S in <code>validation_data_and_jsons</code>. Every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page. <strong>Click the numbers</strong> in the file to see what each part does, with links to the tutorial's explanation and to the format reference for those keys.</p>
 <p>It needs the sphere geometry <code>sphere.stl</code> and its mesh cache <code>sphere_mesh.txt</code> in the same folder; both are in <code>validation_data_and_jsons</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
+<div class="annotate highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="c1">// (1)!</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (2)!</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">6.93672</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-6.93672</span><span class="p">]</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">},</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">"material points"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">"material points"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (3)!</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="nt">"extra capacity"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="nt">"element size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="nt">"number of material points per element 1"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
@@ -2395,24 +2535,24 @@
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">        </span><span class="p">]</span>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="p">},</span>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="c1">// (4)!</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">        </span><span class="p">{</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">            </span><span class="nt">"offset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">1.8</span><span class="p">],</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">            </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">            </span><span class="nt">"offset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">1.8</span><span class="p">],</span><span class="w"> </span><span class="c1">// (5)!</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">            </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="c1">// (6)!</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">                </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span><span class="w"> </span><span class="nt">"mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">5000.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"rotational inertia"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">2000.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2000.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2000.0</span><span class="p">],</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">                  </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">            </span><span class="p">],</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">            </span><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">            </span><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="c1">// (7)!</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">                </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sphere"</span><span class="p">,</span><span class="w"> </span><span class="nt">"stl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sphere.stl"</span><span class="p">,</span><span class="w"> </span><span class="nt">"mesh cache"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sphere_mesh.txt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">            </span><span class="p">]</span>
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="p">],</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">    </span><span class="nt">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">    </span><span class="nt">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (8)!</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">        </span><span class="nt">"friction coefficient"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">    </span><span class="p">},</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">    </span><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">    </span><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="c1">// (9)!</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">        </span><span class="p">{</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="w">            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dynamic"</span><span class="p">,</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="w">            </span><span class="nt">"dt"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005</span><span class="p">,</span>
@@ -2433,7 +2573,7 @@
 <a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">    </span><span class="p">],</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>
-<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a><span class="w">    </span><span class="nt">"solver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a><span class="w">    </span><span class="nt">"solver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (10)!</span>
 <a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a><span class="w">        </span><span class="nt">"tolerance"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e-6</span><span class="p">,</span>
 <a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a><span class="w">        </span><span class="nt">"max newton iterations"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
 <a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a><span class="w">        </span><span class="nt">"poor factor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
@@ -2441,7 +2581,7 @@
 <a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a><span class="w">        </span><span class="nt">"ghost factor mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span>
 <a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a><span class="w">    </span><span class="p">},</span>
 <a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>
-<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a><span class="w">    </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a><span class="w">    </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (11)!</span>
 <a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a><span class="w">        </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a><span class="w">        </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_sphere_mu0.2"</span><span class="p">,</span>
 <a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a><span class="w">        </span><span class="nt">"vtk percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
@@ -2454,6 +2594,19 @@
 <a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a><span class="p">}</span>
 </code></pre></div>
+<ol>
+<li>Runs on the CPU. <a href="../Tutorial_5/#machine">Machine →</a> · <a href="../../UsingTheSoftware/InputFormat/gpu/">GPU →</a></li>
+<li>Gravity tilted <span class="arithmatex">\(45^\circ\)</span> towards <span class="arithmatex">\(+x\)</span>, modelling the slope on a level grid. <a href="../Tutorial_5/#domain">Domain →</a> · <a href="../../UsingTheSoftware/InputFormat/domain/">Domain →</a></li>
+<li>One <span class="arithmatex">\(0.8\)</span> m stiff elastic layer, <span class="arithmatex">\(12.8 \times 1.6\)</span> m. <a href="../Tutorial_5/#material-points">Material points →</a> · <a href="../../UsingTheSoftware/InputFormat/material_points/">Material points →</a></li>
+<li>One system: the sphere. <a href="../Tutorial_5/#rigid-body">Rigid body →</a> · <a href="../../UsingTheSoftware/InputFormat/rigid_bodies/">Rigid bodies →</a></li>
+<li>Places the sphere's centre at <span class="arithmatex">\((1.5, 0.8, 1.8)\)</span> m, resting on the slab. <a href="../Tutorial_5/#rigid-body">Rigid body →</a> · <a href="../../UsingTheSoftware/InputFormat/rigid_bodies/">Rigid bodies →</a></li>
+<li>One point at the sphere's centre, free to move in <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(z\)</span> and to rotate about <span class="arithmatex">\(y\)</span>. <a href="../Tutorial_5/#rigid-body">Rigid body →</a> · <a href="../../UsingTheSoftware/InputFormat/rigid_bodies/#points">Points →</a></li>
+<li><code>sphere.stl</code>, drawn centred on the origin. <a href="../Tutorial_5/#rigid-body">Rigid body →</a> · <a href="../../UsingTheSoftware/InputFormat/rigid_bodies/#stl-files">STL files →</a></li>
+<li><span class="arithmatex">\(\mu = 0.2\)</span>: the sphere slips as it rolls. <a href="../Tutorial_5/#contact">Contact →</a> · <a href="../../UsingTheSoftware/InputFormat/contact/">Contact →</a></li>
+<li>One dynamic stage, <span class="arithmatex">\(1\)</span> s in steps of <span class="arithmatex">\(0.005\)</span> s, with the mesh refined around the sphere and a boundary track following it. <a href="../Tutorial_5/#analysis">Analysis →</a> · <a href="../../UsingTheSoftware/InputFormat/analysis/#boundary-track">Boundary track →</a></li>
+<li>Tolerance <span class="arithmatex">\(10^{-6}\)</span> and 20 iterations; ghost factors <span class="arithmatex">\(10.0\)</span> and <span class="arithmatex">\(0.25\)</span>. <a href="../Tutorial_5/#solver">Solver →</a> · <a href="../../UsingTheSoftware/InputFormat/solver/">Solver →</a></li>
+<li>A VTK frame at every step; the sphere's motion in <code>rigid_body.csv</code>. <a href="../Tutorial_5/#output">Output →</a> · <a href="../../UsingTheSoftware/InputFormat/output/">Output →</a></li>
+</ol>
 
 
 

@@ -1349,6 +1349,62 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1365,10 +1421,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1386,8 +1442,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1432,14 +1488,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain_and_material_points/" class="md-nav__link">
+      <a href="../quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2400,7 +2540,7 @@
 <td>Required</td>
 <td>number</td>
 <td>-</td>
-<td>Convergence tolerance for the Newton-Raphson iterations in each step. The error is the norm of the out-of-balance force on the free degrees of freedom, relative to the norm of the gravity force on the soil (for free rigid-body degrees of freedom, relative to the bodies' weight).</td>
+<td>Convergence tolerance for the Newton-Raphson iterations in each step. The error is the norm of the out-of-balance force on the free degrees of freedom, relative to the norm of the gravity force on the soil (for free rigid-body degrees of freedom, relative to the bodies' weight). Where that load is below 1 N - for example with zero gravity - the error is measured in newtons instead.</td>
 </tr>
 <tr>
 <td><code>"max newton iterations"</code></td>
@@ -2442,7 +2582,7 @@
 </div>
 <p>Two consequences of measuring the error against the weight of the soil:</p>
 <ul>
-<li><a href="../domain_and_material_points/#domain"><code>"gravity"</code></a> must not be zero, or no step can converge.</li>
+<li><a href="../domain/"><code>"gravity"</code></a> must not be zero, or no step can converge.</li>
 <li>A step that cannot converge is retried with the increment halved, indefinitely - there is no smallest increment. A fast-rising <code>cuts</code> count on the progress line means the analysis will never finish; stop it and check the input.</li>
 </ul>
 

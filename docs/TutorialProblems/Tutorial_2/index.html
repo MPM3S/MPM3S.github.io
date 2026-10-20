@@ -1639,6 +1639,62 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1651,10 +1707,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" >
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1672,8 +1728,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1718,14 +1774,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/" class="md-nav__link">
+      <a href="../../UsingTheSoftware/InputFormat/quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2896,6 +3036,13 @@
 
 
 <h1 id="tutorial-2-compaction-via-a-rigid-body">Tutorial 2: Compaction via a rigid body<a class="headerlink" href="#tutorial-2-compaction-via-a-rigid-body" title="Permanent link">¶</a></h1>
+<div class="tutorial-facts level-beginner-strip">
+<span class="level level-beginner">Beginner</span>
+<span><strong>Time to work through:</strong> about 45 min</span>
+<span><strong>Run time:</strong> about a minute on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
 <p>This quick start tutorial introduces the concept of a rigid body interacting with the material points. It builds on <a href="../Tutorial_1/">Tutorial 1</a> and introduces the concept of a rigid body interacting with the material points.</p>
 <p>This tutorial analyses a cube of soil compressed by a rigid cube by 25% of its height. It is used to validate that the contact formulation produces the expected uniform vertical stress and displacement fields. This problem has been used to validate our contact formulation <sup id="fnref:bird_dynamic_2025"><a class="footnote-ref" href="#fn:bird_dynamic_2025">1</a></sup> and our adaptive-octree extension <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">2</a></sup>.</p>
@@ -2942,8 +3089,8 @@
 <div class="js-text">
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>"GPU": "off"</code> runs the analysis on the CPU (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
-<li><code>"domain update": "stretch"</code> lets the GIMP domains compress with the soil (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain-update">domain update</a>).</li>
+<li><code>"GPU": "off"</code> runs the analysis on the CPU (<a href="../../UsingTheSoftware/InputFormat/gpu/">GPU</a>).</li>
+<li><code>"domain update": "stretch"</code> lets the GIMP domains compress with the soil (<a href="../../UsingTheSoftware/InputFormat/material_points/#domain-update">domain update</a>).</li>
 <li>Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.</li>
 </ul>
 </div>
@@ -2958,7 +3105,7 @@
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
 <ul>
-<li>The background mesh is a cube, sized automatically to hold the soil plus the same height of empty space above it: here a cube of side <span class="arithmatex">\(1.6\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li>The background mesh is a cube, sized automatically to hold the soil plus the same height of empty space above it: here a cube of side <span class="arithmatex">\(1.6\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain/">domain</a>).</li>
 <li><code>"gravity"</code> is zero, so the soil carries no weight.</li>
 </ul>
 </div>
@@ -2973,7 +3120,7 @@
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
 <ul>
-<li>One <span class="arithmatex">\(0.8\)</span> m layer on a <span class="arithmatex">\(0.8 \times 0.8\)</span> m footprint (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
+<li>One <span class="arithmatex">\(0.8\)</span> m layer on a <span class="arithmatex">\(0.8 \times 0.8\)</span> m footprint (<a href="../../UsingTheSoftware/InputFormat/material_points/">material points</a>).</li>
 <li><span class="arithmatex">\(0.4\)</span> m elements, with <span class="arithmatex">\(2 \times 2 \times 2\)</span> GIMPs in each.</li>
 <li>The elastic properties from the <a href="#problem-summary">Problem summary</a>.</li>
 </ul>

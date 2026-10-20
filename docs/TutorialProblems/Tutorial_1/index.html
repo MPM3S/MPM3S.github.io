@@ -1628,6 +1628,62 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -1640,10 +1696,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" >
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1661,8 +1717,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1707,14 +1763,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/" class="md-nav__link">
+      <a href="../../UsingTheSoftware/InputFormat/quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../UsingTheSoftware/InputFormat/material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2874,6 +3014,13 @@
 
 
 <h1 id="tutorial-1-self-weight-column">Tutorial 1: Self-weight column<a class="headerlink" href="#tutorial-1-self-weight-column" title="Permanent link">¶</a></h1>
+<div class="tutorial-facts level-beginner-strip">
+<span class="level level-beginner">Beginner</span>
+<span><strong>Time to work through:</strong> about 30 min</span>
+<span><strong>Run time:</strong> under a minute on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
 <p>This quick start tutorial walks through the steps of running your first MPM3S problem.</p>
 <p>This tutorial analyses a column deforming under its own weight and solves the static <a href="../../TechnicalReferences/EquilibriumEquations/">equilibrium equations</a>. It is simple but introduces you to all components of the code: setting up the input file, running the analysis and viewing the output data.</p>
@@ -2913,8 +3060,8 @@
 <div class="js-text">
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>"GPU": "off"</code> runs the analysis on the CPU, which is plenty for a problem this small (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
-<li><code>"domain update": "stretch"</code> lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain-update">domain update</a>).</li>
+<li><code>"GPU": "off"</code> runs the analysis on the CPU, which is plenty for a problem this small (<a href="../../UsingTheSoftware/InputFormat/gpu/">GPU</a>).</li>
+<li><code>"domain update": "stretch"</code> lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed (<a href="../../UsingTheSoftware/InputFormat/material_points/#domain-update">domain update</a>).</li>
 <li>It is optional; without it the domains keep their initial size.</li>
 </ul>
 </div>
@@ -2929,7 +3076,7 @@
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
 <ul>
-<li>The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side <span class="arithmatex">\(1.6\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li>The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side <span class="arithmatex">\(1.6\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain/">domain</a>).</li>
 <li>Gravity acts in <span class="arithmatex">\(-z\)</span>.</li>
 </ul>
 </div>
@@ -2944,7 +3091,7 @@
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
 <ul>
-<li>One layer, <span class="arithmatex">\(0.8\)</span> m thick, on a <span class="arithmatex">\(0.05 \times 0.05\)</span> m footprint (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
+<li>One layer, <span class="arithmatex">\(0.8\)</span> m thick, on a <span class="arithmatex">\(0.05 \times 0.05\)</span> m footprint (<a href="../../UsingTheSoftware/InputFormat/material_points/">material points</a>).</li>
 <li><code>"element size"</code> sets the background elements to <span class="arithmatex">\(0.05\)</span> m.</li>
 <li><code>"number of material points per element 1": 2</code> places a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs in each element.</li>
 <li>The material is the Hencky elastic model, with the parameters from the <a href="#problem-summary">Problem summary</a>.</li>

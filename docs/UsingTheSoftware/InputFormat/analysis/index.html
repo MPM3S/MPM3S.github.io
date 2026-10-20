@@ -1349,6 +1349,62 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_an_input_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing an input file
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common_tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1365,10 +1421,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4_3" id="__nav_4_4_3_label" tabindex="0">
             
   
   
@@ -1386,8 +1442,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_4_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1432,14 +1488,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain_and_material_points/" class="md-nav__link">
+      <a href="../quick_reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Domain and material points
+    Quick reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Domain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../material_points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material points
   
 
     
@@ -2708,7 +2848,7 @@
 </tbody>
 </table>
 </div>
-<p>Any other entry stops the analysis. Where faces meet, the conditions combine. The <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span> faces sit at the edges of the (rounded) soil footprint. The max <span class="arithmatex">\(z\)</span> face sits at <strong>twice</strong> the soil thickness, in the empty space above the soil (see <a href="../domain_and_material_points/#how-element-sizes-set-the-mesh">element sizes</a>), so it does not touch the soil and the soil surface is always free.</p>
+<p>Any other entry stops the analysis. Where faces meet, the conditions combine. The <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span> faces sit at the edges of the (rounded) soil footprint. The max <span class="arithmatex">\(z\)</span> face sits at <strong>twice</strong> the soil thickness, in the empty space above the soil (see <a href="../material_points/#how-element-sizes-set-the-mesh">element sizes</a>), so it does not touch the soil and the soil surface is always free.</p>
 <h2 id="adaptivity">Adaptivity<a class="headerlink" href="#adaptivity" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rigid body surface"</span><span class="p">,</span><span class="w"> </span><span class="nt">"element size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">                </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="nt">"element size in region"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="w"> </span><span class="p">}</span>
@@ -2756,7 +2896,7 @@
 </tbody>
 </table>
 </div>
-<p>In a stage with <code>"rigid bodies": "off"</code>, <code>"rigid body surface"</code> falls back to <code>"none"</code>. Material points split by refinement stay split. Every size here takes part in the <a href="../domain_and_material_points/#how-element-sizes-set-the-mesh">element-size rounding</a>.</p>
+<p>In a stage with <code>"rigid bodies": "off"</code>, <code>"rigid body surface"</code> falls back to <code>"none"</code>. Material points split by refinement stay split. Every size here takes part in the <a href="../material_points/#how-element-sizes-set-the-mesh">element-size rounding</a>.</p>
 <h2 id="rigid-body-boundary-conditions">Rigid body boundary conditions<a class="headerlink" href="#rigid-body-boundary-conditions" title="Permanent link">¶</a></h2>
 <p>Replaces the six <a href="../rigid_bodies/#points">point boundary conditions</a> of chosen points for this stage only. Points that are not listed keep the conditions given in <code>"rigid bodies"</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">"rigid body boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
