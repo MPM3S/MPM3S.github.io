@@ -335,3 +335,40 @@
   filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.08));
 }
 .ib-tip.ib-tip-below::before { top: auto; bottom: 100%; border-top-color: transparent; border-bottom-color: var(--md-default-bg-color); }
+
+/* "Do not refresh this page", in Material's warning colours */
+#input-builder .ib-warn {
+  margin: 0 0 0.6rem;
+  padding: 0.35rem 0.7rem;
+  border-left: 0.2rem solid #ff9100;
+  border-radius: 0.2rem;
+  background: rgba(255, 145, 0, 0.1);
+  line-height: 2;
+}
+#input-builder .ib-warn::before { content: "⚠ "; color: #ff9100; }
+#input-builder .ib-warn .ib-btn { margin: 0 0.1rem; padding: 0.05rem 0.5rem; }
+
+/* Download joined to the file name: one purple outline, the name on white */
+#input-builder .ib-dl {
+  display: inline-flex;
+  align-items: stretch;
+  vertical-align: middle;
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: 0.2rem;
+  overflow: hidden;
+}
+#input-builder .ib-dl .ib-btn { margin: 0; border: none; border-radius: 0; }
+#input-builder .ib-dl .ib-fname {
+  min-width: 0;
+  padding: 0 0.5rem;
+  border: none;
+  outline: none;
+  background: var(--md-default-bg-color);
+  color: var(--md-primary-fg-color);
+  font: inherit;
+  font-family: var(--md-code-font-family);
+  font-weight: 600;
+}
+#input-builder .ib-dl:focus-within { box-shadow: 0 0 0 2px var(--md-accent-fg-color--transparent); }
+#input-builder .ib-warn .ib-dl { margin: 0 0.1rem; }
+#input-builder .ib-preview-head .ib-dl { margin-left: 0.3rem; }
