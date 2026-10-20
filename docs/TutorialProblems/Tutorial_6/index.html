@@ -1326,6 +1326,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Running the problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -3004,6 +3021,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Running the problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -3628,7 +3662,14 @@
 </code></pre></div>
 <p>This is a large analysis, run on an NVIDIA GPU (<code>"GPU": "on"</code>); without one, set <code>"GPU": "off"</code> and run it on an HPC node.</p>
 <p><code>validation_data_and_jsons</code> also has the same problem in sand at <span class="arithmatex">\(D_r = 7\)</span>, <span class="arithmatex">\(64\)</span> and <span class="arithmatex">\(88\%\)</span> (<code>input_data_AC14_dr7.json</code>, <code>input_data_AC14_dr64.json</code> and <code>input_data_AC14_dr88.json</code>), and for the Hall anchor at all four densities (<code>input_data_Hall_dr7.json</code> to <code>input_data_Hall_dr88.json</code>).</p>
-<p>The progress line counts through <code>stage 1/3</code>, <code>stage 2/3</code> and <code>stage 3/3</code>. Its fields are explained in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>.</p>
+<h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
+<p>The progress line works as in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>, counting through <code>stage 1/3</code>, <code>stage 2/3</code> and <code>stage 3/3</code>:</p>
+<ul>
+<li><strong>Stage 1:</strong> the uniform mesh fills the whole <span class="arithmatex">\(204.8\)</span> m background cube with <span class="arithmatex">\(1.6\)</span> m elements, hence the 2.1 million nodes (<code>N</code>).</li>
+<li><strong>Start of stage 2:</strong> MPM3S reports the rigid body surface placement. The anchor's lowest node, the fluke tip (<code>body base</code>, at <span class="arithmatex">\(-0.5703\)</span> m in the drawn frame), is moved up by <code>Δz</code> to the soil surface (<code>material top</code>), which has settled from <span class="arithmatex">\(18.4\)</span> m to <span class="arithmatex">\(18.2894\)</span> m under the weight of the sand.</li>
+<li><strong>Stage 2:</strong> <code>N</code> drops to a few thousand: the background mesh now covers only the active window of soil inside the boundary track, refined around the anchor.</li>
+<li><strong>Stage 3:</strong> the output shows the drag part-way through, at <span class="arithmatex">\(54\%\)</span>. Steps that do not converge are retried with half the increment (<code>cuts</code>), and material points next to the anchor that become too distorted are deleted (<code>del</code>).</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
@@ -3643,6 +3684,10 @@
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="go">julia&gt; using MPM3S</span>
 <a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
 <a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_AC14_dr32.json");</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="go">stage 1/3 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 2146689</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="go">[ Info: rigid body surface placement: body base -0.570303 → material top 18.2894   Δz = 18.8597</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="go">stage 2/3 ████████████ 100.0% t 1.0/1.0 step 206 Δt 0.005 NR 4 cuts 0 del 0 N 4500</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="go">stage 3/3 ██████░░░░░░  54.0% t 432.0/800.0 step 11117 Δt 0.04 NR 10 cuts 220 del 19814 N 6856</span>
 </code></pre></div>
 </div>
 </div>
@@ -3710,7 +3755,7 @@
 <ul>
 <li><strong>Pull-line force:</strong> <code>body3_reaction force_x</code> is the force needed to move the pull point, i.e. the tension the anchor develops.</li>
 <li><strong>Drag distance:</strong> <code>body3_position_x</code> minus its value at the start of stage 3.</li>
-<li><strong>Embedment:</strong> the height of the soil surface minus <code>track1_z</code>, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the <code>material top</code> that MPM3S prints in the rigid body surface placement message at the start of stage 2.</li>
+<li><strong>Embedment:</strong> the height of the soil surface minus <code>track1_z</code>, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the <code>material top</code> that MPM3S prints in the rigid body surface placement message at the start of stage 2 - <span class="arithmatex">\(18.2894\)</span> m here.</li>
 </ul>
 <p>The <code>time</code> column restarts at the start of each stage.</p>
 <div class="admonition example">
