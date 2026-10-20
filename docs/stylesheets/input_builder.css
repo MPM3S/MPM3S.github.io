@@ -37,6 +37,9 @@
 @media screen and (min-width: 76.25em) {
   #input-builder .ib-layout { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
   #input-builder .ib-side { position: sticky; top: 3.4rem; max-height: calc(100vh - 4rem); display: flex; flex-direction: column; }
+  /* only the preview gives way when the column is full: a long file used to shrink the status line and the issue
+     list too, and the list (a scroll box, so no minimum height of its own) was squeezed to a clipped sliver */
+  #input-builder .ib-side > * { flex: 0 0 auto; }
   #input-builder .ib-preview { flex: 1 1 auto; min-height: 8rem; }
 }
 
@@ -114,6 +117,9 @@
 #input-builder .ib-has-warns { background: var(--ib-warn); }
 #input-builder .ib-has-errors { background: var(--ib-err); }
 #input-builder .ib-issues { margin: 0.4rem 0; padding: 0; list-style: none; max-height: 9rem; overflow-y: auto; }
+/* with any issue at all, room for three lines (one line + an issue's padding and gap each), so a single message is
+   never a cramped sliver; with none, the list takes no space */
+#input-builder .ib-issues:not(:empty) { min-height: calc(3 * (1.6em + 0.5rem)); }
 #input-builder .ib-issue { margin: 0 0 0.2rem; padding: 0.15rem 0.4rem; border-left: 3px solid; cursor: pointer; }
 #input-builder .ib-issue.ib-error { border-color: var(--ib-err); }
 #input-builder .ib-issue.ib-warn { border-color: var(--ib-warn); }

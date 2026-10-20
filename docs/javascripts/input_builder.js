@@ -249,6 +249,14 @@
       const a = st && st.adaptivity;
       if (a && typeof a === "object" && ("region" in a) !== ("element size in region" in a))
         add("error", ["analysis", i, "adaptivity"], "give both \"region\" and \"element size in region\", or neither");
+      // "rigid body surface" refines around a body: with no body in the file it has nothing to refine around; with the
+      // stage's bodies off, MPM3S replaces it with no adaptivity (setup_analysis.jl stage_adapt)
+      if (a && typeof a === "object" && a.type === "rigid body surface") {
+        if (!arr(root["rigid bodies"]).length)
+          add("error", ["analysis", i, "adaptivity", "type"], "\"rigid body surface\" needs a rigid body, and this file has none - use \"none\" or \"uniform\"");
+        else if (st["rigid bodies"] === "off")
+          add("warn", ["analysis", i, "adaptivity", "type"], "this stage has \"rigid bodies\" \"off\", so MPM3S ignores \"rigid body surface\" here and uses no adaptivity");
+      }
       for (const [j, r] of arr(st && st["rigid body boundary conditions"]).entries()) {
         if (!r || typeof r !== "object") continue;
         const sys = arr(root["rigid bodies"])[r.system - 1];
