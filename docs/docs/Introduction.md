@@ -68,7 +68,7 @@ A detailed explanation of the MPM is provided [here](https://ampssie.github.io/d
 
     ---
 
-    The `input_data.json` format: every key, how to write a file, and common tasks.
+    The `input_data.json` format: every key, and how to write a file.
 
     [:octicons-arrow-right-24: Input format](UsingTheSoftware/InputFormat/index.md)
 
