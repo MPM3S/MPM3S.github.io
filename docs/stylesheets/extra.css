@@ -496,24 +496,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Enhanced readability */
 .md-typeset {
-  line-height: 1.7;
-  font-size: 0.9rem;
+  line-height: 1.6;
+  font-size: 0.7rem;
 }
 
 .md-typeset h1 {
-  font-size: 2rem;
+  font-size: 1.55rem;
   margin: 2rem 0 1rem;
 }
 
 .md-typeset h2 {
-  font-size: 1.5rem;
+  font-size: 1.17rem;
   margin: 1.5rem 0 0.8rem;
   border-bottom: 2px solid var(--durham-gold);
   padding-bottom: 0.3rem;
 }
 
 .md-typeset h3 {
-  font-size: 1.25rem;
+  font-size: 0.97rem;
   margin: 1.2rem 0 0.6rem;
 }
 
@@ -631,7 +631,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: none;
 }
 
-/* Every table: text 2pt smaller than the main text (0.9rem), compact rows, centred on the
+/* Every table: text a little smaller than the main text (0.85 of it), compact rows, centred on the
    page; the text wraps rather than scrolling sideways, but code stays on one line. Material
    wraps each table in an inline-block box (md-typeset__table, inside md-typeset__scrollwrap),
    so that box is centred with text-align - the cells set their own alignment. */
@@ -643,7 +643,7 @@ h1, h2, h3, h4, h5, h6 {
   display: table;
   margin-left: auto;
   margin-right: auto;
-  font-size: calc(0.9rem - 2pt);
+  font-size: 0.85em;
   line-height: 1.4;
 }
 
@@ -870,7 +870,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .image-item em {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: var(--durham-ink);
   font-style: italic;
   line-height: 1.4;
@@ -959,14 +959,14 @@ h1, h2, h3, h4, h5, h6 {
   overflow-x: auto;
 }
 
-/* Smaller prose in the left column so the JSON dominates the row. */
+/* The left column's prose is the same size as the main text. */
 .md-typeset .json-side .js-text {
-  font-size: 0.78rem;
-  line-height: 1.55;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .md-typeset .json-side .js-text h3 {
-  font-size: 1rem;
+  font-size: 0.78rem;
   margin: 0 0 0.4rem;
 }
 
@@ -985,12 +985,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-size: 0.72rem;
+  font-size: 0.56rem;
   color: var(--durham-purple);
 }
 
 .md-typeset .json-side-header code {
-  font-size: 0.82rem;
+  font-size: 0.64rem;
   font-weight: 600;
   text-transform: none;
   letter-spacing: 0;
@@ -1078,7 +1078,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   padding: 0.9rem 1.1rem;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 0.78rem;
+  font-size: 0.61rem;
   line-height: 1.55;
 }
 

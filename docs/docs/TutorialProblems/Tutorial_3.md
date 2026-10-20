@@ -98,7 +98,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-"GPU" : "on"
+"GPU": "on",
 ```
 
 </div>
@@ -121,7 +121,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "domain": {
     "gravity": [0.0, 0.0, -9.81]
-}
+},
 ```
 
 </div>
@@ -158,7 +158,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
                           "E overburden": { "reference stress": 2.12729e5, "exponent": 0.6 } }
         }
     ]
-}
+},
 ```
 
 </div>
@@ -194,7 +194,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
               "mesh cache": "CPT_mesh.txt", "point": 1 }
         ]
     }
-]
+],
 ```
 
 </div>
@@ -216,7 +216,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "contact": {
     "friction coefficient": 0.33
-}
+},
 ```
 
 </div>
@@ -240,14 +240,15 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-{
-    "type": "static",
-    "load steps": 5,
-    "load": "gravity ramp",
-    "rigid bodies": "off",
-    "adaptivity": { "type": "none" },
-    "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
-}
+"analysis": [
+    {
+        "type": "static",
+        "load steps": 5,
+        "load": "gravity ramp",
+        "rigid bodies": "off",
+        "adaptivity": { "type": "none" },
+        "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
+    },
 ```
 
 </div>
@@ -272,21 +273,22 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-{
-    "type": "static",
-    "load steps": 450,
-    "load": "full",
-    "rigid bodies": "on",
-    "rigid body surface placement": "on",
-    "adaptivity": {
-        "type": "rigid body surface",
-        "element size": 0.025
-    },
-    "rigid body boundary conditions": [
-        { "system": 1, "point": 1, "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
-    ],
-    "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
-}
+    {
+        "type": "static",
+        "load steps": 450,
+        "load": "full",
+        "rigid bodies": "on",
+        "rigid body surface placement": "on",
+        "adaptivity": {
+            "type": "rigid body surface",
+            "element size": 0.025
+        },
+        "rigid body boundary conditions": [
+            { "system": 1, "point": 1, "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
+        ],
+        "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
+    }
+],
 ```
 
 </div>
@@ -315,7 +317,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
     "poor factor": 0.25,
     "ghost factor": 0.025,
     "ghost factor mass": 0.25
-}
+},
 ```
 
 </div>

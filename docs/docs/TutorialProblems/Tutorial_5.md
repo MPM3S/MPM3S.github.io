@@ -87,7 +87,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-"GPU": "off"
+"GPU": "off",
 ```
 
 </div>
@@ -110,7 +110,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "domain": {
     "gravity": [6.93672, 0.0, -6.93672]
-}
+},
 ```
 
 </div>
@@ -142,7 +142,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
             "material": { "type": "elastic", "E": 1.0e9, "nu": 0.0, "density": 1000.0 }
         }
     ]
-}
+},
 ```
 
 </div>
@@ -176,7 +176,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
             { "name": "sphere", "stl": "sphere.stl", "mesh cache": "sphere_mesh.txt", "point": 1 }
         ]
     }
-]
+],
 ```
 
 </div>
@@ -200,7 +200,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "contact": {
     "friction coefficient": 0.2
-}
+},
 ```
 
 </div>
@@ -249,7 +249,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
                      "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
         }
     }
-]
+],
 ```
 
 </div>
@@ -277,7 +277,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
     "poor factor": 0.25,
     "ghost factor": 10.0,
     "ghost factor mass": 0.25
-}
+},
 ```
 
 </div>

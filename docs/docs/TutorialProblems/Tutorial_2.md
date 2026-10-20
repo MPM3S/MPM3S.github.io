@@ -92,7 +92,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ```json
 "GPU": "off",
 
-"domain update": "stretch"
+"domain update": "stretch",
 ```
 
 </div>
@@ -115,7 +115,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ```json
 "domain": {
     "gravity": [0.0, 0.0, 0.0]
-}
+},
 ```
 
 </div>
@@ -148,7 +148,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
             "material": { "type": "elastic", "E": 1.0e6, "nu": 0.0, "density": 1000.0 }
         }
     ]
-}
+},
 ```
 
 </div>
@@ -187,7 +187,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
             { "name": "cube", "stl": "cube.stl", "mesh cache": "cube_mesh.txt", "point": 1 }
         ]
     }
-]
+],
 ```
 
 </div>
@@ -210,7 +210,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ```json
 "contact": {
     "friction coefficient": 0.0
-}
+},
 ```
 
 </div>
@@ -244,7 +244,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
         "boundary conditions": { "min": ["roller", "roller", "roller"], "max": ["roller", "roller", "free"] },
         "adaptivity": { "type": "uniform" }
     }
-]
+],
 ```
 
 </div>
@@ -271,7 +271,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
     "poor factor": 0.25,
     "ghost factor": 0.0,
     "ghost factor mass": 0.0
-}
+},
 ```
 
 </div>
