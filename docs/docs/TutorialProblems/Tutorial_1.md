@@ -73,7 +73,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ```json
 "GPU": "off",
 
-"domain update": "stretch"
+"domain update": "stretch",
 ```
 
 </div>
@@ -96,7 +96,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ```json
 "domain": {
     "gravity": [0.0, 0.0, -9.81]
-}
+},
 ```
 
 </div>
@@ -131,7 +131,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
             "material": { "type": "elastic", "E": 283.0, "nu": 0.0, "density": 50.0 }
         }
     ]
-}
+},
 ```
 
 </div>
@@ -156,7 +156,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 "contact": {
     "friction coefficient": 0.0
-}
+},
 ```
 
 </div>
@@ -188,7 +188,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
         "rigid bodies": "off",
         "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "free"] }
     }
-]
+],
 ```
 
 </div>
@@ -216,7 +216,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
     "poor factor": 0.25,
     "ghost factor": 0.0,
     "ghost factor mass": 0.0
-}
+},
 ```
 
 </div>

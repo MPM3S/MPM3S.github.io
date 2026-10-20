@@ -120,7 +120,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-"GPU": "on"
+"GPU": "on",
 ```
 
 </div>
@@ -144,7 +144,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "domain": {
     "gravity": [0.0, 0.0, -9.81]
-}
+},
 ```
 
 </div>
@@ -181,7 +181,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
                           "E overburden": { "reference stress": 212729.0, "exponent": 0.6 } }
         }
     ]
-}
+},
 ```
 
 </div>
@@ -303,7 +303,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
             { "position": [1.994, 0.6489, -0.5478], "point": 1 }
         ]
     }
-]
+],
 ```
 
 </div>
@@ -325,7 +325,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "contact": {
     "friction coefficient": 0.45
-}
+},
 ```
 
 </div>
@@ -348,14 +348,15 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-{
-    "type": "static",
-    "load steps": 5,
-    "load": "gravity ramp",
-    "rigid bodies": "off",
-    "adaptivity": { "type": "uniform" },
-    "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
-}
+"analysis": [
+    {
+        "type": "static",
+        "load steps": 5,
+        "load": "gravity ramp",
+        "rigid bodies": "off",
+        "adaptivity": { "type": "uniform" },
+        "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
+    },
 ```
 
 </div>
@@ -381,26 +382,26 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-{
-    "type": "dynamic",
-    "dt": 5.0e-3,
-    "final time": 1.0,
-    "beta": 0.5,
-    "gamma": 1.0,
-    "rigid bodies": "on",
-    "rigid body surface placement": "on",
-    "adaptivity": {
-        "type": "rigid body surface",
-        "element size": 0.1
+    {
+        "type": "dynamic",
+        "dt": 5.0e-3,
+        "final time": 1.0,
+        "beta": 0.5,
+        "gamma": 1.0,
+        "rigid bodies": "on",
+        "rigid body surface placement": "on",
+        "adaptivity": {
+            "type": "rigid body surface",
+            "element size": 0.1
+        },
+        "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
+        "boundary track": {
+            "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0],
+                     "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
+            "max": { "type": ["fixed", "off", "off"], "distance": [2.5, 0.0, 0.0],
+                     "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
+        }
     },
-    "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
-    "boundary track": {
-        "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0],
-                 "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-        "max": { "type": ["fixed", "off", "off"], "distance": [2.5, 0.0, 0.0],
-                 "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
-    }
-}
 ```
 
 </div>
@@ -425,31 +426,32 @@ The input file is a single JSON object - a human-readable, editable text file. T
 <div class="js-code" markdown>
 
 ```json
-{
-    "type": "dynamic",
-    "dt": 0.04,
-    "final time": 800.0,
-    "beta": 0.5,
-    "gamma": 1.0,
-    "rigid bodies": "on",
-    "rigid body surface placement": "off",
-    "adaptivity": {
-        "type": "rigid body surface",
-        "element size": 0.1,
-        "region": 0.06,
-        "element size in region": 0.1
-    },
-    "rigid body boundary conditions": [
-        { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.004 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
-    ],
-    "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
-    "boundary track": {
-        "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0],
-                 "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-        "max": { "type": ["fixed", "off", "off"], "distance": [5.0, 0.0, 0.0],
-                 "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
+    {
+        "type": "dynamic",
+        "dt": 0.04,
+        "final time": 800.0,
+        "beta": 0.5,
+        "gamma": 1.0,
+        "rigid bodies": "on",
+        "rigid body surface placement": "off",
+        "adaptivity": {
+            "type": "rigid body surface",
+            "element size": 0.1,
+            "region": 0.06,
+            "element size in region": 0.1
+        },
+        "rigid body boundary conditions": [
+            { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.004 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
+        ],
+        "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
+        "boundary track": {
+            "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0],
+                     "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
+            "max": { "type": ["fixed", "off", "off"], "distance": [5.0, 0.0, 0.0],
+                     "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
+        }
     }
-}
+],
 ```
 
 </div>
@@ -477,7 +479,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
     "poor factor": 0.25,
     "ghost factor": 0.025,
     "ghost factor mass": 0.25
-}
+},
 ```
 
 </div>
