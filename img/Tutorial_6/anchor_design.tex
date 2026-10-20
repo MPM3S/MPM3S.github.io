@@ -1,6 +1,6 @@
 % AC-14 anchor design (Tutorial 6), in the style of anchor_setup.png, laid out as the original:
 % (a) the anchor from above, both halves, beside (b) the anchor from the side, with the hinge opened to its 35 degree limit and the
-% points and constraints of the input file; and below them (c) the anchor and its pull line. The fluke and
+% points of the input file; and below them (c) the anchor and its pull line. The fluke and
 % shank are drawn from the STL files by anchor_design_parts.py, in metres, in the frame of
 % the input file as drawn.
 % Build: python3 anchor_design_parts.py path/to/MPM3S/validation_data_and_jsons
@@ -69,14 +69,12 @@
     \draw[black, line width=0.6pt] (hinge) -- (tip);
     \draw[dimline, line width=0.7pt] ($(hinge)+(15:0.55)$) arc[start angle=15, end angle=-20, radius=0.55];
     \node[label, dimpurple, anchor=west] at ($(hinge)+(-2.5:0.6)$) {$\theta = 35^\circ$};
-    \draw[dimline, line width=0.9pt, dash pattern=on 2pt off 1pt] (stopfluke) -- (stopshank);
     \hingept{(hinge)}
     \com{(flukecom)} \com{(shankcom)}
     \eyeletpt{(eyelet)}
     \tippt{(tip)}
     \draw[leader] (hinge) -- ++(-0.45,0.45) node[above, label] {hinge};
     \draw[leader] (flukecom) -- ++(-0.35,-0.6) node[below, label] {fluke CoM};
-    \draw[leader] ($(stopfluke)!0.5!(stopshank)$) -- ++(0.15,0.75) node[above, label, align=center] {distance stop};
     \draw[leader] (shankcom) -- ++(0.25,0.55) node[above, label] {shank CoM};
     \draw[leader] (eyelet) -- ++(0.15,0.4) node[above, label] {eyelet};
     \draw[leader] (tip) -- ++(0.45,-0.35) node[right, label] {tracked tip};
