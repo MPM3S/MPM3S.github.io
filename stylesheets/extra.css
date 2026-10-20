@@ -632,8 +632,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Tables in 2pt smaller text than the main text (0.9rem), one below the other and
-   centred, with compact rows; they wrap rather than scroll sideways, and long code
-   (e.g. file names) may break across lines. Use <div class="small-tables" markdown>. */
+   centred, with compact rows; the text wraps rather than scrolling sideways, but code
+   stays on one line. Use <div class="small-tables" markdown>. */
 .md-typeset .small-tables table:not([class]) {
   display: table;
   margin-left: auto;
@@ -649,7 +649,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .md-typeset .small-tables table:not([class]) code {
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 /* Centre items horizontally within their grid cells so figures sized smaller
