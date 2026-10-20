@@ -801,11 +801,12 @@
     const startBtn = el("button", { class: "ib-btn ib-primary", type: "button", onclick: () => {
       if (pick.value === "blank") load(makeObject(SCHEMA), "Started a blank file");
       else { const t = templates[Number(pick.value)]; load(clone(t.json), `Loaded ${t.file}`); }
+      setFileName("input_data.json");
     } }, "Start");
     const fileIn = el("input", { type: "file", accept: ".json,application/json", class: "ib-file" });
     fileIn.addEventListener("change", () => {
       const file = fileIn.files[0]; if (!file) return;
-      file.text().then((t) => { try { load(JSON.parse(t), `Loaded ${file.name}`); } catch (e) { statusFlash(`${file.name} is not valid JSON, so nothing was loaded: ${e.message}`, true); } });
+      file.text().then((t) => { try { load(JSON.parse(t), `Loaded ${file.name}`); setFileName(file.name); } catch (e) { statusFlash(`${file.name} is not valid JSON, so nothing was loaded: ${e.message}`, true); } });
       fileIn.value = "";
     });
     const paste = el("textarea", { class: "ib-paste", rows: 6, placeholder: "Paste an input_data.json here" });
@@ -823,6 +824,12 @@
     // Download, joined to the name the file is saved under (the same name in every copy of the box)
     let fileName = "input_data.json";
     const saveName = () => { const n = fileName.trim() || "input_data.json"; return /\.json$/i.test(n) ? n : n + ".json"; };
+    // an uploaded file is saved back under its own name; a tutorial or blank file as input_data.json
+    function setFileName(n, typing) {
+      fileName = n;
+      root.querySelectorAll(".ib-fname").forEach((x) => { if (x !== typing) x.value = fileName; x.size = Math.max(10, fileName.length); });
+      root.querySelectorAll(".ib-fname-label").forEach((x) => (x.textContent = saveName()));
+    }
     const download = () => {
       const blob = new Blob([fileText], { type: "application/json" });
       const a = el("a", { href: URL.createObjectURL(blob), download: saveName() });
@@ -832,11 +839,7 @@
     const dlBox = () => {
       const name = el("input", { class: "ib-fname", type: "text", value: fileName, spellcheck: "false", "aria-label": "File name" });
       name.size = Math.max(10, fileName.length);
-      name.addEventListener("input", () => {
-        fileName = name.value;
-        root.querySelectorAll(".ib-fname").forEach((x) => { if (x !== name) x.value = fileName; x.size = Math.max(10, fileName.length); });
-        root.querySelectorAll(".ib-fname-label").forEach((x) => (x.textContent = saveName()));
-      });
+      name.addEventListener("input", () => setFileName(name.value, name));
       name.addEventListener("keydown", (e) => { if (e.key === "Enter") download(); });
       return el("span", { class: "ib-dl" },
         el("button", { class: "ib-btn ib-primary", type: "button", title: "Save the file as it is now", onclick: download }, "Download"), name);
