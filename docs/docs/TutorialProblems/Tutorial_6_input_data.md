@@ -2,7 +2,7 @@
 
 The complete `input_data_AC14_dr32.json` for [Tutorial 6](Tutorial_6.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
-It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.txt`, `shank_scv2.stl` and `shank_scv2_mesh.txt` - in the same folder; all four are in `validation_data_and_jsons`.
+It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_shank.stl` and `AC14_shank_mesh.txt` - in the same folder; all four are in `validation_data_and_jsons`.
 
 ```json
 {
@@ -19,7 +19,7 @@ It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.tx
         "material size": { "min": [0.0, 0.0], "max": [100, 10] },
         "layers": [
             {
-                "thickness": 18.123,
+                "thickness": 20.0,
                 "material": { "type": "willam warnke",
                               "E": 1.92e7, "nu": 0.25,
                               "friction angle": 32, "dilation angle": 2, "cohesion": 300.0,
@@ -51,7 +51,7 @@ It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.tx
                   "rotation centre": [0.489, 0.0, 0.0],
                   "position 1": [0.62, 0.0, 0.0],
                   "position 2": [0.62, 0.0, 0.0],
-                  "angle limit": 35, "stiffness": 8.5814e9 },
+                  "angle limit": 35, "stiffness": 1.0e10 },
 
                 { "type": "distance lock", "points": [2, 3],
                   "position 1": [3.0294, 0.0, 0.0],
@@ -59,10 +59,10 @@ It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.tx
                   "distance": 9.5, "stiffness": 1.0526e9 }
             ],
             "stl files": [
-                { "name": "fluke", "stl": "fluke_round_nose.stl",
-                  "mesh cache": "fluke_round_nose_mesh.txt", "point": 1 },
-                { "name": "shank", "stl": "shank_scv2.stl",
-                  "mesh cache": "shank_scv2_mesh.txt", "point": 2 }
+                { "name": "fluke", "stl": "AC14_fluke.stl",
+                  "mesh cache": "AC14_fluke_mesh.txt", "point": 1 },
+                { "name": "shank", "stl": "AC14_shank.stl",
+                  "mesh cache": "AC14_shank_mesh.txt", "point": 2 }
             ],
             "tracked nodes": [
                 { "position": [2.0906, 0.6489, 0.0], "point": 1 }
@@ -104,7 +104,7 @@ It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.tx
 	{
             "type": "dynamic",
             "dt": 0.02,
-            "final time": 3.0,
+            "final time": 800.0,
             "beta": 0.5,
             "gamma": 1.0,
             "rigid bodies": "on",
@@ -135,9 +135,9 @@ It needs the anchor geometry - `fluke_round_nose.stl`, `fluke_round_nose_mesh.tx
     },
 
     "output": {
-        "vtk": "off",
+        "vtk": "on",
         "vtk directory": "vtk_AC14_dr32",
-        "vtk percent": 0.25,
+        "vtk percent": 1.0,
         "vtk material point fields": ["displacement", "velocity", "stress", "strain", "volume"],
         "vtk rigid body fields": ["position", "velocity", "reaction force"],
 
