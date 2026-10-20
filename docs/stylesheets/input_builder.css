@@ -283,3 +283,55 @@
 #input-builder .ib-peekbody h2 { font-size: 1.15em; margin: 0.3rem 0 0.4rem; padding-bottom: 0.15rem; }
 #input-builder .ib-peekbody h3 { font-size: 1.05em; margin: 0.4rem 0 0.3rem; }
 #input-builder .ib-peekbody h4 { font-size: 1em; }
+
+#input-builder code.ib-fixed { font-size: 0.95em; }
+
+/* the item picked in the form, highlighted red in the preview for 2 s, then fading */
+@keyframes ib-hl {
+  0%, 77% { background-color: rgba(229, 57, 53, 0.2); box-shadow: 0 0 0 1px rgba(229, 57, 53, 0.6); }
+  100%    { background-color: transparent; box-shadow: 0 0 0 1px transparent; }
+}
+#input-builder .ib-kv.ib-hl { border-radius: 2px; animation: ib-hl 2.6s ease-out forwards; }
+#input-builder .ib-sec .ib-kv { cursor: pointer; }
+/* the form item found from the preview, outlined blue briefly */
+@keyframes ib-flag-blue { 0%, 70% { box-shadow: 0 0 0 2px var(--md-primary-fg-color); } 100% { box-shadow: 0 0 0 2px transparent; } }
+#input-builder .ib-flag-blue { animation: ib-flag-blue 2s ease-out; }
+
+/* list items (stages, bodies, ...) fold with the same arrow as sections */
+#input-builder .ib-item-btns .ib-chevron { margin-left: 0.15rem; width: 1.3rem; height: 1.3rem; }
+#input-builder .ib-item:not(.ib-collapsed) > .ib-item-head .ib-chevron::before { transform: rotate(45deg); }
+#input-builder .ib-item.ib-collapsed > :not(.ib-item-head) { display: none; }
+
+/* the builder's hover hints, drawn like Material's own */
+.ib-tip {
+  position: fixed;
+  z-index: 5;
+  max-width: 16rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.1rem;
+  background-color: var(--md-default-bg-color);
+  box-shadow: var(--md-shadow-z2);
+  color: var(--md-default-fg-color);
+  font-family: var(--md-text-font-family);
+  font-size: 0.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.2rem);
+  transition: opacity 0.15s, transform 0.15s, visibility 0s 0.15s;
+  visibility: hidden;
+}
+.ib-tip.ib-tip-on { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+.ib-tip.ib-tip-below { transform: translateY(-0.2rem); }
+.ib-tip.ib-tip-below.ib-tip-on { transform: none; }
+.ib-tip::before {                            /* the tail, pointing at the word */
+  content: "";
+  position: absolute;
+  left: calc(var(--ib-tail-x, 50%) - 0.3rem);
+  top: 100%;
+  border: 0.3rem solid transparent;
+  border-top-color: var(--md-default-bg-color);
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.08));
+}
+.ib-tip.ib-tip-below::before { top: auto; bottom: 100%; border-top-color: transparent; border-bottom-color: var(--md-default-bg-color); }

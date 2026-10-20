@@ -72,6 +72,14 @@ A detailed explanation of the MPM is provided [here](https://ampssie.github.io/d
 
     [:octicons-arrow-right-24: Input format](UsingTheSoftware/InputFormat/index.md)
 
+-   :material-hammer-wrench:{ .lg .middle } __Interactive builder__
+
+    ---
+
+    Build an `input_data.json` file in your browser, starting from a tutorial's file, and check it as you go.
+
+    [:octicons-arrow-right-24: Interactive builder](UsingTheSoftware/input_builder.md)
+
 -   :material-book-open-variant:{ .lg .middle } __Technical reference__
 
     ---
