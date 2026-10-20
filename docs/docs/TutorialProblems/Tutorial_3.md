@@ -5,6 +5,13 @@ hide:
 
 # Tutorial 3: Vertical penetration (Cone Penetration Test)
 
+<div class="tutorial-facts level-intermediate-strip">
+<span class="level level-intermediate">Intermediate</span>
+<span><strong>Time to work through:</strong> about 1 to 1.5 h</span>
+<span><strong>Run time:</strong> about 15 min on a GPU, 1 h on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 ## Introduction
 This tutorial walks through a Cone Penetration Test (CPT) simulation, a workhorse problem in offshore geotechnical engineering that is used to calibrate soil parameters against in-situ measurements. This tuto
 
@@ -27,7 +34,7 @@ To reduce the computational cost the symmetry of the problem is exploited and th
 
 *Figure adapted from [@bird2026implicitoctreebasedadaptivematerial].*
 
-**Soil block:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)).
+**Soil block:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)).
 
 **Boundary conditions:** Rollers on the four vertical faces and a fixed base, at $x = 0$ and $y = 0$ these are the symmetry conditions. The soil surface is free.
 
@@ -51,7 +58,7 @@ To reduce the computational cost the symmetry of the problem is exploited and th
 
 The density is entered as the unit weight divided by $10$ m/s$^2$.
 
-The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress $K_0 \sigma_v$ and a reference pressure $p^{ref} = 100$ kPa, whereas MPM3S's [stress-dependent stiffness](../UsingTheSoftware/InputFormat/domain_and_material_points.md#stress-dependent-stiffness) uses the vertical stress $\sigma_v$. The two are the same when the reference stress is $p^{ref}/K_0$:
+The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress $K_0 \sigma_v$ and a reference pressure $p^{ref} = 100$ kPa, whereas MPM3S's [stress-dependent stiffness](../UsingTheSoftware/InputFormat/material_points.md#stress-dependent-stiffness) uses the vertical stress $\sigma_v$. The two are the same when the reference stress is $p^{ref}/K_0$:
 
 $$
 E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \frac{\sigma_v}{\sigma^{ref}} \right)^{m}, \qquad \sigma^{ref} = \frac{p^{ref}}{K_0} = 212.73 \text{ kPa}.
@@ -82,7 +89,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Machine
 
-- `"GPU": "on"` runs the analysis on an NVIDIA GPU ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- `"GPU": "on"` runs the analysis on an NVIDIA GPU ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
 - This is recommended here, because refining the cone surface to $0.025$ m creates a large number of material points.
 - Set it to `"off"` to run on the CPU.
 
@@ -104,7 +111,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background grid is a cube, sized automatically to hold the soil block and the empty space above it: here a cube of side $51.2$ m ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- The background grid is a cube, sized automatically to hold the soil block and the empty space above it: here a cube of side $51.2$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - Gravity acts in $-z$.
 
 </div>
@@ -127,8 +134,8 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Material points
 
-- A single $20$ m layer of Willam-Warnke sand over a $10 \times 10$ m footprint, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
-- The `"E overburden"` block makes the Young's modulus increase with depth ([stress-dependent stiffness](../UsingTheSoftware/InputFormat/domain_and_material_points.md#stress-dependent-stiffness)).
+- A single $20$ m layer of Willam-Warnke sand over a $10 \times 10$ m footprint, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
+- The `"E overburden"` block makes the Young's modulus increase with depth ([stress-dependent stiffness](../UsingTheSoftware/InputFormat/material_points.md#stress-dependent-stiffness)).
 - `"extra capacity": 1.2` reserves 20% more storage than the initial material points need, because the refinement around the cone splits material points into smaller ones.
 
 </div>

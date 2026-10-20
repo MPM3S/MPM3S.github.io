@@ -1175,3 +1175,63 @@ h1, h2, h3, h4, h5, h6 {
 .md-typeset a:hover {
   text-decoration-thickness: 2px;
 }
+
+/* Two columns: the text on the left and, on the right, a column one card wide (the
+   Introduction's "Where to go next", its cards stacked). One column on narrow screens.
+   Use <div class="two-col" markdown> holding <div class="two-col-main" markdown> and
+   <div class="two-col-side" markdown>. */
+.md-typeset .two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 2rem;
+}
+
+@media screen and (min-width: 60em) {
+  .md-typeset .two-col {
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    align-items: start;
+  }
+}
+
+.md-typeset .two-col-side .grid.cards {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+}
+
+/* Tutorial difficulty: a coloured label, green -> orange -> red, used on the Tutorial
+   problems cards and in the facts strip at the top of each tutorial:
+   <span class="level level-beginner">Beginner</span> (or level-intermediate, level-advanced). */
+.md-typeset .level {
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  border-radius: 1em;
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: baseline;
+}
+.md-typeset .level-beginner     { background-color: #2e7d32; }
+.md-typeset .level-intermediate { background-color: #b35c00; }
+.md-typeset .level-advanced     { background-color: #c62828; }
+
+/* The facts strip at the top of each tutorial: level, time to work through, run time,
+   and a one-line note on hardware. */
+.md-typeset .tutorial-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1.4rem;
+  margin: 0 0 1.5rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 0.25rem solid var(--md-default-fg-color--lighter);
+  background-color: var(--md-code-bg-color);
+  font-size: 0.85em;
+}
+.md-typeset .tutorial-facts.level-beginner-strip     { border-left-color: #2e7d32; }
+.md-typeset .tutorial-facts.level-intermediate-strip { border-left-color: #b35c00; }
+.md-typeset .tutorial-facts.level-advanced-strip     { border-left-color: #c62828; }
+.md-typeset .tutorial-facts .facts-note {
+  flex-basis: 100%;
+  color: var(--md-default-fg-color--light);
+}

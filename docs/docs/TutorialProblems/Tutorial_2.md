@@ -1,5 +1,12 @@
 # Tutorial 2: Compaction via a rigid body
 
+<div class="tutorial-facts level-beginner-strip">
+<span class="level level-beginner">Beginner</span>
+<span><strong>Time to work through:</strong> about 45 min</span>
+<span><strong>Run time:</strong> about a minute on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 ## Introduction
 This quick start tutorial introduces the concept of a rigid body interacting with the material points. It builds on [Tutorial 1](Tutorial_1.md) and introduces the concept of a rigid body interacting with the material points.
 
@@ -74,8 +81,8 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Machine
 
-- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
-- `"domain update": "stretch"` lets the GIMP domains compress with the soil ([domain update](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain-update)).
+- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
+- `"domain update": "stretch"` lets the GIMP domains compress with the soil ([domain update](../UsingTheSoftware/InputFormat/material_points.md#domain-update)).
 - Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.
 
 </div>
@@ -98,7 +105,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Domain
 
-- The background mesh is a cube, sized automatically to hold the soil plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- The background mesh is a cube, sized automatically to hold the soil plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - `"gravity"` is zero, so the soil carries no weight.
 
 </div>
@@ -121,7 +128,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Material points
 
-- One $0.8$ m layer on a $0.8 \times 0.8$ m footprint ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- One $0.8$ m layer on a $0.8 \times 0.8$ m footprint ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
 - $0.4$ m elements, with $2 \times 2 \times 2$ GIMPs in each.
 - The elastic properties from the [Problem summary](#problem-summary).
 

@@ -1,60 +1,6 @@
-# Domain and material points
+# Material points
 
-Where the analysis runs, how big the world is, and the soil that fills it: `"GPU"`, `"domain update"`, `"domain"` and `"material points"`. The status labels are explained on the [format overview](index.md#how-to-read-these-pages).
-
-## GPU
-
-```json
-"GPU": "on"
-```
-
-<div class="small-table" markdown>
-
-| Key     | Status   | Options          | Default | Description                                                                                                                 |
-|---------|----------|------------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
-| `"GPU"` | Required | `"on"`, `"off"`  | -       | `"on"` runs on an NVIDIA GPU through CUDA. `"off"` runs on the CPU, using as many threads as Julia was started with (`julia -t 4` uses four). |
-
-</div>
-
-## Domain update
-
-```json
-"domain update": "stretch"
-```
-
-<div class="small-table" markdown>
-
-| Key               | Status   | Options                | Default  | Description                                                                                                                                                                                                     |
-|-------------------|----------|------------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `"domain update"` | Optional | `"none"`, `"stretch"`  | `"none"` | `"none"`: every material point's GIMP domain keeps its initial size. `"stretch"`: each half-width is scaled by the stretch $F_{ii}$ along its own axis, up to 1.99 times its initial size. Do not use `"stretch"` with one material point per element per axis. |
-
-</div>
-
-Without `"stretch"`, the domains of material points next to a fixed face cannot move closer to it, because the domain would cross the boundary. Compression problems therefore normally use `"stretch"`.
-
-## Domain
-
-```json
-"domain": {
-    "size": 10.0,
-    "gravity": [0.0, 0.0, -9.81]
-}
-```
-
-<div class="small-table" markdown>
-
-| Key         | Status   | Type                     | Default | Description                                                                                                                                                                       |
-|-------------|----------|--------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `"size"`    | Required | number (m)               | -       | Lower bound on the side of the cubic background grid. The grid is always enlarged to hold the soil (see [element sizes](#how-element-sizes-set-the-mesh)), so this only matters when a body needs more room to travel. |
-| `"gravity"` | Required | [x, y, z] (m/s$^2$)      | -       | Gravitational acceleration, applied to the soil and to the rigid-body points. It must not be zero: convergence is measured relative to the weight of the soil (see [`"tolerance"`](solver.md)), so an analysis without gravity cannot converge. |
-
-</div>
-
-Gravity does not have to point straight down. [Tutorial 5](../../TutorialProblems/Tutorial_5.md) tilts it by $45^\circ$ to model a slope while keeping the grid axis-aligned.
-
-## Material points
-
-The soil block: the background element size, how many material points are placed in each element, the plan footprint and the layers from the surface downwards.
+The soil block: the background element size, how many material points are placed in each element, the plan footprint and the layers from the surface downwards. The status labels are explained on the [format overview](index.md#how-to-read-these-pages).
 
 ```json
 "material points": {
@@ -105,7 +51,7 @@ Each entry in `"layers"`:
 
 </div>
 
-### Material models
+## Material models
 
 `"type"` selects the model, and the model decides which other keys are needed:
 
@@ -129,9 +75,9 @@ Each entry in `"layers"`:
 
     ```json
     "material": { "type": "willam warnke",
-                  "E": 2.28e7, "nu": 0.25,
-                  "friction angle": 32.75, "dilation angle": 2.75, "cohesion": 300.0,
-                  "density": 1652.0 }
+                  "E": 1.92e7, "nu": 0.25,
+                  "friction angle": 32.0, "dilation angle": 2.0, "cohesion": 300.0,
+                  "density": 1628.0 }
     ```
 
 <div class="small-table" markdown>
@@ -152,7 +98,7 @@ Each entry in `"layers"`:
 
 See [Isotropic linear elasticity](../../TechnicalReferences/LinearElasticity.md) and [Isotropic elasto-plasticity](../../TechnicalReferences/ElastoPlasticity.md) for the theory behind each model.
 
-#### Stress-dependent stiffness
+### Stress-dependent stiffness
 
 With an `"E overburden"` block the Young's modulus of each material point depends on the vertical stress from the weight of the soil above its initial position,
 
@@ -177,7 +123,7 @@ measured from the top of the block down through every layer above. The modulus i
 
 [Tutorial 3](../../TutorialProblems/Tutorial_3.md#problem-description) shows how a published correlation, written in terms of horizontal stress, is converted into this form.
 
-### How element sizes set the mesh
+## How element sizes set the mesh
 
 The background grid is an octree, so all element sizes must be power-of-two multiples of one another:
 
@@ -185,4 +131,22 @@ The background grid is an octree, so all element sizes must be power-of-two mult
 - Every other size is rounded **down** to the nearest $h_\text{min} \cdot 2^n$. For example, a base size of 4.0 m with a refinement size of 0.1 m gives a base element of $0.1 \times 2^5 = 3.2$ m.
 - The footprint `"max"` is rounded **up** to whole base elements, and the top of the block is rounded up to a whole row of material points.
 
-The grid is a cube large enough to hold the footprint in $x$ and $y$ and **twice the total layer thickness in $z$** (also rounded up to whole base elements). The soil fills the bottom half; the top half is empty space for the surface to move into and for rigid bodies to start in. [`"domain"` `"size"`](#domain) can only make the cube larger.
+The background mesh these elements make up is described on the [domain](domain.md#the-background-mesh) page.
+
+## Domain update
+
+`"domain update"` is a top-level key, next to `"material points"` rather than inside it, but it controls the material points' GIMP domains.
+
+```json
+"domain update": "stretch"
+```
+
+<div class="small-table" markdown>
+
+| Key               | Status   | Options                | Default  | Description                                                                                                                                                                                                     |
+|-------------------|----------|------------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `"domain update"` | Optional | `"none"`, `"stretch"`  | `"none"` | `"none"`: every material point's GIMP domain keeps its initial size. `"stretch"`: each half-width is scaled by the stretch $F_{ii}$ along its own axis, up to 1.99 times its initial size. Do not use `"stretch"` with one material point per element per axis. |
+
+</div>
+
+Without `"stretch"`, the domains of material points next to a fixed face cannot move closer to it, because the domain would cross the boundary. Compression problems therefore normally use `"stretch"`.

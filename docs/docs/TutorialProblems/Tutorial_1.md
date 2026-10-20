@@ -1,5 +1,12 @@
 # Tutorial 1: Self-weight column
 
+<div class="tutorial-facts level-beginner-strip">
+<span class="level level-beginner">Beginner</span>
+<span><strong>Time to work through:</strong> about 30 min</span>
+<span><strong>Run time:</strong> under a minute on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 ## Introduction
 This quick start tutorial walks through the steps of running your first MPM3S problem.
 
@@ -55,8 +62,8 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Machine
 
-- `"GPU": "off"` runs the analysis on the CPU, which is plenty for a problem this small ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
-- `"domain update": "stretch"` lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed ([domain update](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain-update)).
+- `"GPU": "off"` runs the analysis on the CPU, which is plenty for a problem this small ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
+- `"domain update": "stretch"` lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed ([domain update](../UsingTheSoftware/InputFormat/material_points.md#domain-update)).
 - It is optional; without it the domains keep their initial size.
 
 </div>
@@ -79,7 +86,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Domain
 
-- The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - Gravity acts in $-z$.
 
 </div>
@@ -102,7 +109,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Material points
 
-- One layer, $0.8$ m thick, on a $0.05 \times 0.05$ m footprint ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- One layer, $0.8$ m thick, on a $0.05 \times 0.05$ m footprint ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
 - `"element size"` sets the background elements to $0.05$ m.
 - `"number of material points per element 1": 2` places a $2 \times 2 \times 2$ grid of GIMPs in each element.
 - The material is the Hencky elastic model, with the parameters from the [Problem summary](#problem-summary).

@@ -77,7 +77,7 @@ Conditions on the six faces of the soil domain box, given as the three `"min"` f
 
 </div>
 
-Any other entry stops the analysis. Where faces meet, the conditions combine. The $x$ and $y$ faces sit at the edges of the (rounded) soil footprint. The max $z$ face sits at **twice** the soil thickness, in the empty space above the soil (see [element sizes](domain_and_material_points.md#how-element-sizes-set-the-mesh)), so it does not touch the soil and the soil surface is always free.
+Any other entry stops the analysis. Where faces meet, the conditions combine. The $x$ and $y$ faces sit at the edges of the (rounded) soil footprint. The max $z$ face sits at **twice** the soil thickness, in the empty space above the soil (see [element sizes](material_points.md#how-element-sizes-set-the-mesh)), so it does not touch the soil and the soil surface is always free.
 
 ## Adaptivity
 
@@ -97,7 +97,7 @@ Any other entry stops the analysis. Where faces meet, the conditions combine. Th
 
 </div>
 
-In a stage with `"rigid bodies": "off"`, `"rigid body surface"` falls back to `"none"`. Material points split by refinement stay split. Every size here takes part in the [element-size rounding](domain_and_material_points.md#how-element-sizes-set-the-mesh).
+In a stage with `"rigid bodies": "off"`, `"rigid body surface"` falls back to `"none"`. Material points split by refinement stay split. Every size here takes part in the [element-size rounding](material_points.md#how-element-sizes-set-the-mesh).
 
 ## Rigid body boundary conditions
 

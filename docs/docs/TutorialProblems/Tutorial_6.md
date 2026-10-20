@@ -5,6 +5,13 @@ hide:
 
 # Tutorial 6: Drag anchor
 
+<div class="tutorial-facts level-advanced-strip">
+<span class="level level-advanced">Advanced</span>
+<span><strong>Time to work through:</strong> about 1.5 to 2 h</span>
+<span><strong>Run time:</strong> about 45 min on a GPU, 6 h on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 ## Introduction
 This tutorial combines all the features of the previous tutorials to create a 3D dynamic simulation of an AC-14 drag anchor being pulled through a bed of loose sand.
 
@@ -25,7 +32,7 @@ You will model an anchor (AC14) being dragged through a subsurface soil. To do t
 
 ![The half model at the start of stage 2, drawn shortened.](../../img/Tutorial_6/anchor_setup.png){ #fig-anchor-setup width="80%" }
 
-**Soil block:** The soil is $120$ m long, $10$ m wide and $18.123$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the anchor are refined to $0.1$ m, while those far from it are $2.0$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.1$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)):
+**Soil block:** The soil is $120$ m long, $10$ m wide and $18.123$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the anchor are refined to $0.1$ m, while those far from it are $2.0$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.1$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)):
 
 - element sizes are rounded **down** to a power-of-two multiple of $0.1$ m, so the mesh is never coarser than requested: the $2.0$ m elements become $0.1 \times 2^4 = 1.6$ m;
 - the $x$ and $y$ dimensions are rounded **up** to whole elements: $120 \times 11.2$ m;
@@ -105,7 +112,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Machine
 
-- `"GPU": "on"` runs the analysis on an NVIDIA GPU, as the reference simulations were run ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- `"GPU": "on"` runs the analysis on an NVIDIA GPU, as the reference simulations were run ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
 - Without a GPU, set it to `"off"` to run on the CPU: the results are the same, but the analysis will be slower.
 
 </div>
@@ -126,7 +133,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background mesh is a cube, sized automatically to hold the soil block plus the same height of empty space above it ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- The background mesh is a cube, sized automatically to hold the soil block plus the same height of empty space above it ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - Here the $120$ m length governs: the side is rounded up to a power-of-two number of $1.6$ m elements, $1.6 \times 2^7 = 204.8$ m.
 - Gravity acts in $-z$.
 
@@ -150,7 +157,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Material points
 
-- One layer of Willam-Warnke sand, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- One layer of Willam-Warnke sand, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
 - A $120 \times 10$ m footprint, whose $y = 0$ side is the plane of symmetry.
 - $2.0$ m base elements (rounded to $1.6$ m), each starting with $2 \times 2 \times 2$ material points.
 

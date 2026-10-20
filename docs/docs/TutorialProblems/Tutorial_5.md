@@ -5,6 +5,13 @@ hide:
 
 # Tutorial 5: Rolling sphere
 
+<div class="tutorial-facts level-intermediate-strip">
+<span class="level level-intermediate">Intermediate</span>
+<span><strong>Time to work through:</strong> about 1 h</span>
+<span><strong>Run time:</strong> about 5 min on a GPU, 30 min on a CPU</span>
+<span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+
 ## Introduction
 This is the first dynamic tutorial in MPM3S. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
 
@@ -73,7 +80,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Machine
 
-- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
 
 </div>
 
@@ -93,7 +100,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background grid is a cube, sized automatically to hold the slab: its $12.8$ m length makes it a $12.8$ m cube ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- The background grid is a cube, sized automatically to hold the slab: its $12.8$ m length makes it a $12.8$ m cube ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - `"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
 
 </div>
@@ -116,7 +123,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Material points
 
-- A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elastic properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elastic properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
 - The refinement size used later, $0.025$ m, is $0.8/2^5$, so the base element size needs no rounding.
 
 </div>

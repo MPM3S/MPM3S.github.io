@@ -1,13 +1,39 @@
-# Overview
+# Getting started
 
-## Installation and setup
-MPM3S is written in Julia and can run on CPU or GPU (NVIDIA) machines.
+MPM3S is written in [Julia](https://julialang.org/) and runs on CPU or NVIDIA GPU machines. Install it first, then work through the tutorials.
 
-To get up and running with MPM3S, first go to the **[Install and Run](install_and_run.md)** page.
+<div class="grid cards" markdown>
 
-The page contains the system requirements, installation instructions for different operating systems, containers and cloud computing services.
+-   :material-download:{ .lg .middle } __Install and run__
 
-It is also provides the command lines for running an analysis.
+    ---
 
-## Tutorial problems
-Once installed, head to the **[Tutorial problems](../TutorialProblems/TutorialProblems.md)** section for a hands-on walkthrough of your first MPM3S analysis.
+    The system requirements, installation on each operating system, containers and cloud services, and the commands for running an analysis.
+
+    [:octicons-arrow-right-24: Install and run](install_and_run.md)
+
+-   :material-school:{ .lg .middle } __Tutorial problems__
+
+    ---
+
+    Hands-on walkthroughs, from a soil column under its own weight to an anchor dragged through sand.
+
+    [:octicons-arrow-right-24: Tutorial problems](../TutorialProblems/TutorialProblems.md)
+
+-   :material-file-document-edit:{ .lg .middle } __Writing an input file__
+
+    ---
+
+    Build an `input_data.json` file for your own problem, step by step.
+
+    [:octicons-arrow-right-24: Writing an input file](../UsingTheSoftware/writing_an_input_file.md)
+
+-   :material-lightbulb-on-outline:{ .lg .middle } __Common tasks__
+
+    ---
+
+    "I want to..." - which keys to use for each common goal, and a tutorial that does it.
+
+    [:octicons-arrow-right-24: Common tasks](../UsingTheSoftware/common_tasks.md)
+
+</div>

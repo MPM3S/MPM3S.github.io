@@ -1,69 +1,97 @@
 # Material point method technical reference
 
-This technical reference documentation outlines key background theory and numerical implementation details that underpin the material point method soil-structure interaction software. 
+This technical reference outlines the background theory and numerical implementation that underpin the material point method soil-structure interaction software. Topics without a link are still being written.
 
-## Material point method basics
+<div class="grid cards" markdown>
 
-  - [Material Point Method overview](MPMoverview.md)
+-   :material-dots-grid:{ .lg .middle } __Material point method basics__
 
-## Large deformation formulation
+    ---
 
-  - [Kinematics](Kinematics.md)
-  - [Stress and strain measures](StressStrain.md)
-  - [Equilibrium equations for solid analysis](EquilibriumEquations.md)
-  - [Coupled equilibrium equations with rigid-body contact](EquilibriumEquationsContact.md)
+    - [Material Point Method overview](MPMoverview.md)
 
-## Meshing
+-   :material-function-variant:{ .lg .middle } __Large deformation formulation__
 
-  - Discretisation of the weak form on the background mesh
-  - Octree meshes
-  - Search algorithms
+    ---
 
-## Basis functions
+    - [Kinematics](Kinematics.md)
+    - [Stress and strain measures](StressStrain.md)
+    - [Equilibrium equations for solid analysis](EquilibriumEquations.md)
+    - [Coupled equilibrium equations with rigid-body contact](EquilibriumEquationsContact.md)
 
-  - Standard linear finite element basis functions
-  - Generalised interpolation basis functions
-  - Octree modifications
+-   :material-grid:{ .lg .middle } __Meshing__
 
-## Material models
+    ---
 
-  - [Overview](ConstitutiveModels.md) 
-  - [Isotropic linear elasticity](LinearElasticity.md)
-  - [Isotropic elasto-plasticity](ElastoPlasticity.md)
+    - Discretisation of the weak form on the background mesh *(coming soon)*
+    - Octree meshes *(coming soon)*
+    - Search algorithms *(coming soon)*
 
-## Body forces
+-   :material-chart-bell-curve:{ .lg .middle } __Basis functions__
 
-  - Gravitational loads
-  - Discretisation on material points
+    ---
 
-## Boundary conditions
+    - Standard linear finite element basis functions *(coming soon)*
+    - Generalised interpolation basis functions *(coming soon)*
+    - Octree modifications *(coming soon)*
 
-  - Neumann boundary conditions: free surfaces and tractions
-  - Dirichlet boundary conditions: displacement constraints
+-   :material-layers:{ .lg .middle } __Material models__
 
-## Small cut instability
+    ---
 
-  - [Ghost stabilisation](ghostStabilisation.md)
+    - [Overview](ConstitutiveModels.md)
+    - [Isotropic linear elasticity](LinearElasticity.md)
+    - [Isotropic elasto-plasticity](ElastoPlasticity.md)
 
-## Rigid body representation and kinematics
+-   :material-arrow-down:{ .lg .middle } __Body forces__
 
-  - Faceted rigid body representation
-  - Rigid body kinematics
-  - Rigid body constraints
+    ---
 
-## Coupled soil-structure interaction
+    - Gravitational loads *(coming soon)*
+    - Discretisation on material points *(coming soon)*
 
-  - Contact detection
-  - Penalty contact formulation
-  - Coupled weak form equations
+-   :material-border-outside:{ .lg .middle } __Boundary conditions__
 
-## Linear solution
+    ---
 
-  - Direct solvers (included within MPM3S)
-  - Iterative solvers (included within MPM3S)
+    - Neumann boundary conditions: free surfaces and tractions *(coming soon)*
+    - Dirichlet boundary conditions: displacement constraints *(coming soon)*
 
-## Updating
+-   :material-content-cut:{ .lg .middle } __Small cut instability__
 
-  - Material point updating
-  - Rigid body update
-  - Background mesh update/reset
+    ---
+
+    - [Ghost stabilisation](ghostStabilisation.md)
+
+-   :material-anchor:{ .lg .middle } __Rigid body representation and kinematics__
+
+    ---
+
+    - Faceted rigid body representation *(coming soon)*
+    - Rigid body kinematics *(coming soon)*
+    - Rigid body constraints *(coming soon)*
+
+-   :material-handshake:{ .lg .middle } __Coupled soil-structure interaction__
+
+    ---
+
+    - Contact detection *(coming soon)*
+    - Penalty contact formulation *(coming soon)*
+    - Coupled weak form equations *(coming soon)*
+
+-   :material-matrix:{ .lg .middle } __Linear solution__
+
+    ---
+
+    - Direct solvers (included within MPM3S) *(coming soon)*
+    - Iterative solvers (included within MPM3S) *(coming soon)*
+
+-   :material-update:{ .lg .middle } __Updating__
+
+    ---
+
+    - Material point updating *(coming soon)*
+    - Rigid body update *(coming soon)*
+    - Background mesh update/reset *(coming soon)*
+
+</div>
