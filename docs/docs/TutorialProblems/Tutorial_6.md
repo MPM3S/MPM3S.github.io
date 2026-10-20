@@ -552,7 +552,14 @@ This is a large analysis, run on an NVIDIA GPU (`"GPU": "on"`); without one, set
 
 `validation_data_and_jsons` also has the same problem in sand at $D_r = 7$, $64$ and $88\%$ (`input_data_AC14_dr7.json`, `input_data_AC14_dr64.json` and `input_data_AC14_dr88.json`), and for the Hall anchor at all four densities (`input_data_Hall_dr7.json` to `input_data_Hall_dr88.json`).
 
-The progress line counts through `stage 1/3`, `stage 2/3` and `stage 3/3`. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
+#### Reading the output
+
+The progress line works as in [Tutorial 1](Tutorial_1.md#reading-the-output), counting through `stage 1/3`, `stage 2/3` and `stage 3/3`:
+
+- **Stage 1:** the uniform mesh fills the whole $204.8$ m background cube with $1.6$ m elements, hence the 2.1 million nodes (`N`).
+- **Start of stage 2:** MPM3S reports the rigid body surface placement. The anchor's lowest node, the fluke tip (`body base`, at $-0.5703$ m in the drawn frame), is moved up by `Δz` to the soil surface (`material top`), which has settled from $18.4$ m to $18.2894$ m under the weight of the sand.
+- **Stage 2:** `N` drops to a few thousand: the background mesh now covers only the active window of soil inside the boundary track, refined around the anchor.
+- **Stage 3:** the output shows the drag part-way through, at $54\%$. Steps that do not converge are retried with half the increment (`cuts`), and material points next to the anchor that become too distorted are deleted (`del`).
 
 </div>
 
@@ -572,6 +579,10 @@ julia> Pkg.instantiate()
 julia> using MPM3S
 
 julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_AC14_dr32.json");
+stage 1/3 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 2146689
+[ Info: rigid body surface placement: body base -0.570303 → material top 18.2894   Δz = 18.8597
+stage 2/3 ████████████ 100.0% t 1.0/1.0 step 206 Δt 0.005 NR 4 cuts 0 del 0 N 4500
+stage 3/3 ██████░░░░░░  54.0% t 432.0/800.0 step 11117 Δt 0.04 NR 10 cuts 220 del 19814 N 6856
 ```
 
 </div>
@@ -642,7 +653,7 @@ The VTK files are written to `vtk_AC14_dr32` (see [Output](#output)). The walkth
 
 - **Pull-line force:** `body3_reaction force_x` is the force needed to move the pull point, i.e. the tension the anchor develops.
 - **Drag distance:** `body3_position_x` minus its value at the start of stage 3.
-- **Embedment:** the height of the soil surface minus `track1_z`, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the `material top` that MPM3S prints in the rigid body surface placement message at the start of stage 2.
+- **Embedment:** the height of the soil surface minus `track1_z`, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the `material top` that MPM3S prints in the rigid body surface placement message at the start of stage 2 - $18.2894$ m here.
 
 The `time` column restarts at the start of each stage.
 
