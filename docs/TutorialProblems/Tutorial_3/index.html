@@ -2897,14 +2897,14 @@
 <p><em>Figure adapted from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
 <p><strong>Soil block:</strong> <span class="arithmatex">\(10 \times 10\)</span> m in plan and <span class="arithmatex">\(20\)</span> m deep, starting with <span class="arithmatex">\(2 \times 2 \times 2\)</span> material points in each element. The base element size is given as <span class="arithmatex">\(2.0\)</span> m, but every element size must be a power-of-two multiple of the smallest one - <span class="arithmatex">\(0.025\)</span> m at the cone - so the base size becomes <span class="arithmatex">\(0.025 \times 2^6 = 1.6\)</span> m and the footprint is rounded up to seven elements, <span class="arithmatex">\(11.2 \times 11.2\)</span> m (see <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#how-element-sizes-set-the-mesh">how element sizes set the mesh</a>).</p>
 <p><strong>Boundary conditions:</strong> Rollers on the four vertical faces and a fixed base, at <span class="arithmatex">\(x = 0\)</span> and <span class="arithmatex">\(y = 0\)</span> these are the symmetry conditions. The soil surface is free.</p>
-<p><strong>Material:</strong> an elasto-plastic sand. Yield is governed by a frictional cone with a Willam-Warnke deviatoric section, and plastic flow by a Drucker-Prager cone set by the dilation angle, so the flow is non-associated. The elastic behaviour is linear in logarithmic (Hencky) strain. The model is described in <a href="../../TechnicalReferences/ElastoPlasticity/#lode-angle-dependent-deviatoric-section">isotropic elasto-plasticity</a>. The sand has a relative density of <span class="arithmatex">\(D_r = 38\%\)</span>, and its parameters come from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">4</a></sup>:</p>
+<p><strong>Material:</strong> an elasto-plastic sand. Yield is governed by a frictional cone with a Willam-Warnke deviatoric section, and plastic flow by a Drucker-Prager cone set by the dilation angle, so the flow is non-associated. The elastic behaviour is linear in logarithmic (Hencky) strain. The model is described in <a href="../../TechnicalReferences/ElastoPlasticity/#lode-angle-dependent-deviatoric-section">isotropic elasto-plasticity</a>. The sand has a relative density of <span class="arithmatex">\(D_r = 32\%\)</span>, and its parameters come from the Brinkgreve correlations <sup id="fnref:brinkgreve2010validation"><a class="footnote-ref" href="#fn:brinkgreve2010validation">4</a></sup>:</p>
 <div class="centered-table">
 <table>
 <thead>
 <tr>
 <th>Property</th>
 <th>Correlation</th>
-<th>Value at <span class="arithmatex">\(D_r = 38\%\)</span></th>
+<th>Value at <span class="arithmatex">\(D_r = 32\%\)</span></th>
 <th>Input key</th>
 </tr>
 </thead>
@@ -2912,43 +2912,43 @@
 <tr>
 <td>Reference Young's modulus</td>
 <td><span class="arithmatex">\(E^{ref} = 60\,000\; D_r/100\)</span> kPa</td>
-<td><span class="arithmatex">\(22.8\)</span> MPa</td>
-<td><code>"E": 2.28e7</code></td>
+<td><span class="arithmatex">\(19.2\)</span> MPa</td>
+<td><code>"E": 1.92e7</code></td>
 </tr>
 <tr>
 <td>Friction angle</td>
 <td><span class="arithmatex">\(\phi = 28 + 12.5\; D_r/100\)</span></td>
-<td><span class="arithmatex">\(32.75^\circ\)</span></td>
-<td><code>"friction angle": 32.75</code></td>
+<td><span class="arithmatex">\(32^\circ\)</span></td>
+<td><code>"friction angle": 32.0</code></td>
 </tr>
 <tr>
 <td>Dilation angle</td>
 <td><span class="arithmatex">\(\psi = -2 + 12.5\; D_r/100\)</span></td>
-<td><span class="arithmatex">\(2.75^\circ\)</span></td>
-<td><code>"dilation angle": 2.75</code></td>
+<td><span class="arithmatex">\(2^\circ\)</span></td>
+<td><code>"dilation angle": 2.0</code></td>
 </tr>
 <tr>
 <td>Dry unit weight</td>
 <td><span class="arithmatex">\(\gamma = 15 + 4\; D_r/100\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
-<td><span class="arithmatex">\(16.52\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
+<td><span class="arithmatex">\(16.28\)</span> kN/m<span class="arithmatex">\(^3\)</span></td>
 <td>-</td>
 </tr>
 <tr>
 <td>Dry density</td>
 <td><span class="arithmatex">\(\rho = \gamma/g\)</span>, with <span class="arithmatex">\(g = 10\)</span> m/s<span class="arithmatex">\(^2\)</span></td>
-<td><span class="arithmatex">\(1652\)</span> kg/m<span class="arithmatex">\(^3\)</span></td>
-<td><code>"density": 1652.0</code></td>
+<td><span class="arithmatex">\(1628\)</span> kg/m<span class="arithmatex">\(^3\)</span></td>
+<td><code>"density": 1628.0</code></td>
 </tr>
 <tr>
 <td>Stiffness exponent</td>
 <td><span class="arithmatex">\(m = 0.7 - D_r/320\)</span></td>
-<td><span class="arithmatex">\(0.58125\)</span></td>
-<td><code>"exponent": 0.58125</code></td>
+<td><span class="arithmatex">\(0.6\)</span></td>
+<td><code>"exponent": 0.6</code></td>
 </tr>
 <tr>
 <td>Earth pressure at rest</td>
 <td><span class="arithmatex">\(K_0 = 1 - \sin\phi\)</span></td>
-<td><span class="arithmatex">\(0.459\)</span></td>
+<td><span class="arithmatex">\(0.4701\)</span></td>
 <td><code>"reference stress"</code> (below)</td>
 </tr>
 <tr>
@@ -2969,7 +2969,7 @@
 <p>The density is entered as the unit weight divided by <span class="arithmatex">\(10\)</span> m/s<span class="arithmatex">\(^2\)</span>.</p>
 <p>The Young's modulus increases with depth. Brinkgreve's stiffness law is written in terms of the horizontal stress <span class="arithmatex">\(K_0 \sigma_v\)</span> and a reference pressure <span class="arithmatex">\(p^{ref} = 100\)</span> kPa, whereas MPM3S's <a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#stress-dependent-stiffness">stress-dependent stiffness</a> uses the vertical stress <span class="arithmatex">\(\sigma_v\)</span>. The two are the same when the reference stress is <span class="arithmatex">\(p^{ref}/K_0\)</span>:</p>
 <div class="arithmatex">\[
-E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \frac{\sigma_v}{\sigma^{ref}} \right)^{m}, \qquad \sigma^{ref} = \frac{p^{ref}}{K_0} = 217.85 \text{ kPa}.
+E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \frac{\sigma_v}{\sigma^{ref}} \right)^{m}, \qquad \sigma^{ref} = \frac{p^{ref}}{K_0} = 212.73 \text{ kPa}.
 \]</div>
 <p><span class="arithmatex">\(\sigma_v\)</span> is calculated from the weight of the soil above each material point's initial position, so each point's stiffness is set once and does not change during the analysis.</p>
 <p><strong>Cone:</strong> <code>CPT.stl</code>, a cylinder of radius <span class="arithmatex">\(r = 0.4\)</span> m with a <span class="arithmatex">\(60^\circ\)</span> conical tip, <span class="arithmatex">\(10.69\)</span> m long in total and drawn with its tip at the origin. Coulomb friction with <span class="arithmatex">\(\mu = 0.33\)</span> acts between the cone and the sand, and the contact penalty is set automatically, as described in <a href="../Tutorial_2/#background-rigid-body-contact">Tutorial 2</a>.</p>
@@ -2983,7 +2983,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <p>The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found <a href="../Tutorial_3_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data_CPT_dr38.json</code></div>
+<div><code>input_data_CPT_dr32.json</code></div>
 </div>
 
 <div class="json-side">
@@ -3017,10 +3017,10 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="p">{</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">            </span><span class="nt">"thickness"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">            </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"willam warnke"</span><span class="p">,</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">                          </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.28e7</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">                          </span><span class="nt">"friction angle"</span><span class="p">:</span><span class="w"> </span><span class="mf">32.75</span><span class="p">,</span><span class="w"> </span><span class="nt">"dilation angle"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.75</span><span class="p">,</span><span class="w"> </span><span class="nt">"cohesion"</span><span class="p">:</span><span class="w"> </span><span class="mf">300.0</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">                          </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">1652.0</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                          </span><span class="nt">"E overburden"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"reference stress"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.1785e5</span><span class="p">,</span><span class="w"> </span><span class="nt">"exponent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.58125</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">                          </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.92e7</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">                          </span><span class="nt">"friction angle"</span><span class="p">:</span><span class="w"> </span><span class="mf">32.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"dilation angle"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"cohesion"</span><span class="p">:</span><span class="w"> </span><span class="mf">300.0</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">                          </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">1628.0</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                          </span><span class="nt">"E overburden"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"reference stress"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.12729e5</span><span class="p">,</span><span class="w"> </span><span class="nt">"exponent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.6</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">]</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">}</span>
@@ -3127,19 +3127,19 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="json-side">
 <div class="js-text">
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h3>
-<p>VTK files for <a href="https://www.paraview.org/">ParaView</a> are written to <code>vtk_CPT_dr38</code> every <span class="arithmatex">\(0.5\%\)</span> of each stage's load steps, which for the 450 load steps of stage 2 corresponds to every 2 load steps. The CSV files go to <code>csv_CPT_dr38</code> every <span class="arithmatex">\(0.25\%\)</span>, which is every load step here.</p>
+<p>VTK files for <a href="https://www.paraview.org/">ParaView</a> are written to <code>vtk_CPT_dr32</code> every <span class="arithmatex">\(0.5\%\)</span> of each stage's load steps, which for the 450 load steps of stage 2 corresponds to every 2 load steps. The CSV files go to <code>csv_CPT_dr32</code> every <span class="arithmatex">\(0.25\%\)</span>, which is every load step here.</p>
 <p>The rigid-body CSV output includes the <code>reaction force</code> on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve. <a href="#cone-resistance">Cone resistance</a> shows how the tip resistance is calculated from it.</p>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_CPT_dr38"</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_CPT_dr32"</span><span class="p">,</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">"vtk percent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">"vtk material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"displacement"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"volume"</span><span class="p">],</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">"vtk rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">],</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nt">"csv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_CPT_dr38"</span><span class="p">,</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_CPT_dr32"</span><span class="p">,</span>
 <a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">"csv percent"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="nt">"csv material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"initial position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">],</span>
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="nt">"csv rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"velocity"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction moment"</span><span class="p">]</span>
@@ -3151,7 +3151,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <p>MPM3S is written in the <a href="https://julialang.org/">Julia</a> programming language. See the <a href="../../GettingStarted/install_and_run/">installation guide</a> for installing Julia and MPM3S, and <a href="../Tutorial_1/#deploying-and-running-the-problem">Tutorial 1</a> for a first, small run.</p>
 <div class="admonition note">
 <p class="admonition-title">Working in the MPM3S folder</p>
-<p>Julia runs in the <code>MPM3S</code> folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from <code>validation_data_and_jsons/input_data_CPT_dr38.json</code>, and the output folders <code>vtk_CPT_dr38</code> and <code>csv_CPT_dr38</code> are written to, and read back from, the <code>MPM3S</code> folder. The CSV files exported from ParaView are saved in <code>vtk_CPT_dr38</code> too.</p>
+<p>Julia runs in the <code>MPM3S</code> folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from <code>validation_data_and_jsons/input_data_CPT_dr32.json</code>, and the output folders <code>vtk_CPT_dr32</code> and <code>csv_CPT_dr32</code> are written to, and read back from, the <code>MPM3S</code> folder. The CSV files exported from ParaView are saved in <code>vtk_CPT_dr32</code> too.</p>
 </div>
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -3161,16 +3161,16 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <div class="json-side">
 <div class="js-text">
 <h3 id="setting-up-the-problem">Setting up the problem<a class="headerlink" href="#setting-up-the-problem" title="Permanent link">¶</a></h3>
-<p>The input file for this tutorial comes with MPM3S, as <code>validation_data_and_jsons/input_data_CPT_dr38.json</code>, together with the cone geometry, <code>CPT.stl</code>, and its mesh cache, <code>CPT_mesh.txt</code>; the input file is the same as the <a href="../Tutorial_3_input_data/">complete input file</a>. The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.</p>
-<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal, start Julia with every CPU thread available (<code>-t auto</code>), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders <code>vtk_CPT_dr38</code> and <code>csv_CPT_dr38</code> are created in the <code>MPM3S</code> folder.</p>
+<p>The input file for this tutorial comes with MPM3S, as <code>validation_data_and_jsons/input_data_CPT_dr32.json</code>, together with the cone geometry, <code>CPT.stl</code>, and its mesh cache, <code>CPT_mesh.txt</code>; the input file is the same as the <a href="../Tutorial_3_input_data/">complete input file</a>. The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.</p>
+<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal, start Julia with every CPU thread available (<code>-t auto</code>), then move into the folder where you downloaded MPM3S, activate it, install its dependencies with <code>Pkg.instantiate()</code> and load MPM3S. The output folders <code>vtk_CPT_dr32</code> and <code>csv_CPT_dr32</code> are created in the <code>MPM3S</code> folder.</p>
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
 <p>Julia is now running in the <code>MPM3S</code> folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder <code>validation_data_and_jsons</code>, the simulations are started with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr32.json");
 </code></pre></div>
 <p>This is a large analysis: with <span class="arithmatex">\(0.025\)</span> m elements around the cone it is intended for a GPU or an HPC node. On a workstation without a GPU, set <code>"GPU": "off"</code> and use <code>"element size": 0.1</code> in stage 2.</p>
 <h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
 <p>The progress line works as in <a href="../Tutorial_1/#reading-the-output">Tutorial 1</a>, showing <code>stage 1/2</code> while the initial stresses are set up and <code>stage 2/2</code> during penetration.</p>
-<p>At the start of stage 2, MPM3S reports the rigid body surface placement: the cone tip (<code>body base</code>, at the origin of <code>CPT.stl</code>) is moved up by <code>Δz</code> to the soil surface (<code>material top</code>), which has settled to <span class="arithmatex">\(19.87\)</span> m under the weight of the sand.</p>
+<p>At the start of stage 2, MPM3S reports the rigid body surface placement: the cone tip (<code>body base</code>, at the origin of <code>CPT.stl</code>) is moved up by <code>Δz</code> to the soil surface (<code>material top</code>), which has settled to <span class="arithmatex">\(19.85\)</span> m under the weight of the sand.</p>
 <p>During penetration <code>N</code> grows as the mesh is refined around the cone. Load steps that do not converge are retried with half the increment (<code>cuts</code>), and material points next to the cone that become too distorted are deleted (<code>del</code>).</p>
 </div>
 <div class="js-code">
@@ -3181,12 +3181,14 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">julia&gt; using MPM3S</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="go">julia&gt; Pkg.instantiate()</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="go">stage 1/2 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 1640</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">[ Info: rigid body surface placement: body base 0.0 → material top 19.8694   Δz = 19.8694</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="go">stage 2/2 ████████████ 100.0% t 1.001/1.0 step 460 Δt 0.00222 NR 9 cuts 7 del 2133 N 57067</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="go">julia&gt; using MPM3S</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr32.json");</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="go">stage 1/2 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 1640</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="go">[ Info: rigid body surface placement: body base 0.0 → material top 19.8474   Δz = 19.8474</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="go">stage 2/2 ████████████ 100.0% t 1.001/1.0 step 460 Δt 0.00222 NR 9 cuts 7 del 2133 N 57067</span>
 </code></pre></div>
 </div>
 </div>
@@ -3194,19 +3196,19 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <h2 id="viewing-the-results">Viewing the results<a class="headerlink" href="#viewing-the-results" title="Permanent link">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Displacements and stresses</p>
-<p>To see the displacements and stresses during the simulation, follow the same steps as for the compression cube in <a href="../Tutorial_2/#visualising-the-output-in-paraview">Tutorial 2</a>. All the VTK files for this problem are in <code>path/to/MPM3S/vtk_CPT_dr38</code>. This section shows how to extract the load on the cone and its penetration from them.</p>
+<p>To see the displacements and stresses during the simulation, follow the same steps as for the compression cube in <a href="../Tutorial_2/#visualising-the-output-in-paraview">Tutorial 2</a>. All the VTK files for this problem are in <code>path/to/MPM3S/vtk_CPT_dr32</code>. This section shows how to extract the load on the cone and its penetration from them.</p>
 </div>
 <h3 id="cone-resistance">Cone resistance<a class="headerlink" href="#cone-resistance" title="Permanent link">¶</a></h3>
-<p><code>csv_CPT_dr38/rigid_body.csv</code> has one row per output step for the cone's point, <code>body1</code>. <code>body1_position_z</code> is the height of the cone tip and <code>body1_reaction force_z</code> is the vertical force needed to push the cone. Because only a quarter of the soil is modelled, the tip resistance is approximately</p>
+<p><code>csv_CPT_dr32/rigid_body.csv</code> has one row per output step for the cone's point, <code>body1</code>. <code>body1_position_z</code> is the height of the cone tip and <code>body1_reaction force_z</code> is the vertical force needed to push the cone. Because only a quarter of the soil is modelled, the tip resistance is approximately</p>
 <div class="arithmatex">\[
 q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 \]</div>
-<p>and the penetration depth is the height at which the cone is placed on the soil, minus <code>body1_position_z</code>. The sand settles under its own weight in stage 1, so the surface is at about <span class="arithmatex">\(19.87\)</span> m rather than <span class="arithmatex">\(20\)</span> m; MPM3S prints the exact value as <code>material top</code> in the <code>rigid body surface placement</code> message at the start of stage 2. <span class="arithmatex">\(F_z\)</span> includes the friction along the sleeve as well as the force on the tip, which is why <span class="arithmatex">\(q_c\)</span> is approximate; the <a href="#published-results">published results</a> were calculated in the same way. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the <code>time</code> column is the load fraction, which runs from 0 to 1 over the <span class="arithmatex">\(4.5\)</span> m of penetration.</p>
+<p>and the penetration depth is the height at which the cone is placed on the soil, minus <code>body1_position_z</code>. The sand settles under its own weight in stage 1, so the surface is at about <span class="arithmatex">\(19.85\)</span> m rather than <span class="arithmatex">\(20\)</span> m; MPM3S prints the exact value as <code>material top</code> in the <code>rigid body surface placement</code> message at the start of stage 2. <span class="arithmatex">\(F_z\)</span> includes the friction along the sleeve as well as the force on the tip, which is why <span class="arithmatex">\(q_c\)</span> is approximate. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the <code>time</code> column is the load fraction, which runs from 0 to 1 over the <span class="arithmatex">\(4.5\)</span> m of penetration.</p>
 <h4 id="tip-resistance-without-the-sleeve-friction">Tip resistance without the sleeve friction<a class="headerlink" href="#tip-resistance-without-the-sleeve-friction" title="Permanent link">¶</a></h4>
 <p>The reaction force in <code>rigid_body.csv</code> includes the friction along the sleeve. To find the force on the tip alone, sum the vertical contact force on the triangles of the conical tip in ParaView, and track the height of the tip:</p>
 <div class="walkthrough">
 <div>
-<p><strong>1. Open the cone.</strong> <em>File → Open</em>, go to <code>vtk_CPT_dr38</code>, select the <code>surface_..vtu</code> series on its own, click <em>OK</em> and then <em>Apply</em>. The cone appears in the render view.</p>
+<p><strong>1. Open the cone.</strong> <em>File → Open</em>, go to <code>vtk_CPT_dr32</code>, select the <code>surface_..vtu</code> series on its own, click <em>OK</em> and then <em>Apply</em>. The cone appears in the render view.</p>
 </div>
 <div>
 <p><figure id="_figure-2"><img alt="The cone surface after Apply." id="fig-cpt-tip-1" src="../../../img/Tutorial_3/CPT_plot1.png"><figcaption>Figure 2: The cone surface after Apply.</figcaption></figure></p>
@@ -3302,7 +3304,7 @@ q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>13. Export the load.</strong> <em>File → Export View</em>, choose <em>Comma or Tab Delimited Files</em> and save the chart in <code>vtk_CPT_dr38</code> as <code>load_data.csv</code>.</p>
+<p><strong>13. Export the load.</strong> <em>File → Export View</em>, choose <em>Comma or Tab Delimited Files</em> and save the chart in <code>vtk_CPT_dr32</code> as <code>load_data.csv</code>.</p>
 </div>
 <div>
 <p><figure id="_figure-14"><img alt="The Export View dialog, saving load_data.csv." id="fig-cpt-tip-13" src="../../../img/Tutorial_3/CPT_plot13.png"><figcaption>Figure 14: The Export View dialog, saving load_data.csv.</figcaption></figure></p>
@@ -3310,7 +3312,7 @@ q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>14. Plot the tip height.</strong> Select <code>cone tip</code> and apply <em>Plot Data Over Time</em> again, keeping <em>Field Association</em> as <em>Points</em>, and show only <code>Z (stats)</code>. The tip height is <span class="arithmatex">\(0\)</span> in stage 1, jumps to the soil surface at about <span class="arithmatex">\(19.87\)</span> m when the cone is placed at the start of stage 2, and then falls steadily as the cone is pushed down. Export it in the same way, as <code>position_data.csv</code> in <code>vtk_CPT_dr38</code>.</p>
+<p><strong>14. Plot the tip height.</strong> Select <code>cone tip</code> and apply <em>Plot Data Over Time</em> again, keeping <em>Field Association</em> as <em>Points</em>, and show only <code>Z (stats)</code>. The tip height is <span class="arithmatex">\(0\)</span> in stage 1, jumps to the soil surface at about <span class="arithmatex">\(19.85\)</span> m when the cone is placed at the start of stage 2, and then falls steadily as the cone is pushed down. Export it in the same way, as <code>position_data.csv</code> in <code>vtk_CPT_dr32</code>.</p>
 </div>
 <div>
 <p><figure id="_figure-15"><img alt="The height of the cone tip against output step." id="fig-cpt-tip-14" src="../../../img/Tutorial_3/CPT_plot14.png"><figcaption>Figure 15: The height of the cone tip against output step.</figcaption></figure></p>
@@ -3320,13 +3322,13 @@ q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 <div class="arithmatex">\[
 q_c = \frac{4\, F_{tip}}{\pi r^2},
 \]</div>
-<p>and the penetration depth is the height at which the cone is placed on the soil - <span class="arithmatex">\(19.8694\)</span> m, the <code>material top</code> in the rigid body surface placement message - minus the tip height from <code>position_data.csv</code>. Both files have one row per output step; the first rows, from stage 1, have a tip height of <span class="arithmatex">\(0\)</span> and are skipped.</p>
+<p>and the penetration depth is the height at which the cone is placed on the soil - <span class="arithmatex">\(19.8474\)</span> m, the <code>material top</code> in the rigid body surface placement message - minus the tip height from <code>position_data.csv</code>. Both files have one row per output step; the first rows, from stage 1, have a tip height of <span class="arithmatex">\(0\)</span> and are skipped.</p>
 <p>The short Julia script below plots <span class="arithmatex">\(q_c\)</span> against the penetration depth. Run it from the <code>MPM3S</code> folder, either by copying it into the REPL or by saving it as <code>plot_qc.jl</code> and running <code>include("plot_qc.jl")</code>. It needs <a href="https://docs.juliaplots.org/">Plots</a>, installed as described in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c"># the two files exported from ParaView, one row per output step</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">load</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"vtk_CPT_dr38/load_data.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">tip</span><span class="p">,</span><span class="w">  </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"vtk_CPT_dr38/position_data.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">load</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"vtk_CPT_dr32/load_data.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">tip</span><span class="p">,</span><span class="w">  </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"vtk_CPT_dr32/position_data.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">load</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">    </span><span class="c"># vertical contact force on the tip of the quarter cone (N)</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tip</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">     </span><span class="c"># height of the cone tip (m)</span>
 <a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
@@ -3334,7 +3336,7 @@ q_c = \frac{4\, F_{tip}}{\pi r^2},
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">.&gt;</span><span class="w"> </span><span class="mi">0</span>
 <a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.4</span><span class="w">               </span><span class="c"># cone radius (m)</span>
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="n">z_surface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">19.8694</span><span class="w">   </span><span class="c"># "material top" in the rigid body surface placement message</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="n">z_surface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">19.8474</span><span class="w">   </span><span class="c"># "material top" in the rigid body surface placement message</span>
 <a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">z_surface</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">s2</span><span class="p">])</span><span class="o">/</span><span class="n">r</span>
 <a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="n">qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">s2</span><span class="p">]</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="p">(</span><span class="nb">π</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">r</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="mf">1e6</span><span class="w">   </span><span class="c"># tip resistance of the full cone (MPa)</span>
 <a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>

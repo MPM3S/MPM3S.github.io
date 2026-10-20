@@ -3020,7 +3020,7 @@ d_x(t) =
 <div class="js-text">
 <h3 id="setting-up-the-problem">Setting up the problem<a class="headerlink" href="#setting-up-the-problem" title="Permanent link">¶</a></h3>
 <p>The input file for this tutorial comes with MPM3S, as <code>validation_data_and_jsons/input_data_sphere.json</code>, together with the sphere geometry, <code>sphere.stl</code>, and its mesh cache, <code>sphere_mesh.txt</code>; the input file is the same as the <a href="../Tutorial_5_input_data/">complete input file</a>. The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.</p>
-<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal, start Julia with every CPU thread available (<code>-t auto</code>), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders are created in the <code>MPM3S</code> folder.</p>
+<p>As in <a href="../Tutorial_1/#setting-up-and-running-the-problem">Tutorial 1</a>, open a terminal, start Julia with every CPU thread available (<code>-t auto</code>), then move into the folder where you downloaded MPM3S, activate it, install its dependencies with <code>Pkg.instantiate()</code> and load MPM3S. The output folders are created in the <code>MPM3S</code> folder.</p>
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
 <p>Julia is now running in the <code>MPM3S</code> folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder <code>validation_data_and_jsons</code>, the simulations are started with:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");
@@ -3038,11 +3038,13 @@ d_x(t) =
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="go">julia&gt; using MPM3S</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="go">julia&gt; Pkg.instantiate()</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 1.87755e-7</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 201 Δt 0.005 NR 4 cuts 0 del 0 N 109572</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="go">julia&gt; using MPM3S</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 1.87755e-7</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 201 Δt 0.005 NR 4 cuts 0 del 0 N 109572</span>
 </code></pre></div>
 </div>
 </div>

@@ -3045,12 +3045,13 @@
 <p>Open a terminal and start Julia; <code>-t auto</code> makes every CPU core available:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>julia -t auto
 </code></pre></div>
-<p>Then, in Julia, move into the folder where you downloaded MPM3S, activate it and load MPM3S:</p>
+<p>Then, in Julia, move into the folder where you downloaded MPM3S, activate it, install its dependencies and load MPM3S:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cd("path/to/MPM3S")
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>using Pkg; Pkg.activate(".")
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>using MPM3S
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Pkg.instantiate()
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>using MPM3S
 </code></pre></div>
-<p>The output folders <code>vtk_column</code> and <code>csv_column</code> are created in the <code>MPM3S</code> folder. The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in <a href="../../GettingStarted/install_and_run/#mpm3s-installation">MPM3S installation</a>. If you are unsure how to open a command/terminal window on your operating system, see <a href="../../GettingStarted/install_and_run/#terminal-window">Command/terminal window</a>.</p>
+<p>The output folders <code>vtk_column</code> and <code>csv_column</code> are created in the <code>MPM3S</code> folder. The commands work the same on Windows, macOS and Linux. The first time, <code>Pkg.instantiate()</code> downloads and installs MPM3S's dependencies, which can take several minutes; after that it returns straight away (see <a href="../../GettingStarted/install_and_run/#mpm3s-installation">MPM3S installation</a>). If you are unsure how to open a command/terminal window on your operating system, see <a href="../../GettingStarted/install_and_run/#terminal-window">Command/terminal window</a>.</p>
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
@@ -3068,7 +3069,9 @@
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
 <a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
 <a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="go">julia&gt; using MPM3S</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="go">julia&gt; Pkg.instantiate()</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="go">julia&gt; using MPM3S</span>
 </code></pre></div>
 </div>
 </div>
