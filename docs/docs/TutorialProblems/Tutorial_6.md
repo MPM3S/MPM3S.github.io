@@ -103,19 +103,38 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 <div class="js-text" markdown>
 
-### Machine and domain
+### Machine
 
-`"GPU": "on"` runs the analysis on an NVIDIA GPU, as the reference simulations were run. Without one, set it to `"off"` to run on the CPU; a problem of this size then needs an HPC node.
-
-The background grid is sized automatically to hold the soil block, which here makes it a cube of side $204.8$ m.
+- `"GPU": "on"` runs the analysis on an NVIDIA GPU, as the reference simulations were run ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- Without a GPU, set it to `"off"` to run on the CPU: the results are the same, but the analysis will be slower.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"GPU": "on",
+"GPU": "on"
+```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Domain
+
+- The background mesh is a cube, sized automatically to hold the soil block plus the same height of empty space above it ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- Here the $120$ m length governs: the side is rounded up to a power-of-two number of $1.6$ m elements, $1.6 \times 2^7 = 204.8$ m.
+- Gravity acts in $-z$.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
 "domain": {
     "gravity": [0.0, 0.0, -9.81]
 }
@@ -131,7 +150,9 @@ The background grid is sized automatically to hold the soil block, which here ma
 
 ### Material points
 
-One layer of Willam-Warnke sand with the properties from the [Problem description](#problem-description), over a $120 \times 10$ m footprint whose $y = 0$ side is the plane of symmetry.
+- One layer of Willam-Warnke sand, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- A $120 \times 10$ m footprint, whose $y = 0$ side is the plane of symmetry.
+- $2.0$ m base elements (rounded to $1.6$ m), each starting with $2 \times 2 \times 2$ material points.
 
 </div>
 
@@ -166,11 +187,16 @@ One layer of Willam-Warnke sand with the properties from the [Problem descriptio
 
 ### Rigid body: points
 
-The anchor is one system of three points. Points 1 and 2 are the centres of mass of the fluke and the shank. Their boundary conditions leave them free to move in the $xz$ plane and to rotate about $y$; the other three degrees of freedom are fixed by the symmetry.
-
-Point 3, the end of the pull line, carries no geometry and only a nominal mass, so all six of its degrees of freedom are held; stage 3 replaces its $x$ condition to pull.
-
-The shank is drawn lying along the $x$ axis and the fluke turned $20^\circ$ tip-down below it, so point 1 sits just below the axis. Point 3 is drawn level with the anchor's lowest node, the fluke tip, so that when the anchor is placed on the soil surface the pull point rests on it too, and as far along $x$ as keeps the pull line $9.5$ m long. `"offset"` moves the whole system $1$ m in $+x$ so that the anchor is not overhanging the material domain.
+- The anchor is one rigid-body system of three [points](../UsingTheSoftware/InputFormat/rigid_bodies.md#points).
+- Points 1 and 2 are the centres of mass of the fluke and the shank:
+    - their boundary conditions leave them free to move in the $xz$ plane and to turn about $y$;
+    - the other three degrees of freedom are fixed by the symmetry.
+- Point 3 is the end of the pull line:
+    - it has no geometry and only a nominal mass, so all six of its degrees of freedom are fixed;
+    - stage 3 replaces its $x$ condition to pull it.
+- The shank is drawn along the $x$ axis, with the fluke turned $20^\circ$ tip-down below it, so point 1 sits just below the axis.
+- Point 3 is drawn level with the fluke tip, the anchor's lowest node, so that when the anchor is placed on the soil the pull point rests on the surface too.
+- `"offset"` moves the whole system $1$ m in $+x$, so that the anchor does not overhang the soil.
 
 </div>
 
@@ -200,9 +226,18 @@ The shank is drawn lying along the $x$ axis and the fluke turned $20^\circ$ tip-
 
 ### Rigid body: constraints
 
-- The `"rotation lock"` is the hinge between the fluke and the shank, pinned at $(0.489, 0, 0)$ with both axes along $y$.
-- The `"distance stop"` limits how far the hinge (angle between the fluke and shank) opens. It is applied as a penalty force between constraint points which move with `rigid body point 1` and `rigid body point 2`. The fluke's constraint point starts at the fluke's centre of mass, $(0.6121, 0, -0.0448)$, and the shank's where that centre would be with the hinge closed, $(0.62, 0, 0)$, so the opening about the rotation centre starts at $20^\circ$. As the hinge opens further they move apart, and when the opening reaches $35^\circ$ the penalty force becomes active and resists any more motion.
-- The `"distance lock"` is the pull line: a $9.5$ m rod from the shank's eyelet at $(3.0294, 0, 0)$ to the pull point at $(12.5123, 0, -0.5703)$.
+- **[`"rotation lock"`](../UsingTheSoftware/InputFormat/rigid_bodies.md#rotation-lock)** - the hinge between the fluke (point 1) and the shank (point 2):
+    - the two parts are pinned together at the `"rotation centre"`, $(0.489, 0, 0)$;
+    - `"direction 1"` and `"direction 2"`, the hinge axis carried by each part, are both along $y$ and are kept aligned, so the parts can only turn relative to each other about $y$;
+    - `"stiffness"`, $10^9$ N/m, holds the pin together, and `"rotational stiffness"`, $10^8$ N$\cdot$m, keeps the two axes aligned.
+- **[`"distance stop"`](../UsingTheSoftware/InputFormat/rigid_bodies.md#distance-stop)** - limits how far the hinge opens (the angle between the fluke and the shank):
+    - it is a penalty force between two constraint points, one moving with point 1 and one with point 2;
+    - `"position 1"`, carried by the fluke, starts at the fluke's centre of mass, $(0.6121, 0, -0.0448)$, and `"position 2"`, carried by the shank, starts where that centre would be with the hinge closed, $(0.62, 0, 0)$, so the opening about the `"rotation centre"` starts at $20^\circ$;
+    - as the hinge opens further the two points move apart, and when the opening reaches the `"angle limit"`, $35^\circ$, the penalty force becomes active and resists any more opening;
+    - `"stiffness"`, $8.58 \times 10^9$ N/m, is $EA/l$ with $EA = 10^{10}$ N and $l = 1.165$ m, the distance between the two centres of mass at $35^\circ$.
+- **[`"distance lock"`](../UsingTheSoftware/InputFormat/rigid_bodies.md#distance-lock)** - the pull line between the shank (point 2) and the pull point (point 3):
+    - a $9.5$ m rod from the shank's eyelet, `"position 1"`, $(3.0294, 0, 0)$, to the pull point, `"position 2"`, $(12.5123, 0, -0.5703)$;
+    - `"stiffness"`, $1.05 \times 10^9$ N/m, is $EA/L$ with $EA = 10^{10}$ N and $L = 9.5$ m.
 
 </div>
 
@@ -239,9 +274,12 @@ The shank is drawn lying along the $x$ axis and the fluke turned $20^\circ$ tip-
 
 ### Rigid body: geometry
 
-The fluke surface is welded to point 1 and the shank surface to point 2. Both STL files are drawn in global coordinates, in the same frame as the point positions - `AC14_fluke_rot20.stl` with the fluke already turned $20^\circ$ tip-down - and their tetrahedral meshes are stored in the mesh-cache files.
-
-`"tracked nodes"` adds a marker at the tip of the fluke, $(1.994, 0.6489, -0.5478)$, welded to point 1. It has no mass and takes no part in the contact; its position is written to `rigid_body.csv` as `track1_x`, `track1_y` and `track1_z`, which follow the tip of the fluke through the drag.
+- The fluke surface is welded to point 1 and the shank surface to point 2 ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)).
+- Both STL files are drawn in global coordinates, in the same frame as the points; `AC14_fluke_rot20.stl` has the fluke already turned $20^\circ$ tip-down.
+- Their tetrahedral meshes are stored in the mesh-cache files.
+- `"tracked nodes"` adds a marker at the fluke tip, $(1.994, 0.6489, -0.5478)$, welded to point 1 ([tracked nodes](../UsingTheSoftware/InputFormat/rigid_bodies.md#tracked-nodes)):
+    - it has no mass and takes no part in the contact;
+    - its position is written to `rigid_body.csv` as `track1_x`, `track1_y` and `track1_z`, following the fluke tip through the drag.
 
 </div>
 
@@ -271,7 +309,7 @@ The fluke surface is welded to point 1 and the shank surface to point 2. Both ST
 
 ### Contact
 
-Coulomb friction with $\mu = 0.45$ between the anchor and the sand.
+- Coulomb friction with $\mu = 0.45$ between the anchor and the sand ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
 
 </div>
 
@@ -293,7 +331,10 @@ Coulomb friction with $\mu = 0.45$ between the anchor and the sand.
 
 ### Stage 1: initial stresses
 
-A static stage with the anchor switched off. Gravity is ramped from zero over 5 load steps on a uniform $1.6$ m mesh, with rollers on the four vertical faces and a fixed base. The top face lies in the empty space above the soil.
+- Static, with the anchor switched off.
+- Gravity is ramped up from zero over 5 load steps.
+- A uniform $1.6$ m mesh ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
+- Rollers on the four vertical faces and a fixed base; the top face lies in the empty space above the soil ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
 
 </div>
 
@@ -320,9 +361,13 @@ A static stage with the anchor switched off. Gravity is ramped from zero over 5 
 
 ### Stage 2: settling
 
-A dynamic stage of $1$ s in steps of $0.005$ s, in which the anchor settles into the sand under its own weight while the pull point stays where it is. `"rigid body surface placement": "on"` first moves the anchor vertically so that it rests on the soil surface. $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping.
-
-The mesh is refined to $0.1$ m wherever the fluke and shank surfaces are. `"boundary track"` replaces the two $x$ ends with fixed planes that follow the anchor: one $0.5$ m behind it, which deletes the soil the anchor leaves behind, and one $2.5$ m ahead of it. The soil beyond the leading plane stays inactive until the plane reaches it.
+- Dynamic, $1$ s in steps of $0.005$ s: the anchor settles into the sand under its own weight while the pull point stays where it is.
+- `"rigid body surface placement": "on"` first moves the anchor vertically so that it rests on the soil surface.
+- $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping.
+- The mesh is refined to $0.1$ m wherever the fluke and shank surfaces are ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
+- `"boundary track"` replaces the two $x$ ends with fixed planes that follow the anchor ([boundary track](../UsingTheSoftware/InputFormat/analysis.md#boundary-track)):
+    - one $0.5$ m behind it, which deletes the soil the anchor leaves behind;
+    - one $2.5$ m ahead of it; the soil beyond it stays inactive until the plane reaches it.
 
 </div>
 
@@ -361,11 +406,12 @@ The mesh is refined to $0.1$ m wherever the fluke and shank surfaces are. `"boun
 
 ### Stage 3: drag
 
-The drag itself. `"rigid body boundary conditions"` replaces the conditions of the pull point (system 1, point 3) for this stage, prescribing a movement of $0.004$ m in $+x$ every $0.04$ s time step - $0.1$ m/s. The anchor is already in place, so `"rigid body surface placement"` is `"off"`, and the leading plane of the boundary track moves $5$ m ahead of the anchor.
-
-`"region": 0.06` also refines the elements within $0.06$ m of those the anchor's surface passes through to `"element size in region"`, $0.1$ m, so the fine mesh extends just beyond the anchor.
-
-`"final time": 800.0` drags the pull point $80$ m, which takes $20\,000$ steps. For a quick first run, reduce it, for example to $3.0$ s for a $0.3$ m drag.
+- The drag itself: dynamic, $800$ s in steps of $0.04$ s.
+- `"rigid body boundary conditions"` replaces the pull point's conditions (system 1, point 3) for this stage only, prescribing $0.004$ m in $+x$ every step - $0.1$ m/s ([rigid body boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#rigid-body-boundary-conditions)).
+- The anchor is already in place, so `"rigid body surface placement"` is `"off"`.
+- The leading plane of the boundary track moves to $5$ m ahead of the anchor.
+- `"region": 0.06` also refines the elements within $0.06$ m of those the anchor's surface passes through to `"element size in region"`, $0.1$ m, so the fine mesh extends just beyond the anchor.
+- `"final time": 800.0` drags the pull point $80$ m in $20\,000$ steps. For a quick first run, reduce it, for example to $3.0$ s for a $0.3$ m drag.
 
 </div>
 
@@ -409,7 +455,9 @@ The drag itself. `"rigid body boundary conditions"` replaces the conditions of t
 
 ### Solver
 
-Newton-Raphson iterations to a tolerance of $10^{-6}$ in each step, with at most 20 iterations before the step is retried with half the increment, and the same [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) settings as [Tutorial 3](Tutorial_3.md).
+- Newton-Raphson iterations to a tolerance of $10^{-6}$ in each step ([solver](../UsingTheSoftware/InputFormat/solver.md)).
+- A step that has not converged after 20 iterations is retried with half the increment.
+- The same [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) settings as [Tutorial 3](Tutorial_3.md).
 
 </div>
 
@@ -435,7 +483,9 @@ Newton-Raphson iterations to a tolerance of $10^{-6}$ in each step, with at most
 
 ### Output
 
-VTK files for ParaView are written to `vtk_AC14_dr32` every $1\%$ of a stage's steps, and CSV files to `csv_AC14_dr32` every $0.25\%$. `rigid_body.csv` records the position, velocity, reaction force and reaction moment of all three points, followed by the position of the tracked fluke tip, which is what the anchor's trajectory and holding force are calculated from.
+- VTK files for ParaView are written to `vtk_AC14_dr32` every $1\%$ of a stage's steps ([output](../UsingTheSoftware/InputFormat/output.md)).
+- CSV files are written to `csv_AC14_dr32` every $0.25\%$.
+- `rigid_body.csv` records the position, velocity, reaction force and reaction moment of all three points, then the position of the tracked fluke tip; the anchor's trajectory and holding force are calculated from it.
 
 </div>
 

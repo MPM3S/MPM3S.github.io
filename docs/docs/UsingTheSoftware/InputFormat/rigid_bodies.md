@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Rigid bodies
 
 The `"rigid bodies"` key defines the structures that interact with the soil. Their friction is set separately, in [contact properties](contact.md). The status labels are explained on the [format overview](index.md#how-to-read-these-pages).
@@ -78,7 +83,7 @@ A point with no STL surface, such as a pull point, has nothing to resist its mot
 
 Constraints join two points of the same system with penalty springs. Positions are global anchor points and directions are global vectors, both at the start of the analysis; each anchor then moves with its own point.
 
-<div class="small-table" markdown>
+<div class="small-table wrap-code" markdown>
 
 | Key                       | `"coincidence"` | `"rotation lock"` | `"distance lock"` | `"distance stop"` | Type          | Description                                                                         |
 |---------------------------|-----------------|-------------------|-------------------|-------------------|---------------|-------------------------------------------------------------------------------------|
@@ -107,7 +112,149 @@ Constraints join two points of the same system with penalty springs. Positions a
 
 </div>
 
-A weld is a rotation lock plus a second rotation lock about a non-parallel axis. [Tutorial 6](../../TutorialProblems/Tutorial_6.md#problem-description) uses a hinge, an angle stop and a pull line together.
+### How the constraints work { #how-the-constraints-work }
+
+- Every constraint joins two points of the same system, $a$ and $b$, given as `"points": [a, b]`.
+- Its anchors (`"position 1"`, `"position 2"`, `"rotation centre"`) and axes (`"direction 1"`, `"direction 2"`) are given in global coordinates at the start of the analysis. MPM3S stores each one as an arm from its point, so it moves and turns with that point as if fixed to its body.
+- Each constraint is a penalty spring, so it is only met approximately: the stiffer the spring, the smaller the error, but too stiff a spring makes the Newton iterations harder to converge. The axial stiffness of a real rod or cable, $EA/L$, is a good choice; [Tutorial 6](../../TutorialProblems/Tutorial_6.md#problem-description) uses $EA = 10^{10}$ N.
+- Place the anchors where the constraint is met at the start. A constraint that starts out of place pulls its points into place in the first step.
+
+<div class="json-side-header">
+<div>Constraint</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+#### Coincidence: a ball joint { #coincidence }
+
+![A coincidence: the two anchors are held together and the bodies turn freely about them.](../../../img/rigid_bodies/constraint_coincidence.png){ #fig-coincidence }
+
+- `"position 1"`, carried by point $a$, and `"position 2"`, carried by point $b$, are pulled together by a spring of `"stiffness"` $k$, with energy $E = \tfrac{1}{2} k \lvert \mathbf{x}_2 - \mathbf{x}_1 \rvert^2$.
+- The two positions are normally the same point, the centre of the joint.
+- The bodies can still turn freely about the joint, so it removes 3 of the two points' 12 degrees of freedom.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+{
+    "type": "coincidence",
+    "points": [1, 2],
+    "position 1": [1.75, 0.0, 0.0],
+    "position 2": [1.75, 0.0, 0.0],
+    "stiffness": 1.0e9
+}
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+#### Rotation lock: a hinge { #rotation-lock }
+
+![A rotation lock: the points are pinned at the rotation centre and their axes kept aligned, so the bodies only turn about the axis.](../../../img/rigid_bodies/constraint_rotation_lock.png){ #fig-rotation-lock }
+
+- **Pin:** both points carry an arm to the `"rotation centre"`, and the two ends are held together by a spring of `"stiffness"` $k$, as in a coincidence.
+- **Axis:** `"direction 1"`, carried by point $a$, and `"direction 2"`, carried by point $b$, are kept aligned by `"rotational stiffness"` $k_r$. Only their directions matter, not their lengths, and they are normally the same vector.
+- The energy is $E = \tfrac{1}{2} k \lvert \mathbf{x}_b - \mathbf{x}_a \rvert^2 + k_r (1 - \hat{\mathbf{d}}_1 \cdot \hat{\mathbf{d}}_2)$, where $\mathbf{x}_a$ and $\mathbf{x}_b$ are the two ends of the pin and $\hat{\mathbf{d}}_1$, $\hat{\mathbf{d}}_2$ the unit axes.
+- The bodies can only turn relative to each other about the axis, so it removes 5 degrees of freedom.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+{
+    "type": "rotation lock",
+    "points": [1, 2],
+    "rotation centre": [0.489, 0.0, 0.0],
+    "direction 1": [0.0, 1.0, 0.0],
+    "direction 2": [0.0, 1.0, 0.0],
+    "stiffness": 1.0e9,
+    "rotational stiffness": 1.0e8
+}
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+#### Distance lock: a rod { #distance-lock }
+
+![A distance lock: the two anchors are held a fixed distance apart, like the ends of a rod.](../../../img/rigid_bodies/constraint_distance_lock.png){ #fig-distance-lock }
+
+- `"position 1"` and `"position 2"` are held `"distance"` $s$ apart, with energy $E = \tfrac{1}{2} k \left( \lvert \mathbf{x}_2 - \mathbf{x}_1 \rvert - s \right)^2$.
+- Like a rod, it pushes as well as pulls, and the bodies can swing and turn about the anchors, so it removes 1 degree of freedom.
+- [Tutorial 6](../../TutorialProblems/Tutorial_6.md#problem-description) uses one as the pull line between the anchor's eyelet and the pull point.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+{
+    "type": "distance lock",
+    "points": [2, 3],
+    "position 1": [3.0294, 0.0, 0.0],
+    "position 2": [12.51226633, 0.0, -0.5703035],
+    "distance": 9.5,
+    "stiffness": 1.0526e9
+}
+```
+
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+#### Distance stop: an angle stop { #distance-stop }
+
+![A distance stop, seen along the hinge axis: slack while the hinge angle is below the angle limit, and taut once it reaches it.](../../../img/rigid_bodies/constraint_distance_stop.png){ #fig-distance-stop }
+
+- It is a cable between `"position 1"` and `"position 2"`: while the anchors are closer than its length $s$ it is slack and does nothing, and once they are further apart it acts as the rod above. Its energy is $E = \tfrac{1}{2} k \left\langle \lvert \mathbf{x}_2 - \mathbf{x}_1 \rvert - s \right\rangle^2$, where $\langle \cdot \rangle$ is zero when negative.
+- Its length is set from the `"angle limit"` $\psi_\mathrm{max}$ and the anchors' distances $l_1$ and $l_2$ from the `"rotation centre"` at the start: $s = \sqrt{l_1^2 + l_2^2 - 2 l_1 l_2 \cos\psi_\mathrm{max}}$.
+- Used with a rotation lock at the same rotation centre, the distance between the anchors grows steadily with the hinge angle $\psi$ between them, from $0^\circ$ to $180^\circ$, so the stop goes taut exactly when the hinge has opened to $\psi_\mathrm{max}$. The rotation centre is only used to work out $s$; the stop itself acts between the two anchors.
+- It removes nothing while slack and 1 degree of freedom when taut. [Tutorial 6](../../TutorialProblems/Tutorial_6.md#problem-description) uses one to stop the anchor's fluke opening beyond $35^\circ$.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+{
+    "type": "distance stop",
+    "points": [1, 2],
+    "rotation centre": [0.489, 0.0, 0.0],
+    "position 1": [0.6121, 0.0, -0.044805],
+    "position 2": [0.62, 0.0, 0.0],
+    "angle limit": 35.0,
+    "stiffness": 8.5814e9
+}
+```
+
+</div>
+
+</div>
+
+#### Combining constraints
+
+- A **weld** is a rotation lock plus a second rotation lock about a non-parallel axis.
+- [Tutorial 6](../../TutorialProblems/Tutorial_6.md#problem-description) uses a hinge, an angle stop and a pull line together.
 
 ## STL files
 
@@ -119,6 +266,50 @@ A weld is a rotation lock plus a second rotation lock about a non-parallel axis.
 | `"mesh cache"`  | Required | string  | -       | File holding the tetrahedral mesh generated from the STL, relative to the input file. Written if it does not exist and reused if it does - **delete it whenever the STL changes**. |
 | `"point"`       | Required | integer | -       | The point the surface is welded to. A point may carry several surfaces.                                                                                     |
 | `"name"`        | Ignored  | string  | -       | A label for your own reference.                                                                                                                               |
+
+</div>
+
+### How a surface is welded to its point { #welded-surfaces }
+
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+![A surface welded to its point: the body moves and turns with its point, and a contact force on the surface reaches the point as a force and a moment.](../../../img/rigid_bodies/point_surface.png){ #fig-point-surface }
+
+- When the analysis starts, every node of the surface, and of its tetrahedral mesh, is stored as an arm $\mathbf{r}_0$ from the point named in `"point"`: the node's position minus the point's `"position"`.
+- From then on the surface moves and turns rigidly with its point: each node is at $\mathbf{x} = \mathbf{c} + \mathbf{R}\,\mathbf{r}_0$, where $\mathbf{c}$ is the point's current position and $\mathbf{R}$ its rotation.
+- The surface has no mass of its own: the body's mass and inertia are the point's `"mass"` and `"rotational inertia"`, so the point is normally placed at the body's centre of mass. The STL file only gives the body its shape.
+- The surface is what touches the soil. A contact force $\mathbf{F}$ on it, at arm $\mathbf{r}$ from the point, acts on the point as the force $\mathbf{F}$ and the moment $\mathbf{M} = \mathbf{r} \times \mathbf{F}$.
+- A point may carry several surfaces, which then move as one body. A point with no surface is a handle, such as a pull point.
+- [Tracked nodes](#tracked-nodes) are attached in the same way, as arms from their point.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
+"points": [
+    { "position": [0.6121, 0.0, -0.044805],
+      "mass": 3291.6,
+      "rotational inertia": [275.0, 275.0, 275.0],
+      "boundary conditions": ["free", "fixed", "free",
+                              "fixed", "free", "fixed"] }
+],
+"stl files": [
+    { "name": "fluke",
+      "stl": "AC14_fluke_rot20.stl",
+      "mesh cache": "AC14_fluke_rot20_mesh.txt",
+      "point": 1 }
+]
+```
+
+</div>
 
 </div>
 

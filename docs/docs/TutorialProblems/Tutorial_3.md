@@ -80,19 +80,38 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 <div class="js-text" markdown>
 
-### Machine and domain
+### Machine
 
-`"GPU": "on"` runs the analysis on an NVIDIA GPU. This is recommended here, because refining the cone surface to $0.025$ m creates a large number of material points; set it to `"off"` to run on the CPU.
-
-The background grid is sized automatically to hold the soil block and the empty space above it, which here makes it a cube of side $51.2$ m. Gravity acts in $-z$.
+- `"GPU": "on"` runs the analysis on an NVIDIA GPU ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- This is recommended here, because refining the cone surface to $0.025$ m creates a large number of material points.
+- Set it to `"off"` to run on the CPU.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"GPU" : "on",
+"GPU" : "on"
+```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Domain
+
+- The background grid is a cube, sized automatically to hold the soil block and the empty space above it: here a cube of side $51.2$ m ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- Gravity acts in $-z$.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
 "domain": {
     "gravity": [0.0, 0.0, -9.81]
 }
@@ -108,9 +127,9 @@ The background grid is sized automatically to hold the soil block and the empty 
 
 ### Material points
 
-A single $20$ m layer of Willam-Warnke sand over a $10 \times 10$ m footprint, with the properties from the [Problem description](#problem-description). The `"E overburden"` block makes the Young's modulus increase with depth.
-
-`"extra capacity": 1.2` reserves 20% more storage than the initial material points need, because the refinement around the cone splits material points into smaller ones.
+- A single $20$ m layer of Willam-Warnke sand over a $10 \times 10$ m footprint, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- The `"E overburden"` block makes the Young's modulus increase with depth ([stress-dependent stiffness](../UsingTheSoftware/InputFormat/domain_and_material_points.md#stress-dependent-stiffness)).
+- `"extra capacity": 1.2` reserves 20% more storage than the initial material points need, because the refinement around the cone splits material points into smaller ones.
 
 </div>
 
@@ -145,11 +164,11 @@ A single $20$ m layer of Willam-Warnke sand over a $10 \times 10$ m footprint, w
 
 ### Rigid body
 
-The cone is one system with a single point, placed at its tip - the origin of `CPT.stl`. All positions in the file are global, so the point and the STL geometry are given in the same frame.
-
-`"offset"` shifts the whole cone $10$ mm in $-x$ and $-y$, so its axis sits just outside the corner of the soil block. All six degrees of freedom are `"fixed"`, so the cone does not move and its mass and inertia play no part; stage 2 replaces the vertical condition to push the cone down.
-
-`CPT_mesh.txt` stores the tetrahedral mesh of the cone. If it is missing, it is generated from the STL on the first run.
+- The cone is one system with a single [point](../UsingTheSoftware/InputFormat/rigid_bodies.md#points), placed at its tip - the origin of `CPT.stl`.
+- All positions in the file are global, so the point and the STL geometry are given in the same frame.
+- `"offset"` shifts the whole cone $10$ mm in $-x$ and $-y$, so its axis sits just outside the corner of the soil block.
+- All six degrees of freedom are `"fixed"`, so the cone does not move and its mass and inertia play no part; stage 2 replaces the vertical condition to push the cone down.
+- `CPT_mesh.txt` stores the tetrahedral mesh of the cone; if it is missing, it is generated from the STL on the first run ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)).
 
 </div>
 
@@ -181,7 +200,7 @@ The cone is one system with a single point, placed at its tip - the origin of `C
 
 ### Contact
 
-Coulomb friction with $\mu = 0.33$ between the cone and the sand.
+- Coulomb friction with $\mu = 0.33$ between the cone and the sand ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
 
 </div>
 
@@ -203,9 +222,11 @@ Coulomb friction with $\mu = 0.33$ between the cone and the sand.
 
 ### Stage 1: initial stresses
 
-The first entry in `"analysis"` is a static stage with the cone switched off (`"rigid bodies": "off"`). Gravity is ramped from zero to its full value over 5 load steps, setting up the initial stresses in the sand. `"adaptivity": {"type": "none"}` uses the base mesh: elements of the $1.6$ m base size wherever there are material points, and coarser elements in the empty space above the soil.
-
-The four vertical faces are rollers and the base is fixed. The top face is fixed too, but it lies at twice the soil depth, in the empty space above the soil, so the soil surface stays free.
+- A static stage with the cone switched off (`"rigid bodies": "off"`) ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
+- Gravity is ramped from zero to its full value over 5 load steps, setting up the initial stresses in the sand.
+- `"adaptivity": {"type": "none"}` uses the base mesh: elements of the $1.6$ m base size wherever there are material points, and coarser elements in the empty space above the soil ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
+- The four vertical faces are rollers and the base is fixed ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- The top face is fixed too, but it lies at twice the soil depth, in the empty space above the soil, so the soil surface stays free.
 
 </div>
 
@@ -232,11 +253,12 @@ The four vertical faces are rollers and the base is fixed. The top face is fixed
 
 ### Stage 2: cone penetration
 
-The second stage switches the cone on. `"rigid body surface placement": "on"` moves it vertically at the start of the stage so that its tip rests on the soil surface, and `"load": "full"` keeps gravity at its full value throughout.
-
-`"rigid body boundary conditions"` replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of $-0.01$ m per load step. Over the 450 load steps the cone penetrates $4.5$ m.
-
-`"rigid body surface"` adaptivity refines the elements the cone surface passes through to $0.025$ m at every step, so the fine mesh travels down with the cone. For a quicker, coarser first run use `"element size": 0.1`.
+- The cone is switched on.
+- `"rigid body surface placement": "on"` moves it vertically at the start of the stage, so that its tip rests on the soil surface.
+- `"load": "full"` keeps gravity at its full value throughout.
+- `"rigid body boundary conditions"` replaces the conditions of point 1 of system 1 - the cone - for this stage only, prescribing a vertical displacement of $-0.01$ m per load step: over the 450 load steps the cone penetrates $4.5$ m ([rigid body boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#rigid-body-boundary-conditions)).
+- `"rigid body surface"` adaptivity refines the elements the cone surface passes through to $0.025$ m at every step, so the fine mesh travels down with the cone ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
+- For a quicker, coarser first run, use `"element size": 0.1`.
 
 </div>
 
@@ -270,9 +292,10 @@ The second stage switches the cone on. `"rigid body surface placement": "on"` mo
 
 ### Solver
 
-Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}$; a step that has not converged after 20 iterations is retried with half the increment.
-
-`"ghost factor"` and `"ghost factor mass"` set the strength of the [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) of poorly filled elements at the edges of the soil, and `"poor factor": 0.25` treats elements less than a quarter full as poorly filled.
+- Newton-Raphson iterations to a tolerance of $10^{-6}$ in each load step ([solver](../UsingTheSoftware/InputFormat/solver.md)).
+- A step that has not converged after 20 iterations is retried with half the increment.
+- `"ghost factor"` and `"ghost factor mass"` set the strength of the [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) of poorly filled elements at the edges of the soil.
+- `"poor factor": 0.25` treats elements less than a quarter full as poorly filled.
 
 </div>
 
@@ -298,9 +321,10 @@ Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}
 
 ### Output
 
-VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr32` every $0.5\%$ of each stage's load steps, which for the 450 load steps of stage 2 corresponds to every 2 load steps. The CSV files go to `csv_CPT_dr32` every $0.25\%$, which is every load step here.
-
-The rigid-body CSV output includes the `reaction force` on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve. [Cone resistance](#cone-resistance) shows how the tip resistance is calculated from it.
+- VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr32` every $0.5\%$ of each stage's load steps: every 2 load steps in the 450 of stage 2 ([output](../UsingTheSoftware/InputFormat/output.md)).
+- CSV files go to `csv_CPT_dr32` every $0.25\%$: every load step here.
+- The rigid-body CSV output includes the `reaction force` on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve.
+- [Cone resistance](#cone-resistance) shows how the tip resistance is calculated from it.
 
 </div>
 

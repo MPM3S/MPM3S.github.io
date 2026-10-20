@@ -71,19 +71,36 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 <div class="js-text" markdown>
 
-### Machine and domain
+### Machine
 
-`"GPU": "off"` runs the analysis on the CPU. The background grid is sized automatically to hold the slab, and its $12.8$ m length makes the grid a $12.8$ m cube.
-
-`"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
+- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"GPU": "off",
+"GPU": "off"
+```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Domain
+
+- The background grid is a cube, sized automatically to hold the slab: its $12.8$ m length makes it a $12.8$ m cube ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- `"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
 "domain": {
     "gravity": [6.93672, 0.0, -6.93672]
 }
@@ -99,7 +116,8 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Material points
 
-A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elastic properties from the [Problem description](#problem-description). The refinement size used later, $0.025$ m, is $0.8/2^5$, so the base element size needs no rounding.
+- A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elastic properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- The refinement size used later, $0.025$ m, is $0.8/2^5$, so the base element size needs no rounding.
 
 </div>
 
@@ -130,9 +148,10 @@ A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elas
 
 ### Rigid body
 
-The sphere is one system with one point at its centre. The point's six boundary conditions, in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$, leave it free to move in $x$ and $z$ and to rotate about $y$.
-
-`sphere.stl` is drawn centred on the origin, the same place as the point. `"offset"` then places the whole sphere with its centre above $x = 1.5$ m, halfway across the slab's width and $1.8$ m up - resting on the slab surface at $0.8$ m.
+- The sphere is one system with one [point](../UsingTheSoftware/InputFormat/rigid_bodies.md#points), at its centre.
+- The point's six boundary conditions, in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$, leave it free to move in $x$ and $z$ and to rotate about $y$.
+- `sphere.stl` is drawn centred on the origin, the same place as the point ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)).
+- `"offset"` then places the whole sphere with its centre above $x = 1.5$ m, halfway across the slab's width and $1.8$ m up - resting on the slab surface at $0.8$ m.
 
 </div>
 
@@ -163,7 +182,9 @@ The sphere is one system with one point at its centre. The point's six boundary 
 
 ### Contact
 
-The friction coefficient between the sphere and the slab, here $\mu = 0.2$. This is below $\tan(45^\circ)/3.5 \approx 0.286$, so the sphere slips as it rolls. Change it between runs to reproduce the friction sweep, and change the output directory names to match so the runs do not overwrite each other.
+- The friction coefficient between the sphere and the slab, here $\mu = 0.2$ ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
+- This is below $\tan(45^\circ)/3.5 \approx 0.286$, so the sphere slips as it rolls.
+- Change it between runs to reproduce the friction sweep, and change the output directory names to match, so the runs do not overwrite each other.
 
 </div>
 
@@ -185,11 +206,15 @@ The friction coefficient between the sphere and the slab, here $\mu = 0.2$. This
 
 ### Analysis
 
-A single dynamic stage: $1$ s of motion in steps of $0.005$ s. The Newmark parameters $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping, which keeps the stiff contact stable. `"rigid body surface placement": "on"` makes sure the sphere starts exactly on the slab surface.
-
-`"rigid body surface"` adaptivity refines the elements the sphere's surface passes through to $0.025$ m at every step. The slab's ends and base are fixed and its sides are rollers.
-
-`"boundary track"` makes the $x$ boundaries follow the sphere: a fixed plane at the back of the sphere deletes the slab it leaves behind (`"remove": "yes"`), and a fixed plane $1$ m ahead of it keeps the slab further ahead inactive until the sphere approaches. Tracking is `"off"` in $y$ and $z$.
+- A single dynamic stage: $1$ s of motion in steps of $0.005$ s ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
+- The Newmark parameters $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping, which keeps the stiff contact stable.
+- `"rigid body surface placement": "on"` makes sure the sphere starts exactly on the slab surface.
+- `"rigid body surface"` adaptivity refines the elements the sphere's surface passes through to $0.025$ m at every step ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
+- The slab's ends and base are fixed and its sides are rollers ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- `"boundary track"` makes the $x$ boundaries follow the sphere ([boundary track](../UsingTheSoftware/InputFormat/analysis.md#boundary-track)):
+    - a fixed plane at the back of the sphere deletes the slab it leaves behind (`"remove": "yes"`);
+    - a fixed plane $1$ m ahead of it keeps the slab further ahead inactive until the sphere approaches;
+    - tracking is `"off"` in $y$ and $z$.
 
 </div>
 
@@ -230,7 +255,9 @@ A single dynamic stage: $1$ s of motion in steps of $0.005$ s. The Newmark param
 
 ### Solver
 
-Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step, with at most 20 iterations before the step is retried with half the time step. The [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) uses `"ghost factor": 10.0` for the stiffness and `"ghost factor mass": 0.25` for the mass.
+- Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step ([solver](../UsingTheSoftware/InputFormat/solver.md)).
+- A step that has not converged after 20 iterations is retried with half the time step.
+- The [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) uses `"ghost factor": 10.0` for the stiffness and `"ghost factor mass": 0.25` for the mass.
 
 </div>
 
@@ -256,7 +283,8 @@ Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step, with at
 
 ### Output
 
-`"vtk percent": 0` writes a VTK frame at every time step, with every field, to `vtk_sphere_mu0.2`. The CSV output writes no material-point files (an empty list) but records the sphere's position, velocity, acceleration and angular velocity in `csv_sphere_mu0.2/rigid_body.csv`.
+- `"vtk percent": 0` writes a VTK frame at every time step, with every field, to `vtk_sphere_mu0.2` ([output](../UsingTheSoftware/InputFormat/output.md)).
+- The CSV output writes no material-point files (an empty list), but records the sphere's position, velocity, acceleration and angular velocity in `csv_sphere_mu0.2/rigid_body.csv`.
 
 </div>
 
