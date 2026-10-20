@@ -1,0 +1,215 @@
+/* The interactive input_data.json builder (docs/UsingTheSoftware/input_builder.md, input_builder.js).
+   Everything is scoped under #input-builder. */
+#input-builder {
+  --ib-line: var(--md-default-fg-color--lightest);
+  --ib-soft: var(--md-code-bg-color);
+  --ib-ok: #2e7d32;
+  --ib-warn: #b35c00;
+  --ib-err: #c62828;
+  font-size: 0.65rem;
+}
+
+/* the toolbar: start from a template, load or paste a file */
+#input-builder .ib-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--ib-soft);
+  border-radius: 0.3rem;
+}
+#input-builder .ib-start { display: flex; align-items: center; gap: 0.4rem; font-weight: 600; }
+#input-builder .ib-file { display: none; }
+#input-builder .ib-pastebox { flex-basis: 100%; }
+#input-builder .ib-pastebox summary { cursor: pointer; color: var(--md-typeset-a-color); }
+#input-builder .ib-paste { width: 100%; font-family: var(--md-code-font-family); font-size: 0.6rem; margin: 0.4rem 0; }
+#input-builder .ib-flash { color: var(--ib-ok); font-weight: 600; }
+
+/* two columns: the form, and the preview that stays in view */
+#input-builder .ib-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+@media screen and (min-width: 76.25em) {
+  #input-builder .ib-layout { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  #input-builder .ib-side { position: sticky; top: 3.4rem; max-height: calc(100vh - 4rem); display: flex; flex-direction: column; }
+  #input-builder .ib-preview { flex: 1 1 auto; min-height: 8rem; }
+}
+
+/* sections, groups and list items */
+#input-builder details.ib-group {
+  margin: 0 0 0.5rem;
+  border: 1px solid var(--ib-line);
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.6rem 0.4rem;
+}
+#input-builder .ib-form > details.ib-group > summary { font-size: 0.8rem; }
+#input-builder details.ib-group > summary { cursor: pointer; font-weight: 700; padding: 0.3rem 0; }
+#input-builder .ib-count { font-weight: 400; color: var(--md-default-fg-color--light); }
+#input-builder .ib-item {
+  margin: 0.4rem 0;
+  padding: 0.3rem 0.6rem 0.4rem;
+  border-left: 3px solid var(--md-primary-fg-color);
+  background: var(--ib-soft);
+  border-radius: 0 0.3rem 0.3rem 0;
+}
+#input-builder .ib-item-head { display: flex; justify-content: space-between; align-items: center; text-transform: capitalize; }
+#input-builder .ib-item-btns { display: flex; gap: 0.25rem; }
+
+/* one key: label on the left, control and help on the right */
+#input-builder .ib-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr);
+  gap: 0.2rem 0.8rem;
+  margin: 0.35rem 0;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--ib-line);
+  border-radius: 0.4rem;
+  align-items: start;
+}
+#input-builder .ib-row.ib-off .ib-key { color: var(--md-default-fg-color--light); }
+#input-builder .ib-label { display: flex; align-items: center; gap: 0.3rem; padding-top: 0.2rem; }
+#input-builder .ib-key { font-family: var(--md-code-font-family); font-size: 0.95em; }
+#input-builder .ib-meta { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; margin-top: 0.15rem; color: var(--md-default-fg-color--light); }
+#input-builder .ib-unit { font-weight: 600; }
+#input-builder .ib-ref { font-size: 0.95em; }
+#input-builder .ib-default { color: var(--md-default-fg-color--light); font-style: italic; }
+
+
+/* controls */
+#input-builder input.ib-num, #input-builder input.ib-text, #input-builder select.ib-select {
+  font: inherit; font-family: var(--md-code-font-family); font-size: 0.95em;
+  padding: 0.15rem 0.35rem; border: 1px solid var(--ib-line); border-radius: 0.2rem;
+  background: var(--md-default-bg-color); color: var(--md-default-fg-color);
+}
+#input-builder input.ib-num { width: 7.5em; }
+#input-builder input.ib-text { width: 100%; max-width: 22em; }
+#input-builder .ib-bad { border-color: var(--ib-err) !important; background: rgba(198, 40, 40, 0.08) !important; }
+#input-builder .ib-flag { outline: 2px solid var(--ib-err); outline-offset: 1px; }
+#input-builder .ib-vec { display: flex; flex-wrap: wrap; gap: 0.3rem 0.6rem; }
+#input-builder .ib-comp { display: inline-flex; align-items: center; gap: 0.25rem; }
+#input-builder .ib-comp > span { color: var(--md-default-fg-color--light); font-style: italic; }
+#input-builder .ib-bc input.ib-num { width: 5em; }
+#input-builder .ib-fields { display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; }
+#input-builder .ib-chip { display: inline-flex; align-items: center; gap: 0.2rem; white-space: nowrap; }
+#input-builder .ib-btn {
+  font: inherit; font-weight: 600; cursor: pointer; margin: 0.2rem 0;
+  padding: 0.2rem 0.6rem; border-radius: 0.2rem;
+  border: 1px solid var(--md-primary-fg-color); color: var(--md-primary-fg-color); background: transparent;
+}
+#input-builder .ib-btn:hover { background: var(--ib-soft); }
+#input-builder .ib-primary { background: var(--md-primary-fg-color); color: #fff; }
+#input-builder .ib-primary:hover { background: var(--md-primary-fg-color--dark); }
+#input-builder .ib-small { padding: 0 0.4rem; margin: 0; }
+#input-builder .ib-remove { border-color: var(--ib-err); color: var(--ib-err); }
+#input-builder .ib-filebtn { display: inline-block; }
+
+/* the status line, the issues and the preview */
+#input-builder .ib-statusline { font-weight: 700; padding: 0.4rem 0.6rem; border-radius: 0.3rem; color: #fff; }
+#input-builder .ib-ok { background: var(--ib-ok); }
+#input-builder .ib-has-warns { background: var(--ib-warn); }
+#input-builder .ib-has-errors { background: var(--ib-err); }
+#input-builder .ib-issues { margin: 0.4rem 0; padding: 0; list-style: none; max-height: 9rem; overflow-y: auto; }
+#input-builder .ib-issue { margin: 0 0 0.2rem; padding: 0.15rem 0.4rem; border-left: 3px solid; cursor: pointer; }
+#input-builder .ib-issue.ib-error { border-color: var(--ib-err); }
+#input-builder .ib-issue.ib-warn { border-color: var(--ib-warn); }
+#input-builder .ib-issue:hover { background: var(--ib-soft); }
+#input-builder .ib-preview-head { display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; margin-top: 0.4rem; font-family: var(--md-code-font-family); font-weight: 700; }
+#input-builder .ib-preview-head .ib-btn { margin-left: 0.3rem; }
+#input-builder pre.ib-preview {
+  margin: 0.3rem 0 0; padding: 0.6rem 0.8rem; overflow: auto;
+  background: var(--md-code-bg-color); border-radius: 0.3rem; font-size: 0.6rem; line-height: 1.45;
+}
+#input-builder pre.ib-preview code { background: none; padding: 0; white-space: pre; }
+
+
+/* Material styles every <details> as a collapsible admonition (blue bar, icon, shadow);
+   inside the builder they are plain sections, keeping only the chevron. */
+#input-builder details {
+  border-color: var(--ib-line);
+  border-left-width: 1px;
+  box-shadow: none;
+  background: none;
+  font-size: inherit;
+}
+#input-builder details > summary {
+  background: none;
+  margin: 0 -0.6rem;
+  padding: 0.3rem 1.8rem 0.3rem 0.6rem;
+}
+#input-builder details > summary::before { display: none; }
+#input-builder details.ib-pastebox {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+#input-builder details.ib-pastebox > summary { margin: 0; padding: 0.1rem 1.8rem 0.1rem 0; color: var(--md-typeset-a-color); }
+
+/* a value of the wrong shape, or a missing key, shown with its fix */
+#input-builder .ib-mismatch { color: var(--ib-err); }
+#input-builder .ib-mismatch code { color: var(--md-default-fg-color); }
+#input-builder .ib-flash-bad { color: var(--ib-err); flex-basis: 100%; }
+
+/* the preview: each top-level section in a pastel blue box; the one being worked on is stronger */
+#input-builder {
+  --ib-sec-bg: #e8f0fb;
+  --ib-sec-edge: #9dbce6;
+  --ib-sec-active: #cfe0f7;
+}
+[data-md-color-scheme="slate"] #input-builder {
+  --ib-sec-bg: rgba(120, 160, 230, 0.12);
+  --ib-sec-edge: rgba(140, 180, 240, 0.55);
+  --ib-sec-active: rgba(120, 160, 230, 0.28);
+}
+#input-builder pre.ib-preview { position: relative; }
+#input-builder .ib-sec {
+  display: block;
+  margin: 0.15rem -0.4rem 0.45rem;
+  padding: 0.2rem 0.4rem;
+  background: var(--ib-sec-bg);
+  border-left: 3px solid var(--ib-sec-edge);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#input-builder .ib-sec:hover { background: var(--ib-sec-active); }
+#input-builder .ib-sec-active { background: var(--ib-sec-active); border-left-color: var(--md-primary-fg-color); }
+@keyframes ib-sec-flash { from { box-shadow: 0 0 0 2px var(--md-primary-fg-color); } to { box-shadow: 0 0 0 2px transparent; } }
+#input-builder .ib-sec-flash { animation: ib-sec-flash 1.2s ease-out; }
+#input-builder .ib-form [data-top] > summary, #input-builder .ib-form [data-top] > .ib-label { cursor: pointer; }
+
+/* each key and section in a rounded box coloured by its status, as on the reference pages:
+   purple - required; orange - required in this situation; grey, dashed - optional */
+#input-builder, .md-typeset .ib-legend {
+  --ib-R-bg: rgba(104, 36, 109, 0.06);  --ib-R-edge: rgba(104, 36, 109, 0.35);
+  --ib-C-bg: rgba(179, 92, 0, 0.07);    --ib-C-edge: rgba(179, 92, 0, 0.45);
+  --ib-O-bg: rgba(0, 0, 0, 0.025);      --ib-O-edge: rgba(0, 0, 0, 0.25);
+}
+[data-md-color-scheme="slate"] #input-builder, [data-md-color-scheme="slate"] .md-typeset .ib-legend {
+  --ib-R-bg: rgba(200, 140, 210, 0.10); --ib-R-edge: rgba(200, 140, 210, 0.45);
+  --ib-C-bg: rgba(240, 160, 80, 0.10);  --ib-C-edge: rgba(240, 160, 80, 0.50);
+  --ib-O-bg: rgba(255, 255, 255, 0.03); --ib-O-edge: rgba(255, 255, 255, 0.28);
+}
+#input-builder .ib-st-R { background-color: var(--ib-R-bg); border-color: var(--ib-R-edge); }
+#input-builder .ib-st-C { background-color: var(--ib-C-bg); border-color: var(--ib-C-edge); }
+#input-builder .ib-st-O { background-color: var(--ib-O-bg); border-color: var(--ib-O-edge); border-style: dashed; }
+#input-builder details.ib-group { border-radius: 0.45rem; }
+#input-builder .ib-label { align-items: center; }
+#input-builder .ib-label .ib-toggle { margin: 0; }
+
+/* the legend in the page text above the builder: the same boxes */
+.md-typeset .ib-legend {
+  display: inline-block;
+  padding: 0 0.5em;
+  border: 1px solid;
+  border-radius: 0.4em;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.md-typeset .ib-legend.ib-st-R { background-color: var(--ib-R-bg); border-color: var(--ib-R-edge); }
+.md-typeset .ib-legend.ib-st-C { background-color: var(--ib-C-bg); border-color: var(--ib-C-edge); }
+.md-typeset .ib-legend.ib-st-O { background-color: var(--ib-O-bg); border-color: var(--ib-O-edge); border-style: dashed; }
