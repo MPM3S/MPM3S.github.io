@@ -8,7 +8,7 @@ Before starting, install Julia and MPM3S as described in [MPM3S installation](..
 
 ## Difficulty and run time
 
-Each tutorial is marked with its level, the time it takes to work through, and how long it takes to run:
+Each tutorial is marked with its level, its work through time and its approximate run time:
 
 - <span class="level level-beginner">Beginner</span> - no experience of MPM3S needed; runs in about a minute on a laptop.
 - <span class="level level-intermediate">Intermediate</span> - builds on Tutorials 1 and 2; a GPU makes the run much quicker.
@@ -26,7 +26,7 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
     ---
 
-    <span class="level level-beginner">Beginner</span> ~30 min · run &lt; 1 min (CPU)
+    <span class="level level-beginner">Beginner</span> ~30 min work through · approx. run &lt; 1 min (CPU)
 
     An elastic column compressed by its own weight. The simplest problem in the set: no contact, no plasticity and no mesh refinement, but large deformation, checked against an analytical vertical stress. Introduces the input file, running MPM3S and viewing the output.
 
@@ -36,7 +36,7 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
     ---
 
-    <span class="level level-beginner">Beginner</span> ~45 min · run ~1 min (CPU)
+    <span class="level level-beginner">Beginner</span> ~45 min work through · approx. run 1 min (CPU)
 
     A cube of soil compressed by a rigid cube through 25% of its height. Introduces rigid bodies defined by an STL surface, prescribed displacements and penalty contact.
 
@@ -46,7 +46,7 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
     ---
 
-    <span class="level level-intermediate">Intermediate</span> ~1 to 1.5 h · run 15 min (GPU), 1 h (CPU)
+    <span class="level level-intermediate">Intermediate</span> ~1 to 1.5 h work through · approx. run 15 min (GPU), 1 h (CPU)
 
     A quarter-symmetric cone penetration test in dry sand. Adds a two-stage analysis, Willam-Warnke sand with depth-dependent stiffness, frictional contact and mesh refinement that follows the cone.
 
@@ -74,7 +74,7 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     ---
 
-    <span class="level level-intermediate">Intermediate</span> ~1 h · run 5 min (GPU), 30 min (CPU)
+    <span class="level level-intermediate">Intermediate</span> ~1 h work through · approx. run 5 min (GPU), 30 min (CPU)
 
     A rigid sphere rolling down a 45° slope, with a friction-coefficient sweep checked against the analytical slip/stick solution. Introduces dynamic stages, a free rigid body and a boundary track that follows the sphere.
 
@@ -84,7 +84,7 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     ---
 
-    <span class="level level-advanced">Advanced</span> ~1.5 to 2 h · run 45 min (GPU), 6 h (CPU)
+    <span class="level level-advanced">Advanced</span> ~1.5 to 2 h work through · approx. run 45 min (GPU), 6 h (CPU)
 
     A half-symmetric AC-14 drag anchor pulled through submerged sand. Combines Tutorial 3's soil model and Tutorial 5's dynamics and moving boundaries with an anchor of two hinged parts, an angle stop and a pull line, over three stages.
 
