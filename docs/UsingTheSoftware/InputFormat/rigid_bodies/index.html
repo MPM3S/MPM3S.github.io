@@ -328,6 +328,8 @@
           
             
               
+                
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -1539,6 +1541,84 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-constraints-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the constraints work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How the constraints work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coincidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coincidence: a ball joint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotation-lock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation lock: a hinge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distance-lock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance lock: a rod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distance-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance stop: an angle stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1549,6 +1629,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="STL files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#welded-surfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a surface is welded to its point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2423,7 +2520,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2461,6 +2560,84 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-constraints-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the constraints work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How the constraints work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coincidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coincidence: a ball joint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotation-lock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation lock: a hinge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distance-lock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance lock: a rod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distance-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance stop: an angle stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2471,6 +2648,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="STL files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#welded-surfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a surface is welded to its point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2499,6 +2693,8 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+
 
 
   
@@ -2656,7 +2852,7 @@
 <p>A point with no STL surface, such as a pull point, has nothing to resist its motion except its own mass and inertia, so either prescribe or fix its degrees of freedom, or give it mass.</p>
 <h2 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">¶</a></h2>
 <p>Constraints join two points of the same system with penalty springs. Positions are global anchor points and directions are global vectors, both at the start of the analysis; each anchor then moves with its own point.</p>
-<div class="small-table">
+<div class="small-table wrap-code">
 <table>
 <thead>
 <tr>
@@ -2805,7 +3001,114 @@
 </tbody>
 </table>
 </div>
-<p>A weld is a rotation lock plus a second rotation lock about a non-parallel axis. <a href="../../../TutorialProblems/Tutorial_6/#problem-description">Tutorial 6</a> uses a hinge, an angle stop and a pull line together.</p>
+<h3 id="how-the-constraints-work">How the constraints work<a class="headerlink" href="#how-the-constraints-work" title="Permanent link">¶</a></h3>
+<ul>
+<li>Every constraint joins two points of the same system, <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span>, given as <code>"points": [a, b]</code>.</li>
+<li>Its anchors (<code>"position 1"</code>, <code>"position 2"</code>, <code>"rotation centre"</code>) and axes (<code>"direction 1"</code>, <code>"direction 2"</code>) are given in global coordinates at the start of the analysis. MPM3S stores each one as an arm from its point, so it moves and turns with that point as if fixed to its body.</li>
+<li>Each constraint is a penalty spring, so it is only met approximately: the stiffer the spring, the smaller the error, but too stiff a spring makes the Newton iterations harder to converge. The axial stiffness of a real rod or cable, <span class="arithmatex">\(EA/L\)</span>, is a good choice; <a href="../../../TutorialProblems/Tutorial_6/#problem-description">Tutorial 6</a> uses <span class="arithmatex">\(EA = 10^{10}\)</span> N.</li>
+<li>Place the anchors where the constraint is met at the start. A constraint that starts out of place pulls its points into place in the first step.</li>
+</ul>
+<div class="json-side-header">
+<div>Constraint</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side">
+<div class="js-text">
+<h4 id="coincidence">Coincidence: a ball joint<a class="headerlink" href="#coincidence" title="Permanent link">¶</a></h4>
+<p><figure id="_figure-1"><img alt="A coincidence: the two anchors are held together and the bodies turn freely about them." id="fig-coincidence" src="../../../../img/rigid_bodies/constraint_coincidence.png"><figcaption>Figure 1: A coincidence: the two anchors are held together and the bodies turn freely about them.</figcaption></figure></p>
+<ul>
+<li><code>"position 1"</code>, carried by point <span class="arithmatex">\(a\)</span>, and <code>"position 2"</code>, carried by point <span class="arithmatex">\(b\)</span>, are pulled together by a spring of <code>"stiffness"</code> <span class="arithmatex">\(k\)</span>, with energy <span class="arithmatex">\(E = \tfrac{1}{2} k \lvert \mathbf{x}_2 - \mathbf{x}_1 \rvert^2\)</span>.</li>
+<li>The two positions are normally the same point, the centre of the joint.</li>
+<li>The bodies can still turn freely about the joint, so it removes 3 of the two points' 12 degrees of freedom.</li>
+</ul>
+</div>
+<div class="js-code">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coincidence"</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">"position 1"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1.75</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">"position 2"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1.75</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">"stiffness"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e9</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+<div class="json-side">
+<div class="js-text">
+<h4 id="rotation-lock">Rotation lock: a hinge<a class="headerlink" href="#rotation-lock" title="Permanent link">¶</a></h4>
+<p><figure id="_figure-2"><img alt="A rotation lock: the points are pinned at the rotation centre and their axes kept aligned, so the bodies only turn about the axis." id="fig-rotation-lock" src="../../../../img/rigid_bodies/constraint_rotation_lock.png"><figcaption>Figure 2: A rotation lock: the points are pinned at the rotation centre and their axes kept aligned, so the bodies only turn about the axis.</figcaption></figure></p>
+<ul>
+<li><strong>Pin:</strong> both points carry an arm to the <code>"rotation centre"</code>, and the two ends are held together by a spring of <code>"stiffness"</code> <span class="arithmatex">\(k\)</span>, as in a coincidence.</li>
+<li><strong>Axis:</strong> <code>"direction 1"</code>, carried by point <span class="arithmatex">\(a\)</span>, and <code>"direction 2"</code>, carried by point <span class="arithmatex">\(b\)</span>, are kept aligned by <code>"rotational stiffness"</code> <span class="arithmatex">\(k_r\)</span>. Only their directions matter, not their lengths, and they are normally the same vector.</li>
+<li>The energy is <span class="arithmatex">\(E = \tfrac{1}{2} k \lvert \mathbf{x}_b - \mathbf{x}_a \rvert^2 + k_r (1 - \hat{\mathbf{d}}_1 \cdot \hat{\mathbf{d}}_2)\)</span>, where <span class="arithmatex">\(\mathbf{x}_a\)</span> and <span class="arithmatex">\(\mathbf{x}_b\)</span> are the two ends of the pin and <span class="arithmatex">\(\hat{\mathbf{d}}_1\)</span>, <span class="arithmatex">\(\hat{\mathbf{d}}_2\)</span> the unit axes.</li>
+<li>The bodies can only turn relative to each other about the axis, so it removes 5 degrees of freedom.</li>
+</ul>
+</div>
+<div class="js-code">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rotation lock"</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">"rotation centre"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.489</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">"direction 1"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">"direction 2"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">"stiffness"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e9</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">"rotational stiffness"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e8</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+<div class="json-side">
+<div class="js-text">
+<h4 id="distance-lock">Distance lock: a rod<a class="headerlink" href="#distance-lock" title="Permanent link">¶</a></h4>
+<p><figure id="_figure-3"><img alt="A distance lock: the two anchors are held a fixed distance apart, like the ends of a rod." id="fig-distance-lock" src="../../../../img/rigid_bodies/constraint_distance_lock.png"><figcaption>Figure 3: A distance lock: the two anchors are held a fixed distance apart, like the ends of a rod.</figcaption></figure></p>
+<ul>
+<li><code>"position 1"</code> and <code>"position 2"</code> are held <code>"distance"</code> <span class="arithmatex">\(s\)</span> apart, with energy <span class="arithmatex">\(E = \tfrac{1}{2} k \left( \lvert \mathbf{x}_2 - \mathbf{x}_1 \rvert - s \right)^2\)</span>.</li>
+<li>Like a rod, it pushes as well as pulls, and the bodies can swing and turn about the anchors, so it removes 1 degree of freedom.</li>
+<li><a href="../../../TutorialProblems/Tutorial_6/#problem-description">Tutorial 6</a> uses one as the pull line between the anchor's eyelet and the pull point.</li>
+</ul>
+</div>
+<div class="js-code">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"distance lock"</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">"position 1"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">3.0294</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">"position 2"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">12.51226633</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5703035</span><span class="p">],</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">"distance"</span><span class="p">:</span><span class="w"> </span><span class="mf">9.5</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nt">"stiffness"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0526e9</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+<div class="json-side">
+<div class="js-text">
+<h4 id="distance-stop">Distance stop: an angle stop<a class="headerlink" href="#distance-stop" title="Permanent link">¶</a></h4>
+<p><figure id="_figure-4"><img alt="A distance stop, seen along the hinge axis: slack while the hinge angle is below the angle limit, and taut once it reaches it." id="fig-distance-stop" src="../../../../img/rigid_bodies/constraint_distance_stop.png"><figcaption>Figure 4: A distance stop, seen along the hinge axis: slack while the hinge angle is below the angle limit, and taut once it reaches it.</figcaption></figure></p>
+<ul>
+<li>It is a cable between <code>"position 1"</code> and <code>"position 2"</code>: while the anchors are closer than its length <span class="arithmatex">\(s\)</span> it is slack and does nothing, and once they are further apart it acts as the rod above. Its energy is <span class="arithmatex">\(E = \tfrac{1}{2} k \left\langle \lvert \mathbf{x}_2 - \mathbf{x}_1 \rvert - s \right\rangle^2\)</span>, where <span class="arithmatex">\(\langle \cdot \rangle\)</span> is zero when negative.</li>
+<li>Its length is set from the <code>"angle limit"</code> <span class="arithmatex">\(\psi_\mathrm{max}\)</span> and the anchors' distances <span class="arithmatex">\(l_1\)</span> and <span class="arithmatex">\(l_2\)</span> from the <code>"rotation centre"</code> at the start: <span class="arithmatex">\(s = \sqrt{l_1^2 + l_2^2 - 2 l_1 l_2 \cos\psi_\mathrm{max}}\)</span>.</li>
+<li>Used with a rotation lock at the same rotation centre, the distance between the anchors grows steadily with the hinge angle <span class="arithmatex">\(\psi\)</span> between them, from <span class="arithmatex">\(0^\circ\)</span> to <span class="arithmatex">\(180^\circ\)</span>, so the stop goes taut exactly when the hinge has opened to <span class="arithmatex">\(\psi_\mathrm{max}\)</span>. The rotation centre is only used to work out <span class="arithmatex">\(s\)</span>; the stop itself acts between the two anchors.</li>
+<li>It removes nothing while slack and 1 degree of freedom when taut. <a href="../../../TutorialProblems/Tutorial_6/#problem-description">Tutorial 6</a> uses one to stop the anchor's fluke opening beyond <span class="arithmatex">\(35^\circ\)</span>.</li>
+</ul>
+</div>
+<div class="js-code">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"distance stop"</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">"rotation centre"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.489</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nt">"position 1"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.6121</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.044805</span><span class="p">],</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">"position 2"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.62</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">"angle limit"</span><span class="p">:</span><span class="w"> </span><span class="mf">35.0</span><span class="p">,</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">"stiffness"</span><span class="p">:</span><span class="w"> </span><span class="mf">8.5814e9</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+<h4 id="combining-constraints">Combining constraints<a class="headerlink" href="#combining-constraints" title="Permanent link">¶</a></h4>
+<ul>
+<li>A <strong>weld</strong> is a rotation lock plus a second rotation lock about a non-parallel axis.</li>
+<li><a href="../../../TutorialProblems/Tutorial_6/#problem-description">Tutorial 6</a> uses a hinge, an angle stop and a pull line together.</li>
+</ul>
 <h2 id="stl-files">STL files<a class="headerlink" href="#stl-files" title="Permanent link">¶</a></h2>
 <div class="small-table">
 <table>
@@ -2850,6 +3153,41 @@
 </tbody>
 </table>
 </div>
+<h3 id="welded-surfaces">How a surface is welded to its point<a class="headerlink" href="#welded-surfaces" title="Permanent link">¶</a></h3>
+<div class="json-side-header">
+<div>Description</div>
+<div><code>input_data.json</code></div>
+</div>
+
+<div class="json-side">
+<div class="js-text">
+<p><figure id="_figure-5"><img alt="A surface welded to its point: the body moves and turns with its point, and a contact force on the surface reaches the point as a force and a moment." id="fig-point-surface" src="../../../../img/rigid_bodies/point_surface.png"><figcaption>Figure 5: A surface welded to its point: the body moves and turns with its point, and a contact force on the surface reaches the point as a force and a moment.</figcaption></figure></p>
+<ul>
+<li>When the analysis starts, every node of the surface, and of its tetrahedral mesh, is stored as an arm <span class="arithmatex">\(\mathbf{r}_0\)</span> from the point named in <code>"point"</code>: the node's position minus the point's <code>"position"</code>.</li>
+<li>From then on the surface moves and turns rigidly with its point: each node is at <span class="arithmatex">\(\mathbf{x} = \mathbf{c} + \mathbf{R}\,\mathbf{r}_0\)</span>, where <span class="arithmatex">\(\mathbf{c}\)</span> is the point's current position and <span class="arithmatex">\(\mathbf{R}\)</span> its rotation.</li>
+<li>The surface has no mass of its own: the body's mass and inertia are the point's <code>"mass"</code> and <code>"rotational inertia"</code>, so the point is normally placed at the body's centre of mass. The STL file only gives the body its shape.</li>
+<li>The surface is what touches the soil. A contact force <span class="arithmatex">\(\mathbf{F}\)</span> on it, at arm <span class="arithmatex">\(\mathbf{r}\)</span> from the point, acts on the point as the force <span class="arithmatex">\(\mathbf{F}\)</span> and the moment <span class="arithmatex">\(\mathbf{M} = \mathbf{r} \times \mathbf{F}\)</span>.</li>
+<li>A point may carry several surfaces, which then move as one body. A point with no surface is a handle, such as a pull point.</li>
+<li><a href="#tracked-nodes">Tracked nodes</a> are attached in the same way, as arms from their point.</li>
+</ul>
+</div>
+<div class="js-code">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.6121</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.044805</span><span class="p">],</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">      </span><span class="nt">"mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">3291.6</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">"rotational inertia"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">275.0</span><span class="p">,</span><span class="w"> </span><span class="mf">275.0</span><span class="p">,</span><span class="w"> </span><span class="mf">275.0</span><span class="p">],</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">                              </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">],</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fluke"</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">      </span><span class="nt">"stl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC14_fluke_rot20.stl"</span><span class="p">,</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">      </span><span class="nt">"mesh cache"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC14_fluke_rot20_mesh.txt"</span><span class="p">,</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">      </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="p">]</span>
+</code></pre></div>
+</div>
+</div>
 <h2 id="tracked-nodes">Tracked nodes<a class="headerlink" href="#tracked-nodes" title="Permanent link">¶</a></h2>
 <div class="small-table">
 <table>
@@ -2888,8 +3226,13 @@
 
 
 
+  
+  
 
 
+
+
+  
 
 
 

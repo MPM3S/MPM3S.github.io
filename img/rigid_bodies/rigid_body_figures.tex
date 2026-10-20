@@ -1,0 +1,174 @@
+% The figures of the rigid bodies page (rigid_bodies.md), in the style of Tutorial 6's
+% anchor_setup.png, one figure (one page) each. Pages 1-4 are the constraint types: coincidence,
+% a ball joint; rotation lock, a hinge; distance lock, a rod; distance stop, an angle stop. Each
+% shows two bars, each welded to its point (drawn at its centre of mass), and the arms from the
+% points to the constraint's anchors. Page 5 is a surface welded to its point.
+% rigid_body_parts.tex (the bars and the coordinates of each figure) is written by rigid_body_figures.py.
+% Build: python3 rigid_body_figures.py
+%        pdflatex rigid_body_figures.tex
+%        then one PNG per page, e.g. for page 1:
+%        pdftocairo -png -transp -r 300 -singlefile -f 1 -l 1 rigid_body_figures.pdf constraint_coincidence
+%        (pages 2-5: constraint_rotation_lock, constraint_distance_lock, constraint_distance_stop, point_surface)
+\documentclass[border=4pt, multi=figpage]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc}
+\newenvironment{figpage}{}{}
+
+\definecolor{dimpurple}{RGB}{104,36,109}
+\definecolor{rigidred}{RGB}{237,28,36}
+
+\tikzset{
+  body/.style={draw=black, line width=0.4pt, line join=round},
+  ghost/.style={draw=rigidred, line width=0.5pt, line join=round, dash pattern=on 2pt off 1.5pt},
+  arm/.style={draw=black, line width=0.6pt, dash pattern=on 2pt off 1.5pt},
+  axisline/.style={draw=black, line width=0.6pt, dash pattern=on 5pt off 1.5pt on 1pt off 1.5pt},
+  rod/.style={draw=black, line width=1.4pt},
+  dimline/.style={draw=dimpurple, line width=0.8pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  turn/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  ext/.style={draw=dimpurple, line width=0.4pt, dash pattern=on 1.5pt off 1.5pt},
+  leader/.style={draw=black, line width=0.4pt},
+  label/.style={font=\sffamily\small},
+  key/.style={font=\ttfamily\small},
+  force/.style={draw=dimpurple, line width=1.2pt, -{Latex[length=6pt, width=5pt]}},
+  oblique/.style={x={(2.0cm,0cm)}, y={(1.0cm,0.8cm)}, z={(0cm,2.0cm)}, font=\sffamily},
+}
+
+\input{rigid_body_parts.tex}
+
+% a point: a circle with two opposite quarters filled (as anchor_design.png)
+\newcommand{\com}[1]{%
+  \filldraw[fill=white, draw=black, line width=0.5pt] #1 circle (3pt);
+  \fill[black] #1 -- ++(3pt,0) arc[start angle=0, end angle=90, radius=3pt] -- cycle;
+  \fill[black] #1 -- ++(-3pt,0) arc[start angle=180, end angle=270, radius=3pt] -- cycle;}
+\newcommand{\anchorpt}[1]{\filldraw[fill=rigidred, draw=black, line width=0.3pt] #1 circle (2pt);}
+\newcommand{\pinpt}[1]{\fill[black] #1 circle (2pt);}
+% the legend, centred under the figure drawn so far
+\newcommand{\legend}[1]{\node[anchor=north, font=\sffamily\small] at ([yshift=-6pt]current bounding box.south) {#1};}
+\newcommand{\sep}{\hspace{1.2em}}
+
+\begin{document}
+% legend glyphs, drawn outside the figures so they use plain axes
+\newsavebox{\legbody}\sbox{\legbody}{\tikz[baseline=-0.6ex]\filldraw[body, fill=rigidred!25] (0,-0.15) rectangle (0.3,0.15);}%
+\newsavebox{\legpoint}\sbox{\legpoint}{\tikz[baseline=-0.6ex]{\com{(0,0)}}}%
+\newsavebox{\leganchor}\sbox{\leganchor}{\tikz[baseline=-0.6ex]\anchorpt{(0,0)};}%
+\newsavebox{\legarm}\sbox{\legarm}{\tikz[baseline=-0.6ex]\draw[arm] (0,0) -- (0.6,0);}%
+\newsavebox{\legaxis}\sbox{\legaxis}{\tikz[baseline=-0.6ex]\draw[axisline] (0,0) -- (0.6,0);}%
+\newsavebox{\legpin}\sbox{\legpin}{\tikz[baseline=-0.6ex]\pinpt{(0,0)};}%
+\newsavebox{\legghost}\sbox{\legghost}{\tikz[baseline=-0.6ex]\draw[ghost] (0,-0.15) rectangle (0.3,0.15);}%
+
+% ── 1. coincidence: a ball joint ──
+\begin{figpage}
+\begin{tikzpicture}[oblique]
+  \panela
+  \draw[arm] (pa) -- (joint) (pb) -- (joint);
+  \com{(pa)} \com{(pb)}
+  \filldraw[fill=white, draw=black, line width=0.6pt] (joint) circle (3.6pt);
+  \anchorpt{(joint)}
+  \draw[turn] ($(joint)+(155:0.85cm)$) arc[start angle=155, end angle=25, radius=0.85cm];
+  \node[label, dimpurple] at ($(joint)+(0,1.15cm)$) {turns freely};
+  \draw[leader] (pa) -- ++(-0.3cm,-1.0cm) node[below, label] {point $a$};
+  \draw[leader] (pb) -- ++(0.4cm,-1.3cm) node[below, label] {point $b$};
+  \draw[leader] (joint) -- ++(0.05cm,-1.2cm) node[below, key, align=center] {"position 1" =\\"position 2"};
+  \legend{\usebox{\legbody}~rigid body\sep\usebox{\legpoint}~point\sep\usebox{\leganchor}~anchor\sep\usebox{\legarm}~arm}
+\end{tikzpicture}
+\end{figpage}
+
+% ── 2. rotation lock: a hinge ──
+\begin{figpage}
+\begin{tikzpicture}[oblique]
+  \panelb
+  \draw[axisline] (axlo) -- (axhi);
+  \draw[arm] (pa) -- (pin) (pb) -- (pin);
+  \com{(pa)} \com{(pb)}
+  \pinpt{(pin)}
+  \draw[dimpurple, line width=1pt, -{Latex[length=6pt, width=5pt]}] ($(pin)+(0,0.95,0)$) -- ($(pin)+(0,1.45,0)$)
+    node[above left=0pt, key, dimpurple, align=right] {"direction 1",\\"direction 2"};
+  \draw[turn] ($(pin)+(-6:3.6cm)$) arc[start angle=-6, end angle=31, radius=3.6cm];
+  \node[label, dimpurple, anchor=west] at ($(pin)+(12:3.7cm)$) {turns about the axis};
+  \draw[leader] (pa) -- ++(0.2cm,-1.0cm) node[below, label] {point $a$};
+  \draw[leader] (pb) -- ++(0.3cm,1.0cm) node[above, label] {point $b$};
+  \draw[leader] (pin) -- ++(-1.0cm,-1.0cm) node[below left=-2pt, key] {"rotation centre"};
+  \legend{\usebox{\legbody}~rigid body\sep\usebox{\legpoint}~point\sep\usebox{\legpin}~pin\sep\usebox{\legarm}~arm\sep\usebox{\legaxis}~hinge axis}
+\end{tikzpicture}
+\end{figpage}
+
+% ── 3. distance lock: a rod ──
+\begin{figpage}
+\begin{tikzpicture}[oblique]
+  \panelc
+  \draw[rod] (an1) -- (an2);
+  \draw[arm] (pa) -- (an1) (pb) -- (an2);
+  \com{(pa)} \com{(pb)}
+  \anchorpt{(an1)} \anchorpt{(an2)}
+  \draw[ext] (an1) -- ($(an1)!0.85cm!90:(an2)$) (an2) -- ($(an2)!0.85cm!-90:(an1)$);
+  \draw[dim] ($(an1)!0.7cm!90:(an2)$) -- node[above=1pt, key, sloped, dimpurple] {"distance"} ($(an2)!0.7cm!-90:(an1)$);
+  \draw[leader] (pa) -- ++(-0.4cm,-1.0cm) node[below, label] {point $a$};
+  \draw[leader] (pb) -- ++(0.5cm,1.0cm) node[above, label] {point $b$};
+  \draw[leader] (an1) -- ++(0.7cm,-1.0cm) node[below, key] {"position 1"};
+  \draw[leader] (an2) -- ++(0.2cm,-1.6cm) node[below, key] {"position 2"};
+  \legend{\usebox{\legbody}~rigid body\sep\usebox{\legpoint}~point\sep\usebox{\leganchor}~anchor\sep\usebox{\legarm}~arm}
+\end{tikzpicture}
+\end{figpage}
+
+% ── 4. distance stop: an angle stop, seen from the side - along the hinge axis - so the angles are true ──
+\begin{figpage}
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0cm,1cm)}, font=\sffamily]
+  \def\psiang{20} \def\psimax{42} \def\len{3.4} \def\thk{0.15} \def\lanc{2.5} \def\lcom{1.0}
+  % the limit position (ghost), the opened bar b, then bar a in front
+  \draw[ghost, rotate around={\psimax:(0,0)}] (-0.3,-\thk) rectangle (\len,\thk);
+  \filldraw[body, fill=rigidred!16, rotate around={\psiang:(0,0)}] (-0.3,-\thk) rectangle (\len,\thk);
+  \filldraw[body, fill=rigidred!26] (-0.3,-\thk) rectangle (\len,\thk);
+  % the angles, measured beyond the tips on the bars' centre lines
+  \draw[ext] (\len,0) -- (4.85,0) (\psiang:\len) -- (\psiang:4.35) (\psimax:\len) -- (\psimax:4.85);
+  \draw[dimline, line width=0.6pt] (4.1,0) arc[start angle=0, end angle=\psiang, radius=4.1];
+  \node[label, dimpurple] at (10:4.38) {$\psi$};
+  \draw[dimline, line width=0.6pt] (4.7,0) arc[start angle=0, end angle=\psimax, radius=4.7];
+  \node[label, dimpurple, anchor=west] at (33:4.75) {$\psi_\mathrm{max}$};
+  % l1, l2 from the rotation centre to the anchors, the slack chord and the limit chord s
+  \draw[dimline, line width=0.7pt] (0,0) -- (\lanc,0) (0,0) -- (\psiang:\lanc);
+  \node[label, dimpurple, anchor=north] at (1.75,-\thk) {$l_1$};
+  \node[label, dimpurple, anchor=south east] at ($(\psiang:1.75)+(\psiang+90:\thk)$) {$l_2$};
+  \draw[dimline, dash pattern=on 3pt off 2pt] (\lanc,0) -- (\psiang:\lanc);
+  \draw[dimline, line width=1.2pt] (\lanc,0) -- (\psimax:\lanc);
+  \node[label, dimpurple, anchor=west] at ($(\lanc,0)!0.6!(\psimax:\lanc)+(0.12,0)$) {$s$};
+  \com{(\lcom,0)} \com{(\psiang:\lcom)}
+  \pinpt{(0,0)}
+  \anchorpt{(\lanc,0)} \anchorpt{(\psiang:\lanc)}
+  \filldraw[fill=white, draw=rigidred, line width=0.6pt] (\psimax:\lanc) circle (2pt);
+  \draw[leader] (\lcom,0) -- ++(-0.3,-0.9) node[below, label] {point $a$};
+  \draw[leader] (\psiang:\lcom) -- ++(-0.5,1.0) node[above, label] {point $b$};
+  \draw[leader] (0,0) -- ++(-0.9,-0.6) node[below left=-2pt, key] {"rotation centre"};
+  \draw[leader] (\lanc,0) -- ++(0.5,-0.9) node[below, key] {"position 1"};
+  \draw[leader] (\psiang:\lanc) -- ++(-0.35,1.55) node[above, key] {"position 2"};
+  \legend{\usebox{\legbody}~rigid body\sep\usebox{\legpoint}~point\sep\usebox{\leganchor}~anchor\sep\usebox{\legghost}~at the angle limit}
+\end{tikzpicture}
+\end{figpage}
+
+% ── 5. a surface welded to its point ──
+\begin{figpage}
+\begin{tikzpicture}[oblique]
+  \panele
+  % the arms from the point to the surface nodes (here the visible corners)
+  \draw[arm] (pe) -- (c1) (pe) -- (c2) (pe) -- (c3) (pe) -- (c4);
+  \foreach \c in {c1, c2, c3, c4} {\fill[black] (\c) circle (1.3pt);}
+  % the body moves and turns as one with its point
+  \com{(p0)} \com{(pe)}
+  \draw[dimline, line width=0.8pt, -{Latex[length=6pt, width=5pt]}, shorten <=5pt, shorten >=5pt] (p0) to[bend left=20] (pe);
+  \node[label, dimpurple, align=center] at ($(p0)!0.5!(pe)+(-0.2cm,1.35cm)$) {moves and turns\\with its point};
+  % a contact force on the surface reaches the point as a force and a moment
+  \draw[force] ($(hit)+(1.3cm,0.25cm)$) -- (hit);
+  \node[label, dimpurple, anchor=west] at ($(hit)+(1.35cm,0.25cm)$) {contact force $\mathbf{F}$};
+  \draw[dimline, line width=0.6pt, dash pattern=on 3pt off 2pt] (pe) -- node[pos=0.55, below=1pt, label, dimpurple] {$\mathbf{r}$} (hit);
+  \draw[force] (pe) -- ++(-1.3cm,-0.25cm) node[left, label, dimpurple] {$\mathbf{F}$};
+  \draw[dimline, line width=0.9pt, -{Latex[length=5pt, width=4pt]}] ($(pe)+(40:0.42cm)$) arc[start angle=40, end angle=300, radius=0.42cm];
+  \node[label, dimpurple, anchor=south] at ($(pe)+(-0.1cm,0.85cm)$) {$\mathbf{M} = \mathbf{r} \times \mathbf{F}$};
+  \draw[leader, dimpurple] ($(pe)+(-0.1cm,0.85cm)$) -- ($(pe)+(100:0.45cm)$);
+  \draw[leader] (p0) -- ++(-0.3cm,-0.9cm) node[below, label] {point, at the start};
+  \draw[leader] (c2) -- ++(-0.5cm,-1.3cm) node[below, label] {surface node};
+  \draw[leader] ($(c1)!0.5!(c4)$) -- ++(0.6cm,0.9cm) node[above, label] {STL surface};
+  \legend{\usebox{\legbody}~rigid body\sep\usebox{\legpoint}~point\sep\usebox{\legarm}~arm\sep\usebox{\legghost}~at the start}
+\end{tikzpicture}
+\end{figpage}
+
+\end{document}

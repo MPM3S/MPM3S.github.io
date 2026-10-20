@@ -1031,10 +1031,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#machine-and-domain" class="md-nav__link">
+  <a href="#machine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Machine and domain
+        Machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain
       
     </span>
   </a>
@@ -2677,10 +2688,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#machine-and-domain" class="md-nav__link">
+  <a href="#machine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Machine and domain
+        Machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain
       
     </span>
   </a>
@@ -2918,134 +2940,178 @@
 
 <div class="json-side">
 <div class="js-text">
-<h3 id="machine-and-domain">Machine and domain<a class="headerlink" href="#machine-and-domain" title="Permanent link">¶</a></h3>
-<p><code>"GPU": "off"</code> runs the analysis on the CPU.</p>
-<p><code>"domain update": "stretch"</code> lets the GIMP domains to compress as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.</p>
-<p>The background mesh is sized automatically to hold the soil and the same height of empty space above it, so it is a cube of side <span class="arithmatex">\(1.6\)</span> m. <code>"gravity"</code> is zero, so the soil carries no weight.</p>
+<h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>"GPU": "off"</code> runs the analysis on the CPU (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
+<li><code>"domain update": "stretch"</code> lets the GIMP domains compress with the soil (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain-update">domain update</a>).</li>
+<li>Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">"domain update"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stretch"</span><span class="p">,</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">]</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">"domain update"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stretch"</span>
+</code></pre></div>
+</div>
+</div>
+<div class="json-side">
+<div class="js-text">
+<h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
+<ul>
+<li>The background mesh is a cube, sized automatically to hold the soil plus the same height of empty space above it: here a cube of side <span class="arithmatex">\(1.6\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li><code>"gravity"</code> is zero, so the soil carries no weight.</li>
+</ul>
+</div>
+<div class="js-code">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
 <div class="json-side">
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
-<p>The soil is one <span class="arithmatex">\(0.8\)</span> m layer on a <span class="arithmatex">\(0.8 \times 0.8\)</span> m footprint, discretised by <span class="arithmatex">\(0.4\)</span> m elements with <span class="arithmatex">\(2 \times 2 \times 2\)</span> GIMPs in each, using the elastic properties from the <a href="#problem-summary">Problem summary</a>.</p>
+<ul>
+<li>One <span class="arithmatex">\(0.8\)</span> m layer on a <span class="arithmatex">\(0.8 \times 0.8\)</span> m footprint (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
+<li><span class="arithmatex">\(0.4\)</span> m elements, with <span class="arithmatex">\(2 \times 2 \times 2\)</span> GIMPs in each.</li>
+<li>The elastic properties from the <a href="#problem-summary">Problem summary</a>.</li>
+</ul>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">"material points"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">"extra capacity"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">"element size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4</span><span class="p">,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">"number of material points per element 1"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">"material size"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">"layers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="p">{</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">            </span><span class="nt">"thickness"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">            </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w"> </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e6</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">1000.0</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">]</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">"material points"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">"extra capacity"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">"element size"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">"number of material points per element 1"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">"material size"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">"layers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">            </span><span class="nt">"thickness"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">            </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w"> </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e6</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">1000.0</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
 <div class="json-side">
 <div class="js-text">
 <h3 id="rigid-body">Rigid body<a class="headerlink" href="#rigid-body" title="Permanent link">¶</a></h3>
-<p>A rigid body is a <em>system</em> of one or more <em>points</em>. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, <span class="arithmatex">\((0.4, 0.4, 1.3)\)</span> m.</p>
-<p>Its <code>"boundary conditions"</code> list the six degrees of freedom in the order <span class="arithmatex">\([u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]\)</span>. Five are <code>"fixed"</code>, and the vertical displacement is prescribed as <span class="arithmatex">\(-0.01\)</span> m per load step, so the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.</p>
-<p>The geometry comes from <code>cube.stl</code>, which sits in the same folder as the input file: the <code>"stl"</code> path is relative to the input file, so only file name means the same folder. It is attached to point 1 and drawn in global coordinates (the same global coordinates as point 1) with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and saves it in <code>cube_mesh.txt</code>, which later runs read instead. If you change <code>cube.stl</code>, delete <code>cube_mesh.txt</code> so that the mesh is rebuilt.</p>
+<ul>
+<li>A rigid body is a <em>system</em> of one or more <a href="../../UsingTheSoftware/InputFormat/rigid_bodies/#points"><em>points</em></a>. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia.</li>
+<li>The rigid cube is a single point at its centre, <span class="arithmatex">\((0.4, 0.4, 1.3)\)</span> m.</li>
+<li>Its <code>"boundary conditions"</code> list the six degrees of freedom in the order <span class="arithmatex">\([u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]\)</span>:<ul>
+<li>five are <code>"fixed"</code>;</li>
+<li>the vertical displacement is prescribed as <span class="arithmatex">\(-0.01\)</span> m per load step, so the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down over the 20 load steps;</li>
+<li>because every degree of freedom is held, the mass and inertia have no effect.</li>
+</ul>
+</li>
+<li>The geometry comes from <code>cube.stl</code>, attached to point 1 (<a href="../../UsingTheSoftware/InputFormat/rigid_bodies/#stl-files">STL files</a>):<ul>
+<li>the <code>"stl"</code> path is relative to the input file, so a file name on its own means the same folder;</li>
+<li>it is drawn in global coordinates, the same as point 1, with its base on the top of the soil;</li>
+<li>on the first run MPM3S builds a tetrahedral mesh of the rigid cube and saves it in <code>cube_mesh.txt</code>, which later runs read instead. If you change <code>cube.stl</code>, delete <code>cube_mesh.txt</code> so that the mesh is rebuilt.</li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">1.3</span><span class="p">],</span><span class="w"> </span><span class="nt">"mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"rotational inertia"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.24</span><span class="p">],</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">              </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"prescribed"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.01</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="p">],</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cube"</span><span class="p">,</span><span class="w"> </span><span class="nt">"stl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cube.stl"</span><span class="p">,</span><span class="w"> </span><span class="nt">"mesh cache"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cube_mesh.txt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="p">]</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="nt">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">1.3</span><span class="p">],</span><span class="w"> </span><span class="nt">"mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"rotational inertia"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="mf">0.24</span><span class="p">],</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">              </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"prescribed"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.01</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fixed"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="p">],</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nt">"stl files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cube"</span><span class="p">,</span><span class="w"> </span><span class="nt">"stl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cube.stl"</span><span class="p">,</span><span class="w"> </span><span class="nt">"mesh cache"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cube_mesh.txt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"point"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="p">]</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">]</span>
 </code></pre></div>
 </div>
 </div>
 <div class="json-side">
 <div class="js-text">
 <h3 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">¶</a></h3>
-<p>The contact between the rigid cube and the soil is frictionless. The contact stiffness is set automatically, as described in the <a href="#background-rigid-body-contact">Background</a>.</p>
+<ul>
+<li>The contact between the rigid cube and the soil is frictionless (<a href="../../UsingTheSoftware/InputFormat/contact/">contact properties</a>).</li>
+<li>The contact stiffness is set automatically, as described in the <a href="#background-rigid-body-contact">Background</a>.</li>
+</ul>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">"friction coefficient"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">"friction coefficient"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
 <div class="json-side">
 <div class="js-text">
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">¶</a></h3>
-<p>A single static stage of 20 load steps with the rigid body switched on. Gravity is zero, so <code>"load": "full"</code> has nothing to apply; all of the load comes from the rigid cube, which is pushed down a little further at every step.</p>
-<p><code>"rigid body surface placement": "on"</code> moves the rigid cube vertically at the start of the stage so that its base rests exactly on the top of the soil. Rollers are applied on the four sides and the base, and the top is free.</p>
-<p><code>"adaptivity": { "type": "uniform" }</code> meshes the whole background domain at the <span class="arithmatex">\(0.4\)</span> m element size. Without it, only the elements holding material points are <span class="arithmatex">\(0.4\)</span> m and the empty space is filled with coarser elements.</p>
+<ul>
+<li>A single static stage of 20 load steps, with the rigid body switched on (<a href="../../UsingTheSoftware/InputFormat/analysis/">analysis stages</a>).</li>
+<li>Gravity is zero, so <code>"load": "full"</code> has nothing to apply; all of the load comes from the rigid cube, which is pushed down a little further at every step.</li>
+<li><code>"rigid body surface placement": "on"</code> moves the rigid cube vertically at the start of the stage, so that its base rests exactly on the top of the soil.</li>
+<li>Rollers on the four sides and the base; the top is free (<a href="../../UsingTheSoftware/InputFormat/analysis/#boundary-conditions">boundary conditions</a>).</li>
+<li><code>"adaptivity": { "type": "uniform" }</code> meshes the whole background domain at the <span class="arithmatex">\(0.4\)</span> m element size (<a href="../../UsingTheSoftware/InputFormat/analysis/#adaptivity">adaptivity</a>). Without it, only the elements holding material points are <span class="arithmatex">\(0.4\)</span> m, and the empty space is filled with coarser elements.</li>
+</ul>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"static"</span><span class="p">,</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="nt">"load steps"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nt">"load"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nt">"rigid body surface placement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uniform"</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"static"</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="nt">"load steps"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="nt">"load"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="nt">"rigid body surface placement"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">        </span><span class="nt">"boundary conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">],</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roller"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">        </span><span class="nt">"adaptivity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uniform"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">]</span>
 </code></pre></div>
 </div>
 </div>
 <div class="json-side">
 <div class="js-text">
 <h3 id="solver">Solver<a class="headerlink" href="#solver" title="Permanent link">¶</a></h3>
-<p>The same settings as <a href="../Tutorial_1/#solver">Tutorial 1</a>: Newton-Raphson iterations to a tolerance of <span class="arithmatex">\(10^{-6}\)</span>, as there are no small ovelaps in this example there is no need for ghost stabilisation.</p>
+<ul>
+<li>The same settings as <a href="../Tutorial_1/#solver">Tutorial 1</a>: Newton-Raphson iterations to a tolerance of <span class="arithmatex">\(10^{-6}\)</span> (<a href="../../UsingTheSoftware/InputFormat/solver/">solver</a>).</li>
+<li>There are no small overlaps in this example, so there is no need for <a href="../../TechnicalReferences/ghostStabilisation/">ghost stabilisation</a>.</li>
+</ul>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">"solver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nt">"tolerance"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e-6</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">"max newton iterations"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">"poor factor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">"ghost factor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">"ghost factor mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">"solver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nt">"tolerance"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e-6</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">"max newton iterations"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">"poor factor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">"ghost factor"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">"ghost factor mass"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
 <div class="json-side">
 <div class="js-text">
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h3>
-<p>VTK and CSV output at every load step. The CSV files record each GIMP's position, domain size (<code>"lp"</code>) and stress, and the rigid cube's position and reaction force - the force needed to push it - which are used in <a href="#analysing-the-stress-in-the-domain">Analysing the stress in the domain</a>.</p>
+<ul>
+<li>VTK and CSV output at every load step (<a href="../../UsingTheSoftware/InputFormat/output/">output</a>).</li>
+<li>The CSV files record each GIMP's position, domain size (<code>"lp"</code>) and stress, and the rigid cube's position and reaction force - the force needed to push it.</li>
+<li>These are used in <a href="#analysing-the-stress-in-the-domain">Analysing the stress in the domain</a>.</li>
+</ul>
 </div>
 <div class="js-code">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_cube"</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">"vtk percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">"vtk material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"displacement"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strain"</span><span class="p">],</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">"vtk rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">],</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">"csv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_cube"</span><span class="p">,</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="nt">"csv percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="nt">"csv material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"initial position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lp"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">],</span>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="nt">"csv rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">]</span>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nt">"vtk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">"vtk directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vtk_cube"</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">"vtk percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">"vtk material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"displacement"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">,</span><span class="w"> </span><span class="s2">"strain"</span><span class="p">],</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">"vtk rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">],</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nt">"csv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on"</span><span class="p">,</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="nt">"csv directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"csv_cube"</span><span class="p">,</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">"csv percent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="nt">"csv material point fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"initial position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lp"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stress"</span><span class="p">],</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="nt">"csv rigid body fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"position"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reaction force"</span><span class="p">]</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">}</span>
 </code></pre></div>
 </div>
 </div>
@@ -3068,15 +3134,15 @@
 </div>
 <div class="js-code">
 <div class="terminal terminal-full">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>julia<span class="w"> </span>-t<span class="w"> </span>auto
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="go">julia&gt; cd("path/to/MPM3S")</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="go">julia&gt; Pkg.instantiate()</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="go">julia&gt; using MPM3S</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">$ </span>julia<span class="w"> </span>-t<span class="w"> </span>auto
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="go">julia&gt; cd("path/to/MPM3S")</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="go">julia&gt; using Pkg; Pkg.activate(".")</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="go">  Activating project at `path/to/MPM3S`</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="go">julia&gt; Pkg.instantiate()</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="go">julia&gt; using MPM3S</span>
 </code></pre></div>
 </div>
 </div>
@@ -3085,7 +3151,7 @@
 <div class="js-text">
 <h3 id="running-the-problem">Running the problem<a class="headerlink" href="#running-the-problem" title="Permanent link">¶</a></h3>
 <p>Julia is now running in the <code>MPM3S</code> folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder <code>validation_data_and_jsons</code>, the simulations are started with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");
 </code></pre></div>
 <h4 id="reading-the-output">Reading the output<a class="headerlink" href="#reading-the-output" title="Permanent link">¶</a></h4>
 <p>Before the first load step, MPM3S reports the rigid body surface placement: the lowest point of the rigid cube (<code>body base</code>) and the top of the soil (<code>material top</code>) are both at <span class="arithmatex">\(0.8\)</span> m, so the rigid cube is moved by just <code>Δz = 2.23517e-8</code> m, a small tolerance above the soil.</p>
@@ -3093,9 +3159,9 @@
 </div>
 <div class="js-code">
 <div class="terminal">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 2.23517e-8</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_compress.json");</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="go">[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 2.23517e-8</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="go">stage 1/1 ██░░░░░░░░░░  15.0% t 0.15/1.0 step 4 Δt 0.05 NR 4 cuts 0 del 0 N 125</span>
 </code></pre></div>
 </div>
 </div>
@@ -3154,41 +3220,41 @@
 </div>
 <h2 id="analysing-the-stress-in-the-domain">Analysing the stress in the domain<a class="headerlink" href="#analysing-the-stress-in-the-domain" title="Permanent link">¶</a></h2>
 <p><code>csv_cube/rigid_body.csv</code> has one row per load step for the rigid cube's point, <code>body1</code>. The <code>time</code> column is the load fraction, <code>body1_position_z</code> is the height of the rigid cube's centre and <code>body1_reaction force_z</code> is the vertical force needed to push the rigid cube down, in N:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>time,body1_position_x,body1_position_y,body1_position_z,body1_reaction force_x,body1_reaction force_y,body1_reaction force_z
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>0.05,0.4,0.4,1.290000022351742,0.0,0.0,8022.186499840163
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>0.1,0.4,0.4,1.280000022351742,0.0,0.0,16343.582579162323
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>...
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>1.0000000000000002,0.4,0.4,1.1000000223517419,0.0,0.0,237097.96125687487
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>time,body1_position_x,body1_position_y,body1_position_z,body1_reaction force_x,body1_reaction force_y,body1_reaction force_z
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>0.05,0.4,0.4,1.290000022351742,0.0,0.0,8022.186499840163
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>0.1,0.4,0.4,1.280000022351742,0.0,0.0,16343.582579162323
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>...
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>1.0000000000000002,0.4,0.4,1.1000000223517419,0.0,0.0,237097.96125687487
 </code></pre></div>
 <p>The GIMP files, <code>csv_cube/mps_1_00002.csv</code> to <code>mps_1_00021.csv</code>, have the same layout as in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, with the addition of the domain half-widths <code>lp_x</code>, <code>lp_y</code> and <code>lp_z</code>.</p>
 <p>The short Julia script below compares the final state with the analytical solution from the <a href="#problem-summary">Problem summary</a>. As in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>, you can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as <code>check_stress.jl</code> in the <code>MPM3S</code> folder and running <code>include("check_stress.jl")</code>. It needs only <code>DelimitedFiles</code>, which comes with Julia.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c"># the soil at the final load step; skip the "time" line, then read the header</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">soil</span><span class="p">,</span><span class="w"> </span><span class="n">soil_header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_cube/mps_1_00021.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">skipstart</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">soil_column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">soil</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">soil_header</span><span class="p">))]</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">soil_column</span><span class="p">(</span><span class="s">"position_z"</span><span class="p">)</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">lp_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">soil_column</span><span class="p">(</span><span class="s">"lp_z"</span><span class="p">)</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">szz</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">soil_column</span><span class="p">(</span><span class="s">"stress_zz"</span><span class="p">)</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c"># the rigid cube: one row per load step, so the last row is the final step</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="n">rigid</span><span class="p">,</span><span class="w"> </span><span class="n">rigid_header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_cube/rigid_body.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">rigid_column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rigid</span><span class="p">[</span><span class="k">end</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">rigid_header</span><span class="p">))]</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="n">force_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rigid_column</span><span class="p">(</span><span class="s">"body1_reaction force_z"</span><span class="p">)</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="n">base_z</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">rigid_column</span><span class="p">(</span><span class="s">"body1_position_z"</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="w">    </span><span class="c"># the rigid cube is 1 m tall</span>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="n">E</span><span class="p">,</span><span class="w"> </span><span class="n">L0</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e6</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.8</span>
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lp_z</span><span class="p">)</span><span class="w">                                </span><span class="c"># final height of the soil</span>
-<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="n">println</span><span class="p">(</span><span class="s">"final soil height       "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="s">" m (overlap "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">base_z</span><span class="p">),</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" mm)"</span><span class="p">)</span>
-<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="n">println</span><span class="p">(</span><span class="s">"mean vertical stress    "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">szz</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">szz</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" kPa"</span><span class="p">)</span>
-<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="n">println</span><span class="p">(</span><span class="s">"Hencky at that height   "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">L0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">L0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" kPa"</span><span class="p">)</span>
-<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="n">println</span><span class="p">(</span><span class="s">"rigid cube force / area "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">force_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" kPa"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c"># the soil at the final load step; skip the "time" line, then read the header</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">soil</span><span class="p">,</span><span class="w"> </span><span class="n">soil_header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_cube/mps_1_00021.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">skipstart</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">soil_column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">soil</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">soil_header</span><span class="p">))]</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">soil_column</span><span class="p">(</span><span class="s">"position_z"</span><span class="p">)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">lp_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">soil_column</span><span class="p">(</span><span class="s">"lp_z"</span><span class="p">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">szz</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">soil_column</span><span class="p">(</span><span class="s">"stress_zz"</span><span class="p">)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c"># the rigid cube: one row per load step, so the last row is the final step</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="n">rigid</span><span class="p">,</span><span class="w"> </span><span class="n">rigid_header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_cube/rigid_body.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">rigid_column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rigid</span><span class="p">[</span><span class="k">end</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">rigid_header</span><span class="p">))]</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="n">force_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rigid_column</span><span class="p">(</span><span class="s">"body1_reaction force_z"</span><span class="p">)</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">base_z</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">rigid_column</span><span class="p">(</span><span class="s">"body1_position_z"</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="w">    </span><span class="c"># the rigid cube is 1 m tall</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="n">E</span><span class="p">,</span><span class="w"> </span><span class="n">L0</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e6</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.8</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lp_z</span><span class="p">)</span><span class="w">                                </span><span class="c"># final height of the soil</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="n">println</span><span class="p">(</span><span class="s">"final soil height       "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="s">" m (overlap "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">base_z</span><span class="p">),</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" mm)"</span><span class="p">)</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="n">println</span><span class="p">(</span><span class="s">"mean vertical stress    "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">szz</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">szz</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" kPa"</span><span class="p">)</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="n">println</span><span class="p">(</span><span class="s">"Hencky at that height   "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">L0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">L0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" kPa"</span><span class="p">)</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="n">println</span><span class="p">(</span><span class="s">"rigid cube force / area "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">force_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s">" kPa"</span><span class="p">)</span>
 </code></pre></div>
 <p>For this run it prints:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>final soil height       0.6046 m (overlap 4.6 mm)
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>mean vertical stress    -370.5 kPa
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Hencky at that height   -370.5 kPa
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>rigid cube force / area -370.5 kPa
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>final soil height       0.6046 m (overlap 4.6 mm)
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>mean vertical stress    -370.5 kPa
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Hencky at that height   -370.5 kPa
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>rigid cube force / area -370.5 kPa
 </code></pre></div>
 <p>The rigid cube overlaps the soil by <span class="arithmatex">\(4.6\)</span> mm - about <span class="arithmatex">\(0.6\%\)</span> of the soil's height - so the soil is compressed to <span class="arithmatex">\(0.6046\)</span> m rather than <span class="arithmatex">\(0.6\)</span> m. At that height the Hencky solution gives <span class="arithmatex">\(-370.5\)</span> kPa, matching the mean stress in the GIMPs; the full <span class="arithmatex">\(0.2\)</span> m of compression would give the <span class="arithmatex">\(-383.6\)</span> kPa of the <a href="#problem-summary">Problem summary</a>, <span class="arithmatex">\(3.5\%\)</span> more.</p>
 <p>The stress is uniform: every GIMP has the same vertical stress, <span class="arithmatex">\(-370.5\)</span> kPa, and the rigid cube force divided by the area of the soil gives the same value.</p>

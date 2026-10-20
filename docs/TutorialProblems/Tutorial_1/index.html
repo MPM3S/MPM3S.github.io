@@ -2912,8 +2912,11 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
-<p><code>"GPU": "off"</code> runs the analysis on the CPU, which is plenty for a problem this small.</p>
-<p><code>"domain update": "stretch"</code> lets the domain of each GIMP stretch with the deformation of the material, so that the GIMPs near the base shrink to half their height as the column is compressed. It is optional; without it the domains keep their initial size.</p>
+<ul>
+<li><code>"GPU": "off"</code> runs the analysis on the CPU, which is plenty for a problem this small (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#gpu">GPU</a>).</li>
+<li><code>"domain update": "stretch"</code> lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain-update">domain update</a>).</li>
+<li>It is optional; without it the domains keep their initial size.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"GPU"</span><span class="p">:</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span>
@@ -2925,7 +2928,10 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">¶</a></h3>
-<p>The background mesh is a cube sized automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side <span class="arithmatex">\(1.6\)</span> m. Gravity acts in <span class="arithmatex">\(-z\)</span>.</p>
+<ul>
+<li>The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side <span class="arithmatex">\(1.6\)</span> m (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#domain">domain</a>).</li>
+<li>Gravity acts in <span class="arithmatex">\(-z\)</span>.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2937,8 +2943,13 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="material-points">Material points<a class="headerlink" href="#material-points" title="Permanent link">¶</a></h3>
-<p>The column is one layer, <span class="arithmatex">\(0.8\)</span> m thick, on a <span class="arithmatex">\(0.05 \times 0.05\)</span> m footprint. <code>"element size"</code> sets the background elements to <span class="arithmatex">\(0.05\)</span> m, and <code>"number of material points per element 1": 2</code> places a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs in each element.</p>
-<p>The material is the Hencky elastic model with the parameters from the <a href="#problem-summary">Problem summary</a>. <code>"extra capacity"</code> reserves spare storage for material points created by mesh refinement; there is no refinement here, but the key is still required.</p>
+<ul>
+<li>One layer, <span class="arithmatex">\(0.8\)</span> m thick, on a <span class="arithmatex">\(0.05 \times 0.05\)</span> m footprint (<a href="../../UsingTheSoftware/InputFormat/domain_and_material_points/#material-points">material points</a>).</li>
+<li><code>"element size"</code> sets the background elements to <span class="arithmatex">\(0.05\)</span> m.</li>
+<li><code>"number of material points per element 1": 2</code> places a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs in each element.</li>
+<li>The material is the Hencky elastic model, with the parameters from the <a href="#problem-summary">Problem summary</a>.</li>
+<li><code>"extra capacity"</code> reserves spare storage for material points created by mesh refinement; there is no refinement here, but the key is still required.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">"material points"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2959,7 +2970,10 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="rigid-bodies-and-contact">Rigid bodies and contact<a class="headerlink" href="#rigid-bodies-and-contact" title="Permanent link">¶</a></h3>
-<p>This problem has no rigid bodies, so <code>"rigid bodies"</code> is an empty list. The <code>"contact"</code> section is still required, and its friction coefficient has no effect.</p>
+<ul>
+<li>There are no rigid bodies, so <code>"rigid bodies"</code> is an empty list (<a href="../../UsingTheSoftware/InputFormat/rigid_bodies/">rigid bodies</a>).</li>
+<li>The <code>"contact"</code> section is still required; its friction coefficient has no effect (<a href="../../UsingTheSoftware/InputFormat/contact/">contact properties</a>).</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">"rigid bodies"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
@@ -2973,8 +2987,13 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">¶</a></h3>
-<p>A single static stage. <code>"load": "gravity ramp"</code> increases gravity from zero to its full value over the 50 load steps, and <code>"rigid bodies": "off"</code> because there are none.</p>
-<p>Rollers are applied on the four sides (<span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span> <code>"min"</code> and <code>"max"</code>) and the base is fixed. The top is left free; the <code>"max"</code> <span class="arithmatex">\(z\)</span> face lies at twice the column height, in the empty space above the column, so it never touches the material.</p>
+<ul>
+<li>A single static stage (<a href="../../UsingTheSoftware/InputFormat/analysis/">analysis stages</a>).</li>
+<li><code>"load": "gravity ramp"</code> increases gravity from zero to its full value over the 50 load steps.</li>
+<li><code>"rigid bodies": "off"</code>, as there are none.</li>
+<li>Rollers on the four sides (<span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span> <code>"min"</code> and <code>"max"</code>) and a fixed base (<a href="../../UsingTheSoftware/InputFormat/analysis/#boundary-conditions">boundary conditions</a>).</li>
+<li>The top is left free; the <code>"max"</code> <span class="arithmatex">\(z\)</span> face lies at twice the column height, in the empty space above the column, so it never touches the material.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">"analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -2992,7 +3011,11 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="solver">Solver<a class="headerlink" href="#solver" title="Permanent link">¶</a></h3>
-<p>Each load step is solved by Newton-Raphson iterations to a tolerance of <span class="arithmatex">\(10^{-6}\)</span>; a step that has not converged after 20 iterations is retried with half the load increment. The column fills its elements completely, so the <a href="../../TechnicalReferences/ghostStabilisation/">ghost stabilisation</a> is switched off with both ghost factors set to zero.</p>
+<ul>
+<li>Newton-Raphson iterations to a tolerance of <span class="arithmatex">\(10^{-6}\)</span> in each load step (<a href="../../UsingTheSoftware/InputFormat/solver/">solver</a>).</li>
+<li>A step that has not converged after 20 iterations is retried with half the load increment.</li>
+<li>The column fills its elements completely, so the <a href="../../TechnicalReferences/ghostStabilisation/">ghost stabilisation</a> is switched off, with both ghost factors set to zero.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">"solver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -3008,8 +3031,11 @@
 <div class="json-side">
 <div class="js-text">
 <h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h3>
-<p>VTK output, for visualisation in <a href="https://www.paraview.org/">ParaView</a> (or <a href="https://visit-dav.github.io/visit-website/">VisIt</a>), is written to <code>vtk_column</code> at every load step (<code>"vtk percent": 0</code>), with the displacement, stress, strain and volume of each GIMP.</p>
-<p>CSV output is written to <code>csv_column</code>, also at every load step, with each GIMP's initial position, current position and stress - everything needed to compare against the analytical solution. There are no rigid bodies, so no rigid-body fields are needed.</p>
+<ul>
+<li>VTK output, for visualisation in <a href="https://www.paraview.org/">ParaView</a> (or <a href="https://visit-dav.github.io/visit-website/">VisIt</a>), is written to <code>vtk_column</code> at every load step (<code>"vtk percent": 0</code>), with the displacement, stress, strain and volume of each GIMP (<a href="../../UsingTheSoftware/InputFormat/output/">output</a>).</li>
+<li>CSV output is written to <code>csv_column</code>, also at every load step, with each GIMP's initial position, current position and stress - everything needed to compare against the analytical solution.</li>
+<li>There are no rigid bodies, so no rigid-body fields are needed.</li>
+</ul>
 </div>
 <div class="js-code">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>

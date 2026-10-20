@@ -631,18 +631,15 @@ h1, h2, h3, h4, h5, h6 {
   max-width: none;
 }
 
-/* Tables in 2pt smaller text than the main text (0.9rem), one below the other and
-   centred, with compact rows; the text wraps rather than scrolling sideways, but code
-   stays on one line. Use <div class="small-tables" markdown>, or <div class="centered-table" markdown>
-   for the material tables of Tutorials 3 and 6. */
-/* Material wraps each table in an inline-block box, so centre that box with text-align
-   (the cells set their own alignment). */
-.md-typeset .small-tables {
+/* Every table: text 2pt smaller than the main text (0.9rem), compact rows, centred on the
+   page; the text wraps rather than scrolling sideways, but code stays on one line. Material
+   wraps each table in an inline-block box (md-typeset__table, inside md-typeset__scrollwrap),
+   so that box is centred with text-align - the cells set their own alignment. */
+.md-typeset .md-typeset__scrollwrap {
   text-align: center;
 }
 
-.md-typeset .small-tables table:not([class]),
-.md-typeset .centered-table table:not([class]) {
+.md-typeset table:not([class]) {
   display: table;
   margin-left: auto;
   margin-right: auto;
@@ -650,17 +647,20 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.4;
 }
 
-.md-typeset .small-tables table:not([class]) th,
-.md-typeset .small-tables table:not([class]) td,
-.md-typeset .centered-table table:not([class]) th,
-.md-typeset .centered-table table:not([class]) td {
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
   padding: 0.35em 0.8em;
   vertical-align: middle;
 }
 
-.md-typeset .small-tables table:not([class]) code,
-.md-typeset .centered-table table:not([class]) code {
+.md-typeset table:not([class]) code {
   white-space: nowrap;
+}
+
+/* ... except in the few reference tables too wide for that: wrap them in
+   <div class="wrap-code" markdown> and their code may break at its spaces. */
+.md-typeset .wrap-code table:not([class]) code {
+  white-space: normal;
 }
 
 /* Centre items horizontally within their grid cells so figures sized smaller
@@ -1163,18 +1163,6 @@ h1, h2, h3, h4, h5, h6 {
   .md-main:not(:has(.md-sidebar--secondary)) .md-content {
     max-width: none;
   }
-}
-
-/* Compact reference tables on dense field-list pages such as
-   InputFormat.md. Wrap a table in <div class="small-table" markdown>
-   ... </div> to drop cell text to ~0.8x and tighten padding so
-   many keys fit at a glance. */
-.md-typeset .small-table table {
-  font-size: 0.8em;
-}
-.md-typeset .small-table table th,
-.md-typeset .small-table table td {
-  padding: 0.4em 0.6em;
 }
 
 /* Underline body-content links so they read as obvious affordances.
