@@ -63,9 +63,7 @@ nav:
   - Partners: partners.md
   - MPM3S:
       - Introduction: docs/Introduction.md
-      - Getting Started:
-          - Overview: docs/GettingStarted/GettingStarted.md
-          - Install and Run: docs/GettingStarted/install_and_run.md
+      - Install and run: docs/GettingStarted/install_and_run.md
       - 📖 Tutorial problems:
           - Overview: docs/TutorialProblems/TutorialProblems.md
           - Static:
@@ -84,19 +82,15 @@ nav:
               - Rolling sphere: docs/TutorialProblems/Tutorial_5_input_data.md
               - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
       - 📖 Using the software:
-          - Writing an input file: docs/UsingTheSoftware/writing_an_input_file.md
-          - Common tasks: docs/UsingTheSoftware/common_tasks.md
-          - Input format:
-              - Overview: docs/UsingTheSoftware/InputFormat/index.md
-              - Quick reference: docs/UsingTheSoftware/InputFormat/quick_reference.md
-              - GPU: docs/UsingTheSoftware/InputFormat/gpu.md
-              - Domain: docs/UsingTheSoftware/InputFormat/domain.md
-              - Material points: docs/UsingTheSoftware/InputFormat/material_points.md
-              - Rigid bodies: docs/UsingTheSoftware/InputFormat/rigid_bodies.md
-              - Contact properties: docs/UsingTheSoftware/InputFormat/contact.md
-              - Analysis stages: docs/UsingTheSoftware/InputFormat/analysis.md
-              - Solver: docs/UsingTheSoftware/InputFormat/solver.md
-              - Output: docs/UsingTheSoftware/InputFormat/output.md
+          - Overview: docs/UsingTheSoftware/InputFormat/index.md
+          - GPU: docs/UsingTheSoftware/InputFormat/gpu.md
+          - Domain: docs/UsingTheSoftware/InputFormat/domain.md
+          - Material points: docs/UsingTheSoftware/InputFormat/material_points.md
+          - Rigid bodies: docs/UsingTheSoftware/InputFormat/rigid_bodies.md
+          - Contact properties: docs/UsingTheSoftware/InputFormat/contact.md
+          - Analysis stages: docs/UsingTheSoftware/InputFormat/analysis.md
+          - Solver: docs/UsingTheSoftware/InputFormat/solver.md
+          - Output: docs/UsingTheSoftware/InputFormat/output.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - 📖 Technical reference:
           - Index: docs/TechnicalReferences/TechnicalReference.md

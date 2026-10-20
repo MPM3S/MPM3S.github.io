@@ -96,5 +96,3 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
 Every tutorial's complete `input_data.json`, with a clickable note on each part - copy one as the starting point for your own problem:
 [Tutorial 1](Tutorial_1_input_data.md) · [Tutorial 2](Tutorial_2_input_data.md) · [Tutorial 3](Tutorial_3_input_data.md) · [Tutorial 5](Tutorial_5_input_data.md) · [Tutorial 6](Tutorial_6_input_data.md)
-
-Know what you want to model but not which keys do it? See [common tasks](../UsingTheSoftware/common_tasks.md).
