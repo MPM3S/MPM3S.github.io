@@ -83,7 +83,6 @@ nav:
               - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
       - 📖 Using the software:
           - Overview: docs/UsingTheSoftware/InputFormat/index.md
-          - Interactive builder: docs/UsingTheSoftware/input_builder.md
           - GPU: docs/UsingTheSoftware/InputFormat/gpu.md
           - Domain: docs/UsingTheSoftware/InputFormat/domain.md
           - Material points: docs/UsingTheSoftware/InputFormat/material_points.md
@@ -93,6 +92,7 @@ nav:
           - Solver: docs/UsingTheSoftware/InputFormat/solver.md
           - Output: docs/UsingTheSoftware/InputFormat/output.md
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
+      - 🛠️ Interactive builder: docs/UsingTheSoftware/input_builder.md
       - 📖 Technical reference:
           - Index: docs/TechnicalReferences/TechnicalReference.md
           - Material point method basics:

@@ -40,7 +40,7 @@
       F("element size", "num", { def: 1.0, gt: 0, unit: "m", help: "The base element size, before rounding to the octree." }),
       F("number of material points per element 1", "int", { def: 2, min: 1, label: "material points per element (per axis)" }),
       F("material size", "obj", { fields: [
-        F("min", "vec", { n: 2, status: "O", def: [0.0, 0.0], unit: "m", help: "Ignored: the block always starts at x = y = 0." }),
+        F("min", "fixed", { def: [0.0, 0.0], unit: "m", help: "Always [0.0, 0.0]: the block starts at x = y = 0 (MPM3S ignores this key)." }),
         F("max", "vec", { n: 2, def: [10.0, 10.0], unit: "m", help: "Plan extent of the soil block." }),
       ] }),
       F("layers", "list", { min: 1, itemName: "layer", help: "From the surface down; the block rests on z = 0.", item: [
@@ -273,7 +273,7 @@
   // ── the JSON text, laid out like the tutorial files ────────────────────────────────────
   // The schema says which numbers are decimals ("num", "vec": always printed with a point,
   // as the tutorial files are) and which are whole numbers ("int", "ivec").
-  const FLOAT_KINDS = new Set(["num", "vec"]);
+  const FLOAT_KINDS = new Set(["num", "vec", "fixed"]);
   function fmtNum(x, isFloat) {
     if (typeof x !== "number" || !isFinite(x)) return JSON.stringify(x);
     const a = Math.abs(x);
@@ -319,12 +319,36 @@
     if (!force && !hasLists && one.length + ind.length <= 72) return one;
     return "{\n" + Object.keys(o).map((k) => ind + "    " + JSON.stringify(k) + ": " + fmt(o[k], subSpec(spec, k), ind + "    ", false)).join(",\n") + "\n" + ind + "}";
   }
+  // The same layout as fmt, as HTML in which every key-value pair and list item is wrapped in a
+  // span carrying its path, so a key picked in the form can be found in the preview.
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const wrap = (path, html) => `<span class="ib-kv" data-p="${esc(JSON.stringify(path)).replace(/"/g, "&quot;")}">${html}</span>`;
+  function inlineH(v, spec, path) {
+    if (prim(v) || Array.isArray(v)) return esc(inline(v, spec));
+    const ks = Object.keys(v);
+    return ks.length ? "{ " + ks.map((k) => wrap(path.concat(k), esc(JSON.stringify(k) + ": ") + inlineH(v[k], subSpec(spec, k), path.concat(k)))).join(", ") + " }" : "{}";
+  }
+  function fmtH(v, spec, ind, force, path) {
+    if (prim(v)) return esc(inline(v, spec));
+    if (Array.isArray(v)) {
+      if (v.every(prim) || (spec && spec.kind === "bc6")) return esc(inline(v, spec));
+      if (!v.length) return "[]";
+      const is = itemSpec(spec);
+      return "[\n" + v.map((x, i) => ind + "    " + wrap(path.concat(i), fmtH(ordered(x, is), is, ind + "    ", false, path.concat(i)))).join(",\n") + "\n" + ind + "]";
+    }
+    const o = ordered(v, spec);
+    const hasLists = Object.values(o).some((x) => Array.isArray(x) && x.some((y) => !prim(y)));
+    if (!force && !hasLists && inline(o, spec).length + ind.length <= 72) return inlineH(o, spec, path);
+    return "{\n" + Object.keys(o).map((k) => ind + "    " + wrap(path.concat(k), esc(JSON.stringify(k) + ": ") + fmtH(o[k], subSpec(spec, k), ind + "    ", false, path.concat(k)))).join(",\n") + "\n" + ind + "}";
+  }
   function toSections(root) {
     const spec = { fields: SCHEMA };
     const o = ordered(root, spec);
     return Object.keys(o).map((k) => {
-      const f = subSpec(spec, k);
-      return { key: k, text: "    " + JSON.stringify(k) + ": " + fmt(o[k], f, "    ", !!(f && f.kind === "obj")) };
+      const f = subSpec(spec, k), force = !!(f && f.kind === "obj");
+      return { key: k,
+        text: "    " + JSON.stringify(k) + ": " + fmt(o[k], f, "    ", force),
+        html: "    " + wrap([k], esc(JSON.stringify(k) + ": ") + fmtH(o[k], f, "    ", force, [k])) };
     });
   }
   const toText = (root) => "{\n" + toSections(root).map((x) => x.text).join(",\n\n") + "\n}\n";
@@ -332,10 +356,22 @@
   // ── the form ───────────────────────────────────────────────────────────────────────────
   let state = null;
   const openSet = new Set(["GPU", "domain", "material points", "analysis"]);
+  const collapsed = new WeakSet();                 // list items (stages, bodies, ...) minimised, kept through moves
+  // open every section and list item around a node of the form
+  function reveal(node) {
+    for (let d = node.closest("details, .ib-item"); d; d = d.parentElement.closest("details, .ib-item")) {
+      if (d.tagName === "DETAILS") d.open = true;
+      else if (d.classList.contains("ib-collapsed")) { d.classList.remove("ib-collapsed"); collapsed.delete(d.ibItem); }
+    }
+  }
   const el = (tag, attrs, ...kids) => {
     const e = document.createElement(tag);
     for (const [k, v] of Object.entries(attrs || {})) {
       if (k === "class") e.className = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+      else if (k === "title") {                    // shown by the builder's own hover hint (below)
+        e.dataset.tip = v;
+        if (tag === "button" && !(attrs || {})["aria-label"]) e.setAttribute("aria-label", v);
+      }
       else if (v !== undefined && v !== null) e.setAttribute(k, v);
     }
     for (const kid of kids.flat()) if (kid !== null && kid !== undefined) e.append(kid.nodeType ? kid : String(kid));
@@ -390,6 +426,7 @@
       if (!Array.isArray(v) || (n !== undefined && v.length !== n)) return mismatch(f, obj, path, `it should be ${SHAPE[f.kind](f)}`);
     }
     switch (f.kind) {
+      case "fixed": obj[f.key] = clone(f.def); return el("code", { class: "ib-fixed", id: pathId(path) }, inline(f.def, f));
       case "select": return selectInput(f.options, get, (x) => { set(x); refresh(obj, siblingsOf(path)); }, path, true);
       case "num": return numberInput(get, set, path, false);
       case "int": return numberInput(get, set, path, true);
@@ -535,7 +572,8 @@
   function tagTop(node, key, handle) {
     node.dataset.top = key;
     if (handle) handle.addEventListener("click", () => markActive(key, true));
-    node.addEventListener("focusin", () => { if (activeKey !== key) markActive(key, true); });
+    // a deeper item scrolls the preview to itself instead (flashPath)
+    node.addEventListener("focusin", (e) => { if (activeKey !== key) markActive(key, e.target.closest("[data-p]") === node); });
   }
   function renderFields(fields, obj, path, host) {
     if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
@@ -545,7 +583,7 @@
     for (const f of fields) {
       if (!applies(f, obj)) continue;
       const p = path.concat(f.key), present = obj[f.key] !== undefined;
-      const st = f.status === "R" && f.when ? "C" : f.status;          // the box colour: required, conditional or optional
+      const st = f.kind === "fixed" ? "O" : f.status === "R" && f.when ? "C" : f.status;   // the box colour: required, conditional or optional
       const label = el("span", { class: "ib-key", title: { R: "required", C: "required in this situation", O: "optional" }[st] }, f.label || f.key);
       let toggle = null;
       if (f.status === "O") {
@@ -582,17 +620,25 @@
         } else {
           const list = obj[f.key];
           list.forEach((item, i) => {
-            const card = el("div", { class: "ib-item", id: pathId(p.concat(i)) },
+            const fold = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this " + f.itemName, "aria-label": "Show or hide this " + f.itemName });
+            const card = el("div", { class: "ib-item" + (collapsed.has(item) ? " ib-collapsed" : ""), id: pathId(p.concat(i)), "data-p": JSON.stringify(p.concat(i)) },
               el("div", { class: "ib-item-head" }, el("strong", {}, `${f.itemName} ${i + 1}`),
                 el("span", { class: "ib-item-btns" },
                   i > 0 ? el("button", { class: "ib-btn ib-small", type: "button", title: "move up", onclick: () => { [list[i - 1], list[i]] = [list[i], list[i - 1]]; render(); } }, "↑") : null,
                   el("button", { class: "ib-btn ib-small", type: "button", title: "duplicate", onclick: () => { list.splice(i + 1, 0, clone(item)); render(); } }, "⧉"),
-                  list.length > f.min ? el("button", { class: "ib-btn ib-small ib-remove", type: "button", title: "remove", onclick: () => { list.splice(i, 1); render(); } }, "✕") : null)));
+                  list.length > f.min ? el("button", { class: "ib-btn ib-small ib-remove", type: "button", title: "remove", onclick: () => { list.splice(i, 1); render(); } }, "✕") : null,
+                  fold)));
+            card.ibItem = item;
+            fold.addEventListener("click", () => {
+              const shut = card.classList.toggle("ib-collapsed");
+              if (shut) collapsed.add(item); else collapsed.delete(item);
+            });
             renderFields(f.item, item, p.concat(i), card);
             box.append(card);
           });
           box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { list.push(makeObject(f.item)); render(); } }, `+ Add ${f.itemName}`));
         }
+        box.dataset.p = JSON.stringify(p);
         if (!path.length) tagTop(box, f.key, box.querySelector("summary"));
         host.append(box);
       } else {
@@ -600,6 +646,7 @@
           el("label", { class: "ib-label" }, toggle, label),
           el("div", { class: "ib-control" }, present || f.status !== "O" ? control(f, obj, p) : el("span", { class: "ib-default" }, "not set - the default is used"),
             el("div", { class: "ib-meta" }, helpBits(f, p))));
+        row.dataset.p = JSON.stringify(p);
         if (!path.length) tagTop(row, f.key, row.querySelector(".ib-label"));
         host.append(row);
       }
@@ -608,6 +655,52 @@
 
   // ── page wiring ────────────────────────────────────────────────────────────────────────
   let root, formHost, preview, issuesHost, statusLine, fileText = "", activeKey = null;
+  let hl = null;                                   // the red highlight: { path, start }
+  const HL_MS = 2600;                              // 2 s red, then the fade
+  // the deepest wrapped item of the preview on a path (a vector component maps to its vector)
+  function findInPreview(path) {
+    for (let n = path.length; n > 0; n--) {
+      const hit = preview.querySelector(`.ib-kv[data-p="${CSS.escape(JSON.stringify(path.slice(0, n)))}"]`);
+      if (hit) return hit;
+    }
+    return null;
+  }
+  // highlight a sub-item red in the preview for 2 s, then fade; a re-render (typing) carries on the fade
+  function paintHl() {
+    preview.querySelectorAll(".ib-hl").forEach((n) => { n.classList.remove("ib-hl"); n.style.animationDelay = ""; });
+    const age = hl ? performance.now() - hl.start : HL_MS;
+    if (age >= HL_MS) { hl = null; return null; }
+    const hit = findInPreview(hl.path);
+    if (!hit) return null;
+    void hit.offsetWidth;
+    hit.style.animationDelay = -age + "ms";
+    hit.classList.add("ib-hl");
+    hit.addEventListener("animationend", (e) => { if (e.target === hit) hit.classList.remove("ib-hl"); }, { once: true });
+    return hit;
+  }
+  function flashPath(path) {
+    if (activeKey !== path[0]) markActive(path[0], false);
+    if (path.length < 2) return;                   // whole sections have their own blue box
+    hl = { path, start: performance.now() };
+    const hit = paintHl();
+    if (!hit) return;
+    const pre = preview.parentElement, top = hit.offsetTop, h = hit.offsetHeight;
+    if (top < pre.scrollTop + 8 || top + Math.min(h, pre.clientHeight / 2) > pre.scrollTop + pre.clientHeight)
+      pre.scrollTo({ top: Math.max(0, top - pre.clientHeight / 3), behavior: "smooth" });
+  }
+  function goToForm(path) {
+    for (let n = path.length; n > 0; n--) {
+      const target = formHost.querySelector(`[data-p="${CSS.escape(JSON.stringify(path.slice(0, n)))}"]`);
+      if (target) {
+        if (target.tagName === "DETAILS") target.open = true;
+        reveal(target);
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.remove("ib-flag-blue"); void target.offsetWidth; target.classList.add("ib-flag-blue");
+        return true;
+      }
+    }
+    return false;
+  }
   // highlight a section's box in the preview and scroll the preview (not the page) to it
   function markActive(key, scroll) {
     activeKey = key;
@@ -623,14 +716,18 @@
     const secs = toSections(state);
     fileText = "{\n" + secs.map((x) => x.text).join(",\n\n") + "\n}\n";
     preview.replaceChildren("{\n", ...secs.map((x, i) => {
-      const box = el("span", { class: "ib-sec", "data-key": x.key, title: "go to this section of the form" }, x.text + (i < secs.length - 1 ? "," : ""));
-      box.addEventListener("click", () => {
+      const box = el("span", { class: "ib-sec", "data-key": x.key });
+      box.innerHTML = x.html + (i < secs.length - 1 ? "," : "");
+      box.addEventListener("click", (e) => {
+        const kv = e.target.closest(".ib-kv");
+        if (kv && goToForm(JSON.parse(kv.dataset.p))) return;
         const target = formHost.querySelector(`[data-top="${CSS.escape(x.key)}"]`);
         if (target) { if (target.tagName === "DETAILS") target.open = true; target.scrollIntoView({ behavior: "smooth", block: "start" }); }
       });
       return box;
     }), "}\n");
     if (activeKey) markActive(activeKey, false);
+    if (hl) paintHl();
     const issues = validate(state);
     issuesHost.replaceChildren();
     root.querySelectorAll(".ib-flag").forEach((n) => n.classList.remove("ib-flag"));
@@ -645,7 +742,7 @@
         for (let n = it.path.length; n > 0; n--) {
           const target = document.getElementById(pathId(it.path.slice(0, n)));
           if (target) {
-            let d = target.closest("details"); while (d) { d.open = true; d = d.parentElement.closest("details"); }
+            reveal(target);
             target.scrollIntoView({ behavior: "smooth", block: "center" }); target.classList.add("ib-flag"); if (target.focus) target.focus();
             break;
           }
@@ -663,7 +760,19 @@
     update();
     window.scrollTo(0, y);
   }
+  // keys held at a fixed value whatever a loaded file says
+  function holdFixed(obj) {
+    const ms = obj && obj["material points"] && obj["material points"]["material size"];
+    if (ms && typeof ms === "object" && !Array.isArray(ms) && JSON.stringify(ms.min) !== "[0,0]") {
+      const had = ms.min;
+      ms.min = [0.0, 0.0];
+      return had === undefined ? null : `"material size" "min" was ${JSON.stringify(had)}; it is always [0.0, 0.0]`;
+    }
+    return null;
+  }
   function load(obj, label) {
+    const note = holdFixed(obj);
+    if (note) label = (label ? label + ". " : "") + note;
     state = obj;
     render();
     if (label) statusFlash(label);
@@ -709,6 +818,12 @@
       document.body.append(a); a.click(); a.remove();
     } }, "Download input_data.json");
     formHost = el("div", { class: "ib-form" });
+    const pick$ = (e) => {
+      const host = e.target.closest("[data-p]");
+      if (host && formHost.contains(host)) flashPath(JSON.parse(host.dataset.p));
+    };
+    formHost.addEventListener("focusin", pick$);
+    formHost.addEventListener("click", pick$);
     root.append(
       el("div", { class: "ib-toolbar" },
         el("label", { class: "ib-start" }, "Start from ", pick, startBtn),
@@ -720,6 +835,40 @@
           statusLine, issuesHost,
           el("div", { class: "ib-preview-head" }, el("span", {}, "input_data.json"), el("span", {}, copyBtn, dlBtn)),
           el("pre", { class: "ib-preview" }, preview))));
+    // a mouse click (detail > 0) leaves a link or button focused; release it. Keyboard use keeps focus.
+    root.addEventListener("click", (e) => {
+      if (!e.detail) return;
+      const t = e.target.closest("a, button, input[type=checkbox]");
+      if (t) requestAnimationFrame(() => t.blur());
+    });
+    // Hover hints ("required", "Peek ...", ...). Material only gives hints to what is on the page when
+    // it loads, and the form is redrawn on every edit, so the builder shows its own: after a short
+    // hover, gone as soon as the pointer leaves, clicks or anything scrolls.
+    const tip = el("div", { class: "ib-tip", role: "tooltip" });
+    document.body.append(tip);
+    let tipFor = null, tipTimer = 0;
+    const hideTip = () => { clearTimeout(tipTimer); tipFor = null; tip.classList.remove("ib-tip-on"); };
+    root.addEventListener("mouseover", (e) => {
+      const t = e.target.closest("[data-tip]");
+      if (t === tipFor) return;
+      hideTip();
+      if (!t || !root.contains(t)) return;
+      tipFor = t;
+      tipTimer = setTimeout(() => {
+        if (!t.isConnected) return;
+        tip.textContent = t.dataset.tip;
+        tip.classList.add("ib-tip-on");
+        const r = t.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+        const below = r.top - h - 10 < 8;
+        tip.classList.toggle("ib-tip-below", below);
+        tip.style.left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8) + "px";
+        tip.style.top = (below ? r.bottom + 10 : r.top - h - 10) + "px";
+        tip.style.setProperty("--ib-tail-x", r.left + r.width / 2 - parseFloat(tip.style.left) + "px");
+      }, 250);
+    });
+    root.addEventListener("mouseleave", hideTip);
+    root.addEventListener("mousedown", hideTip, true);
+    addEventListener("scroll", hideTip, true);
     const t1 = templates.length ? clone(templates[0].json) : makeObject(SCHEMA);
     pick.value = templates.length ? "0" : "blank";
     load(t1);
