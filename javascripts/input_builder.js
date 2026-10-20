@@ -355,13 +355,15 @@
 
   // ── the form ───────────────────────────────────────────────────────────────────────────
   let state = null;
-  const openSet = new Set(["GPU", "domain", "material points", "analysis"]);
-  const collapsed = new WeakSet();                 // list items (stages, bodies, ...) minimised, kept through moves
+  // Everything starts minimised. Open sections are kept by path, open list items (stages, layers,
+  // ...) by the item itself, so they stay open when the list is reordered.
+  const openSet = new Set();
+  const expanded = new WeakSet();
   // open every section and list item around a node of the form
   function reveal(node) {
     for (let d = node.closest("details, .ib-item"); d; d = d.parentElement.closest("details, .ib-item")) {
       if (d.tagName === "DETAILS") d.open = true;
-      else if (d.classList.contains("ib-collapsed")) { d.classList.remove("ib-collapsed"); collapsed.delete(d.ibItem); }
+      else if (d.classList.contains("ib-collapsed")) { d.classList.remove("ib-collapsed"); expanded.add(d.ibItem); }
     }
   }
   const el = (tag, attrs, ...kids) => {
@@ -590,14 +592,18 @@
         toggle = el("input", { type: "checkbox", class: "ib-toggle", title: "include this optional key" });
         toggle.checked = present;
         toggle.addEventListener("change", () => {
-          if (toggle.checked) { obj[f.key] = defaultFor(f); if (f.kind === "list" && f.min === 0) obj[f.key] = [makeObject(f.item)]; openSet.add(p.join(".")); }
+          if (toggle.checked) {
+            obj[f.key] = defaultFor(f);
+            if (f.kind === "list" && f.min === 0) { obj[f.key] = [makeObject(f.item)]; expanded.add(obj[f.key][0]); }
+            openSet.add(p.join("."));
+          }
           else delete obj[f.key];
           render();
         });
       }
       if (f.kind === "obj" || f.kind === "list") {
         const box = el("details", { class: "ib-group ib-st-" + st, id: pathId(p) });
-        box.open = openSet.has(p.join(".")) || path.length > 0;
+        box.open = openSet.has(p.join("."));
         box.addEventListener("toggle", () => (box.open ? openSet.add(p.join(".")) : openSet.delete(p.join("."))));
         // only the arrow opens and closes a section; a click elsewhere on its title row does not
         const chevron = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this section", "aria-label": "Show or hide this section" });
@@ -610,7 +616,7 @@
         const meta = helpBits(f, p);
         if (meta.length) box.append(el("div", { class: "ib-meta" }, meta));
         if (!present) {
-          if (f.status !== "O") box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { obj[f.key] = defaultFor(f); render(); } }, `Add "${f.key}"`));
+          if (f.status !== "O") box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { obj[f.key] = defaultFor(f); openSet.add(p.join(".")); render(); } }, `Add "${f.key}"`));
         } else if (f.kind === "obj" && (typeof obj[f.key] !== "object" || obj[f.key] === null || Array.isArray(obj[f.key]))) {
           box.append(mismatch(f, obj, p.concat("value"), "it should be an object { ... }"));
         } else if (f.kind === "list" && !Array.isArray(obj[f.key])) {
@@ -621,22 +627,21 @@
           const list = obj[f.key];
           list.forEach((item, i) => {
             const fold = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this " + f.itemName, "aria-label": "Show or hide this " + f.itemName });
-            const card = el("div", { class: "ib-item" + (collapsed.has(item) ? " ib-collapsed" : ""), id: pathId(p.concat(i)), "data-p": JSON.stringify(p.concat(i)) },
+            const card = el("div", { class: "ib-item" + (expanded.has(item) ? "" : " ib-collapsed"), id: pathId(p.concat(i)), "data-p": JSON.stringify(p.concat(i)) },
               el("div", { class: "ib-item-head" }, el("strong", {}, `${f.itemName} ${i + 1}`),
                 el("span", { class: "ib-item-btns" },
                   i > 0 ? el("button", { class: "ib-btn ib-small", type: "button", title: "move up", onclick: () => { [list[i - 1], list[i]] = [list[i], list[i - 1]]; render(); } }, "↑") : null,
-                  el("button", { class: "ib-btn ib-small", type: "button", title: "duplicate", onclick: () => { list.splice(i + 1, 0, clone(item)); render(); } }, "⧉"),
+                  el("button", { class: "ib-btn ib-small", type: "button", title: "duplicate", onclick: () => { const c = clone(item); expanded.add(c); list.splice(i + 1, 0, c); render(); } }, "⧉"),
                   list.length > f.min ? el("button", { class: "ib-btn ib-small ib-remove", type: "button", title: "remove", onclick: () => { list.splice(i, 1); render(); } }, "✕") : null,
                   fold)));
             card.ibItem = item;
             fold.addEventListener("click", () => {
-              const shut = card.classList.toggle("ib-collapsed");
-              if (shut) collapsed.add(item); else collapsed.delete(item);
+              if (card.classList.toggle("ib-collapsed")) expanded.delete(item); else expanded.add(item);
             });
             renderFields(f.item, item, p.concat(i), card);
             box.append(card);
           });
-          box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { list.push(makeObject(f.item)); render(); } }, `+ Add ${f.itemName}`));
+          box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { const n = makeObject(f.item); expanded.add(n); list.push(n); render(); } }, `+ Add ${f.itemName}`));
         }
         box.dataset.p = JSON.stringify(p);
         if (!path.length) tagTop(box, f.key, box.querySelector("summary"));
@@ -656,6 +661,7 @@
   // ── page wiring ────────────────────────────────────────────────────────────────────────
   let root, formHost, preview, issuesHost, statusLine, fileText = "", activeKey = null;
   let hl = null;                                   // the red highlight: { path, start }
+  let savedText = "";                              // the file as last loaded or downloaded
   const HL_MS = 2600;                              // 2 s red, then the fade
   // the deepest wrapped item of the preview on a path (a vector component maps to its vector)
   function findInPreview(path) {
@@ -774,7 +780,9 @@
     const note = holdFixed(obj);
     if (note) label = (label ? label + ". " : "") + note;
     state = obj;
+    openSet.clear();
     render();
+    savedText = fileText;
     if (label) statusFlash(label);
   }
   function statusFlash(msg, bad) {
@@ -812,11 +820,35 @@
     const copyBtn = el("button", { class: "ib-btn", type: "button", onclick: () => {
       navigator.clipboard.writeText(fileText).then(() => statusFlash("Copied to the clipboard"), () => statusFlash("Copy failed - select the text instead"));
     } }, "Copy");
-    const dlBtn = el("button", { class: "ib-btn ib-primary", type: "button", onclick: () => {
+    // Download, joined to the name the file is saved under (the same name in every copy of the box)
+    let fileName = "input_data.json";
+    const saveName = () => { const n = fileName.trim() || "input_data.json"; return /\.json$/i.test(n) ? n : n + ".json"; };
+    const download = () => {
       const blob = new Blob([fileText], { type: "application/json" });
-      const a = el("a", { href: URL.createObjectURL(blob), download: "input_data.json" });
+      const a = el("a", { href: URL.createObjectURL(blob), download: saveName() });
       document.body.append(a); a.click(); a.remove();
-    } }, "Download input_data.json");
+      savedText = fileText;
+    };
+    const dlBox = () => {
+      const name = el("input", { class: "ib-fname", type: "text", value: fileName, spellcheck: "false", "aria-label": "File name" });
+      name.size = Math.max(10, fileName.length);
+      name.addEventListener("input", () => {
+        fileName = name.value;
+        root.querySelectorAll(".ib-fname").forEach((x) => { if (x !== name) x.value = fileName; x.size = Math.max(10, fileName.length); });
+        root.querySelectorAll(".ib-fname-label").forEach((x) => (x.textContent = saveName()));
+      });
+      name.addEventListener("keydown", (e) => { if (e.key === "Enter") download(); });
+      return el("span", { class: "ib-dl" },
+        el("button", { class: "ib-btn ib-primary", type: "button", title: "Save the file as it is now", onclick: download }, "Download"), name);
+    };
+    // nothing is kept by the browser: say so, and ask before leaving with changes not downloaded
+    const warn = el("div", { class: "ib-warn", role: "note" },
+      el("strong", {}, "Do not refresh this page"), " - your progress will be lost. ",
+      dlBox(),
+      " to save your progress and ",
+      el("button", { class: "ib-btn", type: "button", title: "Upload a saved input_data.json", onclick: () => fileIn.click() }, "Upload"),
+      " it later.");
+    addEventListener("beforeunload", (e) => { if (fileText !== savedText) { e.preventDefault(); e.returnValue = ""; } });
     formHost = el("div", { class: "ib-form" });
     const pick$ = (e) => {
       const host = e.target.closest("[data-p]");
@@ -825,15 +857,16 @@
     formHost.addEventListener("focusin", pick$);
     formHost.addEventListener("click", pick$);
     root.append(
+      warn,
       el("div", { class: "ib-toolbar" },
         el("label", { class: "ib-start" }, "Start from ", pick, startBtn),
-        el("label", { class: "ib-btn ib-filebtn" }, "Load a file", fileIn),
+        el("label", { class: "ib-btn ib-filebtn" }, "Upload a file", fileIn),
         pasteBox),
       el("div", { class: "ib-layout" },
         formHost,
         el("div", { class: "ib-side" },
           statusLine, issuesHost,
-          el("div", { class: "ib-preview-head" }, el("span", {}, "input_data.json"), el("span", {}, copyBtn, dlBtn)),
+          el("div", { class: "ib-preview-head" }, el("span", { class: "ib-fname-label" }, fileName), el("span", {}, copyBtn, dlBox())),
           el("pre", { class: "ib-preview" }, preview))));
     // a mouse click (detail > 0) leaves a link or button focused; release it. Keyboard use keeps focus.
     root.addEventListener("click", (e) => {
@@ -869,6 +902,7 @@
     root.addEventListener("mouseleave", hideTip);
     root.addEventListener("mousedown", hideTip, true);
     addEventListener("scroll", hideTip, true);
+    new ResizeObserver(hideTip).observe(root);     // the layout moved under it (a message went, ...)
     const t1 = templates.length ? clone(templates[0].json) : makeObject(SCHEMA);
     pick.value = templates.length ? "0" : "blank";
     load(t1);
