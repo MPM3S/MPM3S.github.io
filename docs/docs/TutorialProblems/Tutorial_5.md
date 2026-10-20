@@ -300,7 +300,7 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language. Se
 
 The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_sphere.json`, together with the sphere geometry, `sphere.stl`, and its mesh cache, `sphere_mesh.txt`; the input file is the same as the [complete input file](Tutorial_5_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
 
-As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folders are created in the `MPM3S` folder.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it, install its dependencies with `Pkg.instantiate()` and load MPM3S. The output folders are created in the `MPM3S` folder.
 
 ### Running the problem
 
@@ -330,6 +330,8 @@ $ julia -t auto
 julia> cd("path/to/MPM3S")
 julia> using Pkg; Pkg.activate(".")
   Activating project at `path/to/MPM3S`
+
+julia> Pkg.instantiate()
 
 julia> using MPM3S
 

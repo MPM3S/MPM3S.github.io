@@ -1,6 +1,6 @@
-# Vertical penetration (Cone Penetration Test) - input_data_CPT_dr38.json
+# Vertical penetration (Cone Penetration Test) - input_data_CPT_dr32.json
 
-The complete `input_data_CPT_dr38.json` for [Tutorial 3](Tutorial_3.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_CPT_dr32.json` for [Tutorial 3](Tutorial_3.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 It needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt` in the same folder; both are in `validation_data_and_jsons`.
 
@@ -21,10 +21,10 @@ It needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt` in the sa
             {
                 "thickness": 20.0,
                 "material": { "type": "willam warnke",
-                              "E": 2.28e7, "nu": 0.25,
-                              "friction angle": 32.75, "dilation angle": 2.75, "cohesion": 300.0,
-                              "density": 1652.0,
-                              "E overburden": { "reference stress": 2.1785e5, "exponent": 0.58125 } }
+                              "E": 1.92e7, "nu": 0.25,
+                              "friction angle": 32.0, "dilation angle": 2.0, "cohesion": 300.0,
+                              "density": 1628.0,
+                              "E overburden": { "reference stress": 2.12729e5, "exponent": 0.6 } }
             }
         ]
     },
@@ -83,13 +83,13 @@ It needs the cone geometry `CPT.stl` and its mesh cache `CPT_mesh.txt` in the sa
 
     "output": {
         "vtk": "on",
-        "vtk directory": "vtk_CPT_dr38",
+        "vtk directory": "vtk_CPT_dr32",
         "vtk percent": 0.5,
         "vtk material point fields": ["displacement", "velocity", "stress", "strain", "volume"],
         "vtk rigid body fields": ["position", "velocity", "reaction force"],
 
         "csv": "on",
-        "csv directory": "csv_CPT_dr38",
+        "csv directory": "csv_CPT_dr32",
         "csv percent": 0.25,
         "csv material point fields": ["initial position", "position", "stress"],
         "csv rigid body fields": ["position", "velocity", "reaction force", "reaction moment"]

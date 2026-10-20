@@ -140,7 +140,7 @@ If everything succeeds the REPL prints the package versions being resolved.
 === "GPU"
 
     ```julia-repl
-    julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr38.json");
+    julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr32.json");
     ```
 
     - The path to the input file is relative to the `MPM3S` folder; Tutorial 3's input file has `"GPU": "on"`.

@@ -2,11 +2,11 @@
 
 The complete `input_data_AC14_dr32.json` for [Tutorial 6](Tutorial_6.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
-It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_shank.stl` and `AC14_shank_mesh.txt` - in the same folder; all four are in `validation_data_and_jsons`.
+It needs the anchor geometry - `AC14_fluke_rot20.stl`, `AC14_fluke_rot20_mesh.txt`, `AC14_shank.stl` and `AC14_shank_mesh.txt` - in the same folder; all four are in `validation_data_and_jsons`.
 
 ```json
 {
-    "GPU" : "off",
+    "GPU": "on",
 
     "domain": {
         "gravity": [0.0, 0.0, -9.81]
@@ -14,17 +14,17 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
 
     "material points": {
         "extra capacity": 1.2,
-        "element size": 4.0,
+        "element size": 2.0,
         "number of material points per element 1": 2,
-        "material size": { "min": [0.0, 0.0], "max": [100, 10] },
+        "material size": { "min": [0.0, 0.0], "max": [120.0, 10.0] },
         "layers": [
             {
-                "thickness": 20.0,
+                "thickness": 18.123,
                 "material": { "type": "willam warnke",
                               "E": 1.92e7, "nu": 0.25,
-                              "friction angle": 32, "dilation angle": 2, "cohesion": 300.0,
+                              "friction angle": 32.0, "dilation angle": 2.0, "cohesion": 300.0,
                               "density": 970.2,
-                              "E overburden": { "reference stress": 2.12729e5, "exponent": 0.6 } }
+                              "E overburden": { "reference stress": 212729.0, "exponent": 0.6 } }
             }
         ]
     },
@@ -33,11 +33,11 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
         {
             "offset": [1.0, 0.0, 0.0],
             "points": [
-                { "position": [0.62, 0.0, 0.0], "mass": 3291.60, "rotational inertia": [275.0, 275.0, 275.0],
+                { "position": [0.6121, 0.0, -0.044805], "mass": 3291.6, "rotational inertia": [275.0, 275.0, 275.0],
                   "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] },
-                { "position": [1.7592, 0.0, 0.0], "mass": 1058.40, "rotational inertia": [337.5, 337.5, 337.5],
+                { "position": [1.7592, 0.0, 0.0], "mass": 1058.4, "rotational inertia": [337.5, 337.5, 337.5],
                   "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] },
-                { "position": [12.5294, 0.0, 0.0], "mass": 1.0, "rotational inertia": [1.0e-6, 1.0e-6, 1.0e-6],
+                { "position": [12.51226633, 0.0, -0.5703035], "mass": 1.0, "rotational inertia": [1.0e-6, 1.0e-6, 1.0e-6],
                   "boundary conditions": ["fixed", "fixed", "fixed", "fixed", "fixed", "fixed"] }
             ],
             "constraints": [
@@ -49,25 +49,25 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
 
                 { "type": "distance stop", "points": [1, 2],
                   "rotation centre": [0.489, 0.0, 0.0],
-                  "position 1": [0.62, 0.0, 0.0],
+                  "position 1": [0.6121, 0.0, -0.044805],
                   "position 2": [0.62, 0.0, 0.0],
-                  "angle limit": 35, "stiffness": 1.0e10 },
+                  "angle limit": 35.0, "stiffness": 8.5814e9 },
 
                 { "type": "distance lock", "points": [2, 3],
                   "position 1": [3.0294, 0.0, 0.0],
-                  "position 2": [12.5294, 0.0, 0.0],
+                  "position 2": [12.51226633, 0.0, -0.5703035],
                   "distance": 9.5, "stiffness": 1.0526e9 }
             ],
             "stl files": [
-                { "name": "fluke", "stl": "AC14_fluke.stl",
-                  "mesh cache": "AC14_fluke_mesh.txt", "point": 1 },
+                { "name": "fluke", "stl": "AC14_fluke_rot20.stl",
+                  "mesh cache": "AC14_fluke_rot20_mesh.txt", "point": 1 },
                 { "name": "shank", "stl": "AC14_shank.stl",
                   "mesh cache": "AC14_shank_mesh.txt", "point": 2 }
             ],
             "tracked nodes": [
-                { "position": [2.0906, 0.6489, 0.0], "point": 1 }
+                { "position": [1.994, 0.6489, -0.5478], "point": 1 }
             ]
-	}
+        }
     ],
 
     "contact": {
@@ -83,7 +83,7 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
             "adaptivity": { "type": "uniform" },
             "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
         },
-	{
+        {
             "type": "dynamic",
             "dt": 5.0e-3,
             "final time": 1.0,
@@ -98,12 +98,12 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
             "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
             "boundary track": {
                 "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-                "max": { "type": ["fixed", "off", "off"], "distance": [2.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no",  "no", "no"] }
+                "max": { "type": ["fixed", "off", "off"], "distance": [2.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
             }
-	},
-	{
+        },
+        {
             "type": "dynamic",
-            "dt": 0.02,
+            "dt": 0.04,
             "final time": 800.0,
             "beta": 0.5,
             "gamma": 1.0,
@@ -116,14 +116,14 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
                 "element size in region": 0.1
             },
             "rigid body boundary conditions": [
-                { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.002 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
+                { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.004 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
             ],
             "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
             "boundary track": {
                 "min": { "type": ["fixed", "off", "off"], "distance": [0.5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-                "max": { "type": ["fixed", "off", "off"], "distance": [5, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no",  "no", "no"] }
+                "max": { "type": ["fixed", "off", "off"], "distance": [5.0, 0.0, 0.0], "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
             }
-	}
+        }
     ],
 
     "solver": {
@@ -131,7 +131,7 @@ It needs the anchor geometry - `AC14_fluke.stl`, `AC14_fluke_mesh.txt`, `AC14_sh
         "max newton iterations": 20,
         "poor factor": 0.25,
         "ghost factor": 0.025,
-        "ghost factor mass":0.25
+        "ghost factor mass": 0.25
     },
 
     "output": {

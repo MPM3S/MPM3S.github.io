@@ -1,6 +1,6 @@
 % AC-14 anchor design (Tutorial 6), in the style of anchor_setup.png, laid out as the original:
-% (a) the anchor from above, both halves, beside (b) the anchor from the side, with the hinge opened to its 35 degree limit and the
-% points of the input file; and below them (c) the anchor and its pull line. The fluke and
+% (a) the anchor from above, both halves, beside (b) the anchor from the side as set up, with the fluke turned 20 degrees
+% tip-down about the hinge, and the points of the input file; and below them (c) the anchor and its pull line. The fluke and
 % shank are drawn from the STL files by anchor_design_parts.py, in metres, in the frame of
 % the input file as drawn.
 % Build: python3 anchor_design_parts.py path/to/MPM3S/validation_data_and_jsons
@@ -47,55 +47,56 @@
     \anchortop
     \hingept{(0.489,0)}
     \eyeletpt{(3.0294,0)}
-    % lengths from the hinge to the fluke tip and to the eyelet
-    \draw[ext] (0.489,0) -- (0.489,1.75);
+    % fluke and shank lengths measured, as the manufacturer does, from a base line across the crown,
+    % here 1.7 m back from the fluke tip
+    \draw[ext] (0.3906,1.2) -- (0.3906,1.75);
     \draw[ext] (2.0906,0.6489) -- (2.0906,1.42);
-    \draw[ext] (3.0294,0) -- (3.0294,1.75);
-    \draw[dim] (0.489,1.35) -- node[above=0pt, label] {fluke length, 1.60 m} (2.0906,1.35);
-    \draw[dim] (0.489,1.68) -- node[above=0pt, label] {shank length, 2.54 m} (3.0294,1.68);
-    \draw[leader] (0.489,0) -- (0.0,-0.55) node[below, label] {hinge};
-    \draw[leader] (1.3,-0.95) -- (1.45,-1.35) node[below, label] {fluke};
+    \draw[ext] (3.1689,0.12) -- (3.1689,1.75);
+    \draw[dim] (0.3906,1.35) -- node[above=0pt, label] {fluke length, 1.7 m} (2.0906,1.35);
+    \draw[dim] (0.3906,1.68) -- node[above=0pt, label] {shank length, 3.3 m} (3.1689,1.68);
+    \draw[leader] (0.489,0) -- (-0.15,-0.6) node[left, label] {hinge};
+    \draw[leader] (1.3,-0.5) -- (1.45,-1.35) node[below, label] {fluke};
     \draw[leader] (2.5,-0.03) -- (2.6,-0.6) node[below, label] {shank};
     \draw[leader] (3.0294,0) -- (3.2,-0.6) node[below, label] {eyelet};
     \axes{(-0.3,-1.4)}{y}
     \node[panel] at (1.6,-1.95) {(a) from above};
   \end{scope}
 
-  % (b) side view: the hinge opened to its 35 degree limit
+  % (b) side view: as set up, the fluke turned 20 degrees tip-down
   \begin{scope}[shift={(12.8cm,-0.9cm)}, x=2.6cm, y=2.6cm]
     \sidepoints
     \anchorside
     \draw[black, line width=0.6pt] (hinge) -- (eyelet);
     \draw[black, line width=0.6pt] (hinge) -- (tip);
-    \draw[dimline, line width=0.7pt] ($(hinge)+(15:0.55)$) arc[start angle=15, end angle=-20, radius=0.55];
-    \node[label, dimpurple, anchor=west] at ($(hinge)+(-2.5:0.6)$) {$\theta = 35^\circ$};
+    \draw[dimline, line width=0.7pt] ($(hinge)+(0:1.35)$) arc[start angle=0, end angle=-20, radius=1.35];
+    \node[label, dimpurple, anchor=west] (angle) at (2.15,-0.27) {$20^\circ$ (limit $35^\circ$)};
+    \draw[dimpurple, line width=0.4pt] ($(hinge)+(-10:1.35)$) -- (angle.west);
     \hingept{(hinge)}
     \com{(flukecom)} \com{(shankcom)}
     \eyeletpt{(eyelet)}
     \tippt{(tip)}
-    \draw[leader] (hinge) -- ++(-0.45,0.45) node[above, label] {hinge};
+    \draw[leader] (hinge) -- ++(-0.75,0.45) node[left, label] {hinge};
     \draw[leader] (flukecom) -- ++(-0.35,-0.6) node[below, label] {fluke CoM};
     \draw[leader] (shankcom) -- ++(0.25,0.55) node[above, label] {shank CoM};
     \draw[leader] (eyelet) -- ++(0.15,0.4) node[above, label] {eyelet};
     \draw[leader] (tip) -- ++(0.45,-0.35) node[right, label] {tracked tip};
     \axes{(-0.3,-1.2)}{z}
-    \node[panel] at (1.6,-1.6) {(b) from the side, hinge fully open};
+    \node[panel] at (1.6,-1.6) {(b) from the side, as set up};
   \end{scope}
 
   % (c) the anchor and its pull line
-  \begin{scope}[shift={(3.4cm,-8.4cm)}, x=1.0cm, y=1.0cm]
+  \begin{scope}[shift={(-0.5cm,-8.0cm)}, x=1.55cm, y=1.55cm]
     \sidepoints
     \anchorside
-    \coordinate (pull) at ($(eyelet)+(9.5,0)$);
     \draw[black, line width=1.2pt] (eyelet) -- (pull);
     \eyeletpt{(eyelet)}
     \pullpt{(pull)}
     \draw[dimline, -{Latex[length=6pt, width=5pt]}, line width=1.2pt] ($(pull)+(0.15cm,0)$) -- ++(0.8cm,0) node[right=1pt, dimpurple, label] {$0.1$ m/s};
-    \draw[dim] ($(eyelet)+(0,-0.9)$) -- node[below=1pt, label] {pull line, 9.5 m} ($(pull)+(0,-0.9)$);
-    \draw[ext] (eyelet) -- ++(0,-1.05) (pull) -- ++(0,-1.05);
+    \draw[dim] ($(eyelet)!0.9cm!-90:(pull)$) -- node[below=1pt, label, sloped] {pull line, 9.5 m} ($(pull)!0.9cm!90:(eyelet)$);
+    \draw[ext] (eyelet) -- ($(eyelet)!1.05cm!-90:(pull)$) (pull) -- ($(pull)!1.05cm!90:(eyelet)$);
     \draw[leader] (pull) -- ++(0.4,1.0) node[above, label] {pull point};
-    \axes{(-1.2,-1.4)}{z}
-    \node[panel] at (7.0,-2.3) {(c) the anchor and its pull line};
+    \axes{(-0.3,-1.3)}{z}
+    \node[panel] at (6.6,-1.6) {(c) the anchor and its pull line};
   \end{scope}
 
 \end{tikzpicture}
