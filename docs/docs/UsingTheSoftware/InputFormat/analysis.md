@@ -26,7 +26,7 @@ The `"analysis"` key is a list of **stages**, run in order. The material-point s
 ]
 ```
 
-<div class="small-table" markdown>
+<div class="small-table wrap-code" markdown>
 
 | Key                                 | `"static"` | `"dynamic"` | Type             | Default                     | Description                                                                                                                      |
 |-------------------------------------|------------|-------------|------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -86,7 +86,7 @@ Any other entry stops the analysis. Where faces meet, the conditions combine. Th
                 "region": 0.5, "element size in region": 0.2 }
 ```
 
-<div class="small-table" markdown>
+<div class="small-table wrap-code" markdown>
 
 | Key                           | Status                                                  | Type       | Default   | Description                                                                                                                                                           |
 |-------------------------------|---------------------------------------------------------|------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

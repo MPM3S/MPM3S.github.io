@@ -55,9 +55,9 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Machine
 
-`"GPU": "off"` runs the analysis on the CPU, which is plenty for a problem this small.
-
-`"domain update": "stretch"` lets the domain of each GIMP stretch with the deformation of the material, so that the GIMPs near the base shrink to half their height as the column is compressed. It is optional; without it the domains keep their initial size.
+- `"GPU": "off"` runs the analysis on the CPU, which is plenty for a problem this small ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- `"domain update": "stretch"` lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed ([domain update](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain-update)).
+- It is optional; without it the domains keep their initial size.
 
 </div>
 
@@ -79,7 +79,8 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Domain
 
-The background mesh is a cube sized automatically to hold the column plus the same height of empty space above it, which here makes it a cube of side $1.6$ m. Gravity acts in $-z$.
+- The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- Gravity acts in $-z$.
 
 </div>
 
@@ -101,9 +102,11 @@ The background mesh is a cube sized automatically to hold the column plus the sa
 
 ### Material points
 
-The column is one layer, $0.8$ m thick, on a $0.05 \times 0.05$ m footprint. `"element size"` sets the background elements to $0.05$ m, and `"number of material points per element 1": 2` places a $2 \times 2 \times 2$ grid of GIMPs in each element.
-
-The material is the Hencky elastic model with the parameters from the [Problem summary](#problem-summary). `"extra capacity"` reserves spare storage for material points created by mesh refinement; there is no refinement here, but the key is still required.
+- One layer, $0.8$ m thick, on a $0.05 \times 0.05$ m footprint ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- `"element size"` sets the background elements to $0.05$ m.
+- `"number of material points per element 1": 2` places a $2 \times 2 \times 2$ grid of GIMPs in each element.
+- The material is the Hencky elastic model, with the parameters from the [Problem summary](#problem-summary).
+- `"extra capacity"` reserves spare storage for material points created by mesh refinement; there is no refinement here, but the key is still required.
 
 </div>
 
@@ -134,7 +137,8 @@ The material is the Hencky elastic model with the parameters from the [Problem s
 
 ### Rigid bodies and contact
 
-This problem has no rigid bodies, so `"rigid bodies"` is an empty list. The `"contact"` section is still required, and its friction coefficient has no effect.
+- There are no rigid bodies, so `"rigid bodies"` is an empty list ([rigid bodies](../UsingTheSoftware/InputFormat/rigid_bodies.md)).
+- The `"contact"` section is still required; its friction coefficient has no effect ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
 
 </div>
 
@@ -158,9 +162,11 @@ This problem has no rigid bodies, so `"rigid bodies"` is an empty list. The `"co
 
 ### Analysis
 
-A single static stage. `"load": "gravity ramp"` increases gravity from zero to its full value over the 50 load steps, and `"rigid bodies": "off"` because there are none.
-
-Rollers are applied on the four sides ($x$ and $y$ `"min"` and `"max"`) and the base is fixed. The top is left free; the `"max"` $z$ face lies at twice the column height, in the empty space above the column, so it never touches the material.
+- A single static stage ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
+- `"load": "gravity ramp"` increases gravity from zero to its full value over the 50 load steps.
+- `"rigid bodies": "off"`, as there are none.
+- Rollers on the four sides ($x$ and $y$ `"min"` and `"max"`) and a fixed base ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- The top is left free; the `"max"` $z$ face lies at twice the column height, in the empty space above the column, so it never touches the material.
 
 </div>
 
@@ -188,7 +194,9 @@ Rollers are applied on the four sides ($x$ and $y$ `"min"` and `"max"`) and the 
 
 ### Solver
 
-Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}$; a step that has not converged after 20 iterations is retried with half the load increment. The column fills its elements completely, so the [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) is switched off with both ghost factors set to zero.
+- Newton-Raphson iterations to a tolerance of $10^{-6}$ in each load step ([solver](../UsingTheSoftware/InputFormat/solver.md)).
+- A step that has not converged after 20 iterations is retried with half the load increment.
+- The column fills its elements completely, so the [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) is switched off, with both ghost factors set to zero.
 
 </div>
 
@@ -214,9 +222,9 @@ Each load step is solved by Newton-Raphson iterations to a tolerance of $10^{-6}
 
 ### Output
 
-VTK output, for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)), is written to `vtk_column` at every load step (`"vtk percent": 0`), with the displacement, stress, strain and volume of each GIMP.
-
-CSV output is written to `csv_column`, also at every load step, with each GIMP's initial position, current position and stress - everything needed to compare against the analytical solution. There are no rigid bodies, so no rigid-body fields are needed.
+- VTK output, for visualisation in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)), is written to `vtk_column` at every load step (`"vtk percent": 0`), with the displacement, stress, strain and volume of each GIMP ([output](../UsingTheSoftware/InputFormat/output.md)).
+- CSV output is written to `csv_column`, also at every load step, with each GIMP's initial position, current position and stress - everything needed to compare against the analytical solution.
+- There are no rigid bodies, so no rigid-body fields are needed.
 
 </div>
 

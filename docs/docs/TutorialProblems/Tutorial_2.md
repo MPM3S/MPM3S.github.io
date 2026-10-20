@@ -72,13 +72,11 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 <div class="js-text" markdown>
 
-### Machine and domain
+### Machine
 
-`"GPU": "off"` runs the analysis on the CPU.
-
-`"domain update": "stretch"` lets the GIMP domains to compress as the cube is compressed. Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.
-
-The background mesh is sized automatically to hold the soil and the same height of empty space above it, so it is a cube of side $1.6$ m. `"gravity"` is zero, so the soil carries no weight.
+- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/domain_and_material_points.md#gpu)).
+- `"domain update": "stretch"` lets the GIMP domains compress with the soil ([domain update](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain-update)).
+- Without it, the domains keep their initial size, and the GIMPs next to the base cannot move closer to it.
 
 </div>
 
@@ -87,8 +85,27 @@ The background mesh is sized automatically to hold the soil and the same height 
 ```json
 "GPU": "off",
 
-"domain update": "stretch",
+"domain update": "stretch"
+```
 
+</div>
+
+</div>
+
+<div class="json-side" markdown>
+
+<div class="js-text" markdown>
+
+### Domain
+
+- The background mesh is a cube, sized automatically to hold the soil plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain_and_material_points.md#domain)).
+- `"gravity"` is zero, so the soil carries no weight.
+
+</div>
+
+<div class="js-code" markdown>
+
+```json
 "domain": {
     "gravity": [0.0, 0.0, 0.0]
 }
@@ -104,7 +121,9 @@ The background mesh is sized automatically to hold the soil and the same height 
 
 ### Material points
 
-The soil is one $0.8$ m layer on a $0.8 \times 0.8$ m footprint, discretised by $0.4$ m elements with $2 \times 2 \times 2$ GIMPs in each, using the elastic properties from the [Problem summary](#problem-summary).
+- One $0.8$ m layer on a $0.8 \times 0.8$ m footprint ([material points](../UsingTheSoftware/InputFormat/domain_and_material_points.md#material-points)).
+- $0.4$ m elements, with $2 \times 2 \times 2$ GIMPs in each.
+- The elastic properties from the [Problem summary](#problem-summary).
 
 </div>
 
@@ -135,11 +154,16 @@ The soil is one $0.8$ m layer on a $0.8 \times 0.8$ m footprint, discretised by 
 
 ### Rigid body
 
-A rigid body is a *system* of one or more *points*. Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia. The rigid cube is a single point at its centre, $(0.4, 0.4, 1.3)$ m.
-
-Its `"boundary conditions"` list the six degrees of freedom in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$. Five are `"fixed"`, and the vertical displacement is prescribed as $-0.01$ m per load step, so the rigid cube moves $0.2$ m down over the 20 load steps. Because every degree of freedom is held, the mass and inertia have no effect.
-
-The geometry comes from `cube.stl`, which sits in the same folder as the input file: the `"stl"` path is relative to the input file, so only file name means the same folder. It is attached to point 1 and drawn in global coordinates (the same global coordinates as point 1) with its base on the top of the soil. On the first run MPM3S builds a tetrahedral mesh of the rigid cube and saves it in `cube_mesh.txt`, which later runs read instead. If you change `cube.stl`, delete `cube_mesh.txt` so that the mesh is rebuilt.
+- A rigid body is a *system* of one or more [*points*](../UsingTheSoftware/InputFormat/rigid_bodies.md#points). Each point has six degrees of freedom - three displacements and three rotations - and carries a mass and rotational inertia.
+- The rigid cube is a single point at its centre, $(0.4, 0.4, 1.3)$ m.
+- Its `"boundary conditions"` list the six degrees of freedom in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$:
+    - five are `"fixed"`;
+    - the vertical displacement is prescribed as $-0.01$ m per load step, so the rigid cube moves $0.2$ m down over the 20 load steps;
+    - because every degree of freedom is held, the mass and inertia have no effect.
+- The geometry comes from `cube.stl`, attached to point 1 ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)):
+    - the `"stl"` path is relative to the input file, so a file name on its own means the same folder;
+    - it is drawn in global coordinates, the same as point 1, with its base on the top of the soil;
+    - on the first run MPM3S builds a tetrahedral mesh of the rigid cube and saves it in `cube_mesh.txt`, which later runs read instead. If you change `cube.stl`, delete `cube_mesh.txt` so that the mesh is rebuilt.
 
 </div>
 
@@ -169,7 +193,8 @@ The geometry comes from `cube.stl`, which sits in the same folder as the input f
 
 ### Contact
 
-The contact between the rigid cube and the soil is frictionless. The contact stiffness is set automatically, as described in the [Background](#background-rigid-body-contact).
+- The contact between the rigid cube and the soil is frictionless ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
+- The contact stiffness is set automatically, as described in the [Background](#background-rigid-body-contact).
 
 </div>
 
@@ -191,11 +216,11 @@ The contact between the rigid cube and the soil is frictionless. The contact sti
 
 ### Analysis
 
-A single static stage of 20 load steps with the rigid body switched on. Gravity is zero, so `"load": "full"` has nothing to apply; all of the load comes from the rigid cube, which is pushed down a little further at every step.
-
-`"rigid body surface placement": "on"` moves the rigid cube vertically at the start of the stage so that its base rests exactly on the top of the soil. Rollers are applied on the four sides and the base, and the top is free.
-
-`"adaptivity": { "type": "uniform" }` meshes the whole background domain at the $0.4$ m element size. Without it, only the elements holding material points are $0.4$ m and the empty space is filled with coarser elements.
+- A single static stage of 20 load steps, with the rigid body switched on ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
+- Gravity is zero, so `"load": "full"` has nothing to apply; all of the load comes from the rigid cube, which is pushed down a little further at every step.
+- `"rigid body surface placement": "on"` moves the rigid cube vertically at the start of the stage, so that its base rests exactly on the top of the soil.
+- Rollers on the four sides and the base; the top is free ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- `"adaptivity": { "type": "uniform" }` meshes the whole background domain at the $0.4$ m element size ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)). Without it, only the elements holding material points are $0.4$ m, and the empty space is filled with coarser elements.
 
 </div>
 
@@ -225,7 +250,8 @@ A single static stage of 20 load steps with the rigid body switched on. Gravity 
 
 ### Solver
 
-The same settings as [Tutorial 1](Tutorial_1.md#solver): Newton-Raphson iterations to a tolerance of $10^{-6}$, as there are no small ovelaps in this example there is no need for ghost stabilisation.
+- The same settings as [Tutorial 1](Tutorial_1.md#solver): Newton-Raphson iterations to a tolerance of $10^{-6}$ ([solver](../UsingTheSoftware/InputFormat/solver.md)).
+- There are no small overlaps in this example, so there is no need for [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md).
 
 </div>
 
@@ -251,7 +277,9 @@ The same settings as [Tutorial 1](Tutorial_1.md#solver): Newton-Raphson iteratio
 
 ### Output
 
-VTK and CSV output at every load step. The CSV files record each GIMP's position, domain size (`"lp"`) and stress, and the rigid cube's position and reaction force - the force needed to push it - which are used in [Analysing the stress in the domain](#analysing-the-stress-in-the-domain).
+- VTK and CSV output at every load step ([output](../UsingTheSoftware/InputFormat/output.md)).
+- The CSV files record each GIMP's position, domain size (`"lp"`) and stress, and the rigid cube's position and reaction force - the force needed to push it.
+- These are used in [Analysing the stress in the domain](#analysing-the-stress-in-the-domain).
 
 </div>
 
