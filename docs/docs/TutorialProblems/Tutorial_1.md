@@ -267,15 +267,16 @@ Open a terminal and start Julia; `-t auto` makes every CPU core available:
 julia -t auto
 ```
 
-Then, in Julia, move into the folder where you downloaded MPM3S, activate it and load MPM3S:
+Then, in Julia, move into the folder where you downloaded MPM3S, activate it, install its dependencies and load MPM3S:
 
 ```
 cd("path/to/MPM3S")
 using Pkg; Pkg.activate(".")
+Pkg.instantiate()
 using MPM3S
 ```
 
-The output folders `vtk_column` and `csv_column` are created in the `MPM3S` folder. The commands work the same on Windows, macOS and Linux. The first time you use MPM3S, install its dependencies as described in [MPM3S installation](../GettingStarted/install_and_run.md#mpm3s-installation). If you are unsure how to open a command/terminal window on your operating system, see [Command/terminal window](../GettingStarted/install_and_run.md#terminal-window).
+The output folders `vtk_column` and `csv_column` are created in the `MPM3S` folder. The commands work the same on Windows, macOS and Linux. The first time, `Pkg.instantiate()` downloads and installs MPM3S's dependencies, which can take several minutes; after that it returns straight away (see [MPM3S installation](../GettingStarted/install_and_run.md#mpm3s-installation)). If you are unsure how to open a command/terminal window on your operating system, see [Command/terminal window](../GettingStarted/install_and_run.md#terminal-window).
 
 </div>
 
@@ -297,6 +298,8 @@ $ julia -t auto
 julia> cd("path/to/MPM3S")
 julia> using Pkg; Pkg.activate(".")
   Activating project at `path/to/MPM3S`
+
+julia> Pkg.instantiate()
 
 julia> using MPM3S
 ```

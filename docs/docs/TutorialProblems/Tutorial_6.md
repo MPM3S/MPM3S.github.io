@@ -21,27 +21,27 @@ This tutorial has four sections:
 
 You will model an anchor (AC14) being dragged through a subsurface soil. To do this, you will define the soil, the anchor, the three loading stages, the solver and the output in the input file, using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
-[](#fig-anchor-setup) shows the model at the start of stage 2. To reduce the problem size, only half of the anchor and soil is modelled, using the vertical $xz$ plane of symmetry at $y = 0$. The anchor's fluke and shank are joined at a hinge, and a pull line drags the anchor at $0.1$ m/s. A tracked node at the fluke tip records its position as the anchor embeds. Instead of solving the whole length of soil the anchor passes through, a boundary track keeps only a window of soil active, from $0.5$ m behind to $2.5$ m ahead of the anchor. The elements around the anchor are refined down to $0.1$ m; the figure only shows this schematically.
+[](#fig-anchor-setup) shows the model at the start of stage 2. To reduce the problem size, only half of the anchor and soil is modelled, using the vertical $xz$ plane of symmetry at $y = 0$. The anchor's fluke and shank are joined at a hinge, with the fluke starting turned $20^\circ$ tip-down, and a pull line drags the anchor at $0.1$ m/s. A tracked node at the fluke tip records its position as the anchor embeds. Instead of solving the whole length of soil the anchor passes through, a boundary track keeps only a window of soil active, from $0.5$ m behind to $2.5$ m ahead of the anchor. The elements around the anchor are refined down to $0.1$ m; the figure only shows this schematically.
 
 ![The half model at the start of stage 2, drawn shortened.](../../img/Tutorial_6/anchor_setup.png){ #fig-anchor-setup width="80%" }
 
-**Soil block:** The soil is $100$ m long, $10$ m wide and $20$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the anchor are refined to $0.1$ m, while those far from it are $4.0$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.1$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)):
+**Soil block:** The soil is $120$ m long, $10$ m wide and $18.123$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the anchor are refined to $0.1$ m, while those far from it are $2.0$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.1$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/domain_and_material_points.md#how-element-sizes-set-the-mesh)):
 
-- element sizes are rounded **down** to a power-of-two multiple of $0.1$ m, so the mesh is never coarser than requested: the $4.0$ m elements become $0.1 \times 2^5 = 3.2$ m;
-- the $x$ and $y$ dimensions are rounded **up** to whole elements: $102.4 \times 12.8$ m;
-- the depth is rounded **up** to a whole row of material points ($1.6$ m), as the top is a free surface rather than a boundary and therefore no boundary conditions need to be applied at nodes: $20$ m becomes $20.8$ m  
+- element sizes are rounded **down** to a power-of-two multiple of $0.1$ m, so the mesh is never coarser than requested: the $2.0$ m elements become $0.1 \times 2^4 = 1.6$ m;
+- the $x$ and $y$ dimensions are rounded **up** to whole elements: $120 \times 11.2$ m;
+- the depth is rounded **up** to a whole row of material points ($0.8$ m), as the top is a free surface rather than a boundary and therefore no boundary conditions need to be applied at nodes: $18.123$ m becomes $18.4$ m  
 
 **Loading:** Three stages:
 
 - **Stage 1 - initial stresses:** static; the anchor is switched off and gravity is ramped up over 5 load steps.
 - **Stage 2 - settling:** dynamic, $1$ s in steps of $0.005$ s; the anchor is placed on the soil surface and settles under its own weight with the pull point held still.
-- **Stage 3 - drag:** dynamic, $800$ s in steps of $0.02$ s; the pull point moves in $+x$ at $0.1$ m/s, dragging the anchor $80$ m.
+- **Stage 3 - drag:** dynamic, $800$ s in steps of $0.04$ s; the pull point moves in $+x$ at $0.1$ m/s, dragging the anchor $80$ m.
 
 **Boundary conditions:** The boundary conditions are defined separately for each stage. In every stage the base is fixed, and the side at $y = 0$ (the plane of symmetry) and the opposite side carry rollers; the top face lies in the empty space above the soil, so its condition has no effect. Only the two ends, the $x$ faces, change:
 
 - **Stage 1 - initial stresses:** all vertical sides are rollers, the bottom face is fixed.
-- **Stage 2 - settling:** a boundary track replaces both ends with fixed planes that move with the anchor: one $0.5$ m behind it, which deletes the soil the anchor leaves behind, and one $2.5$ m ahead of it (for the purposes of this tutorial - default would be to set it to $5.0$ m). All sides and the bottom face are now fixed.
-- **Stage 3 - drag:** save boundary conditions as stage 2, the leading plane moved to $5$ m ahead of the anchor 
+- **Stage 2 - settling:** a boundary track replaces both ends with fixed planes that move with the anchor: one $0.5$ m behind it, which deletes the soil the anchor leaves behind, and one $2.5$ m ahead of it (for the purposes of this tutorial - default would be to set it to $5.0$ m). The two $y$ sides stay rollers. On the plane of symmetry, $y = 0$, the roller stops the soil moving in $y$ but leaves it free to slide in $x$ and $z$, which is exactly the symmetry condition: the modelled half behaves as one half of the full anchor and soil. The opposite side, at $y = 11.2$ m (the $10$ m width rounded up to whole elements), is held the same way, far enough from the anchor that it has little effect. The base stays fixed.
+- **Stage 3 - drag:** same boundary conditions as stage 2, with the leading plane moved to $5$ m ahead of the anchor.
 
 **Material:** Willam-Warnke elasto-plastic sand at a relative density of $D_r = 32\%$, fully drained conditions, with the parameters from the Brinkgreve correlations [@brinkgreve2010validation]:
 
@@ -50,8 +50,8 @@ You will model an anchor (AC14) being dragged through a subsurface soil. To do t
 | Property                     | Correlation                                         | Value at $D_r = 32\%$     | Input key                     |
 |------------------------------|-----------------------------------------------------|---------------------------|-------------------------------|
 | Reference Young's modulus    | $E^{ref} = 60\,000\; D_r/100$ kPa                   | $19.2$ MPa                | `"E": 1.92e7`                 |
-| Friction angle               | $\phi = 28 + 12.5\; D_r/100$                        | $32^\circ$                | `"friction angle": 32`        |
-| Dilation angle               | $\psi = -2 + 12.5\; D_r/100$, not below 0           | $2^\circ$                 | `"dilation angle": 2`         |
+| Friction angle               | $\phi = 28 + 12.5\; D_r/100$                        | $32^\circ$                | `"friction angle": 32.0`      |
+| Dilation angle               | $\psi = -2 + 12.5\; D_r/100$, not below 0           | $2^\circ$                 | `"dilation angle": 2.0`       |
 | Buoyant unit weight          | $\gamma' = 19 + 1.6\; D_r/100 - \gamma_w$ kN/m$^3$  | $9.702$ kN/m$^3$          | -            |
 | Buoyant density              | $\rho' = \gamma'/g$, with $g = 10$ m/s$^2$          | $970.2$ kg/m$^3$          | `"density": 970.2`            |
 | Stiffness exponent           | $m = 0.7 - D_r/320$                                 | $0.6$                     | `"exponent": 0.6`             |
@@ -63,9 +63,9 @@ You will model an anchor (AC14) being dragged through a subsurface soil. To do t
 
 $\gamma_w = 9.81$ kN/m$^3$ is the unit weight of water, note that the buoyant density and weights are used as the sand is submerged. As in [Tutorial 3](Tutorial_3.md#problem-description), the reference stress for the depth-dependent stiffness is $p^{ref}/K_0 = 100/0.4701 = 212.7$ kPa.
 
-**Anchor:** The AC-14 anchor (see [](#fig-anchor-design)) has two parts, a **fluke** and a **shank**, joined by a hinge. Each part is a rigid body welded to a `rigid body point` at its centre of mass. A third `rigid body point` with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is $8700$ kg).
+**Anchor:** The AC-14 anchor (see [](#fig-anchor-design)) has two parts, a **fluke** and a **shank**, joined by a hinge. Each part is a rigid body welded to a `rigid body point` at its centre of mass. A third `rigid body point` with no geometry is the end of the pull line; moving it drags the anchor. Because only half the anchor is modelled, the masses are halved (the full anchor is $8700$ kg). As in the reference simulations, the fluke starts turned $20^\circ$ tip-down about the hinge: `AC14_fluke_rot20.stl` is drawn already turned, and point 1, the fluke's end of the opening-angle stop and the tracked tip are turned with it.
 
-![The AC-14 anchor, drawn from its STL files: (a) from above, with both halves; (b) from the side, with the hinge fully open ($\theta = 35^\circ$), showing the hinge, the centres of mass of the fluke and shank, the eyelet and the tracked tip; (c) the anchor and its $9.5$ m pull line.](../../img/Tutorial_6/anchor_design.png){ #fig-anchor-design width="70%" }
+![AC14 anchor: (a) from above, with both halves; (b) from the side, as set up, with the fluke inclined $20^\circ$ tip-down about the hinge; (c) the anchor and its $9.5$ m pull line, with the pull point level with the fluke tip.](../../img/Tutorial_6/anchor_design.png){ #fig-anchor-design width="80%" }
 
 *Figure adapted from [@birdanchors2026].*
 
@@ -75,14 +75,14 @@ The anchor is made of three points, and three constraints join them:
 
 | Point | Represents             | Position as drawn (m) | Mass (kg) | Rotational inertia (kg$\cdot$m$^2$) | Geometry               |
 |:-----:|------------------------|:---------------------:|:---------:|:-----------------------------------:|------------------------|
-| 1     | Fluke centre of mass   | $(0.62, 0, 0)$        | $3291.6$  | $275$                               | `AC14_fluke.stl` |
+| 1     | Fluke centre of mass   | $(0.6121, 0, -0.0448)$ | $3291.6$ | $275$                               | `AC14_fluke_rot20.stl` |
 | 2     | Shank centre of mass   | $(1.7592, 0, 0)$      | $1058.4$  | $337.5$                             | `AC14_shank.stl`       |
-| 3     | Pull point             | $(12.5294, 0, 0)$     | $1$       | $10^{-6}$                           | none                   |
+| 3     | Pull point             | $(12.5123, 0, -0.5703)$ | $1$       | $10^{-6}$                           | none                   |
 
 | Constraint          | Type               | Points | Details                                                                                                           |
 |---------------------|--------------------|:------:|-------------------------------------------------------------------------------------------------------------------|
 | Hinge               | `"rotation lock"`  | 1, 2   | Pin at $(0.489, 0, 0)$ with the axis of rotation along $y$; pin stiffness $10^9$ N/m, axis stiffness $10^8$ N$\cdot$m.       |
-| Opening-angle stop  | `"distance stop"`  | 1, 2   | Goes taut when the hinge has opened $35^\circ$; stiffness $10^{10}$ N/m.                                 |
+| Opening-angle stop  | `"distance stop"`  | 1, 2   | Starts with the hinge open $20^\circ$ and goes taut when it has opened $35^\circ$; stiffness $EA/l = 8.58 \times 10^9$ N/m, with $EA = 10^{10}$ N and $l = 1.165$ m the distance between the two centres of mass at $35^\circ$.                                 |
 | Pull line           | `"distance lock"`  | 2, 3   | A $9.5$ m rod from the shank's eyelet at $(3.0294, 0, 0)$ to the pull point; stiffness $EA/L$ with $EA = 10^{10}$ N. |
 
 </div>
@@ -105,16 +105,16 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Machine and domain
 
-`"GPU": "off"` runs the analysis on the CPU. A problem of this size is intended for an HPC node; set it to `"on"` to run on an NVIDIA GPU instead.
+`"GPU": "on"` runs the analysis on an NVIDIA GPU, as the reference simulations were run. Without one, set it to `"off"` to run on the CPU; a problem of this size then needs an HPC node.
 
-The background grid is sized automatically to hold the soil block, which here makes it a cube of side $102.4$ m.
+The background grid is sized automatically to hold the soil block, which here makes it a cube of side $204.8$ m.
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"GPU": "off",
+"GPU": "on",
 
 "domain": {
     "gravity": [0.0, 0.0, -9.81]
@@ -131,7 +131,7 @@ The background grid is sized automatically to hold the soil block, which here ma
 
 ### Material points
 
-One layer of Willam-Warnke sand with the properties from the [Problem description](#problem-description), over a $100 \times 10$ m footprint whose $y = 0$ side is the plane of symmetry.
+One layer of Willam-Warnke sand with the properties from the [Problem description](#problem-description), over a $120 \times 10$ m footprint whose $y = 0$ side is the plane of symmetry.
 
 </div>
 
@@ -140,17 +140,17 @@ One layer of Willam-Warnke sand with the properties from the [Problem descriptio
 ```json
 "material points": {
     "extra capacity": 1.2,
-    "element size": 4.0,
+    "element size": 2.0,
     "number of material points per element 1": 2,
-    "material size": { "min": [0.0, 0.0], "max": [100, 10] },
+    "material size": { "min": [0.0, 0.0], "max": [120.0, 10.0] },
     "layers": [
         {
-            "thickness": 20.0,
+            "thickness": 18.123,
             "material": { "type": "willam warnke",
                           "E": 1.92e7, "nu": 0.25,
-                          "friction angle": 32, "dilation angle": 2, "cohesion": 300.0,
+                          "friction angle": 32.0, "dilation angle": 2.0, "cohesion": 300.0,
                           "density": 970.2,
-                          "E overburden": { "reference stress": 2.12729e5, "exponent": 0.6 } }
+                          "E overburden": { "reference stress": 212729.0, "exponent": 0.6 } }
         }
     ]
 }
@@ -170,7 +170,7 @@ The anchor is one system of three points. Points 1 and 2 are the centres of mass
 
 Point 3, the end of the pull line, carries no geometry and only a nominal mass, so all six of its degrees of freedom are held; stage 3 replaces its $x$ condition to pull.
 
-The anchor is drawn lying along the $x$ axis, and `"offset"` moves the whole system $1$ m in $+x$ so that the anchor is not overhanging the material domain.
+The shank is drawn lying along the $x$ axis and the fluke turned $20^\circ$ tip-down below it, so point 1 sits just below the axis. Point 3 is drawn level with the anchor's lowest node, the fluke tip, so that when the anchor is placed on the soil surface the pull point rests on it too, and as far along $x$ as keeps the pull line $9.5$ m long. `"offset"` moves the whole system $1$ m in $+x$ so that the anchor is not overhanging the material domain.
 
 </div>
 
@@ -181,11 +181,11 @@ The anchor is drawn lying along the $x$ axis, and `"offset"` moves the whole sys
     {
         "offset": [1.0, 0.0, 0.0],
         "points": [
-            { "position": [0.62, 0.0, 0.0], "mass": 3291.60, "rotational inertia": [275.0, 275.0, 275.0],
+            { "position": [0.6121, 0.0, -0.044805], "mass": 3291.6, "rotational inertia": [275.0, 275.0, 275.0],
               "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] },
-            { "position": [1.7592, 0.0, 0.0], "mass": 1058.40, "rotational inertia": [337.5, 337.5, 337.5],
+            { "position": [1.7592, 0.0, 0.0], "mass": 1058.4, "rotational inertia": [337.5, 337.5, 337.5],
               "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] },
-            { "position": [12.5294, 0.0, 0.0], "mass": 1.0, "rotational inertia": [1.0e-6, 1.0e-6, 1.0e-6],
+            { "position": [12.51226633, 0.0, -0.5703035], "mass": 1.0, "rotational inertia": [1.0e-6, 1.0e-6, 1.0e-6],
               "boundary conditions": ["fixed", "fixed", "fixed", "fixed", "fixed", "fixed"] }
         ],
 ```
@@ -201,8 +201,8 @@ The anchor is drawn lying along the $x$ axis, and `"offset"` moves the whole sys
 ### Rigid body: constraints
 
 - The `"rotation lock"` is the hinge between the fluke and the shank, pinned at $(0.489, 0, 0)$ with both axes along $y$.
-- The `"distance stop"` limits how far the hinge (angle between the fluke and shank) opens. Its applied as a penalty force between constraint points which move with `rigid body point 1` and `rigid body point 2`. The constraint points in global coordinates are both iniated at the same place, as the anchor has initially zero opening angle, $(0.62, 0, 0)$. As the hinge opens they move apart, and when the opening about the rotation centre reaches $35^\circ$ the penalty force becomes active and resists any more motion.
-- The `"distance lock"` is the pull line: a $9.5$ m rod from the shank's eyelet at $(3.0294, 0, 0)$ to the pull point at $(12.5294, 0, 0)$.
+- The `"distance stop"` limits how far the hinge (angle between the fluke and shank) opens. It is applied as a penalty force between constraint points which move with `rigid body point 1` and `rigid body point 2`. The fluke's constraint point starts at the fluke's centre of mass, $(0.6121, 0, -0.0448)$, and the shank's where that centre would be with the hinge closed, $(0.62, 0, 0)$, so the opening about the rotation centre starts at $20^\circ$. As the hinge opens further they move apart, and when the opening reaches $35^\circ$ the penalty force becomes active and resists any more motion.
+- The `"distance lock"` is the pull line: a $9.5$ m rod from the shank's eyelet at $(3.0294, 0, 0)$ to the pull point at $(12.5123, 0, -0.5703)$.
 
 </div>
 
@@ -218,13 +218,13 @@ The anchor is drawn lying along the $x$ axis, and `"offset"` moves the whole sys
 
             { "type": "distance stop", "points": [1, 2],
               "rotation centre": [0.489, 0.0, 0.0],
-              "position 1": [0.62, 0.0, 0.0],
+              "position 1": [0.6121, 0.0, -0.044805],
               "position 2": [0.62, 0.0, 0.0],
-              "angle limit": 35, "stiffness": 1.0e10 },
+              "angle limit": 35.0, "stiffness": 8.5814e9 },
 
             { "type": "distance lock", "points": [2, 3],
               "position 1": [3.0294, 0.0, 0.0],
-              "position 2": [12.5294, 0.0, 0.0],
+              "position 2": [12.51226633, 0.0, -0.5703035],
               "distance": 9.5, "stiffness": 1.0526e9 }
         ],
 ```
@@ -239,9 +239,9 @@ The anchor is drawn lying along the $x$ axis, and `"offset"` moves the whole sys
 
 ### Rigid body: geometry
 
-The fluke surface is welded to point 1 and the shank surface to point 2. Both STL files are drawn in global coordinates, in the same frame as the point positions, and their tetrahedral meshes are stored in the mesh-cache files.
+The fluke surface is welded to point 1 and the shank surface to point 2. Both STL files are drawn in global coordinates, in the same frame as the point positions - `AC14_fluke_rot20.stl` with the fluke already turned $20^\circ$ tip-down - and their tetrahedral meshes are stored in the mesh-cache files.
 
-`"tracked nodes"` adds a marker at the tip of the fluke, $(2.0906, 0.6489, 0)$, welded to point 1. It has no mass and takes no part in the contact; its position is written to `rigid_body.csv` as `track1_x`, `track1_y` and `track1_z`, which follow the tip of the fluke through the drag.
+`"tracked nodes"` adds a marker at the tip of the fluke, $(1.994, 0.6489, -0.5478)$, welded to point 1. It has no mass and takes no part in the contact; its position is written to `rigid_body.csv` as `track1_x`, `track1_y` and `track1_z`, which follow the tip of the fluke through the drag.
 
 </div>
 
@@ -249,13 +249,13 @@ The fluke surface is welded to point 1 and the shank surface to point 2. Both ST
 
 ```json
         "stl files": [
-            { "name": "fluke", "stl": "AC14_fluke.stl",
-              "mesh cache": "AC14_fluke_mesh.txt", "point": 1 },
+            { "name": "fluke", "stl": "AC14_fluke_rot20.stl",
+              "mesh cache": "AC14_fluke_rot20_mesh.txt", "point": 1 },
             { "name": "shank", "stl": "AC14_shank.stl",
               "mesh cache": "AC14_shank_mesh.txt", "point": 2 }
         ],
         "tracked nodes": [
-            { "position": [2.0906, 0.6489, 0.0], "point": 1 }
+            { "position": [1.994, 0.6489, -0.5478], "point": 1 }
         ]
     }
 ]
@@ -293,7 +293,7 @@ Coulomb friction with $\mu = 0.45$ between the anchor and the sand.
 
 ### Stage 1: initial stresses
 
-A static stage with the anchor switched off. Gravity is ramped from zero over 5 load steps on a uniform $3.2$ m mesh, with rollers on the four vertical faces and a fixed base. The top face lies in the empty space above the soil.
+A static stage with the anchor switched off. Gravity is ramped from zero over 5 load steps on a uniform $1.6$ m mesh, with rollers on the four vertical faces and a fixed base. The top face lies in the empty space above the soil.
 
 </div>
 
@@ -361,11 +361,11 @@ The mesh is refined to $0.1$ m wherever the fluke and shank surfaces are. `"boun
 
 ### Stage 3: drag
 
-The drag itself. `"rigid body boundary conditions"` replaces the conditions of the pull point (system 1, point 3) for this stage, prescribing a movement of $0.002$ m in $+x$ every $0.02$ s time step - $0.1$ m/s. The anchor is already in place, so `"rigid body surface placement"` is `"off"`, and the leading plane of the boundary track moves $5$ m ahead of the anchor.
+The drag itself. `"rigid body boundary conditions"` replaces the conditions of the pull point (system 1, point 3) for this stage, prescribing a movement of $0.004$ m in $+x$ every $0.04$ s time step - $0.1$ m/s. The anchor is already in place, so `"rigid body surface placement"` is `"off"`, and the leading plane of the boundary track moves $5$ m ahead of the anchor.
 
 `"region": 0.06` also refines the elements within $0.06$ m of those the anchor's surface passes through to `"element size in region"`, $0.1$ m, so the fine mesh extends just beyond the anchor.
 
-`"final time": 800.0` drags the pull point $80$ m, which takes $40\,000$ steps. For a quick first run, reduce it, for example to $3.0$ s for a $0.3$ m drag.
+`"final time": 800.0` drags the pull point $80$ m, which takes $20\,000$ steps. For a quick first run, reduce it, for example to $3.0$ s for a $0.3$ m drag.
 
 </div>
 
@@ -374,7 +374,7 @@ The drag itself. `"rigid body boundary conditions"` replaces the conditions of t
 ```json
 {
     "type": "dynamic",
-    "dt": 0.02,
+    "dt": 0.04,
     "final time": 800.0,
     "beta": 0.5,
     "gamma": 1.0,
@@ -387,7 +387,7 @@ The drag itself. `"rigid body boundary conditions"` replaces the conditions of t
         "element size in region": 0.1
     },
     "rigid body boundary conditions": [
-        { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.002 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
+        { "system": 1, "point": 3, "boundary conditions": [{ "prescribed": 0.004 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
     ],
     "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
     "boundary track": {
@@ -479,9 +479,9 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language. Se
 
 ### Setting up the problem
 
-The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_AC14_dr32.json`, together with the anchor geometry - `AC14_fluke.stl`, `AC14_shank.stl` and their mesh caches, `AC14_fluke_mesh.txt` and `AC14_shank_mesh.txt`; the input file is the same as the [complete input file](Tutorial_6_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
+The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_AC14_dr32.json`, together with the anchor geometry - `AC14_fluke_rot20.stl`, `AC14_shank.stl` and their mesh caches, `AC14_fluke_rot20_mesh.txt` and `AC14_shank_mesh.txt`; the input file is the same as the [complete input file](Tutorial_6_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
 
-As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it and load MPM3S. The output folder `csv_AC14_dr32` is created in the `MPM3S` folder.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it, install its dependencies with `Pkg.instantiate()` and load MPM3S. The output folder `csv_AC14_dr32` is created in the `MPM3S` folder.
 
 ### Running the problem
 
@@ -491,7 +491,9 @@ Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for t
 MPM3S.non_linear_solve("validation_data_and_jsons/input_data_AC14_dr32.json");
 ```
 
-This is a large analysis, intended for an HPC node or, with `"GPU": "on"`, an NVIDIA GPU.
+This is a large analysis, run on an NVIDIA GPU (`"GPU": "on"`); without one, set `"GPU": "off"` and run it on an HPC node.
+
+`validation_data_and_jsons` also has the same problem in sand at $D_r = 7$, $64$ and $88\%$ (`input_data_AC14_dr7.json`, `input_data_AC14_dr64.json` and `input_data_AC14_dr88.json`), and for the Hall anchor at all four densities (`input_data_Hall_dr7.json` to `input_data_Hall_dr88.json`).
 
 The progress line counts through `stage 1/3`, `stage 2/3` and `stage 3/3`. Its fields are explained in [Tutorial 1](Tutorial_1.md#reading-the-output).
 
@@ -507,6 +509,8 @@ $ julia -t auto
 julia> cd("path/to/MPM3S")
 julia> using Pkg; Pkg.activate(".")
   Activating project at `path/to/MPM3S`
+
+julia> Pkg.instantiate()
 
 julia> using MPM3S
 
