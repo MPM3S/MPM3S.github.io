@@ -451,12 +451,85 @@
   }
   const siblingsOf = (path) => fieldsAt(path.slice(0, -1));
 
-  function helpBits(f) {
+  function helpBits(f, path) {
     const bits = [];
     if (f.unit) bits.push(el("span", { class: "ib-unit" }, f.unit));
     if (f.help) bits.push(el("span", { class: "ib-help" }, f.help));
-    if (f.ref) bits.push(el("a", { class: "ib-ref", href: REF + f.ref, target: "_blank", rel: "noopener" }, "reference ↗"));
+    if (f.ref) {
+      const name = f.label || f.key, key = path.join(".");
+      const peek = el("a", { class: "ib-ref ib-peek", href: REF + f.ref, role: "button", title: `Show the reference for "${f.key}" here` }, "Peek " + name);
+      peek.addEventListener("click", (e) => { e.preventDefault(); togglePeek(peek, f, key); });
+      bits.push(peek, el("a", { class: "ib-ref", href: REF + f.ref, target: "_blank", rel: "noopener", title: "Open the reference page in a new tab" }, `Go to ${name} ↗`));
+      if (peekOpen.has(key)) setTimeout(() => togglePeek(peek, f, key, true), 0);   // keep it open across re-renders
+    }
     return bits;
+  }
+
+  // ── peek: show the part of a reference page a key links to, inline ─────────────────────
+  const peekOpen = new Set(), pageCache = new Map();
+  function fetchPage(url) {                       // XHR rather than fetch, so it also works from file://
+    if (!pageCache.has(url)) pageCache.set(url, new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.onload = () => (xhr.status === 200 || (xhr.status === 0 && xhr.responseText) ? resolve(xhr.responseText) : reject(new Error(`HTTP ${xhr.status}`)));
+      xhr.onerror = () => reject(new Error("could not load the page"));
+      xhr.send();
+    }));
+    return pageCache.get(url);
+  }
+  // the section an anchor names (its heading and everything up to the next heading of the same
+  // level or higher), or the whole page body when there is no anchor
+  function extract(doc, hash) {
+    const body = doc.querySelector(".md-content__inner") || doc.body;
+    const out = document.createDocumentFragment();
+    const start = hash ? doc.getElementById(hash) : null;
+    if (start && /^H[1-6]$/.test(start.tagName)) {
+      const level = Number(start.tagName[1]);
+      out.append(start.cloneNode(true));
+      for (let n = start.nextElementSibling; n; n = n.nextElementSibling) {
+        if (/^H[1-6]$/.test(n.tagName) && Number(n.tagName[1]) <= level) break;
+        out.append(n.cloneNode(true));
+      }
+    } else {
+      for (const n of body.children) if (n.tagName !== "H1" && !n.matches(".md-source-file, .md-feedback, nav")) out.append(n.cloneNode(true));
+    }
+    return out;
+  }
+  function togglePeek(link, f, key, forceOpen) {
+    const host = link.closest(".ib-row") || link.closest("details.ib-group");
+    const existing = host && host.querySelector(":scope > .ib-peekpanel");
+    if (existing && !forceOpen) { existing.remove(); peekOpen.delete(key); link.classList.remove("ib-peek-on"); return; }
+    if (existing) return;
+    peekOpen.add(key); link.classList.add("ib-peek-on");
+    const [page, hash] = (REF + f.ref).split("#");
+    const pageUrl = new URL(page, location.href);
+    const fetchUrl = pageUrl.href.endsWith("/") ? pageUrl.href + "index.html" : pageUrl.href;
+    const bodyBox = el("div", { class: "ib-peekbody md-typeset" }, "Loading the reference...");
+    const panel = el("div", { class: "ib-peekpanel" },
+      el("div", { class: "ib-peekhead" }, el("strong", {}, `Reference: ${f.label || f.key}`),
+        el("span", {},
+          el("a", { class: "ib-ref", href: REF + f.ref, target: "_blank", rel: "noopener" }, "Go to page ↗"),
+          el("button", { class: "ib-btn ib-small", type: "button", title: "close", onclick: () => togglePeek(link, f, key) }, "✕"))),
+      bodyBox);
+    if (host.tagName === "DETAILS") { const meta = host.querySelector(":scope > .ib-meta"); (meta || host.querySelector("summary")).after(panel); }
+    else host.append(panel);
+    fetchPage(fetchUrl).then((html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const frag = extract(doc, hash);
+      // links and images in the borrowed section point at the reference page, and open in a new tab
+      frag.querySelectorAll("[href]").forEach((a) => {
+        const h = a.getAttribute("href");
+        if (h.startsWith("#") && a.classList.contains("headerlink")) { a.remove(); return; }
+        if (h.startsWith("#__codelineno")) { a.replaceWith(...a.childNodes); return; }     // code line-number anchors: plain text
+        a.setAttribute("href", new URL(h, pageUrl).href);
+        if (a.tagName === "A") { a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener"); }
+      });
+      frag.querySelectorAll("[src]").forEach((x) => x.setAttribute("src", new URL(x.getAttribute("src"), pageUrl).href));
+      frag.querySelectorAll("[id]").forEach((x) => x.removeAttribute("id"));        // no duplicate ids on this page
+      bodyBox.replaceChildren(frag);
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([bodyBox]).catch(() => {});
+    }).catch((e) => bodyBox.replaceChildren(`Could not load the reference (${e.message}). `,
+      el("a", { href: REF + f.ref, target: "_blank", rel: "noopener" }, "Open it in a new tab ↗")));
   }
 
   function tagTop(node, key, handle) {
@@ -488,10 +561,15 @@
         const box = el("details", { class: "ib-group ib-st-" + st, id: pathId(p) });
         box.open = openSet.has(p.join(".")) || path.length > 0;
         box.addEventListener("toggle", () => (box.open ? openSet.add(p.join(".")) : openSet.delete(p.join("."))));
+        // only the arrow opens and closes a section; a click elsewhere on its title row does not
+        const chevron = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this section", "aria-label": "Show or hide this section" });
+        chevron.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); box.open = !box.open; });
         const summary = el("summary", {}, toggle, label,
-          f.kind === "list" && present && Array.isArray(obj[f.key]) ? el("span", { class: "ib-count" }, ` (${obj[f.key].length})`) : null);
+          f.kind === "list" && present && Array.isArray(obj[f.key]) ? el("span", { class: "ib-count" }, ` (${obj[f.key].length})`) : null,
+          chevron);
+        summary.addEventListener("click", (e) => { if (!e.target.closest("input, select, a, button")) e.preventDefault(); });
         box.append(summary);
-        const meta = helpBits(f);
+        const meta = helpBits(f, p);
         if (meta.length) box.append(el("div", { class: "ib-meta" }, meta));
         if (!present) {
           if (f.status !== "O") box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { obj[f.key] = defaultFor(f); render(); } }, `Add "${f.key}"`));
@@ -521,7 +599,7 @@
         const row = el("div", { class: "ib-row ib-st-" + st + (present || f.status !== "O" ? "" : " ib-off") },
           el("label", { class: "ib-label" }, toggle, label),
           el("div", { class: "ib-control" }, present || f.status !== "O" ? control(f, obj, p) : el("span", { class: "ib-default" }, "not set - the default is used"),
-            el("div", { class: "ib-meta" }, helpBits(f))));
+            el("div", { class: "ib-meta" }, helpBits(f, p))));
         if (!path.length) tagTop(row, f.key, row.querySelector(".ib-label"));
         host.append(row);
       }
