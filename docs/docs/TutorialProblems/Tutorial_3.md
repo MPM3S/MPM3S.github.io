@@ -7,8 +7,8 @@ hide:
 
 <div class="tutorial-facts level-intermediate-strip">
 <span class="level level-intermediate">Intermediate</span>
-<span><strong>Time to work through:</strong> about 1 to 1.5 h</span>
-<span><strong>Run time:</strong> about 15 min on a GPU, 1 h on a CPU</span>
+<span><strong>Work through time:</strong> about 1 to 1.5 h</span>
+<span><strong>Approx. run time:</strong> 15 min on a GPU, 1 h on a CPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
 </div>
 
@@ -416,8 +416,9 @@ julia> using MPM3S
 
 julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr32.json");
 stage 1/2 ████████████ 100.0% t 1.0/1.0 step 6 Δt 0.2 NR 3 cuts 0 del 0 N 1640
+stage 2/2 ░░░░░░░░░░░░   0.2% t 0.002222/1.0 step 7 Δt 0.00222 NR 3 cuts 0 del 0 N 56885
 [ Info: rigid body surface placement: body base 0.0 → material top 19.8474   Δz = 19.8474
-stage 2/2 ████████████ 100.0% t 1.001/1.0 step 460 Δt 0.00222 NR 9 cuts 7 del 2133 N 57067
+stage 2/2 ████████████ 100.0% t 1.001/1.0 step 457 Δt 0.00222 NR 18 cuts 1 del 1914 N 56744
 ```
 
 </div>
