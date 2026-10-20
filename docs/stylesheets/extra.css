@@ -633,8 +633,16 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Tables in 2pt smaller text than the main text (0.9rem), one below the other and
    centred, with compact rows; the text wraps rather than scrolling sideways, but code
-   stays on one line. Use <div class="small-tables" markdown>. */
-.md-typeset .small-tables table:not([class]) {
+   stays on one line. Use <div class="small-tables" markdown>, or <div class="centered-table" markdown>
+   for the material tables of Tutorials 3 and 6. */
+/* Material wraps each table in an inline-block box, so centre that box with text-align
+   (the cells set their own alignment). */
+.md-typeset .small-tables {
+  text-align: center;
+}
+
+.md-typeset .small-tables table:not([class]),
+.md-typeset .centered-table table:not([class]) {
   display: table;
   margin-left: auto;
   margin-right: auto;
@@ -643,12 +651,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .md-typeset .small-tables table:not([class]) th,
-.md-typeset .small-tables table:not([class]) td {
+.md-typeset .small-tables table:not([class]) td,
+.md-typeset .centered-table table:not([class]) th,
+.md-typeset .centered-table table:not([class]) td {
   padding: 0.35em 0.8em;
   vertical-align: middle;
 }
 
-.md-typeset .small-tables table:not([class]) code {
+.md-typeset .small-tables table:not([class]) code,
+.md-typeset .centered-table table:not([class]) code {
   white-space: nowrap;
 }
 

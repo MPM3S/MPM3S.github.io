@@ -41,7 +41,7 @@ To reduce the computational cost the symmetry of the problem is exploited and th
 | Friction angle               | $\phi = 28 + 12.5\; D_r/100$               | $32.75^\circ$         | `"friction angle": 32.75`     |
 | Dilation angle               | $\psi = -2 + 12.5\; D_r/100$               | $2.75^\circ$          | `"dilation angle": 2.75`      |
 | Dry unit weight              | $\gamma = 15 + 4\; D_r/100$ kN/m$^3$       | $16.52$ kN/m$^3$      | -           |
-| Density                      | $\gamma = (15 + 4\; D_r/100)/10$ kg/m$^3$  | $1.652$ kg/m$^3$      | `"density": 1652.0`           |
+| Dry density                  | $\rho = \gamma/g$, with $g = 10$ m/s$^2$     | $1652$ kg/m$^3$       | `"density": 1652.0`           |
 | Stiffness exponent           | $m = 0.7 - D_r/320$                        | $0.58125$             | `"exponent": 0.58125`         |
 | Earth pressure at rest       | $K_0 = 1 - \sin\phi$                       | $0.459$               | `"reference stress"` (below)  |
 | Poisson's ratio              | -                                          | $0.25$                | `"nu": 0.25`                  |
