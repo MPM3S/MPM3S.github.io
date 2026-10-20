@@ -1,5 +1,13 @@
+---
+hide:
+  - toc
+---
 
 --- 
+
+<div class="two-col" markdown>
+
+<div class="two-col-main" markdown>
 
 ## What is MPM3S?
 
@@ -30,4 +38,50 @@ A detailed explanation of the MPM is provided [here](https://ampssie.github.io/d
 
 - problems that could easily be solved with conventional finite element methods
 - small strain solid mechanics problems
-- analysis of the stresses/deformations *within* a structure interacting with the deformable material 
+- analysis of the stresses/deformations *within* a structure interacting with the deformable material
+
+</div>
+
+<div class="two-col-side" markdown>
+
+## Where to go next
+
+<div class="grid cards" markdown>
+
+-   :material-download:{ .lg .middle } __Install and run__
+
+    ---
+
+    Install Julia and MPM3S, and run your first analysis.
+
+    [:octicons-arrow-right-24: Install and run](GettingStarted/install_and_run.md)
+
+-   :material-school:{ .lg .middle } __Tutorial problems__
+
+    ---
+
+    Hands-on walkthroughs of benchmark problems, from simple to complex.
+
+    [:octicons-arrow-right-24: Tutorial problems](TutorialProblems/TutorialProblems.md)
+
+-   :material-file-document-edit:{ .lg .middle } __Using the software__
+
+    ---
+
+    The `input_data.json` format: every key, how to write a file, and common tasks.
+
+    [:octicons-arrow-right-24: Input format](UsingTheSoftware/InputFormat/index.md)
+
+-   :material-book-open-variant:{ .lg .middle } __Technical reference__
+
+    ---
+
+    The theory and numerical methods behind MPM3S.
+
+    [:octicons-arrow-right-24: Technical reference](TechnicalReferences/TechnicalReference.md)
+
+</div>
+
+</div>
+
+</div>

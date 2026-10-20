@@ -27,7 +27,7 @@ Each system is built from **points**: 6-degree-of-freedom frames (3 displacement
               "distance": 26.25, "stiffness": 3.8e8 }
         ],
         "stl files": [
-            { "name": "anchor", "stl": "bruce_razor.stl", "mesh cache": "bruce_razor_mesh.txt", "point": 1 }
+            { "name": "anchor", "stl": "fixed_anchor.stl", "mesh cache": "fixed_anchor_mesh.txt", "point": 1 }
         ],
         "tracked nodes": [
             { "position": [-1.778, 0.785, -3.704], "point": 1 }

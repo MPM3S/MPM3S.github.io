@@ -1,18 +1,18 @@
 # Compaction via a rigid body - input_data_compress.json
 
-The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
+The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also included with MPM3S in `validation_data_and_jsons`. Every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page. **Click the numbers** in the file to see what each part does, with links to the tutorial's explanation and to the format reference for those keys.
 
-```json
+``` { .json .annotate }
 {
-    "GPU": "off",
+    "GPU": "off", // (1)!
 
-    "domain update": "stretch",
+    "domain update": "stretch", // (2)!
 
-    "domain": {
+    "domain": { // (3)!
         "gravity": [0.0, 0.0, 0.0]
     },
 
-    "material points": {
+    "material points": { // (4)!
         "extra capacity": 1.2,
         "element size": 0.4,
         "number of material points per element 1": 2,
@@ -25,23 +25,23 @@ The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also in
         ]
     },
 
-    "rigid bodies": [
+    "rigid bodies": [ // (5)!
         {
-            "points": [
+            "points": [ // (6)!
                 { "position": [0.4, 0.4, 1.3], "mass": 1.0, "rotational inertia": [0.2, 0.2, 0.24],
                   "boundary conditions": ["fixed", "fixed", { "prescribed": -0.01 }, "fixed", "fixed", "fixed"] }
             ],
-            "stl files": [
+            "stl files": [ // (7)!
                 { "name": "cube", "stl": "cube.stl", "mesh cache": "cube_mesh.txt", "point": 1 }
             ]
         }
     ],
 
-    "contact": {
+    "contact": { // (8)!
         "friction coefficient": 0.0
     },
 
-    "analysis": [
+    "analysis": [ // (9)!
         {
             "type": "static",
             "load steps": 20,
@@ -53,7 +53,7 @@ The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also in
         }
     ],
 
-    "solver": {
+    "solver": { // (10)!
         "tolerance": 1.0e-6,
         "max newton iterations": 20,
         "poor factor": 0.25,
@@ -61,7 +61,7 @@ The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also in
         "ghost factor mass": 0.0
     },
 
-    "output": {
+    "output": { // (11)!
         "vtk": "on",
         "vtk directory": "vtk_cube",
         "vtk percent": 0,
@@ -76,6 +76,18 @@ The complete `input_data_compress.json` for [Tutorial 2](Tutorial_2.md), also in
     }
 }
 ```
+
+1.  Runs on the CPU. [Machine →](Tutorial_2.md#machine) · [GPU →](../UsingTheSoftware/InputFormat/gpu.md)
+2.  Lets the GIMP domains compress with the soil. [Machine →](Tutorial_2.md#machine) · [Domain update →](../UsingTheSoftware/InputFormat/material_points.md#domain-update)
+3.  Gravity is zero: all of the load comes from the rigid cube. [Domain →](Tutorial_2.md#domain) · [Domain →](../UsingTheSoftware/InputFormat/domain.md)
+4.  One $0.8$ m elastic layer on a $0.8 \times 0.8$ m footprint, with $0.4$ m elements. [Material points →](Tutorial_2.md#material-points) · [Material points →](../UsingTheSoftware/InputFormat/material_points.md)
+5.  One system: the rigid cube. [Rigid body →](Tutorial_2.md#rigid-body) · [Rigid bodies →](../UsingTheSoftware/InputFormat/rigid_bodies.md)
+6.  A single point at the cube's centre: its vertical displacement is prescribed as $-0.01$ m per load step, and the rest are fixed. [Rigid body →](Tutorial_2.md#rigid-body) · [Points →](../UsingTheSoftware/InputFormat/rigid_bodies.md#points)
+7.  `cube.stl`, welded to point 1; its tetrahedral mesh is cached in `cube_mesh.txt`. [Rigid body →](Tutorial_2.md#rigid-body) · [STL files →](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)
+8.  Frictionless contact. [Contact →](Tutorial_2.md#contact) · [Contact →](../UsingTheSoftware/InputFormat/contact.md)
+9.  One static stage of 20 load steps with the body on, placed on the soil surface, on a uniform mesh. [Analysis →](Tutorial_2.md#analysis) · [Analysis stages →](../UsingTheSoftware/InputFormat/analysis.md)
+10.  Tolerance $10^{-6}$ and 20 iterations; no ghost stabilisation is needed. [Solver →](Tutorial_2.md#solver) · [Solver →](../UsingTheSoftware/InputFormat/solver.md)
+11.  VTK and CSV files at every load step, including the cube's reaction force. [Output →](Tutorial_2.md#output) · [Output →](../UsingTheSoftware/InputFormat/output.md)
 
 ## cube.stl
 
