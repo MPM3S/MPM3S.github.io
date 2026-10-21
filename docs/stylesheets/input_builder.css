@@ -378,3 +378,30 @@
 #input-builder .ib-dl:focus-within { box-shadow: 0 0 0 2px var(--md-accent-fg-color--transparent); }
 #input-builder .ib-warn .ib-dl { margin: 0 0.1rem; }
 #input-builder .ib-preview-head .ib-dl { margin-left: 0.3rem; }
+
+/* values in the preview are edited in place */
+#input-builder .ib-sec .ib-val { cursor: text; border-radius: 2px; outline: none; }
+#input-builder .ib-sec .ib-val:hover { box-shadow: inset 0 -1px 0 var(--md-primary-fg-color); }
+#input-builder .ib-sec .ib-val:focus {
+  background: var(--md-default-bg-color);
+  box-shadow: 0 0 0 1px var(--md-primary-fg-color);
+}
+
+/* the numerical settings (the schema's `adv` keys), in one red box below the form; where a moved key was, a note */
+#input-builder details.ib-adv {
+  margin-top: 1rem;
+  border: 1.5px solid rgba(198, 40, 40, 0.6);
+  background: rgba(198, 40, 40, 0.05);
+}
+#input-builder details.ib-adv > summary .ib-key { font-family: inherit; color: var(--ib-err); }
+#input-builder details.ib-adv > .ib-item { border-left-color: rgba(198, 40, 40, 0.6); }
+#input-builder .ib-advreset { margin-left: auto; font-size: 0.65rem; white-space: nowrap; }
+#input-builder details.ib-adv > summary > .ib-key { white-space: nowrap; }
+#input-builder details.ib-adv > summary > .ib-chevron { margin-left: 0.2rem; }
+#input-builder .ib-advdone { white-space: nowrap; font-size: 0.65rem; font-weight: 600; color: var(--ib-ok); }
+#input-builder .ib-advnote {
+  margin: 0.35rem 0;
+  padding: 0.2rem 0.55rem;
+  border-left: 3px solid rgba(198, 40, 40, 0.6);
+  color: var(--md-default-fg-color--light);
+}

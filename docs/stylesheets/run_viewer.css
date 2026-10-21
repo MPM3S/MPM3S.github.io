@@ -1,8 +1,9 @@
 /* The run viewer on the builder page (javascripts/run_viewer/run_viewer.js): a toolbar, the 3D view and the
-   play bar, above the builder. The view keeps the desktop GUI's own colours in either theme. */
+   play bar, below the builder (the button that opens it stays in the toolbar at the top). The view
+   keeps the desktop GUI's own colours in either theme. */
 #input-builder .rv-panel {
   position: relative;                 /* the "Add STL" menu is placed in it */
-  margin: 0 0 1rem;
+  margin: 1rem 0 0;
   border: 1px solid var(--ib-line);
   border-radius: 0.3rem;
   overflow: hidden;

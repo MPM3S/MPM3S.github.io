@@ -923,7 +923,7 @@ function init() {
   if (!toolbar) return false;
   let viewer = null, starting = null, fresh = false, timer = 0;
   const panel = el("section", { class: "rv-panel", id: "interactive-view", hidden: true, "aria-label": "Interactive view" });
-  root.prepend(panel);
+  root.append(panel);                              // at the bottom, below the form and the file; the button stays at the top
   const open = el("button", { class: "ib-btn rv-open", type: "button",
     title: "See the scene in 3D and play the run step by step, as the desktop GUI shows it" }, "Interactive view");
   toolbar.insertBefore(open, toolbar.querySelector(".ib-pastebox"));
