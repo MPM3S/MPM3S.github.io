@@ -88,7 +88,7 @@ Each entry in `"layers"`:
 | `"E"`                | Required    | Required      | Required          | number (Pa)        | Young's modulus; the reference value when `"E overburden"` is given.  |
 | `"nu"`               | Required    | Required      | Required          | number             | Poisson's ratio.                                                      |
 | `"density"`          | Required    | Required      | Required          | number (kg/m$^3$)  | Density. Use the buoyant density for submerged soil.                  |
-| `"yield stress"`     | Ignored     | Required      | Ignored           | number (Pa)        | Yield stress.                                                         |
+| `"yield stress"`     | Ignored     | Required      | Ignored           | number (Pa)        | Radius $\rho_y$ of the von Mises cylinder in principal stress space: yield at $\sqrt{2 J_2} = \rho_y$. Not the uniaxial yield stress: $\sigma_y = \sqrt{3/2}\,\rho_y$, and the yield stress in pure shear is $k = \rho_y / \sqrt{2}$. |
 | `"friction angle"`   | Ignored     | Ignored       | Required          | number (°)         | Friction angle $\phi$.                                                |
 | `"dilation angle"`   | Ignored     | Ignored       | Required          | number (°)         | Dilation angle $\psi$.                                                |
 | `"cohesion"`         | Ignored     | Ignored       | Required          | number (Pa)        | Cohesion $c$.                                                         |
