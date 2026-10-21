@@ -55,9 +55,9 @@ theme:
     - search.share
     
 # Navigation
-# Only the software's pages; the project pages (index, about, partners, contact, coming soon) are left
-# out of the build below, and the site's root opens the Introduction. The sidebar icons follow this
-# order (stylesheets/theme.css), so move an icon there when a top-level entry moves.
+# The software's pages, then the project's. The site's root opens the Introduction (redirects below);
+# the old home page is project.md. The sidebar icons follow this order (stylesheets/theme.css), so move
+# an icon there when a top-level entry moves.
 nav:
   - Introduction: docs/Introduction.md
   - Install and run: docs/GettingStarted/install_and_run.md
@@ -109,14 +109,14 @@ nav:
       # - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
   - Understanding the software: docs/Understanding.md
   - Contributors: docs/Contributors.md
+  - About the project: project.md
+  - Partners: partners.md
+  - Coming soon: docs/ComingSoon.md
+  - Contact: contact.md
 
-# the project pages, kept in the repository but not built into this site
+# the old "About" section, kept in the repository but not built into this site
 exclude_docs: |
-  /index.md
   /about/
-  /partners.md
-  /contact.md
-  /docs/ComingSoon.md
 
 # Plugins
 plugins:
