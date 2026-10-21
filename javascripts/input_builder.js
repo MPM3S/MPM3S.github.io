@@ -3,6 +3,8 @@
  * SCHEMA below describes every key of the input file - its status (R required, O optional,
  * C conditional), kind, allowed values, default and, for conditional keys, when it applies; a
  * top-level key can also be `held` at a fixed value, and hidden from the form, while a condition lasts.
+ * The numerical settings are marked `adv`: the form shows them, wherever they sit in the file, in one
+ * "Advanced settings" box at the bottom.
  * The form, the validation and the JSON preview are all built from it, so a change to the
  * input format is made here once. The tutorials' input files (input_builder_templates.js)
  * are the starting points.
@@ -32,13 +34,13 @@
   const SCHEMA = [
     F("GPU", "select", { options: ["on", "off"], def: "off", ref: "gpu/",
       help: "\"on\" runs on an NVIDIA GPU, \"off\" on the CPU." }),
-    F("domain update", "select", { status: "O", options: ["none", "stretch"], def: "stretch", ref: "material_points/#domain-update",
+    F("domain update", "select", { status: "O", adv: true, options: ["none", "stretch"], def: "stretch", ref: "material_points/#domain-update",
       help: "Lets the material points' domains stretch with the soil - normal for compression problems. Default \"none\"." }),
     F("domain", "obj", { ref: "domain/", fields: [
       F("gravity", "vec", { n: 3, def: [0.0, 0.0, -9.81], unit: "m/s²", help: "May be zero; it need not point straight down." }),
     ] }),
     F("material points", "obj", { ref: "material_points/", fields: [
-      F("extra capacity", "num", { def: 1.2, min: 1, help: "Storage for material points, as a multiple of the initial number; refinement needs headroom." }),
+      F("extra capacity", "num", { adv: true, def: 1.2, min: 1, help: "Storage for material points, as a multiple of the initial number; refinement needs headroom." }),
       F("element size", "num", { def: 1.0, gt: 0, unit: "m", help: "The base element size, before rounding to the octree." }),
       F("number of material points per element 1", "int", { def: 2, min: 1, label: "material points per element (per axis)" }),
       F("material size", "obj", { fields: [
@@ -106,8 +108,8 @@
       F("load", "select", { status: "C", when: is("type", "static"), options: ["gravity ramp", "full"], def: "gravity ramp" }),
       F("dt", "num", { status: "C", when: is("type", "dynamic"), def: 0.005, gt: 0, unit: "s" }),
       F("final time", "num", { status: "C", when: is("type", "dynamic"), def: 1.0, gt: 0, unit: "s" }),
-      F("beta", "num", { status: "C", when: is("type", "dynamic"), def: 0.5 }),
-      F("gamma", "num", { status: "C", when: is("type", "dynamic"), def: 1.0 }),
+      F("beta", "num", { status: "C", when: is("type", "dynamic"), adv: true, def: 0.5, label: "beta (Newmark β)" }),
+      F("gamma", "num", { status: "C", when: is("type", "dynamic"), adv: true, def: 1.0, label: "gamma (Newmark γ)" }),
       F("rigid bodies", "select", { options: ["on", "off"], def: "off" }),
       F("rigid body surface placement", "select", { status: "O", options: ["on", "off"], def: "on",
         help: "Moves the bodies vertically at the start of the stage so they rest on the soil. Default \"off\"." }),
@@ -132,7 +134,7 @@
         STAGE_TRACK({ side: "max", type: ["fixed", "off", "off"], distance: [2.5, 0.0, 0.0], remove: ["no", "no", "no"] }),
       ] }),
     ] }),
-    F("solver", "obj", { ref: "solver/", fields: [
+    F("solver", "obj", { adv: true, ref: "solver/", fields: [
       F("tolerance", "num", { def: 1.0e-6, gt: 0 }),
       F("max newton iterations", "int", { def: 20, min: 1 }),
       F("max linear iterations", "int", { status: "O", def: 100, min: 1 }),
@@ -297,11 +299,12 @@
   const prim = (v) => v === null || typeof v !== "object";
   const subSpec = (spec, key) => (spec && spec.fields ? spec.fields.find((f) => f.key === key) || null : null);
   const itemSpec = (spec) => (spec && spec.kind === "list" ? { fields: spec.item } : null);
+  const BC6_ITEM = { fields: [F("prescribed", "num")] };   // a bc6 slot's { "prescribed": x }
   function inline(v, spec) {
     if (prim(v)) return typeof v === "number" ? fmtNum(v, !!(spec && FLOAT_KINDS.has(spec.kind))) : JSON.stringify(v);
     if (Array.isArray(v)) {
       if (spec && spec.kind === "bc6")
-        return "[" + v.map((x) => (x && typeof x === "object" ? inline(x, { fields: [F("prescribed", "num")] }) : inline(x, null))).join(", ") + "]";
+        return "[" + v.map((x) => (x && typeof x === "object" ? inline(x, BC6_ITEM) : inline(x, null))).join(", ") + "]";
       return "[" + v.map((x) => inline(x, prim(x) ? spec : itemSpec(spec))).join(", ") + "]";
     }
     const ks = Object.keys(v);
@@ -330,18 +333,27 @@
     return "{\n" + Object.keys(o).map((k) => ind + "    " + JSON.stringify(k) + ": " + fmt(o[k], subSpec(spec, k), ind + "    ", false)).join(",\n") + "\n" + ind + "}";
   }
   // The same layout as fmt, as HTML in which every key-value pair and list item is wrapped in a
-  // span carrying its path, so a key picked in the form can be found in the preview.
+  // span carrying its path, so a key picked in the form can be found in the preview, and every value
+  // is an editable span (all but the fixed ones).
   const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const wrap = (path, html) => `<span class="ib-kv" data-p="${esc(JSON.stringify(path)).replace(/"/g, "&quot;")}">${html}</span>`;
+  const attr = (path) => esc(JSON.stringify(path)).replace(/"/g, "&quot;");
+  const wrap = (path, html) => `<span class="ib-kv" data-p="${attr(path)}">${html}</span>`;
+  const valH = (v, spec, path) => spec && spec.kind === "fixed" ? esc(inline(v, spec))
+    : `<span class="ib-val" contenteditable="plaintext-only" spellcheck="false" data-p="${attr(path)}">${esc(inline(v, spec))}</span>`;
   function inlineH(v, spec, path) {
-    if (prim(v) || Array.isArray(v)) return esc(inline(v, spec));
+    if (prim(v)) return valH(v, spec, path);
+    if (Array.isArray(v)) {
+      if (spec && spec.kind === "bc6")
+        return "[" + v.map((x, i) => (x && typeof x === "object" ? inlineH(x, BC6_ITEM, path.concat(i)) : valH(x, null, path.concat(i)))).join(", ") + "]";
+      return "[" + v.map((x, i) => (prim(x) ? valH(x, spec, path.concat(i)) : inlineH(x, itemSpec(spec), path.concat(i)))).join(", ") + "]";
+    }
     const ks = Object.keys(v);
     return ks.length ? "{ " + ks.map((k) => wrap(path.concat(k), esc(JSON.stringify(k) + ": ") + inlineH(v[k], subSpec(spec, k), path.concat(k)))).join(", ") + " }" : "{}";
   }
   function fmtH(v, spec, ind, force, path) {
-    if (prim(v)) return esc(inline(v, spec));
+    if (prim(v)) return valH(v, spec, path);
     if (Array.isArray(v)) {
-      if (v.every(prim) || (spec && spec.kind === "bc6")) return esc(inline(v, spec));
+      if (v.every(prim) || (spec && spec.kind === "bc6")) return inlineH(v, spec, path);
       if (!v.length) return "[]";
       const is = itemSpec(spec);
       return "[\n" + v.map((x, i) => ind + "    " + wrap(path.concat(i), fmtH(ordered(x, is), is, ind + "    ", false, path.concat(i)))).join(",\n") + "\n" + ind + "]";
@@ -587,13 +599,38 @@
     // a deeper item scrolls the preview to itself instead (flashPath)
     node.addEventListener("focusin", (e) => { if (activeKey !== key) markActive(key, e.target.closest("[data-p]") === node); });
   }
-  function renderFields(fields, obj, path, host) {
+  // a section that only its arrow opens and closes (a click elsewhere on its title row does not), kept open by key
+  function section(cls, id, key, ...head) {
+    const box = el("details", { class: cls, id: id });
+    box.open = openSet.has(key);
+    box.addEventListener("toggle", () => (box.open ? openSet.add(key) : openSet.delete(key)));
+    const chevron = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this section", "aria-label": "Show or hide this section" });
+    chevron.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); box.open = !box.open; });
+    const summary = el("summary", {}, ...head, chevron);
+    summary.addEventListener("click", (e) => { if (!e.target.closest("input, select, a, button")) e.preventDefault(); });
+    box.append(summary);
+    return box;
+  }
+  // The form draws the `adv` keys only in the advanced box (adv true), and the rest everywhere else; where an
+  // object's own `adv` keys would be, it says where they went.
+  function renderFields(fields, obj, path, host, adv) {
     if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
       host.append(el("span", { class: "ib-mismatch" }, "The file has ", el("code", {}, inline(obj, null)), " here - it should be an object { ... }."));
       return;
     }
+    let moved = !path.length || adv;               // at the top level the box itself is the pointer
     for (const f of fields) {
       if (!applies(f, obj) || (f.held && f.held.when(obj))) continue;
+      if (!f.adv !== !adv) {
+        if (moved) continue;
+        moved = true;
+        const keys = fields.filter((x) => x.adv && applies(x, obj)).map((x) => el("code", {}, x.key));
+        const first = path.concat(f.key);
+        host.append(el("div", { class: "ib-advnote" }, keys.flatMap((k, i) => (i ? [i === keys.length - 1 ? " and " : ", ", k] : [k])),
+          keys.length > 1 ? " are" : " is", " in ",
+          el("a", { href: "#ib-advanced", onclick: (e) => { e.preventDefault(); goToForm(first); } }, "Advanced settings"), " at the bottom"));
+        continue;
+      }
       const p = path.concat(f.key), present = obj[f.key] !== undefined;
       const st = f.kind === "fixed" ? "O" : f.status === "R" && f.when ? "C" : f.status;   // the box colour: required, conditional or optional
       const label = el("span", { class: "ib-key", title: { R: "required", C: "required in this situation", O: "optional" }[st] }, f.label || f.key);
@@ -612,17 +649,8 @@
         });
       }
       if (f.kind === "obj" || f.kind === "list") {
-        const box = el("details", { class: "ib-group ib-st-" + st, id: pathId(p) });
-        box.open = openSet.has(p.join("."));
-        box.addEventListener("toggle", () => (box.open ? openSet.add(p.join(".")) : openSet.delete(p.join("."))));
-        // only the arrow opens and closes a section; a click elsewhere on its title row does not
-        const chevron = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this section", "aria-label": "Show or hide this section" });
-        chevron.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); box.open = !box.open; });
-        const summary = el("summary", {}, toggle, label,
-          f.kind === "list" && present && Array.isArray(obj[f.key]) ? el("span", { class: "ib-count" }, ` (${obj[f.key].length})`) : null,
-          chevron);
-        summary.addEventListener("click", (e) => { if (!e.target.closest("input, select, a, button")) e.preventDefault(); });
-        box.append(summary);
+        const box = section("ib-group ib-st-" + st, pathId(p), p.join("."), toggle, label,
+          f.kind === "list" && present && Array.isArray(obj[f.key]) ? el("span", { class: "ib-count" }, ` (${obj[f.key].length})`) : null);
         const meta = helpBits(f, p);
         if (meta.length) box.append(el("div", { class: "ib-meta" }, meta));
         if (!present) {
@@ -666,6 +694,54 @@
         host.append(row);
       }
     }
+  }
+  // the numerical settings (the schema's `adv` keys) in one red box below the form, in file order: a top-level key
+  // as it is, a key inside an object or a list item under that object's or item's name
+  function renderAdvanced(host) {
+    const reset = el("button", { class: "ib-btn ib-small ib-advreset", type: "button", title: "Put every advanced setting back to its default",
+      onclick: advDefaults }, "Set to default");
+    const box = section("ib-group ib-adv", "ib-advanced", "__advanced", el("span", { class: "ib-key" }, "Advanced settings"), reset);
+    box.append(el("div", { class: "ib-meta" }, el("span", { class: "ib-help" },
+      "The numerical settings: the solver, the Newmark parameters of each dynamic stage, the material points' storage and domains. The defaults suit most problems.")));
+    const group = (title, fields, obj, path) => {
+      if (!obj || typeof obj !== "object" || Array.isArray(obj) || !fields.some((x) => x.adv && applies(x, obj))) return;
+      const card = el("div", { class: "ib-item" }, el("div", { class: "ib-item-head" }, el("strong", {}, title)));
+      renderFields(fields, obj, path, card, true);
+      box.append(card);
+    };
+    for (const f of SCHEMA) {
+      if (f.adv) renderFields([f], state, [], box, true);
+      else if (f.kind === "obj" && f.fields.some((x) => x.adv)) group(f.key, f.fields, state[f.key], [f.key]);
+      else if (f.kind === "list" && f.item.some((x) => x.adv) && Array.isArray(state[f.key]))
+        state[f.key].forEach((item, i) => group(`${f.key}: ${f.itemName} ${i + 1}`, f.item, item, [f.key, i]));
+    }
+    host.append(box);
+  }
+  // every `adv` key that applies back to its default, as a blank file has it (an optional one unset), and say how
+  // many values that changed beside the button
+  function advDefaults() {
+    let n = 0;
+    const leaves = (a, b) => (a && b && typeof a === "object" && typeof b === "object"
+      ? [...new Set([...Object.keys(a), ...Object.keys(b)])].reduce((s, k) => s + leaves(a[k], b[k]), 0)
+      : JSON.stringify(a) === JSON.stringify(b) ? 0 : 1);
+    const reset = (fields, obj) => {
+      if (!obj || typeof obj !== "object" || Array.isArray(obj)) return;
+      for (const f of fields) {
+        if (!f.adv || !applies(f, obj)) continue;
+        const was = obj[f.key];
+        if (f.status === "O") delete obj[f.key]; else obj[f.key] = defaultFor(f);
+        n += leaves(was, obj[f.key]);
+      }
+    };
+    for (const f of SCHEMA) {
+      if (f.adv) reset([f], state);
+      else if (f.kind === "obj") reset(f.fields, state[f.key]);
+      else if (f.kind === "list" && Array.isArray(state[f.key])) state[f.key].forEach((item) => reset(f.item, item));
+    }
+    render();
+    const btn = root.querySelector(".ib-advreset");
+    btn.after(el("span", { class: "ib-advdone" }, n ? `${n} value${n > 1 ? "s" : ""} reset` : "Already the defaults"));
+    setTimeout(() => root.querySelectorAll(".ib-advdone").forEach((x) => x.remove()), 3500);
   }
 
   // ── page wiring ────────────────────────────────────────────────────────────────────────
@@ -722,6 +798,68 @@
     }
     return false;
   }
+  // ── editing a value in the preview: Enter or leaving it saves, Esc cancels ──
+  const getAt = (path) => path.reduce((o, k) => (o == null ? undefined : o[k]), state);
+  function setAt(path, v) {
+    const parent = getAt(path.slice(0, -1));
+    if (parent && typeof parent === "object") parent[path[path.length - 1]] = v;
+  }
+  // the typed text as a value: a string stays a string (quotes optional), a number stays a number
+  // when it reads as one; anything else is taken as JSON, or as text, and checked like the form's
+  function parseTyped(text, old) {
+    const t = text.trim();
+    if (typeof old === "string") {
+      if (/^".*"$/s.test(t)) try { return JSON.parse(t); } catch (e) { /* fall through */ }
+      return t;
+    }
+    if (typeof old === "number" && t !== "" && Number.isFinite(Number(t))) return Number(t);
+    try { return JSON.parse(t); } catch (e) { return t; }
+  }
+  function commitVal(span, next) {
+    const path = JSON.parse(span.dataset.p), text = span.textContent;
+    if (span.dataset.cancel || text === span.dataset.orig) { if (span.dataset.cancel) update(); else return; }
+    else {
+      const old = getAt(path), v = parseTyped(text, old);
+      if (JSON.stringify(v) === JSON.stringify(old)) update();   // same value: just tidy its layout
+      else {
+        setAt(path, v);
+        // as in the form: a changed choice adds the keys it needs and drops the ones it no longer uses
+        const f = siblingsOf(path).find((x) => x.key === path[path.length - 1]);
+        if (f && f.kind === "select") refresh(getAt(path.slice(0, -1)), siblingsOf(path));
+        render(); flashPath(path);
+      }
+    }
+    // the preview (and the form) were redrawn: put the focus back where it was going
+    if (next && next.classList.contains("ib-val")) {
+      const again = preview.querySelector(`.ib-val[data-p="${CSS.escape(next.dataset.p)}"]`);
+      if (again) again.focus();
+    } else if (next && next.id && !next.isConnected) {
+      const again = document.getElementById(next.id);
+      if (again) again.focus();
+    }
+  }
+  function wireEditing() {
+    preview.addEventListener("focusin", (e) => {
+      const span = e.target.closest(".ib-val");
+      if (!span) return;
+      span.dataset.orig = span.textContent;
+      requestAnimationFrame(() => {                  // select it all, ready to type over
+        if (document.activeElement !== span) return;
+        const r = document.createRange(); r.selectNodeContents(span);
+        const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      });
+    });
+    preview.addEventListener("keydown", (e) => {
+      const span = e.target.closest(".ib-val");
+      if (!span) return;
+      if (e.key === "Enter") { e.preventDefault(); span.blur(); }
+      else if (e.key === "Escape") { e.preventDefault(); span.dataset.cancel = "1"; span.blur(); }
+    });
+    preview.addEventListener("focusout", (e) => {
+      const span = e.target.closest(".ib-val");
+      if (span) commitVal(span, e.relatedTarget);
+    });
+  }
   // highlight a section's box in the preview and scroll the preview (not the page) to it
   function markActive(key, scroll) {
     activeKey = key;
@@ -740,10 +878,11 @@
       const box = el("span", { class: "ib-sec", "data-key": x.key });
       box.innerHTML = x.html + (i < secs.length - 1 ? "," : "");
       box.addEventListener("click", (e) => {
+        if (e.target.closest(".ib-val")) return;            // a value is edited in place
         const kv = e.target.closest(".ib-kv");
         if (kv && goToForm(JSON.parse(kv.dataset.p))) return;
         const target = formHost.querySelector(`[data-top="${CSS.escape(x.key)}"]`);
-        if (target) { if (target.tagName === "DETAILS") target.open = true; target.scrollIntoView({ behavior: "smooth", block: "start" }); }
+        if (target) { if (target.tagName === "DETAILS") target.open = true; reveal(target); target.scrollIntoView({ behavior: "smooth", block: "start" }); }
       });
       return box;
     }), "}\n");
@@ -780,6 +919,7 @@
     holdFixed(state);                              // e.g. the last rigid body removed: "contact" goes back to 0.0
     formHost.replaceChildren();
     renderFields(SCHEMA, state, [], formHost);
+    renderAdvanced(formHost);
     update();
     window.scrollTo(0, y);
   }
@@ -853,6 +993,7 @@
         catch (e) { statusFlash(`Not valid JSON, so nothing was loaded: ${e.message}`, true); }
       } }, "Load"));
     preview = el("code", {});
+    wireEditing();
     issuesHost = el("ul", { class: "ib-issues" });
     statusLine = el("div", { class: "ib-statusline" });
     const copyBtn = el("button", { class: "ib-btn", type: "button", onclick: () => {
