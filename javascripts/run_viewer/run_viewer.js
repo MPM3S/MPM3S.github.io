@@ -23,7 +23,7 @@ const HINT = "Left: rotate · Right: pan · Wheel or +/−: zoom · B: box zoom 
 const TOGGLES = [   // the Plater's display toggles: [label, option, tip, value when on, value when off]
   ["X-ray soil", "soil_opacity", "See bodies through the soil", 0.55, 1.0],
   ["Grid", "grid", "Base-cell grid on the soil top"],
-  ["BC faces", "bc_faces", "Tint the material-box faces by the viewed stage's BCs"],
+  ["BC faces", "bc_faces", "Tint the material-box faces by the viewed stage's BCs and mark them: fixed, the triangle on hatched ground; roller, on rollers"],
   ["Octree", "octree", "The octree cube [0, L]³"],
   ["Track", "track", "The viewed stage's boundary-track window"],
 ];
@@ -45,6 +45,29 @@ const rgb = (c) => new THREE.Color(c[0], c[1], c[2]);
 // by file name), or picked for a name in "Add STL" here (any file)
 const uploads = () => (window.MPM3S_MESHES = window.MPM3S_MESHES || new Map());
 const f32 = (b) => new Float32Array(b.slice().buffer);      // bytes from Python (copied, so aligned)
+
+// A face's BC symbol, one unit across, in its own plane: x out of the face from the apex on it, y along the face.
+// Fixed: the triangle on hatched ground; roller: on three rollers. Made once each, shared by every symbol.
+const SUPPORT_GEO = {};
+function supportGeometry(kind) {
+  if (SUPPORT_GEO[kind]) return SUPPORT_GEO[kind];
+  const s = [], seg = (x0, y0, x1, y1) => s.push(x0, y0, 0, x1, y1, 0);
+  seg(0, 0, 0.6, -0.35); seg(0, 0, 0.6, 0.35); seg(0.6, -0.35, 0.6, 0.35);
+  if (kind === "fixed") {
+    seg(0.6, -0.5, 0.6, 0.5);
+    for (let i = 0; i < 6; i++) { const y = -0.35 + 0.17 * i; seg(0.6, y, 0.78, y - 0.15); }
+  } else {
+    for (const yc of [-0.22, 0, 0.22])
+      for (let i = 0; i < 12; i++) {
+        const a = (i * Math.PI) / 6, b = ((i + 1) * Math.PI) / 6;
+        seg(0.69 + 0.09 * Math.cos(a), yc + 0.09 * Math.sin(a), 0.69 + 0.09 * Math.cos(b), yc + 0.09 * Math.sin(b));
+      }
+    seg(0.78, -0.5, 0.78, 0.5);
+  }
+  const g = new LineSegmentsGeometry().setPositions(s);
+  g.userData.keep = true;
+  return (SUPPORT_GEO[kind] = g);
+}
 
 // ── STL meshes ────────────────────────────────────────────────────────────────────────────────────────
 function parseSTL(buf) {
@@ -334,6 +357,7 @@ class RunViewer {
       const r = this.renderer, W = this.canvasHost.clientWidth, H = this.canvasHost.clientHeight;
       this.look();
       this.clip();
+      this.groups.conditions.traverse((o) => { if (o.userData.normal) this.turn(o); });
       r.setScissorTest(false);
       r.setViewport(0, 0, W, H);
       r.clear();
@@ -359,6 +383,17 @@ class RunViewer {
     this.cam.updateMatrixWorld();
   }
   dist() { return this.cam.position.distanceTo(this.focal); }
+  /* A BC symbol points along its face's normal and is turned about it to face the camera; seen within 20° of the
+     normal, where it would be a sliver, it is hidden. Its size is the scene's, kept between 24 and 56 pixels across. */
+  turn(o) {
+    const v = this.cam.position.clone().sub(o.position), n = o.userData.normal, y = n.clone().cross(v);
+    o.visible = Math.abs(n.dot(v)) < 0.94 * v.length();
+    if (!o.visible) return;
+    const perPx = (2 * Math.max(-v.dot(this.dop()), 1e-9) * Math.tan((this.cam.fov * Math.PI) / 360)) / Math.max(1, this.canvasHost.clientHeight);
+    o.scale.setScalar(Math.min(Math.max(o.userData.size, 24 * perPx), 56 * perPx));
+    y.normalize();
+    o.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(n, y, n.clone().cross(y)));
+  }
   dop() { return this.focal.clone().sub(this.cam.position).normalize(); }   // direction of projection
   dolly(f) { this.cam.position.copy(this.focal.clone().sub(this.dop().multiplyScalar(this.dist() / f))); }
 
@@ -628,6 +663,18 @@ class RunViewer {
         g.add(shaft, tip);
         g.position.set(...p.start);
         g.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(...p.vec).normalize());
+        return g;
+      }
+      case "support": {                            // a face's BC symbols (supportGeometry), turned in render()
+        const g = new THREE.Group(), geo = supportGeometry(p.kind), mat = this.lineMaterial({ color: p.color, lw: 2, opacity: 1 });
+        for (const at of p.pts) {
+          const o = new LineSegments2(geo, mat);
+          o.position.set(...at);
+          o.scale.setScalar(p.s);
+          o.userData.size = p.s;
+          o.userData.normal = new THREE.Vector3(...p.n);
+          g.add(o);
+        }
         return g;
       }
       case "cells": {                              // the base cells of one status, coloured by layer
