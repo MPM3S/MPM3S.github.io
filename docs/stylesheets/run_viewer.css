@@ -1,0 +1,104 @@
+/* The run viewer on the builder page (javascripts/run_viewer/run_viewer.js): a toolbar, the 3D view and the
+   play bar, above the builder. The view keeps the desktop GUI's own colours in either theme. */
+#input-builder .rv-panel {
+  position: relative;                 /* the "Add STL" menu is placed in it */
+  margin: 0 0 1rem;
+  border: 1px solid var(--ib-line);
+  border-radius: 0.3rem;
+  overflow: hidden;
+  scroll-margin-top: 3.6rem;          /* clear of Material's sticky header */
+}
+#input-builder .rv-panel[hidden] { display: none; }
+#input-builder .rv-open { margin: 0; }
+
+#input-builder .rv-toolbar, #input-builder .rv-playbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.3rem;
+  padding: 0.3rem 0.5rem;
+  background: var(--ib-soft);
+}
+#input-builder .rv-sep { width: 1px; align-self: stretch; margin: 0.15rem 0.25rem; background: var(--ib-line); }
+#input-builder .rv-btn {
+  font: inherit; cursor: pointer; padding: 0.15rem 0.5rem; border-radius: 0.2rem;
+  border: 1px solid var(--ib-line); background: var(--md-default-bg-color); color: var(--md-default-fg-color);
+}
+#input-builder .rv-btn:hover:not(:disabled) { border-color: var(--md-primary-fg-color); }
+#input-builder .rv-btn:disabled { opacity: 0.45; cursor: default; }
+#input-builder .rv-btn.rv-on { background: var(--md-primary-fg-color); border-color: var(--md-primary-fg-color); color: #fff; }
+#input-builder .rv-close { margin-left: auto; }
+#input-builder .rv-select {
+  font: inherit; padding: 0.1rem 0.25rem; max-width: 22rem;
+  border: 1px solid var(--ib-line); border-radius: 0.2rem; background: var(--md-default-bg-color); color: var(--md-default-fg-color);
+}
+#input-builder .rv-stagepick { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 700; min-width: 0; }
+#input-builder .rv-stagepick .rv-select { min-width: 0; flex: 1 1 auto; }
+
+/* the view: the GUI's grey gradient behind a transparent canvas, the text drawn over it */
+#input-builder .rv-stage {
+  position: relative;
+  height: min(68vh, 44rem);
+  min-height: 18rem;
+  background: linear-gradient(to bottom, #8c949e, #ccd1d6);
+  color: #1e1e1e;
+}
+#input-builder .rv-canvas { position: absolute; inset: 0; touch-action: none; outline: none; }
+#input-builder .rv-canvas:focus-visible { box-shadow: inset 0 0 0 2px var(--md-primary-fg-color); }
+#input-builder .rv-canvas canvas { display: block; width: 100%; height: 100%; }
+#input-builder .rv-overlay, #input-builder .rv-legend, #input-builder .rv-hint, #input-builder .rv-missing, #input-builder .rv-loading {
+  position: absolute;
+  pointer-events: none;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.65);
+}
+#input-builder .rv-overlay { top: 0.5rem; left: 0.6rem; right: 0.6rem; line-height: 1.5; }
+#input-builder .rv-note { color: #4a4a4a; }
+#input-builder .rv-err { color: #b71c1c; font-weight: 700; }
+#input-builder .rv-legend { right: 0.6rem; bottom: 1.6rem; text-align: right; line-height: 1.55; }
+#input-builder .rv-swatch {
+  display: inline-block; width: 0.6rem; height: 0.6rem; margin-right: 0.35rem; vertical-align: -0.05rem;
+  border: 1px solid rgba(40, 40, 40, 0.8);
+}
+#input-builder .rv-hint { bottom: 0.35rem; left: 0; right: 0; text-align: center; font-size: 0.9em; color: #373737; }
+#input-builder .rv-box {
+  display: none; position: absolute; pointer-events: none;
+  border: 1.5px solid rgb(237, 107, 33); background: rgba(237, 107, 33, 0.16);
+}
+#input-builder .rv-missing {
+  pointer-events: auto; left: 50%; top: 0.5rem; transform: translateX(-50%); max-width: 90%;
+  padding: 0.3rem 0.6rem; border-radius: 0.3rem; background: rgba(255, 243, 224, 0.95); color: #6d3600; text-shadow: none;
+}
+#input-builder .rv-missing .rv-btn { margin-left: 0.3rem; }
+#input-builder .rv-loading {
+  inset: 0; display: flex; align-items: center; justify-content: center; padding: 2rem;
+  text-align: center; font-weight: 700; background: rgba(205, 210, 215, 0.6);
+}
+#input-builder .rv-file { display: none; }
+
+/* the play bar */
+#input-builder .rv-slider { flex: 1 1 10rem; min-width: 6rem; accent-color: var(--md-primary-fg-color); }
+#input-builder .rv-label { min-width: 11rem; font-variant-numeric: tabular-nums; }
+#input-builder .rv-loop { display: inline-flex; align-items: center; gap: 0.2rem; }
+#input-builder .rv-info { padding: 0.25rem 0.6rem; color: var(--md-default-fg-color--light); }
+#input-builder .rv-info:empty { display: none; }
+#input-builder .rv-info.rv-flash { color: var(--ib-err); font-weight: 600; }
+
+@media screen and (max-width: 44.9375em) {
+  #input-builder .rv-stage { height: 58vh; }
+  #input-builder .rv-label { min-width: 0; }
+  #input-builder .rv-legend { font-size: 0.9em; }
+}
+
+/* "Add STL": the meshes the input names, under the button */
+#input-builder .rv-meshmenu {
+  position: absolute; z-index: 5; display: flex; flex-direction: column; gap: 0.25rem;
+  width: max-content; min-width: 16rem; max-width: min(30rem, calc(100% - 1rem));
+  padding: 0.5rem; border: 1px solid var(--ib-line); border-radius: 0.3rem;
+  background: var(--md-default-bg-color); box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
+}
+#input-builder .rv-meshmenu[hidden] { display: none; }
+#input-builder .rv-meshhead { margin: 0 0.1rem 0.2rem; color: var(--md-default-fg-color--light); }
+#input-builder .rv-meshrow { display: flex; align-items: baseline; gap: 1rem; text-align: left; }
+#input-builder .rv-meshname { font-family: var(--md-code-font-family); font-weight: 600; overflow-wrap: anywhere; }
+#input-builder .rv-meshsrc { margin-left: auto; white-space: nowrap; color: var(--md-default-fg-color--light); }
+#input-builder .rv-meshsrc.rv-miss { color: var(--ib-err); font-weight: 600; }
