@@ -2847,7 +2847,7 @@
 \sigma_{zz} = -\rho\, g\, (L - z_p),
 \]</div>
 <p>where <span class="arithmatex">\(\rho\)</span> is the density, <span class="arithmatex">\(g = 9.81\)</span> m/s<span class="arithmatex">\(^2\)</span> is the acceleration due to gravity, <span class="arithmatex">\(L = 0.8\)</span> m is the initial height of the column and <span class="arithmatex">\(z_p\)</span> is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change and this Cauchy stress calculation is true for any magnitude of deformation.</p>
-<p>The column is <span class="arithmatex">\(0.05 \times 0.05 \times 0.8\)</span> m, made of a homogeneous Hencky elastic material with Poisson's ratio <span class="arithmatex">\(\nu = 0\)</span> and density <span class="arithmatex">\(\rho = 50\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The Young's modulus, <span class="arithmatex">\(E = 283\)</span> Pa, is chosen so the column will be significantly compressed from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m.</p>
+<p>The column is <span class="arithmatex">\(0.05 \times 0.05 \times 0.8\)</span> m, made of a homogeneous Hencky elastic material with Poisson's ratio <span class="arithmatex">\(\nu = 0\)</span> and density <span class="arithmatex">\(\rho = 50\)</span> kg/m<span class="arithmatex">\(^3\)</span>. The Young's modulus is <span class="arithmatex">\(E = 10^4\)</span> Pa, which gives a reasonable deformation.</p>
 <p>The column is divided into 16 elements of <span class="arithmatex">\(0.05\)</span> m, each filled with a <span class="arithmatex">\(2 \times 2 \times 2\)</span> grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.</p>
 <p><figure id="_figure-2"><img alt="The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element." id="fig-column-setup" src="../../../img/Tutorial_1/column_setup.png" width="50%"><figcaption>Figure 2: The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size \(h = 0.05\) m, and (b) the \(2 \times 2 \times 2\) grid of GIMP domains in each element.</figcaption></figure></p>
 <p>The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found <a href="../Tutorial_1_input_data/">here</a>, and every key is described on the <a href="../../UsingTheSoftware/InputFormat/"><code>input_data.json</code> file format</a> page.</p>
@@ -2861,7 +2861,7 @@
 <h3 id="machine">Machine<a class="headerlink" href="#machine" title="Permanent link">¶</a></h3>
 <ul>
 <li><code>"GPU": "off"</code> runs the analysis on the CPU, which is plenty for a problem this small (<a href="../../UsingTheSoftware/InputFormat/gpu/">GPU</a>).</li>
-<li><code>"domain update": "stretch"</code> lets each GIMP's domain stretch with the material, so the GIMPs near the base shrink to half their height as the column is compressed (<a href="../../UsingTheSoftware/InputFormat/material_points/#domain-update">domain update</a>).</li>
+<li><code>"domain update": "stretch"</code> lets each GIMP's domain stretch with the material, so the GIMPs shrink as the column is compressed, most near the base (<a href="../../UsingTheSoftware/InputFormat/material_points/#domain-update">domain update</a>).</li>
 <li>It is optional; without it the domains keep their initial size.</li>
 </ul>
 </div>
@@ -2907,7 +2907,7 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">"layers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="p">{</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">            </span><span class="nt">"thickness"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">            </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w"> </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">283.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">            </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w"> </span><span class="nt">"E"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0e4</span><span class="p">,</span><span class="w"> </span><span class="nt">"nu"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"density"</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">]</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">},</span>
@@ -3067,14 +3067,14 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <li><code>NR 3</code> - the Newton-Raphson iterations used by the last step.</li>
 <li><code>cuts 0</code> - steps that did not converge and were retried with half the increment.</li>
 <li><code>del 0</code> - material points deleted because they became too distorted or isolated.</li>
-<li><code>N 257</code> - the number of nodes in the background mesh.</li>
+<li><code>N 299</code> - the number of nodes in the background mesh.</li>
 </ul>
 <p>In dynamic analyses a <code>P2G-fail</code> count is added if a velocity projection fails to converge.</p>
 </div>
 <div class="js-code">
 <div class="terminal">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go">julia&gt; MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 257</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 299</span>
 </code></pre></div>
 </div>
 </div>
@@ -3127,10 +3127,10 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>5. Advance to the final step.</strong> Click the <em>Go to Last</em> button (<code>▶|</code>) (1) in the time toolbar, then <em>Rescale to Visible Range</em> (2) in the colour-map toolbar so the colour scale matches the deformed column. The column has shortened from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.54\)</span> m, so the top has moved down by about <span class="arithmatex">\(0.26\)</span> m.</p>
+<p><strong>5. Advance to the final step.</strong> Click the <em>Go to Last</em> button (<code>▶|</code>) (1) in the time toolbar, then <em>Rescale to Visible Range</em> (2) in the colour-map toolbar so the colour scale matches the deformed column. The column has shortened from <span class="arithmatex">\(0.8\)</span> m to about <span class="arithmatex">\(0.785\)</span> m, so the top has moved down by about <span class="arithmatex">\(0.015\)</span> m.</p>
 </div>
 <div>
-<p><figure id="_figure-7"><img alt="The deformed column at the final load step, coloured by displacement." id="fig-paraview-5" src="../../../img/Tutorial_1/Column_5.png"><figcaption>Figure 7: The deformed column at the final load step, coloured by displacement.</figcaption></figure></p>
+<p><figure id="_figure-7"><img alt="The deformed column at the final load step, coloured by displacement." id="fig-paraview-5" src="../../../img/Tutorial_1/column_v2_1.png"><figcaption>Figure 7: The deformed column at the final load step, coloured by displacement.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
@@ -3138,24 +3138,24 @@ This reads the input file, steps through the 50 load steps and writes the VTK an
 <p><strong>6. Colour by vertical stress.</strong> Change <em>Coloring</em> to <code>stress</code> (1) and <code>ZZ</code> (2), and rescale (3). The compressive stress increases steadily from zero at the top to its largest value at the base.</p>
 </div>
 <div>
-<p><figure id="_figure-8"><img alt="Choosing the ZZ component of stress in the Coloring menu." id="fig-paraview-6" src="../../../img/Tutorial_1/Column_6.png"><figcaption>Figure 8: Choosing the ZZ component of stress in the Coloring menu.</figcaption></figure></p>
+<p><figure id="_figure-8"><img alt="Choosing the ZZ component of stress in the Coloring menu." id="fig-paraview-6" src="../../../img/Tutorial_1/column_v2_2.png"><figcaption>Figure 8: Choosing the ZZ component of stress in the Coloring menu.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>7. Look at the GIMP domains.</strong> Change the <em>Representation</em> to <em>Surface With Edges</em> (1) and zoom in on the base and the top of the column. With <code>"domain update": "stretch"</code> the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.</p>
+<p><strong>7. Look at the GIMP domains.</strong> Change the <em>Representation</em> to <em>Surface With Edges</em> (1) and zoom in on the base and the top of the column. With <code>"domain update": "stretch"</code> the GIMPs near the base are squashed by about <span class="arithmatex">\(4\%\)</span> of their original height, while those near the top are barely deformed.</p>
 </div>
 <div>
-<p><figure id="_figure-9"><img alt="Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress." id="fig-paraview-7" src="../../../img/Tutorial_1/Column_7.png"><figcaption>Figure 9: Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.</figcaption></figure></p>
+<p><figure id="_figure-9"><img alt="The column drawn with Surface With Edges, coloured by vertical stress." id="fig-paraview-7" src="../../../img/Tutorial_1/column_v2_3.png"><figcaption>Figure 9: The column drawn with Surface With Edges, coloured by vertical stress.</figcaption></figure></p>
 </div>
 </div>
 <h2 id="analysing-the-stress-variation-with-height">Analysing the stress variation with height<a class="headerlink" href="#analysing-the-stress-variation-with-height" title="Permanent link">¶</a></h2>
 <p><code>csv_column</code> holds one CSV file per load step. The first line of each file is the load fraction, <code>time</code>, and the second line holds the column headers; after that there is one row per GIMP. The final step, <code>mps_1_00051.csv</code>, starts:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>time,1.0000000000000004
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>initial position_x,initial position_y,initial position_z,position_x,position_y,position_z,stress_xx,stress_yy,stress_zz,stress_xy,stress_yz,stress_xz
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>0.0125,0.0125,0.0125,0.0125,0.0125,0.00634021565216069,0.0,0.0,-378.742813055138,0.0,0.0,0.0
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.019020646956482066,0.0,0.0,-378.742813055138,0.0,0.0,0.0
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>0.0125,0.0125,0.0625,0.0125,0.0125,0.031765464864891575,6.107727604173849e-14,6.107727604173849e-14,-365.68430455127134,0.0,0.0,0.0
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>0.0125,0.0125,0.0125,0.0125,0.0125,0.012049772208144434,0.0,0.0,-380.53508196098755,0.0,0.0,0.0
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.03614931662443334,0.0,0.0,-380.53508196098755,0.0,0.0,0.0
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>0.0125,0.0125,0.0625,0.0125,0.0125,0.06027504228355748,0.0,0.0,-356.3835934261951,0.0,0.0,0.0
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>--- many more rows of data ---
 </code></pre></div>
 <p><code>initial position_z</code> is <span class="arithmatex">\(z_p\)</span> in the analytical solution, <code>position_z</code> is the GIMP's current height, and <code>stress_zz</code> is the vertical Cauchy stress in Pa.</p>
@@ -3186,7 +3186,7 @@ The commands to run the plot are:
 <a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">plot!</span><span class="p">(</span><span class="o">-</span><span class="n">σ</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"analytical"</span><span class="p">)</span>
 </code></pre></div>
 <p><figure id="_figure-10"><img alt="Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution." id="fig-column-stress" src="../../../img/Tutorial_1/column_analytical_stress.png" width="40%"><figcaption>Figure 10: Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.</figcaption></figure></p>
-<p>The numerical stresses agree with the analytical solution to within 2% of the stress at the base (<span class="arithmatex">\(392.4\)</span> Pa), with the largest differences in the elements at the base and at the free surface. </p>
+<p>The numerical stresses agree with the analytical solution to within 2% of the stress at the base (<span class="arithmatex">\(392.4\)</span> Pa). The two GIMPs in each element fall either side of the analytical line, and the differences are largest near the base. </p>
 <p>To see how the accuracy depends on the mesh, halve <code>"element size"</code> in <a href="#material-points">Material points</a> to <code>0.025</code> and run the problem again.</p>
 
 
