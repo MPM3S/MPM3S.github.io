@@ -23,7 +23,9 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 
 A detailed explanation of the MPM is provided [here](https://ampssie.github.io/docs/TechnicalReferences/TechnicalReference/).
 
-The tutorials show it at work; click an animation to open its tutorial.
+## What can the software model?
+
+Click an animation to open its tutorial.
 
 <div class="grid gif-gallery">
 <figure><a href="../TutorialProblems/Tutorial_1/"><img src="../../img/gifs/MPM3S_column.gif" alt="The column compressing under its own weight, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
