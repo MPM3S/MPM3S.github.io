@@ -1,13 +1,19 @@
 ---
-hide:
-  - toc
+description: MPM3S is software for large-deformation soil-structure interaction problems, using the Material Point Method.
 ---
 
---- 
+# Introduction
 
-<div class="two-col" markdown>
+<p class="lead">MPM3S is software for large-deformation soil–structure interaction problems, using the Material Point Method (MPM).</p>
 
-<div class="two-col-main" markdown>
+<a class="hero" href="../TutorialProblems/Tutorial_6/" title="Tutorial 6: Drag anchor"><img class="gif-box" src="../../img/gifs/AC14_dr32_hero.gif" alt="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."></a>
+
+<div class="cta" markdown>
+
+[:material-play-circle: Run your first simulation →](GettingStarted/install_and_run.md){ .md-button .md-button--primary }
+[:material-school: Explore the tutorials →](TutorialProblems/TutorialProblems.md){ .md-button }
+
+</div>
 
 ## What is MPM3S?
 
@@ -15,15 +21,7 @@ MPM3S is software for the analysis of soil-structure interactions problems using
 
 The code has its origins in AMPLE ([A Material Point Learning Environment](https://wmcoombs.github.io/AMPLE/)).
 
-To start using the software go to the [Install and Run](GettingStarted/install_and_run.md) page.
-
-## What is the Material Point Method?
-
-The Material Point Method (MPM) is a computational technique for modelling solid mechanics problems (not just soil-structure interaction) with close links to the Finite Element Method. The advantage of the MPM over many other methods is its ability to return solutions for problems involving very large deformations. 
-
-A detailed explanation of the MPM is provided [here](https://ampssie.github.io/docs/TechnicalReferences/TechnicalReference/).
-
-## What can the software model?
+## What can it model?
 
 Click an animation to open its tutorial.
 
@@ -40,7 +38,7 @@ Click an animation to open its tutorial.
 <figcaption><a href="../TutorialProblems/Tutorial_6/">Tutorial 6: Drag anchor</a></figcaption></figure>
 </div>
 
-## What are the main features of the software?
+## Key features
 
 - single phase deformable solid material considering large deformation mechanics and elasto-plastic material behaviour
 - coupled deformable solid material-rigid body interactions
@@ -51,17 +49,21 @@ Click an animation to open its tutorial.
 - JSON ([JavaScript Object Notation](https://www.json.org/json-en.html)) and STL (unstructured triangulated surface rigid body representation) input file formats
 - flexible CSV (Comma-Separated Values), VTK (Visualization Toolkit) and VTU (VTK-like, XML-based file supporting compression and parallel processing) output file formats
 
-## What is the software not for?
+## Scope and limitations
+
+MPM3S is not intended for:
 
 - problems that could easily be solved with conventional finite element methods
 - small strain solid mechanics problems
 - analysis of the stresses/deformations *within* a structure interacting with the deformable material
 
-</div>
+## The Material Point Method
 
-<div class="two-col-side" markdown>
+The Material Point Method (MPM) is a computational technique for modelling solid mechanics problems (not just soil-structure interaction) with close links to the Finite Element Method. The advantage of the MPM over many other methods is its ability to return solutions for problems involving very large deformations.
 
-## Where to go next
+A detailed explanation of the MPM is in the [Material Point Method overview](TechnicalReferences/MPMoverview.md).
+
+## Next steps
 
 <div class="grid cards" markdown>
 
@@ -104,9 +106,5 @@ Click an animation to open its tutorial.
     The theory and numerical methods behind MPM3S.
 
     [:octicons-arrow-right-24: Technical reference](TechnicalReferences/TechnicalReference.md)
-
-</div>
-
-</div>
 
 </div>

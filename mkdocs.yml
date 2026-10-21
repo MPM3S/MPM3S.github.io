@@ -19,12 +19,12 @@
 # IN THE SOFTWARE.
 
 # Project information
-site_name: MPM for Net Zero
+site_name: MPM3S
 site_url: https://mpm3s.github.io/
 site_author: Durham University
 site_description: >-
-  Leveraging the Material Point Method for large deformation soil-structure
-  interaction to realise Net Zero through offshore renewable energy
+  MPM3S: software for large-deformation soil-structure interaction using the
+  Material Point Method
 
 # Repository
 repo_name: mpm-netzero
@@ -42,78 +42,81 @@ theme:
     primary: custom
     accent: custom
   font:
-    text: Open Sans
+    text: Inter
     code: JetBrains Mono
   features:
     - content.code.copy
     - content.tooltips
-    - navigation.tabs
+    - navigation.path
     - navigation.top
+    - toc.follow
     - search.suggest
     - search.highlight
     - search.share
     
 # Navigation
+# Only the software's pages; the project pages (index, about, partners, contact, coming soon) are left
+# out of the build below, and the site's root opens the Introduction. The sidebar icons follow this
+# order (stylesheets/theme.css), so move an icon there when a top-level entry moves.
 nav:
-  - Home: index.md
-  - About:
-      - Project Overview: about/overview.md
-      - Technical Approach: about/approach.md
-      - Applications: about/applications.md
-  - Partners: partners.md
-  - MPM3S:
-      - Introduction: docs/Introduction.md
-      - Install and run: docs/GettingStarted/install_and_run.md
-      - 📖 Tutorial problems:
-          - Overview: docs/TutorialProblems/TutorialProblems.md
-          - Static:
-              - Self-weight column: docs/TutorialProblems/Tutorial_1.md
-              - compaction via a rigid body: docs/TutorialProblems/Tutorial_2.md
-              - Vertical penetration: docs/TutorialProblems/Tutorial_3.md
-              # - plough: docs/TutorialProblems/Tutorial_4.md
-          - Dynamic:
-              - Rolling sphere: docs/TutorialProblems/Tutorial_5.md
-              - Drag anchor: docs/TutorialProblems/Tutorial_6.md
-          - Reference input data:
-              - Self-weight column: docs/TutorialProblems/Tutorial_1_input_data.md
-              - Compaction via a rigid body: docs/TutorialProblems/Tutorial_2_input_data.md
-              - Vertical penetration: docs/TutorialProblems/Tutorial_3_input_data.md
-              # - Plough: docs/TutorialProblems/Tutorial_4_input_data.md
-              - Rolling sphere: docs/TutorialProblems/Tutorial_5_input_data.md
-              - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
-      - 📖 Using the software:
-          - Overview: docs/UsingTheSoftware/InputFormat/index.md
-          - GPU: docs/UsingTheSoftware/InputFormat/gpu.md
-          - Domain: docs/UsingTheSoftware/InputFormat/domain.md
-          - Material points: docs/UsingTheSoftware/InputFormat/material_points.md
-          - Rigid bodies: docs/UsingTheSoftware/InputFormat/rigid_bodies.md
-          - Contact properties: docs/UsingTheSoftware/InputFormat/contact.md
-          - Analysis stages: docs/UsingTheSoftware/InputFormat/analysis.md
-          - Solver: docs/UsingTheSoftware/InputFormat/solver.md
-          - Output: docs/UsingTheSoftware/InputFormat/output.md
-          - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
-      - 🛠️ Interactive builder: docs/UsingTheSoftware/input_builder.md
-      - 📖 Technical reference:
-          - Overview: docs/TechnicalReferences/TechnicalReference.md
-          - Material point method basics:
-              - Material Point Method overview: docs/TechnicalReferences/MPMoverview.md
-          - Large deformation formulation:
-              - Kinematics: docs/TechnicalReferences/Kinematics.md
-              - Stress and strain measures: docs/TechnicalReferences/StressStrain.md
-              - Equilibrium equations: docs/TechnicalReferences/EquilibriumEquations.md
-              - Equilibrium with rigid-body contact: docs/TechnicalReferences/EquilibriumEquationsContact.md
-          - Material models:
-              - Overview: docs/TechnicalReferences/ConstitutiveModels.md
-              - Isotropic linear elasticity: docs/TechnicalReferences/LinearElasticity.md
-              - Isotropic elasto-plasticity: docs/TechnicalReferences/ElastoPlasticity.md
-          - Small cut instability:
-              - Ghost stabilisation: docs/TechnicalReferences/ghostStabilisation.md
-          # - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
-          # - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
-      - Understanding the software: docs/Understanding.md
-      - Contributors: docs/Contributors.md
-  - Coming soon: docs/ComingSoon.md
-  - Contact: contact.md
+  - Introduction: docs/Introduction.md
+  - Install and run: docs/GettingStarted/install_and_run.md
+  - Tutorial problems:
+      - Overview: docs/TutorialProblems/TutorialProblems.md
+      - Static:
+          - Self-weight column: docs/TutorialProblems/Tutorial_1.md
+          - compaction via a rigid body: docs/TutorialProblems/Tutorial_2.md
+          - Vertical penetration: docs/TutorialProblems/Tutorial_3.md
+          # - plough: docs/TutorialProblems/Tutorial_4.md
+      - Dynamic:
+          - Rolling sphere: docs/TutorialProblems/Tutorial_5.md
+          - Drag anchor: docs/TutorialProblems/Tutorial_6.md
+      - Reference input data:
+          - Self-weight column: docs/TutorialProblems/Tutorial_1_input_data.md
+          - Compaction via a rigid body: docs/TutorialProblems/Tutorial_2_input_data.md
+          - Vertical penetration: docs/TutorialProblems/Tutorial_3_input_data.md
+          # - Plough: docs/TutorialProblems/Tutorial_4_input_data.md
+          - Rolling sphere: docs/TutorialProblems/Tutorial_5_input_data.md
+          - Drag anchor: docs/TutorialProblems/Tutorial_6_input_data.md
+  - Using the software:
+      - Overview: docs/UsingTheSoftware/InputFormat/index.md
+      - GPU: docs/UsingTheSoftware/InputFormat/gpu.md
+      - Domain: docs/UsingTheSoftware/InputFormat/domain.md
+      - Material points: docs/UsingTheSoftware/InputFormat/material_points.md
+      - Rigid bodies: docs/UsingTheSoftware/InputFormat/rigid_bodies.md
+      - Contact properties: docs/UsingTheSoftware/InputFormat/contact.md
+      - Analysis stages: docs/UsingTheSoftware/InputFormat/analysis.md
+      - Solver: docs/UsingTheSoftware/InputFormat/solver.md
+      - Output: docs/UsingTheSoftware/InputFormat/output.md
+      - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
+  - Interactive builder: docs/UsingTheSoftware/input_builder.md
+  - Technical reference:
+      - Overview: docs/TechnicalReferences/TechnicalReference.md
+      - Material point method basics:
+          - Material Point Method overview: docs/TechnicalReferences/MPMoverview.md
+      - Large deformation formulation:
+          - Kinematics: docs/TechnicalReferences/Kinematics.md
+          - Stress and strain measures: docs/TechnicalReferences/StressStrain.md
+          - Equilibrium equations: docs/TechnicalReferences/EquilibriumEquations.md
+          - Equilibrium with rigid-body contact: docs/TechnicalReferences/EquilibriumEquationsContact.md
+      - Material models:
+          - Overview: docs/TechnicalReferences/ConstitutiveModels.md
+          - Isotropic linear elasticity: docs/TechnicalReferences/LinearElasticity.md
+          - Isotropic elasto-plasticity: docs/TechnicalReferences/ElastoPlasticity.md
+      - Small cut instability:
+          - Ghost stabilisation: docs/TechnicalReferences/ghostStabilisation.md
+      # - Static weak form: docs/TechnicalReferences/StaticWeakForm.md
+      # - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
+  - Understanding the software: docs/Understanding.md
+  - Contributors: docs/Contributors.md
+
+# the project pages, kept in the repository but not built into this site
+exclude_docs: |
+  /index.md
+  /about/
+  /partners.md
+  /contact.md
+  /docs/ComingSoon.md
 
 # Plugins
 plugins:
@@ -123,10 +126,14 @@ plugins:
         ignore_classes: ["gif-box", "card-gif"]   # the tutorial animations are not numbered figures
   - bibtex:
       bib_file: "docs/refs.bib"
+  - redirects:
+      redirect_maps:
+        index.md: docs/Introduction.md
 
 # Custom CSS
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/theme.css
 
 # MathJax + per-page enhancements
 extra_javascript:
@@ -142,6 +149,7 @@ markdown_extensions:
   - footnotes
   - toc:
       permalink: true
+      title: On this page
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.betterem:
