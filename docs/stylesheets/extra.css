@@ -678,6 +678,49 @@ h1, h2, h3, h4, h5, h6 {
   grid-auto-rows: 1fr;
 }
 
+/* The tutorial animations: the same box everywhere, on the Introduction (three to a row) and beside each
+   tutorial's level and time strip. */
+.md-typeset img.gif-box {
+  width: min(100%, 21rem);
+  height: auto;
+  aspect-ratio: 21 / 16;
+  object-fit: contain;
+}
+.md-typeset .grid.gif-gallery {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.md-typeset .grid.gif-gallery > figure {
+  margin: 0;
+}
+.md-typeset .grid.gif-gallery > figure img.gif-box {
+  width: min(100%, 21rem);
+  height: auto;
+  aspect-ratio: 21 / 16;
+}
+.md-typeset .gif-gallery figcaption {
+  margin: 0.3rem auto 0;
+  font-style: normal;
+}
+.md-typeset .tutorial-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+.md-typeset .tutorial-head > .tutorial-facts {
+  flex: 1 1 0;
+  margin: 0;
+}
+.md-typeset .tutorial-head > img.gif-box {
+  flex: 0 0 auto;
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .grid.gif-gallery { grid-template-columns: minmax(0, 1fr); }
+  .md-typeset .tutorial-head { flex-direction: column; align-items: stretch; }
+  .md-typeset .tutorial-head > img.gif-box { align-self: center; }
+}
+
 /* Fix .grid layout when figures are wrapped in <p> by python-markdown.
    Browsers auto-close the <p> before the block-level <figure>, leaving stray
    empty <p> elements as grid items. Hide them so only the figures count. */

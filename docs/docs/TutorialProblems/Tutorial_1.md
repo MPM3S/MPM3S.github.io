@@ -1,10 +1,13 @@
 # Tutorial 1: Self-weight column
 
+<div class="tutorial-head">
 <div class="tutorial-facts level-beginner-strip">
 <span class="level level-beginner">Beginner</span>
 <span><strong>Work through time:</strong> about 30 min</span>
 <span><strong>Approx. run time:</strong> under a minute on a CPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+<img class="gif-box" src="../../../img/gifs/MPM3S_column.gif" alt="The column compressing under its own weight, coloured by displacement magnitude.">
 </div>
 
 ## Introduction

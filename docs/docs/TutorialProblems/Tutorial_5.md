@@ -5,11 +5,14 @@ hide:
 
 # Tutorial 5: Rolling sphere
 
+<div class="tutorial-head">
 <div class="tutorial-facts level-intermediate-strip">
 <span class="level level-intermediate">Intermediate</span>
 <span><strong>Work through time:</strong> about 1 h</span>
 <span><strong>Approx. run time:</strong> 5 min on a GPU, 30 min on a CPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+<img class="gif-box" src="../../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope with μ = 0.2, coloured by displacement magnitude.">
 </div>
 
 ## Introduction

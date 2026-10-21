@@ -5,11 +5,14 @@ hide:
 
 # Tutorial 3: Vertical penetration (Cone Penetration Test)
 
+<div class="tutorial-head">
 <div class="tutorial-facts level-intermediate-strip">
 <span class="level level-intermediate">Intermediate</span>
 <span><strong>Work through time:</strong> about 1 to 1.5 h</span>
 <span><strong>Approx. run time:</strong> 15 min on a GPU, 1 h on a CPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+<img class="gif-box" src="../../../img/gifs/CPT_dr32.gif" alt="The cone pushed into the sand, coloured by displacement magnitude.">
 </div>
 
 ## Introduction

@@ -23,6 +23,21 @@ The Material Point Method (MPM) is a computational technique for modelling solid
 
 A detailed explanation of the MPM is provided [here](https://ampssie.github.io/docs/TechnicalReferences/TechnicalReference/).
 
+The tutorials show it at work; click an animation to open its tutorial.
+
+<div class="grid gif-gallery">
+<figure><a href="../TutorialProblems/Tutorial_1/"><img src="../../img/gifs/MPM3S_column.gif" alt="The column compressing under its own weight, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_1/">Tutorial 1: Self-weight column</a></figcaption></figure>
+<figure><a href="../TutorialProblems/Tutorial_2/"><img src="../../img/gifs/cube.gif" alt="The rigid cube compressing the soil, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_2/">Tutorial 2: Compaction via a rigid body</a></figcaption></figure>
+<figure><a href="../TutorialProblems/Tutorial_3/"><img src="../../img/gifs/CPT_dr32.gif" alt="The cone pushed into the sand, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_3/">Tutorial 3: Cone Penetration Test</a></figcaption></figure>
+<figure><a href="../TutorialProblems/Tutorial_5/"><img src="../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope with μ = 0.2, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_5/">Tutorial 5: Rolling sphere</a></figcaption></figure>
+<figure><a href="../TutorialProblems/Tutorial_6/"><img src="../../img/gifs/AC14_dr32.gif" alt="The AC-14 anchor dragged through the sand, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_6/">Tutorial 6: Drag anchor</a></figcaption></figure>
+</div>
+
 ## What are the main features of the software?
 
 - single phase deformable solid material considering large deformation mechanics and elasto-plastic material behaviour
