@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://mpm3s.github.io/</loc>
-         <lastmod>2026-10-21</lastmod>
-    </url>
-    <url>
          <loc>https://mpm3s.github.io/contact/</loc>
          <lastmod>2026-10-21</lastmod>
     </url>
@@ -13,15 +9,7 @@
          <lastmod>2026-10-21</lastmod>
     </url>
     <url>
-         <loc>https://mpm3s.github.io/about/applications/</loc>
-         <lastmod>2026-10-21</lastmod>
-    </url>
-    <url>
-         <loc>https://mpm3s.github.io/about/approach/</loc>
-         <lastmod>2026-10-21</lastmod>
-    </url>
-    <url>
-         <loc>https://mpm3s.github.io/about/overview/</loc>
+         <loc>https://mpm3s.github.io/project/</loc>
          <lastmod>2026-10-21</lastmod>
     </url>
     <url>
