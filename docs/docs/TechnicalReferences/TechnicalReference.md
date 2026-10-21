@@ -2,7 +2,7 @@
 
 This technical reference outlines the background theory and numerical implementation that underpin the material point method soil-structure interaction software. Topics without a link are still being written.
 
-<div class="grid cards" markdown>
+<div class="grid cards equal" markdown>
 
 -   :material-dots-grid:{ .lg .middle } __Material point method basics__
 

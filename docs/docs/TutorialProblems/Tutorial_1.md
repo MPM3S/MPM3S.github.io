@@ -390,7 +390,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it and click *OK*.
+**2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it (1) and click *OK* (2).
 </div>
 <div markdown>
 ![The Open File dialog with the mps_1_..vtu series selected.](../../img/Tutorial_1/Column_2.png){ #fig-paraview-2 }
@@ -399,7 +399,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**3. Apply the reader.** Click *Apply* in the Properties panel. The column of GIMPs appears at the first load step.
+**3. Apply the reader.** Click *Apply* (1) in the Properties panel. The column of GIMPs appears at the first load step.
 </div>
 <div markdown>
 ![The series in the Pipeline Browser, with Apply highlighted in the Properties panel.](../../img/Tutorial_1/Column_3.png){ #fig-paraview-3 }
@@ -416,7 +416,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**4. Colour the GIMPs by vertical displacement.** Change *Coloring* to `displacement` → `Z`. At the first load step the displacements are still small.
+**4. Colour the GIMPs by displacement.** Change *Coloring* to `displacement` (1); the menu beside it shows `Magnitude`, which for this column is the vertical displacement. At the first load step the displacements are still small.
 </div>
 <div markdown>
 ![The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.](../../img/Tutorial_1/Column_4.png){ #fig-paraview-4 }
@@ -425,7 +425,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**5. Advance to the final step.** Click the *Go to Last* button (`▶|`) in the time toolbar, then *Rescale to Data Range* in the colour-bar toolbar so the colour scale matches the deformed column. The column has shortened from $0.8$ m to about $0.54$ m, so the top has moved down by about $0.26$ m.
+**5. Advance to the final step.** Click the *Go to Last* button (`▶|`) (1) in the time toolbar, then *Rescale to Visible Range* (2) in the colour-map toolbar so the colour scale matches the deformed column. The column has shortened from $0.8$ m to about $0.54$ m, so the top has moved down by about $0.26$ m.
 </div>
 <div markdown>
 ![The deformed column at the final load step, coloured by displacement.](../../img/Tutorial_1/Column_5.png){ #fig-paraview-5 }
@@ -434,7 +434,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**6. Colour by vertical stress.** Change *Coloring* to `stress` → `ZZ` and rescale. The compressive stress increases steadily from zero at the top to its largest value at the base.
+**6. Colour by vertical stress.** Change *Coloring* to `stress` (1) and `ZZ` (2), and rescale (3). The compressive stress increases steadily from zero at the top to its largest value at the base.
 </div>
 <div markdown>
 ![Choosing the ZZ component of stress in the Coloring menu.](../../img/Tutorial_1/Column_6.png){ #fig-paraview-6 }
@@ -443,7 +443,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.
+**7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* (1) and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about half their original height, while those near the top are barely deformed.
 </div>
 <div markdown>
 ![Choosing Surface With Edges in the Representation menu, with the column coloured by vertical stress.](../../img/Tutorial_1/Column_7.png){ #fig-paraview-7 }
