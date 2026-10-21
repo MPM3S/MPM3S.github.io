@@ -582,7 +582,7 @@ $$
 
 and the penetration depth is the height at which the cone is placed on the soil - $19.8474$ m, the `material top` in the rigid body surface placement message - minus the tip height from `position_data.csv`. Both files have one row per output step; the first rows, from stage 1, have a tip height of $0$ and are skipped.
 
-The short Julia script below plots $q_c$ against the penetration depth. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `plot_qc.jl` and running `include("plot_qc.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
+The short Julia script below plots $q_c$ against the penetration depth. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `plot_qc.jl` and running `include("plot_qc.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height). It also plots ten points interpolated from a centrifuge CPT in sand at $D_r = 38\%$, the data used by Bird *et al.* [@birdanchors2026]; the sand in this tutorial is slightly looser, at $D_r = 32\%$.
 
 ```julia
 using DelimitedFiles, Plots
@@ -601,8 +601,13 @@ z_surface = 19.8474   # "material top" in the rigid body surface placement messa
 depth = (z_surface .- z[s2])/r
 qc = 4 .* F[s2] ./ (π * r^2) ./ 1e6   # tip resistance of the full cone (MPa)
 
-plot(qc, depth, yflip=true, label="MPM3S", xlabel="tip resistance q_c (MPa)", ylabel="normalised penetration depth (m/m)")
+# centrifuge CPT in sand at D_r = 38% (Bird et al., 2026): penetration depth (m) and tip resistance (MPa)
+depth_ref = [0.45, 0.90, 1.35, 1.80, 2.25, 2.70, 3.15, 3.60, 4.05, 4.50]
+qc_ref    = [0.101, 0.310, 0.566, 0.820, 1.060, 1.315, 1.567, 1.846, 2.112, 2.356]
+
+plot(qc, depth, yflip=true, label="MPM3S", xlabel="tip resistance q_c (MPa)", ylabel="normalised penetration depth (m/m)", legend=:topright)
+scatter!(qc_ref, depth_ref ./ r, label="centrifuge, D_r = 38%", markersize=4)
 ```
 
-![Tip resistance against penetration depth normalised by the cone radius, from the script above.](../../img/Tutorial_3/cone_resistance.png){ #fig-cpt-qc width="50%" }
+![Tip resistance against penetration depth normalised by the cone radius, from the script above, with the centrifuge data at a relative density of 38%.](../../img/Tutorial_3/cone_resistance.png){ #fig-cpt-qc width="50%" }
 

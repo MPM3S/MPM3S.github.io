@@ -669,6 +669,15 @@ h1, h2, h3, h4, h5, h6 {
   justify-items: center;
 }
 
+/* ... but cards fill their cells, as in Material's own grid cards. With
+   <div class="grid cards equal" markdown> every row is the height of the tallest. */
+.md-typeset .grid.cards {
+  justify-items: stretch;
+}
+.md-typeset .grid.cards.equal {
+  grid-auto-rows: 1fr;
+}
+
 /* Fix .grid layout when figures are wrapped in <p> by python-markdown.
    Browsers auto-close the <p> before the block-level <figure>, leaving stray
    empty <p> elements as grid items. Hide them so only the figures count. */

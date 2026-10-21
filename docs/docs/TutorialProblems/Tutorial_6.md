@@ -601,51 +601,37 @@ The VTK files are written to `vtk_AC14_dr32` (see [Output](#output)). The walkth
 
 <div class="walkthrough" markdown>
 <div markdown>
-**1. Open the soil and the anchor.** *File → Open*, go to `vtk_AC14_dr32`, hold `Ctrl` and select the `mps_1_..vtu` (soil) and `surface_..vtu` (fluke and shank) series, click *OK* and then *Apply*.
+**1. Open the soil and the anchor.** *File → Open* and go to `vtk_AC14_dr32`. Hold `Ctrl` and select the `mps_1_..vtu` (soil), `surface_..vtu` (fluke and shank) and `tracked_..vtu` (the fluke-tip marker) series (1), then click *OK* (2).
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_6/paraview_1.png` - the soil and the anchor after *Apply*.
+![The soil, anchor surface and tracked-node series selected in the Open File dialog.](../../img/Tutorial_6/anchor_1.png){ #fig-anchor-pv-1 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**2. Mirror the half model.** Select `mps_1_..vtu` and apply *Filters → Alphabetical → Reflect* with *Plane* `Y` and *Center* `0`. Do the same for `surface_..vtu` to show the whole anchor.
+**2. Go to the end of the drag.** Click *Apply*, then click *Last Frame* (`▶|`) (1) to go to the last output step. The soil shown is the window of active material points around the anchor, with the half anchor on the plane of symmetry.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_6/paraview_2.png` - the full soil window and the full anchor after reflecting.
+![The soil window and the anchor at the last output step.](../../img/Tutorial_6/anchor_2.png){ #fig-anchor-pv-2 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**3. Cut the soil away from the anchor.** Select the reflected soil and apply *Filters → Common → Clip* with *Normal* `(0, 1, 0)` and *Origin* `(0, 0, 0)`, and untick *Show Plane*. Adjust the clip until the embedded anchor can be seen through the section.
+**3. Colour by displacement.** With `mps_1_..vtu` selected in the *Pipeline Browser*, set *Coloring* to `displacement` and `Magnitude` (1). The full range, up to about $25$ m, leaves most of the soil the same colour, so click *Rescale to Custom Range* (2), enter `0` and `5` (3) and click *Ok*.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_6/paraview_3.png` - the anchor embedded in the clipped soil.
+![Colouring by displacement magnitude and setting a custom range.](../../img/Tutorial_6/anchor_3.png){ #fig-anchor-pv-3 }
 </div>
 </div>
 
 <div class="walkthrough" markdown>
 <div markdown>
-**4. Colour by displacement at the final step.** Colour the clipped soil by `displacement` → `Magnitude` and the anchor surface by `contact force` → `Magnitude`, click *Go to Last* (`▶|`) and then *Rescale to Data Range*.
+**4. Play the drag.** The soil moves around the anchor and barely at all away from it. Click *First Frame* (`|◀`) and then *Play* (`▶`) to watch the anchor settle and drag, with the window of active soil moving with it.
 </div>
 <div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_6/paraview_4.png` - soil displacement and contact force on the anchor at the end of the drag.
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**5. Play the drag.** Click *Play* (`▶`) to watch the anchor settle and then drag, with the refined mesh and the window of active soil moving with it.
-</div>
-<div markdown>
-!!! example "Placeholder: ParaView screenshot"
-    `img/Tutorial_6/paraview_5.png` - a frame part-way through the drag.
+![Soil displacement around the anchor at the end of the drag, on a 0 to 5 m scale.](../../img/Tutorial_6/anchor_4.png){ #fig-anchor-pv-4 }
 </div>
 </div>
 
@@ -653,27 +639,61 @@ The VTK files are written to `vtk_AC14_dr32` (see [Output](#output)). The walkth
 
 `csv_AC14_dr32/rigid_body.csv` has one row per output step, with columns for each point - `body1` the fluke, `body2` the shank and `body3` the pull point - followed by `track1_x`, `track1_y` and `track1_z`, the position of the tracked fluke tip:
 
-- **Pull-line force:** `body3_reaction force_x` is the force needed to move the pull point, i.e. the tension the anchor develops.
+- **Pull-line force:** `body3_reaction force_x` is the force needed to move the pull point, i.e. the pull the anchor resists. Only half the anchor is modelled, so the force on the whole anchor is twice this.
 - **Drag distance:** `body3_position_x` minus its value at the start of stage 3.
-- **Embedment:** the height of the soil surface minus `track1_z`, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the `material top` that MPM3S prints in the rigid body surface placement message at the start of stage 2 - $18.2894$ m here.
+- **Embedment:** `track1_z`, the height of the fluke tip, at $t = 0$ of stage 3 minus its current value. The anchor is placed on the soil surface at the start of stage 2 and settles in during it, so the fluke tip starts stage 3 at $18.2538$ m, just below the surface (the `material top` in the rigid body surface placement message, $18.2894$ m).
 
 The `time` column restarts at the start of each stage.
 
-!!! example "Placeholder: results plot"
-    `img/Tutorial_6/anchor_trajectory.png` - embedment depth and pull-line force against drag distance.
+The short Julia script below plots the depth of the fluke tip against the drag distance in stage 3, with the final depth measured in the centrifuge, $2.8$ m [@sharif]. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `anchor_depth.jl` and running `include("anchor_depth.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
 
-### Published results
+```julia
+using DelimitedFiles, Plots
 
-The figures below are reproduced from [@bird2026implicitoctreebasedadaptivematerial], for anchors dragged $19$ m and compared against the structured-mesh reference solution of Bird et al. [@birdanchors2026] and the centrifuge measurements of Sharif et al. [@sharif]. The octree background mesh and GIMP distribution around the anchor at $19$ m of drag, with elements coloured by refinement age (oldest blue, youngest red), is shown in [](#fig-anchor-example):
+# one row per output step, through all three stages
+data, header = readdlm("csv_AC14_dr32/rigid_body.csv", ',', Float64; header=true)
+column(name) = data[:, findfirst(==(name), vec(header))]
+x_pull = column("body3_position_x")   # pull point (m)
+z_tip  = column("track1_z")           # height of the fluke tip (m)
 
-![Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.](../../img/Tutorial_6/anchor_example.png){ #fig-anchor-example width="70%" }
+# stage 3, the drag: the pull point is held still until then, so the last row before it moves is t = 0 of stage 3
+i0 = findfirst(x_pull .> x_pull[1]) - 1
+s  = i0:length(x_pull)
+drag  = x_pull[s] .- x_pull[i0]       # drag distance (m)
+depth = z_tip[i0] .- z_tip[s]         # depth of the fluke tip below its position at t = 0 (m)
 
-*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+println("final depth: MPM3S ", round(depth[end], digits=2), " m, centrifuge 2.8 m")
 
-The anchor trajectories (penetration depth against horizontal travel) are compared in [](#fig-anchor-results):
+plot(drag, depth, yflip=true, label="MPM3S", xlabel="drag distance (m)", ylabel="fluke tip depth (m)", legend=:topright)
+hline!([2.8], linestyle=:dash, label="centrifuge")
+```
 
-![Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.](../../img/Tutorial_6/anchor_results.png){ #fig-anchor-results width="70%" }
+For this run it prints:
 
-*Figure reproduced from [@bird2026implicitoctreebasedadaptivematerial].*
+```text
+final depth: MPM3S 2.67 m, centrifuge 2.8 m
+```
 
-In that study, simulations A and B (both with a smallest element size of $0.1$ m) match or exceed the accuracy of the structured-mesh reference. Simulation B is $5.5$ times faster than the structured-mesh reference and emits approximately $21$ times less CO$_2$e. The trajectory becomes insensitive to the size of the refined region once its element size is at least twice the smallest element size, showing that the octree refinement is well converged in the near field.
+![Depth of the fluke tip below its position at the start of stage 3 against drag distance, with the final depth measured in the centrifuge.](../../img/Tutorial_6/anchor_depth.png){ #fig-anchor-depth width="50%" }
+
+The fluke tip dives quickly over the first $20$ m of drag, then levels off at about $2.7$ m below where it started. The second script, run after the first, plots the pull-line force on the whole anchor. It rises as the anchor embeds and then fluctuates about a steady value once the depth levels off.
+
+```julia
+# run after anchor_depth.jl, which reads the data and sets s and drag
+F_pull = column("body3_reaction force_x")   # force on the pull point, half the anchor (N)
+force  = -2 .* F_pull[s] ./ 1e3             # the whole anchor: twice the half model (kN)
+
+# the force settles to a steady value once the anchor stops diving; average it over the last 20 m
+steady = drag .> drag[end] - 20
+println("steady pull-line force: ", round(sum(force[steady]) / count(steady)), " kN")
+
+plot(drag, force, label="MPM3S", xlabel="drag distance (m)", ylabel="pull-line force (kN)", legend=:bottomright)
+```
+
+For this run it prints:
+
+```text
+steady pull-line force: 698.0 kN
+```
+
+![Pull-line force on the whole anchor against drag distance.](../../img/Tutorial_6/anchor_force.png){ #fig-anchor-force width="50%" }
