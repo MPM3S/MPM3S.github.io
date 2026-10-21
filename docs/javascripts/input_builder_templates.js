@@ -32,7 +32,7 @@ window.MPM3S_TEMPLATES = [
       "thickness": 0.8,
       "material": {
        "type": "elastic",
-       "E": 283.0,
+       "E": 1.0e4,
        "nu": 0.0,
        "density": 50.0
       }

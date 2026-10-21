@@ -423,11 +423,24 @@ class RunView:
             out.append(_box((0, 0, zb), (d.fx, d.fy, zt), layer_color(i), o["soil_opacity"]))
             out.append(_outline((0, 0, zb), (d.fx, d.fy, zt), (0.30, 0.22, 0.12), 1.2))
         if o["grid"]:
-            z = d.block_top + 1e-4 * h
-            nx, ny = int(round(d.fx / d.dx)), int(round(d.fy / d.dx))
-            kx, ky = max(1, math.ceil(nx / 200)), max(1, math.ceil(ny / 200))
-            seg = [((i * d.dx, 0, z), (i * d.dx, d.fy, z)) for i in range(0, nx + 1, kx)]
-            seg += [((0, j * d.dx, z), (d.fx, j * d.dx, z)) for j in range(0, ny + 1, ky)]
+            # the base-cell grid on all six faces of the block, as playback draws the cells' edges, lifted
+            # just off each face; at most ~200 lines a direction
+            e, X, Y, Z = 1e-4 * h, d.fx, d.fy, d.block_top
+
+            def ticks(L, n):
+                k = max(1, math.ceil(n / 200))
+                t = [min(i * d.dx, L) for i in range(0, n + 1, k)]
+                return t if t[-1] >= L - 1e-9 * max(L, 1.0) else t + [L]
+            xs = ticks(X, int(round(X / d.dx)))
+            ys = ticks(Y, int(round(Y / d.dx)))
+            zs = ticks(Z, math.ceil(Z / d.dx - 1e-9))
+            seg = []
+            for z in (-e, Z + e):
+                seg += [((x, 0, z), (x, Y, z)) for x in xs] + [((0, y, z), (X, y, z)) for y in ys]
+            for y in (-e, Y + e):
+                seg += [((x, y, 0), (x, y, Z)) for x in xs] + [((0, y, z), (X, y, z)) for z in zs]
+            for x in (-e, X + e):
+                seg += [((x, y, 0), (x, y, Z)) for y in ys] + [((x, 0, z), (x, Y, z)) for z in zs]
             out.append(_lines(seg, (0.25, 0.20, 0.15), 1.0, 0.55))
         return out, []
 
