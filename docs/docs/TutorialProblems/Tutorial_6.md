@@ -5,11 +5,14 @@ hide:
 
 # Tutorial 6: Drag anchor
 
+<div class="tutorial-head">
 <div class="tutorial-facts level-advanced-strip">
 <span class="level level-advanced">Advanced</span>
 <span><strong>Work through time:</strong> about 1.5 to 2 h</span>
 <span><strong>Approx. run time:</strong> 45 min on a GPU, 6 h on a CPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
+</div>
+<img class="gif-box" src="../../../img/gifs/AC14_dr32.gif" alt="The AC-14 anchor dragged through the sand, coloured by displacement magnitude.">
 </div>
 
 ## Introduction
