@@ -5,8 +5,8 @@ rules, but each VTK actor is a plain dict here. What the run does comes from MPM
 copied beside this file unchanged (make_run_viewer_files.py), so the viewer plays a run exactly as the
 desktop GUI does - prescribed motion only, never the solved DOFs or the soil's deformation.
 
-Primitives ("t"): box, outline, lines, quad, sphere, cube, arrow, cells (the base cells of one status, as
-float32 triangle / colour / edge buffers); a mesh is drawn from the STL run_viewer.js loaded, by file name.
+Primitives ("t"): box, outline, lines, quad, sphere, cube, arrow, support (a face's BC symbols), cells (the
+base cells of one status, as float32 triangle / colour / edge buffers); a mesh is drawn from the STL run_viewer.js loaded, by file name.
 Each build returns them by group, so a step of the run only replaces the groups that step changed.
 """
 from __future__ import annotations
@@ -99,6 +99,23 @@ def _plane(lo, hi, ax, v, side=1):
         p[ax], p[a], p[b] = v, ua, ub
         out.append(p)
     return out if side * (1 if ax != 1 else -1) > 0 else out[::-1]   # e_a × e_b is −e_y for ax = 1
+
+
+def _supports(quad, ax, side, kind, s):
+    """The BC symbols of a face: at its centre and, just in from its edges, its corners - a triangle with its
+    apex on the face, on hatched ground (fixed) or on rollers (roller). run_viewer.js draws each `s` across,
+    pointing along the outward normal and turned about it to face the camera. Across a side of the face too
+    narrow for three symbols the corners close up onto its middle (a column's faces: one row; its base: one)."""
+    q = np.array(quad, float)
+    c = q.mean(axis=0)
+    room = (q.max(axis=0) - q.min(axis=0)) >= 3 * s
+    pts = []
+    for p in [c] + [np.where(room, p + np.sign(c - p) * 0.6 * s, c) for p in q]:
+        if not any(np.allclose(p, x) for x in pts):
+            pts.append(p)
+    n = [0.0, 0.0, 0.0]
+    n[ax] = float(side)
+    return {"t": "support", "kind": kind, "pts": [_v(p) for p in pts], "n": n, "s": float(s), "color": FACE_COLORS[kind]}
 
 
 def _matrix(c, R, x0) -> list:
@@ -426,6 +443,8 @@ class RunView:
         window = frame.window if frame is not None else None
         bcs = (D.effective_face_bcs(stage) if frame is not None else stage.bcs) or M.FaceBCs(["free"] * 3, ["free"] * 3)
         used = set()
+
+        size = 0.04 * self.size_hint     # the BC symbols, across (run_viewer.js keeps them 24 to 56 px)
         for side, kinds, w in (("min", bcs.min, 0), ("max", bcs.max, 1)):
             off = (1 if w else -1) * 5e-4 * self.size_hint      # a hair outside: a face shares its plane with the soil's
             for ax, kind in enumerate(kinds):
@@ -436,9 +455,12 @@ class RunView:
                         quad = _plane(window[0], window[1], ax, window[w][ax] + off, 2 * w - 1)
                         out.append(_quad(quad, FACE_COLORS[kind], 0.30))
                         out.append(_lines(list(zip(quad, quad[1:] + quad[:1])), TRACK_COLOR, 2.0))
+                        out.append(_supports(quad, ax, 2 * w - 1, kind, size))
                         used.update((kind, "track"))
                 elif o["bc_faces"]:
-                    out.append(_quad(_plane(lo, hi, ax, (hi if w else lo)[ax] + off, 2 * w - 1), FACE_COLORS[kind], 0.10))
+                    quad = _plane(lo, hi, ax, (hi if w else lo)[ax] + off, 2 * w - 1)
+                    out.append(_quad(quad, FACE_COLORS[kind], 0.10))
+                    out.append(_supports(quad, ax, 2 * w - 1, kind, size))
                     used.add(kind)
         for kind in ("roller", "fixed"):
             if kind in used:
