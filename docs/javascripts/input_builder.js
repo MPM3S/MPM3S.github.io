@@ -1,8 +1,10 @@
 /* The interactive input_data.json builder (docs/UsingTheSoftware/input_builder.md).
  *
  * SCHEMA below describes every key of the input file - its status (R required, O optional,
- * C conditional), kind, allowed values, default and, for conditional keys, when it applies; a
+ * C conditional), kind, allowed values, default and, for conditional keys, when it applies (the note shown
+ * under each key comes from input_builder_notes.js, by the key's place in the file); a
  * top-level key can also be `held` at a fixed value, and hidden from the form, while a condition lasts.
+ * A number can also be given in other terms (`convert`, e.g. a von Mises yield stress from σy); the file keeps the key's own.
  * The numerical settings are marked `adv`: the form shows them, wherever they sit in the file, in one
  * "Advanced settings" box at the bottom.
  * The form, the validation and the JSON preview are all built from it, so a change to the
@@ -32,34 +34,33 @@
   ] });
 
   const SCHEMA = [
-    F("GPU", "select", { options: ["on", "off"], def: "off", ref: "gpu/",
-      help: "\"on\" runs on an NVIDIA GPU, \"off\" on the CPU." }),
-    F("domain update", "select", { status: "O", adv: true, options: ["none", "stretch"], def: "stretch", ref: "material_points/#domain-update",
-      help: "Lets the material points' domains stretch with the soil - normal for compression problems. Default \"none\"." }),
+    F("GPU", "select", { options: ["on", "off"], def: "off", ref: "gpu/" }),
+    F("domain update", "select", { status: "O", adv: true, options: ["none", "stretch"], def: "stretch", ref: "material_points/#domain-update" }),
     F("domain", "obj", { ref: "domain/", fields: [
-      F("gravity", "vec", { n: 3, def: [0.0, 0.0, -9.81], unit: "m/s²", help: "May be zero; it need not point straight down." }),
+      F("gravity", "vec", { n: 3, def: [0.0, 0.0, -9.81], unit: "m/s²" }),
     ] }),
     F("material points", "obj", { ref: "material_points/", fields: [
-      F("extra capacity", "num", { adv: true, def: 1.2, min: 1, help: "Storage for material points, as a multiple of the initial number; refinement needs headroom." }),
-      F("element size", "num", { def: 1.0, gt: 0, unit: "m", help: "The base element size, before rounding to the octree." }),
+      F("extra capacity", "num", { adv: true, def: 1.2, min: 1 }),
+      F("element size", "num", { def: 1.0, gt: 0, unit: "m" }),
       F("number of material points per element 1", "int", { def: 2, min: 1, label: "material points per element (per axis)" }),
       F("material size", "obj", { fields: [
-        F("min", "fixed", { def: [0.0, 0.0], unit: "m", help: "Always [0.0, 0.0]: the block starts at x = y = 0 (MPM3S ignores this key)." }),
-        F("max", "vec", { n: 2, def: [10.0, 10.0], unit: "m", help: "Plan extent of the soil block." }),
+        F("min", "fixed", { def: [0.0, 0.0], unit: "m" }),
+        F("max", "vec", { n: 2, def: [10.0, 10.0], unit: "m" }),
       ] }),
-      F("layers", "list", { min: 1, itemName: "layer", help: "From the surface down; the block rests on z = 0.", item: [
+      F("layers", "list", { min: 1, itemName: "layer", item: [
         F("thickness", "num", { def: 10.0, gt: 0, unit: "m" }),
         F("material", "obj", { fields: [
           F("type", "select", { options: ["elastic", "von mises", "willam warnke"], def: "elastic" }),
           F("E", "num", { def: 2.0e7, gt: 0, unit: "Pa" }),
           F("nu", "num", { def: 0.25, label: "nu (Poisson's ratio)" }),
-          F("yield stress", "num", { status: "C", when: is("type", "von mises"), def: 5.0e4, gt: 0, unit: "Pa" }),
+          F("yield stress", "num", { status: "C", when: is("type", "von mises"), def: 5.0e4, gt: 0, unit: "Pa",
+            convert: [["uniaxial σy", Math.sqrt(2 / 3)], ["pure shear k", Math.SQRT2]] }),
           F("friction angle", "num", { status: "C", when: is("type", "willam warnke"), def: 32.0, unit: "°" }),
           F("dilation angle", "num", { status: "C", when: is("type", "willam warnke"), def: 2.0, unit: "°" }),
           F("cohesion", "num", { status: "C", when: is("type", "willam warnke"), def: 300.0, unit: "Pa" }),
-          F("density", "num", { def: 1800.0, gt: 0, unit: "kg/m³", help: "Use the buoyant density for submerged soil." }),
+          F("density", "num", { def: 1800.0, gt: 0, unit: "kg/m³" }),
           F("E overburden", "obj", { status: "O", ref: "material_points/#stress-dependent-stiffness",
-            help: "Makes the stiffness grow with depth.", fields: [
+            fields: [
               F("reference stress", "num", { def: 1.0e5, gt: 0, unit: "Pa" }),
               F("exponent", "num", { def: 0.5 }),
             ] }),
@@ -67,8 +68,8 @@
       ] }),
     ] }),
     F("rigid bodies", "list", { min: 0, itemName: "system", ref: "rigid_bodies/",
-      help: "Leave empty for an analysis without rigid bodies.", item: [
-        F("offset", "vec", { n: 3, status: "O", def: [0.0, 0.0, 0.0], unit: "m", help: "Moves the whole system after it is assembled." }),
+      item: [
+        F("offset", "vec", { n: 3, status: "O", def: [0.0, 0.0, 0.0], unit: "m" }),
         F("points", "list", { min: 1, itemName: "point", ref: "rigid_bodies/#points", item: [
           F("position", "vec", { n: 3, def: [0.0, 0.0, 0.0], unit: "m" }),
           F("mass", "num", { def: 1000.0, gt: 0, unit: "kg" }),
@@ -77,7 +78,7 @@
         ] }),
         F("constraints", "list", { status: "O", min: 0, itemName: "constraint", ref: "rigid_bodies/#how-the-constraints-work", item: [
           F("type", "select", { options: ["coincidence", "rotation lock", "distance lock", "distance stop"], def: "rotation lock" }),
-          F("points", "ivec", { n: 2, def: [1, 2], help: "The two points joined, numbered within this system." }),
+          F("points", "ivec", { n: 2, def: [1, 2] }),
           F("rotation centre", "vec", { n: 3, status: "C", when: is("type", "rotation lock", "distance stop"), def: [0.0, 0.0, 0.0], unit: "m" }),
           F("position 1", "vec", { n: 3, status: "C", when: not("type", "rotation lock"), def: [0.0, 0.0, 0.0], unit: "m" }),
           F("position 2", "vec", { n: 3, status: "C", when: not("type", "rotation lock"), def: [0.0, 0.0, 0.0], unit: "m" }),
@@ -89,9 +90,9 @@
           F("rotational stiffness", "num", { status: "C", when: is("type", "rotation lock"), def: 1.0e8, gt: 0, unit: "N·m" }),
         ] }),
         F("stl files", "list", { status: "O", min: 0, itemName: "surface", ref: "rigid_bodies/#stl-files", item: [
-          F("name", "text", { status: "O", def: "body", help: "A label for your own reference; never read." }),
-          F("stl", "text", { def: "body.stl", help: "Relative to the input file." }),
-          F("mesh cache", "text", { def: "body_mesh.txt", help: "Written if missing; delete it when the STL changes." }),
+          F("name", "text", { status: "O", def: "body" }),
+          F("stl", "text", { def: "body.stl" }),
+          F("mesh cache", "text", { def: "body_mesh.txt" }),
           F("point", "int", { def: 1, min: 1 }),
         ] }),
         F("tracked nodes", "list", { status: "O", min: 0, itemName: "tracked node", ref: "rigid_bodies/#tracked-nodes", item: [
@@ -100,9 +101,9 @@
         ] }),
       ] }),
     F("contact", "obj", { ref: "contact/", fields: [
-      F("friction coefficient", "num", { def: 0.0, min: 0, help: "Held at 0.0, and hidden, while the file has no rigid bodies." }),
+      F("friction coefficient", "num", { def: 0.0, min: 0 }),
     ], held: { when: noBodies, value: { "friction coefficient": 0.0 }, why: "the file has no rigid bodies" } }),
-    F("analysis", "list", { min: 1, itemName: "stage", ref: "analysis/", help: "The stages, run in order.", item: [
+    F("analysis", "list", { min: 1, itemName: "stage", ref: "analysis/", item: [
       F("type", "select", { options: ["static", "dynamic"], def: "static" }),
       F("load steps", "int", { status: "C", when: is("type", "static"), def: 10, min: 1 }),
       F("load", "select", { status: "C", when: is("type", "static"), options: ["gravity ramp", "full"], def: "gravity ramp" }),
@@ -111,8 +112,7 @@
       F("beta", "num", { status: "C", when: is("type", "dynamic"), adv: true, def: 0.5, label: "beta (Newmark β)" }),
       F("gamma", "num", { status: "C", when: is("type", "dynamic"), adv: true, def: 1.0, label: "gamma (Newmark γ)" }),
       F("rigid bodies", "select", { options: ["on", "off"], def: "off" }),
-      F("rigid body surface placement", "select", { status: "O", options: ["on", "off"], def: "on",
-        help: "Moves the bodies vertically at the start of the stage so they rest on the soil. Default \"off\"." }),
+      F("rigid body surface placement", "select", { status: "O", options: ["on", "off"], def: "on" }),
       F("adaptivity", "obj", { status: "O", ref: "analysis/#adaptivity", fields: [
         F("type", "select", { options: ["none", "uniform", "rigid body surface"], def: "none" }),
         F("element size", "num", { status: "C", when: is("type", "rigid body surface"), def: 0.1, gt: 0, unit: "m" }),
@@ -120,16 +120,16 @@
         F("element size in region", "num", { status: "O", when: is("type", "rigid body surface"), def: 0.1, gt: 0, unit: "m" }),
       ] }),
       F("rigid body boundary conditions", "list", { status: "O", min: 0, itemName: "point", ref: "analysis/#rigid-body-boundary-conditions",
-        help: "Replaces a point's boundary conditions for this stage only.", item: [
+        item: [
           F("system", "int", { def: 1, min: 1 }),
           F("point", "int", { def: 1, min: 1 }),
           F("boundary conditions", "bc6", { def: ["fixed", "fixed", "fixed", "fixed", "fixed", "fixed"] }),
         ] }),
-      F("boundary conditions", "obj", { status: "O", ref: "analysis/#boundary-conditions", help: "Default: every face free.", fields: [
-        F("min", "selvec", { n: 3, options: ["free", "roller", "fixed"], def: ["roller", "roller", "fixed"], help: "The faces at x = 0, y = 0, z = 0." }),
-        F("max", "selvec", { n: 3, options: ["free", "roller", "fixed"], def: ["roller", "roller", "free"], help: "The opposite faces." }),
+      F("boundary conditions", "obj", { status: "O", ref: "analysis/#boundary-conditions", fields: [
+        F("min", "selvec", { n: 3, options: ["free", "roller", "fixed"], def: ["roller", "roller", "fixed"] }),
+        F("max", "selvec", { n: 3, options: ["free", "roller", "fixed"], def: ["roller", "roller", "free"] }),
       ] }),
-      F("boundary track", "obj", { status: "O", ref: "analysis/#boundary-track", help: "Domain boundaries that move with the rigid bodies.", fields: [
+      F("boundary track", "obj", { status: "O", ref: "analysis/#boundary-track", fields: [
         STAGE_TRACK({ side: "min", type: ["fixed", "off", "off"], distance: [0.5, 0.0, 0.0], remove: ["yes", "no", "no"] }),
         STAGE_TRACK({ side: "max", type: ["fixed", "off", "off"], distance: [2.5, 0.0, 0.0], remove: ["no", "no", "no"] }),
       ] }),
@@ -145,16 +145,26 @@
     F("output", "obj", { ref: "output/", fields: [
       F("vtk", "select", { options: ["on", "off"], def: "on" }),
       F("vtk directory", "text", { status: "C", when: is("vtk", "on"), def: "vtk" }),
-      F("vtk percent", "num", { status: "C", when: is("vtk", "on"), def: 1.0, min: 0, help: "% of each stage's steps; 0 writes every step." }),
-      F("vtk material point fields", "fields", { status: "O", options: MP_FIELDS, help: "Leaving the key out writes every field." }),
+      F("vtk percent", "num", { status: "C", when: is("vtk", "on"), def: 1.0, min: 0 }),
+      F("vtk material point fields", "fields", { status: "O", options: MP_FIELDS }),
       F("vtk rigid body fields", "fields", { status: "O", options: RB_FIELDS }),
       F("csv", "select", { options: ["on", "off"], def: "on" }),
       F("csv directory", "text", { status: "C", when: is("csv", "on"), def: "csv" }),
-      F("csv percent", "num", { status: "C", when: is("csv", "on"), def: 1.0, min: 0, help: "% of each stage's steps; 0 writes every step." }),
+      F("csv percent", "num", { status: "C", when: is("csv", "on"), def: 1.0, min: 0 }),
       F("csv material point fields", "fields", { status: "O", options: MP_FIELDS }),
       F("csv rigid body fields", "fields", { status: "O", options: RB_FIELDS }),
     ] }),
   ];
+  // the note under each key, by its place in the file ("domain › gravity"): input_builder_notes.js
+  const NOTES = window.MPM3S_NOTES || {};
+  (function note(fields, path) {
+    for (const f of fields) {
+      const p = path.concat(f.key);
+      if (NOTES[p.join(" › ")]) f.help = NOTES[p.join(" › ")];
+      if (f.kind === "obj") note(f.fields, p);
+      if (f.kind === "list") note(f.item, p);
+    }
+  })(SCHEMA, []);
   const REMOVED = { "size": "\"domain\" \"size\" was removed from MPM3S; the background mesh is sized from the soil." };
 
   // ── defaults and conditional keys ──────────────────────────────────────────────────────
@@ -499,6 +509,43 @@
     return null;
   }
 
+  // a number, vector or fixed value with its unit to the right of it (a vector's on its last box, to wrap with it)
+  function withUnit(ctl, unit) {
+    if (!unit || !ctl.matches("input, .ib-vec, .ib-fixed")) return ctl;
+    const u = el("span", { class: "ib-unit" }, unit);
+    if (ctl.matches(".ib-vec")) { ctl.lastElementChild.append(u); return ctl; }
+    return el("span", { class: "ib-withunit" }, ctl, u);
+  }
+  // A number given in other terms (the schema's `convert`, [label, factor]): the key is factor × the typed value.
+  // Each box shows the key's value in its own terms and follows the key's box as either is typed in.
+  function converter(f, obj, main) {
+    const sig = (x, n) => Number(x.toPrecision(n));
+    const boxes = f.convert.map(([label, k]) => {
+      const inp = el("input", { type: "text", inputmode: "decimal", class: "ib-num", "aria-label": label });
+      inp.addEventListener("input", () => {
+        const t = inp.value.trim(), x = Number(t);
+        inp.classList.toggle("ib-bad", t === "" || !isFinite(x));
+        if (inp.classList.contains("ib-bad")) return;
+        obj[f.key] = sig(k * x, 8);
+        main.value = fmtNum(obj[f.key], true);
+        main.classList.remove("ib-bad");
+        show(inp);
+        update();
+      });
+      return { inp, k, label };
+    });
+    const show = (typing) => {
+      for (const b of boxes) if (b.inp !== typing) {
+        b.inp.value = typeof obj[f.key] === "number" ? fmtNum(sig(obj[f.key] / b.k, 6), true) : "";
+        b.inp.classList.remove("ib-bad");
+      }
+    };
+    main.addEventListener("input", () => show(null));
+    show(null);
+    return el("div", { class: "ib-convert" }, "or give",
+      boxes.flatMap((b, i) => [i ? "or" : null, el("label", { class: "ib-comp" }, el("span", {}, b.label), withUnit(b.inp, f.unit))]));
+  }
+
   // the field list a path's parent object follows, so a driver change can refresh its siblings
   function fieldsAt(path) {
     let fields = SCHEMA;
@@ -514,7 +561,6 @@
 
   function helpBits(f, path) {
     const bits = [];
-    if (f.unit) bits.push(el("span", { class: "ib-unit" }, f.unit));
     if (f.help) bits.push(el("span", { class: "ib-help" }, f.help));
     if (f.ref) {
       const name = f.label || f.key, key = path.join(".");
@@ -685,9 +731,10 @@
         if (!path.length) tagTop(box, f.key, box.querySelector("summary"));
         host.append(box);
       } else {
+        const ctl = present || f.status !== "O" ? control(f, obj, p) : el("span", { class: "ib-default" }, "not set - the default is used");
         const row = el("div", { class: "ib-row ib-st-" + st + (present || f.status !== "O" ? "" : " ib-off") },
           el("label", { class: "ib-label" }, toggle, label),
-          el("div", { class: "ib-control" }, present || f.status !== "O" ? control(f, obj, p) : el("span", { class: "ib-default" }, "not set - the default is used"),
+          el("div", { class: "ib-control" }, withUnit(ctl, f.unit), f.convert && ctl.tagName === "INPUT" ? converter(f, obj, ctl) : null,
             el("div", { class: "ib-meta" }, helpBits(f, p))));
         row.dataset.p = JSON.stringify(p);
         if (!path.length) tagTop(row, f.key, row.querySelector(".ib-label"));
@@ -701,8 +748,7 @@
     const reset = el("button", { class: "ib-btn ib-small ib-advreset", type: "button", title: "Put every advanced setting back to its default",
       onclick: advDefaults }, "Set to default");
     const box = section("ib-group ib-adv", "ib-advanced", "__advanced", el("span", { class: "ib-key" }, "Advanced settings"), reset);
-    box.append(el("div", { class: "ib-meta" }, el("span", { class: "ib-help" },
-      "The numerical settings: the solver, the Newmark parameters of each dynamic stage, the material points' storage and domains. The defaults suit most problems.")));
+    if (NOTES["Advanced settings"]) box.append(el("div", { class: "ib-meta" }, el("span", { class: "ib-help" }, NOTES["Advanced settings"])));
     const group = (title, fields, obj, path) => {
       if (!obj || typeof obj !== "object" || Array.isArray(obj) || !fields.some((x) => x.adv && applies(x, obj))) return;
       const card = el("div", { class: "ib-item" }, el("div", { class: "ib-item-head" }, el("strong", {}, title)));
