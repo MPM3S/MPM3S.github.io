@@ -697,3 +697,6 @@ steady pull-line force: 698.0 kN
 ```
 
 ![Pull-line force on the whole anchor against drag distance.](../../img/Tutorial_6/anchor_force.png){ #fig-anchor-force width="50%" }
+
+!!! tip "Loads on the fluke and the shank"
+    For the load on the fluke or the shank alone, follow the ParaView steps for the cone tip in [Tutorial 3](Tutorial_3.md#tip-resistance-without-the-sleeve-friction). Select the triangles corresponding to the shank, or the fluke, from `surface_..vtu`, to get the forces. Remember, only half the anchor was modelled, so double the final result to get the total load for each component.

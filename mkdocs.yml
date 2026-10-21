@@ -94,7 +94,7 @@ nav:
           - Obtaining results: docs/UsingTheSoftware/ObtainingResults.md 
       - 🛠️ Interactive builder: docs/UsingTheSoftware/input_builder.md
       - 📖 Technical reference:
-          - Index: docs/TechnicalReferences/TechnicalReference.md
+          - Overview: docs/TechnicalReferences/TechnicalReference.md
           - Material point method basics:
               - Material Point Method overview: docs/TechnicalReferences/MPMoverview.md
           - Large deformation formulation:
