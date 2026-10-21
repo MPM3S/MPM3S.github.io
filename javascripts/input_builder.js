@@ -1,7 +1,8 @@
 /* The interactive input_data.json builder (docs/UsingTheSoftware/input_builder.md).
  *
  * SCHEMA below describes every key of the input file - its status (R required, O optional,
- * C conditional), kind, allowed values, default and, for conditional keys, when it applies.
+ * C conditional), kind, allowed values, default and, for conditional keys, when it applies; a
+ * top-level key can also be `held` at a fixed value, and hidden from the form, while a condition lasts.
  * The form, the validation and the JSON preview are all built from it, so a change to the
  * input format is made here once. The tutorials' input files (input_builder_templates.js)
  * are the starting points.
@@ -18,6 +19,7 @@
   const F = (key, kind, o) => Object.assign({ key: key, kind: kind, status: "R" }, o || {});
   const is = (k, ...v) => (o) => v.includes(o[k]);
   const not = (k, ...v) => (o) => !v.includes(o[k]);
+  const noBodies = (o) => !(Array.isArray(o["rigid bodies"]) && o["rigid bodies"].length);
   const BC = ["free", "fixed", "prescribed"];
 
   const STAGE_TRACK = (def) => F(def.side, "obj", { fields: [
@@ -96,8 +98,8 @@
         ] }),
       ] }),
     F("contact", "obj", { ref: "contact/", fields: [
-      F("friction coefficient", "num", { def: 0.0, min: 0, help: "Needed even with no rigid bodies." }),
-    ] }),
+      F("friction coefficient", "num", { def: 0.0, min: 0, help: "Held at 0.0, and hidden, while the file has no rigid bodies." }),
+    ], held: { when: noBodies, value: { "friction coefficient": 0.0 }, why: "the file has no rigid bodies" } }),
     F("analysis", "list", { min: 1, itemName: "stage", ref: "analysis/", help: "The stages, run in order.", item: [
       F("type", "select", { options: ["static", "dynamic"], def: "static" }),
       F("load steps", "int", { status: "C", when: is("type", "static"), def: 10, min: 1 }),
@@ -591,7 +593,7 @@
       return;
     }
     for (const f of fields) {
-      if (!applies(f, obj)) continue;
+      if (!applies(f, obj) || (f.held && f.held.when(obj))) continue;
       const p = path.concat(f.key), present = obj[f.key] !== undefined;
       const st = f.kind === "fixed" ? "O" : f.status === "R" && f.when ? "C" : f.status;   // the box colour: required, conditional or optional
       const label = el("span", { class: "ib-key", title: { R: "required", C: "required in this situation", O: "optional" }[st] }, f.label || f.key);
@@ -670,6 +672,11 @@
   let root, formHost, preview, issuesHost, statusLine, fileText = "", activeKey = null;
   let hl = null;                                   // the red highlight: { path, start }
   let savedText = "";                              // the file as last loaded or downloaded
+  let loading = false;                             // a new file is being loaded (not an edit)
+  // the run viewer (run_viewer/run_viewer.js) reads the file from here and hears of every change
+  window.MPM3S_INPUT = () => fileText;
+  // STL files uploaded for it, by file name (the solver reads each beside the JSON, by the name it gives)
+  const meshes = (window.MPM3S_MESHES = window.MPM3S_MESHES || new Map());
   const HL_MS = 2600;                              // 2 s red, then the fade
   // the deepest wrapped item of the preview on a path (a vector component maps to its vector)
   function findInPreview(path) {
@@ -742,6 +749,7 @@
     }), "}\n");
     if (activeKey) markActive(activeKey, false);
     if (hl) paintHl();
+    document.dispatchEvent(new CustomEvent("mpm3s-input", { detail: { fresh: loading } }));
     const issues = validate(state);
     issuesHost.replaceChildren();
     root.querySelectorAll(".ib-flag").forEach((n) => n.classList.remove("ib-flag"));
@@ -769,27 +777,38 @@
   }
   function render() {
     const y = window.scrollY;
+    holdFixed(state);                              // e.g. the last rigid body removed: "contact" goes back to 0.0
     formHost.replaceChildren();
     renderFields(SCHEMA, state, [], formHost);
     update();
     window.scrollTo(0, y);
   }
-  // keys held at a fixed value whatever a loaded file says
+  // keys held at a fixed value whatever a loaded file says; what was changed, or null
   function holdFixed(obj) {
+    const notes = [];
     const ms = obj && obj["material points"] && obj["material points"]["material size"];
     if (ms && typeof ms === "object" && !Array.isArray(ms) && JSON.stringify(ms.min) !== "[0,0]") {
       const had = ms.min;
       ms.min = [0.0, 0.0];
-      return had === undefined ? null : `"material size" "min" was ${JSON.stringify(had)}; it is always [0.0, 0.0]`;
+      if (had !== undefined) notes.push(`"material size" "min" was ${JSON.stringify(had)}; it is always [0.0, 0.0]`);
     }
-    return null;
+    // the schema's `held` keys, while their condition lasts ("contact" with no rigid bodies)
+    if (obj && typeof obj === "object" && !Array.isArray(obj))
+      for (const f of SCHEMA) {
+        if (!f.held || !f.held.when(obj) || JSON.stringify(obj[f.key]) === JSON.stringify(f.held.value)) continue;
+        if (obj[f.key] !== undefined) notes.push(`"${f.key}" was ${inline(obj[f.key], f)}; it is ${inline(f.held.value, f)} as ${f.held.why}`);
+        obj[f.key] = clone(f.held.value);
+      }
+    return notes.length ? notes.join(". ") : null;
   }
   function load(obj, label) {
     const note = holdFixed(obj);
     if (note) label = (label ? label + ". " : "") + note;
     state = obj;
     openSet.clear();
+    loading = true;
     render();
+    loading = false;
     savedText = fileText;
     if (label) statusFlash(label);
   }
@@ -811,11 +830,21 @@
       else { const t = templates[Number(pick.value)]; load(clone(t.json), `Loaded ${t.file}`); }
       setFileName("input_data.json");
     } }, "Start");
-    const fileIn = el("input", { type: "file", accept: ".json,application/json", class: "ib-file" });
+    // a JSON, its STL files (for the interactive view), or both at once
+    const fileIn = el("input", { type: "file", accept: ".json,application/json,.stl", multiple: true, class: "ib-file" });
     fileIn.addEventListener("change", () => {
-      const file = fileIn.files[0]; if (!file) return;
-      file.text().then((t) => { try { load(JSON.parse(t), `Loaded ${file.name}`); setFileName(file.name); } catch (e) { statusFlash(`${file.name} is not valid JSON, so nothing was loaded: ${e.message}`, true); } });
+      const files = [...fileIn.files], stls = files.filter((f) => /\.stl$/i.test(f.name));
+      const file = files.find((f) => !stls.includes(f));
       fileIn.value = "";
+      stls.forEach((f) => meshes.set(f.name, f));
+      const also = stls.length ? ` and ${stls.length} STL file${stls.length > 1 ? "s" : ""}` : "";
+      if (!file) {
+        if (!stls.length) return;
+        statusFlash(`Added ${stls.map((f) => f.name).join(", ")} for the interactive view`);
+        document.dispatchEvent(new CustomEvent("mpm3s-meshes"));
+        return;
+      }
+      file.text().then((t) => { try { load(JSON.parse(t), `Loaded ${file.name}${also}`); setFileName(file.name); } catch (e) { statusFlash(`${file.name} is not valid JSON, so nothing was loaded: ${e.message}`, true); } });
     });
     const paste = el("textarea", { class: "ib-paste", rows: 6, placeholder: "Paste an input_data.json here" });
     const pasteBox = el("details", { class: "ib-pastebox" }, el("summary", {}, "Paste a file"), paste,
@@ -871,7 +900,7 @@
       warn,
       el("div", { class: "ib-toolbar" },
         el("label", { class: "ib-start" }, "Start from ", pick, startBtn),
-        el("label", { class: "ib-btn ib-filebtn" }, "Upload a file", fileIn),
+        el("label", { class: "ib-btn ib-filebtn", title: "An input_data.json, with the STL files it names to see the bodies in the interactive view" }, "Upload files", fileIn),
         pasteBox),
       el("div", { class: "ib-layout" },
         formHost,
