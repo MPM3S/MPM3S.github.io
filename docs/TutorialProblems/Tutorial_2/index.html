@@ -3127,7 +3127,7 @@
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>2. Open the output files.</strong> Use <em>File → Open</em> and navigate to <code>vtk_cube</code>. ParaView groups the numbered files into three series: <code>body_..vtu</code>, <code>mps_1_..vtu</code> and <code>surface_..vtu</code>. Hold <code>Ctrl</code> and click <code>mps_1_..vtu</code> and <code>surface_..vtu</code> so both are highlighted, then click <em>OK</em>.</p>
+<p><strong>2. Open the output files.</strong> Use <em>File → Open</em> and navigate to <code>vtk_cube</code>. ParaView groups the numbered files into three series: <code>body_..vtu</code>, <code>mps_1_..vtu</code> and <code>surface_..vtu</code>. Hold <code>Ctrl</code> and click <code>mps_1_..vtu</code> and <code>surface_..vtu</code> so both are highlighted (1), then click <em>OK</em> (2).</p>
 </div>
 <div>
 <p><figure id="_figure-5"><img alt="The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series." id="fig-paraview-2" src="../../../img/Tutorial_2/cube_2.png"><figcaption>Figure 5: The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.</figcaption></figure></p>
@@ -3135,7 +3135,7 @@
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>3. Apply the readers.</strong> Click <em>Apply</em> in the Properties panel. Both series appear in the <em>Pipeline Browser</em>, and the render view shows the rigid cube resting on the soil. The rigid cube overhangs the soil and hides it from most directions, so zoom out and rotate the view to see both bodies.</p>
+<p><strong>3. Apply the readers.</strong> Click <em>Apply</em> (1) in the Properties panel. Both series appear in the <em>Pipeline Browser</em>, and the render view shows the rigid cube resting on the soil. The rigid cube overhangs the soil and hides it from most directions, so zoom out and rotate the view to see both bodies.</p>
 </div>
 <div>
 <p><figure id="_figure-6"><img alt="Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil." id="fig-paraview-3" src="../../../img/Tutorial_2/cube_1.png"><figcaption>Figure 6: Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.</figcaption></figure></p>
@@ -3143,7 +3143,7 @@
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>4. Make the rigid cube see-through.</strong> Select <code>surface_..vtu</code> in the <em>Pipeline Browser</em> and set <em>Opacity</em>, under <em>Styling</em>, to <code>0.6</code>. The soil can now be seen through the rigid cube, which overhangs it on every side.</p>
+<p><strong>4. Make the rigid cube see-through.</strong> Select <code>surface_..vtu</code> in the <em>Pipeline Browser</em> (1) and set <em>Opacity</em>, under <em>Styling</em>, to <code>0.6</code> (2). The soil can now be seen through the rigid cube, which overhangs it on every side.</p>
 </div>
 <div>
 <p><figure id="_figure-7"><img alt="The rigid cube with an opacity of 0.6, showing the soil beneath it." id="fig-paraview-4" src="../../../img/Tutorial_2/cube_3.png"><figcaption>Figure 7: The rigid cube with an opacity of 0.6, showing the soil beneath it.</figcaption></figure></p>
@@ -3151,15 +3151,15 @@
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>5. Choose a field to colour the GIMPs by.</strong> Select <code>mps_1_..vtu</code> and open the <em>Coloring</em> menu, which lists the fields written to the VTK files: <code>displacement</code>, <code>strain</code> and <code>stress</code>. Choosing <code>displacement</code> → <code>Z</code> and stepping through time shows the displacement of the GIMPs increasing evenly from the base to the top of the soil as the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down.</p>
+<p><strong>5. Choose a field to colour the GIMPs by.</strong> Select <code>mps_1_..vtu</code> (1) and open the <em>Coloring</em> menu (2), which lists the fields written to the VTK files: <code>displacement</code>, <code>strain</code> and <code>stress</code>. Choosing <code>displacement</code> → <code>Magnitude</code> and stepping through time shows the displacement of the GIMPs increasing evenly from the base to the top of the soil as the rigid cube moves <span class="arithmatex">\(0.2\)</span> m down.</p>
 </div>
 <div>
-<p><figure id="_figure-8"><img alt="The Coloring menu for mps_1_..vtu, listing displacement, strain and stress." id="fig-paraview-5" src="../../../img/Tutorial_2/cube_displacement.png"><figcaption>Figure 8: The Coloring menu for mps_1_..vtu, listing displacement, strain and stress.</figcaption></figure></p>
+<p><figure id="_figure-8"><img alt="The soil coloured by displacement magnitude at the final step, under the see-through rigid cube." id="fig-paraview-5" src="../../../img/Tutorial_2/cube_displacement.png"><figcaption>Figure 8: The soil coloured by displacement magnitude at the final step, under the see-through rigid cube.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>6. Inspect the final stress distribution.</strong> Change the GIMPs' <em>Coloring</em> to <code>stress</code> → <code>ZZ</code>, click <em>Go to Last</em> (<code>▶|</code>) and then <em>Rescale to Data Range</em>. The soil has been compressed to about <span class="arithmatex">\(0.6\)</span> m under the rigid cube. Additionally to inspect the contact force select <code>surface_..vtu</code> and change its <em>Coloring</em> to <code>contact force</code> → <code>Magnitude</code>. The force is zero over the sides and top of the rigid cube and is carried by the triangles of its base, which is in contact with the soil.</p>
+<p><strong>6. Inspect the final stress distribution.</strong> Change the GIMPs' <em>Coloring</em> to <code>stress</code> → <code>ZZ</code> (1), click <em>Go to Last</em> (<code>▶|</code>) (2) and then <em>Rescale to Data Range</em> (3). The soil has been compressed to about <span class="arithmatex">\(0.6\)</span> m under the rigid cube. Additionally to inspect the contact force select <code>surface_..vtu</code> (4) and change its <em>Coloring</em> (1) to <code>contact force</code> → <code>Magnitude</code>. The force is zero over the sides and top of the rigid cube and is carried by the triangles of its base, which is in contact with the soil.</p>
 </div>
 <div>
 <p><figure id="_figure-9"><img alt="The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube." id="fig-paraview-6" src="../../../img/Tutorial_2/cube_stress.png"><figcaption>Figure 9: The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.</figcaption></figure></p>

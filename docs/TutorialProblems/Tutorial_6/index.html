@@ -1298,17 +1298,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#published-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Published results
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2879,17 +2868,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#published-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Published results
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3499,79 +3477,83 @@
 <p>The VTK files are written to <code>vtk_AC14_dr32</code> (see <a href="#output">Output</a>). The walkthrough below uses the same ParaView controls as <a href="../Tutorial_1/#visualising-the-output-in-paraview">Tutorial 1</a>. Only active material points are written, so once the anchor is on the soil the output shows the window of soil around it rather than the whole block.</p>
 <div class="walkthrough">
 <div>
-<p><strong>1. Open the soil and the anchor.</strong> <em>File → Open</em>, go to <code>vtk_AC14_dr32</code>, hold <code>Ctrl</code> and select the <code>mps_1_..vtu</code> (soil) and <code>surface_..vtu</code> (fluke and shank) series, click <em>OK</em> and then <em>Apply</em>.</p>
+<p><strong>1. Open the soil and the anchor.</strong> <em>File → Open</em> and go to <code>vtk_AC14_dr32</code>. Hold <code>Ctrl</code> and select the <code>mps_1_..vtu</code> (soil), <code>surface_..vtu</code> (fluke and shank) and <code>tracked_..vtu</code> (the fluke-tip marker) series (1), then click <em>OK</em> (2).</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_6/paraview_1.png</code> - the soil and the anchor after <em>Apply</em>.</p>
-</div>
+<p><figure id="_figure-3"><img alt="The soil, anchor surface and tracked-node series selected in the Open File dialog." id="fig-anchor-pv-1" src="../../../img/Tutorial_6/anchor_1.png"><figcaption>Figure 3: The soil, anchor surface and tracked-node series selected in the Open File dialog.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>2. Mirror the half model.</strong> Select <code>mps_1_..vtu</code> and apply <em>Filters → Alphabetical → Reflect</em> with <em>Plane</em> <code>Y</code> and <em>Center</em> <code>0</code>. Do the same for <code>surface_..vtu</code> to show the whole anchor.</p>
+<p><strong>2. Go to the end of the drag.</strong> Click <em>Apply</em>, then click <em>Last Frame</em> (<code>▶|</code>) (1) to go to the last output step. The soil shown is the window of active material points around the anchor, with the half anchor on the plane of symmetry.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_6/paraview_2.png</code> - the full soil window and the full anchor after reflecting.</p>
-</div>
+<p><figure id="_figure-4"><img alt="The soil window and the anchor at the last output step." id="fig-anchor-pv-2" src="../../../img/Tutorial_6/anchor_2.png"><figcaption>Figure 4: The soil window and the anchor at the last output step.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>3. Cut the soil away from the anchor.</strong> Select the reflected soil and apply <em>Filters → Common → Clip</em> with <em>Normal</em> <code>(0, 1, 0)</code> and <em>Origin</em> <code>(0, 0, 0)</code>, and untick <em>Show Plane</em>. Adjust the clip until the embedded anchor can be seen through the section.</p>
+<p><strong>3. Colour by displacement.</strong> With <code>mps_1_..vtu</code> selected in the <em>Pipeline Browser</em>, set <em>Coloring</em> to <code>displacement</code> and <code>Magnitude</code> (1). The full range, up to about <span class="arithmatex">\(25\)</span> m, leaves most of the soil the same colour, so click <em>Rescale to Custom Range</em> (2), enter <code>0</code> and <code>5</code> (3) and click <em>Ok</em>.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_6/paraview_3.png</code> - the anchor embedded in the clipped soil.</p>
-</div>
+<p><figure id="_figure-5"><img alt="Colouring by displacement magnitude and setting a custom range." id="fig-anchor-pv-3" src="../../../img/Tutorial_6/anchor_3.png"><figcaption>Figure 5: Colouring by displacement magnitude and setting a custom range.</figcaption></figure></p>
 </div>
 </div>
 <div class="walkthrough">
 <div>
-<p><strong>4. Colour by displacement at the final step.</strong> Colour the clipped soil by <code>displacement</code> → <code>Magnitude</code> and the anchor surface by <code>contact force</code> → <code>Magnitude</code>, click <em>Go to Last</em> (<code>▶|</code>) and then <em>Rescale to Data Range</em>.</p>
+<p><strong>4. Play the drag.</strong> The soil moves around the anchor and barely at all away from it. Click <em>First Frame</em> (<code>|◀</code>) and then <em>Play</em> (<code>▶</code>) to watch the anchor settle and drag, with the window of active soil moving with it.</p>
 </div>
 <div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_6/paraview_4.png</code> - soil displacement and contact force on the anchor at the end of the drag.</p>
-</div>
-</div>
-</div>
-<div class="walkthrough">
-<div>
-<p><strong>5. Play the drag.</strong> Click <em>Play</em> (<code>▶</code>) to watch the anchor settle and then drag, with the refined mesh and the window of active soil moving with it.</p>
-</div>
-<div>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: ParaView screenshot</p>
-<p><code>img/Tutorial_6/paraview_5.png</code> - a frame part-way through the drag.</p>
-</div>
+<p><figure id="_figure-6"><img alt="Soil displacement around the anchor at the end of the drag, on a 0 to 5 m scale." id="fig-anchor-pv-4" src="../../../img/Tutorial_6/anchor_4.png"><figcaption>Figure 6: Soil displacement around the anchor at the end of the drag, on a 0 to 5 m scale.</figcaption></figure></p>
 </div>
 </div>
 <h3 id="anchor-trajectory-and-holding-force">Anchor trajectory and holding force<a class="headerlink" href="#anchor-trajectory-and-holding-force" title="Permanent link">¶</a></h3>
 <p><code>csv_AC14_dr32/rigid_body.csv</code> has one row per output step, with columns for each point - <code>body1</code> the fluke, <code>body2</code> the shank and <code>body3</code> the pull point - followed by <code>track1_x</code>, <code>track1_y</code> and <code>track1_z</code>, the position of the tracked fluke tip:</p>
 <ul>
-<li><strong>Pull-line force:</strong> <code>body3_reaction force_x</code> is the force needed to move the pull point, i.e. the tension the anchor develops.</li>
+<li><strong>Pull-line force:</strong> <code>body3_reaction force_x</code> is the force needed to move the pull point, i.e. the pull the anchor resists. Only half the anchor is modelled, so the force on the whole anchor is twice this.</li>
 <li><strong>Drag distance:</strong> <code>body3_position_x</code> minus its value at the start of stage 3.</li>
-<li><strong>Embedment:</strong> the height of the soil surface minus <code>track1_z</code>, the height of the fluke tip. The sand settles under its own weight in stage 1, so take the surface height from the <code>material top</code> that MPM3S prints in the rigid body surface placement message at the start of stage 2 - <span class="arithmatex">\(18.2894\)</span> m here.</li>
+<li><strong>Embedment:</strong> <code>track1_z</code>, the height of the fluke tip, at <span class="arithmatex">\(t = 0\)</span> of stage 3 minus its current value. The anchor is placed on the soil surface at the start of stage 2 and settles in during it, so the fluke tip starts stage 3 at <span class="arithmatex">\(18.2538\)</span> m, just below the surface (the <code>material top</code> in the rigid body surface placement message, <span class="arithmatex">\(18.2894\)</span> m).</li>
 </ul>
 <p>The <code>time</code> column restarts at the start of each stage.</p>
-<div class="admonition example">
-<p class="admonition-title">Placeholder: results plot</p>
-<p><code>img/Tutorial_6/anchor_trajectory.png</code> - embedment depth and pull-line force against drag distance.</p>
-</div>
-<h3 id="published-results">Published results<a class="headerlink" href="#published-results" title="Permanent link">¶</a></h3>
-<p>The figures below are reproduced from <sup id="fnref:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>, for anchors dragged <span class="arithmatex">\(19\)</span> m and compared against the structured-mesh reference solution of Bird et al. <sup id="fnref2:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">2</a></sup> and the centrifuge measurements of Sharif et al. <sup id="fnref:sharif"><a class="footnote-ref" href="#fn:sharif">4</a></sup>. The octree background mesh and GIMP distribution around the anchor at <span class="arithmatex">\(19\)</span> m of drag, with elements coloured by refinement age (oldest blue, youngest red), is shown in <a href="#fig-anchor-example">Figure 3</a>:</p>
-<p><figure id="_figure-3"><img alt="Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age." id="fig-anchor-example" src="../../../img/Tutorial_6/anchor_example.png" width="70%"><figcaption>Figure 3: Octree background mesh and GIMP distribution for the anchor at a drag distance of 19 m, mesh coloured by refinement age.</figcaption></figure></p>
-<p><em>Figure reproduced from <sup id="fnref2:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
-<p>The anchor trajectories (penetration depth against horizontal travel) are compared in <a href="#fig-anchor-results">Figure 4</a>:</p>
-<p><figure id="_figure-4"><img alt="Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data." id="fig-anchor-results" src="../../../img/Tutorial_6/anchor_results.png" width="70%"><figcaption>Figure 4: Comparison of anchor trajectories for different adaptivity schemes against the structured-mesh reference and experimental data.</figcaption></figure></p>
-<p><em>Figure reproduced from <sup id="fnref3:bird2026implicitoctreebasedadaptivematerial"><a class="footnote-ref" href="#fn:bird2026implicitoctreebasedadaptivematerial">3</a></sup>.</em></p>
-<p>In that study, simulations A and B (both with a smallest element size of <span class="arithmatex">\(0.1\)</span> m) match or exceed the accuracy of the structured-mesh reference. Simulation B is <span class="arithmatex">\(5.5\)</span> times faster than the structured-mesh reference and emits approximately <span class="arithmatex">\(21\)</span> times less CO<span class="arithmatex">\(_2\)</span>e. The trajectory becomes insensitive to the size of the refined region once its element size is at least twice the smallest element size, showing that the octree refinement is well converged in the near field.</p>
+<p>The short Julia script below plots the depth of the fluke tip against the drag distance in stage 3, with the final depth measured in the centrifuge, <span class="arithmatex">\(2.8\)</span> m <sup id="fnref:sharif"><a class="footnote-ref" href="#fn:sharif">3</a></sup>. Run it from the <code>MPM3S</code> folder, either by copying it into the REPL or by saving it as <code>anchor_depth.jl</code> and running <code>include("anchor_depth.jl")</code>. It needs <a href="https://docs.juliaplots.org/">Plots</a>, installed as described in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">using</span><span class="w"> </span><span class="n">DelimitedFiles</span><span class="p">,</span><span class="w"> </span><span class="n">Plots</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c"># one row per output step, through all three stages</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readdlm</span><span class="p">(</span><span class="s">"csv_AC14_dr32/rigid_body.csv"</span><span class="p">,</span><span class="w"> </span><span class="sc">','</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">;</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vec</span><span class="p">(</span><span class="n">header</span><span class="p">))]</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">x_pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"body3_position_x"</span><span class="p">)</span><span class="w">   </span><span class="c"># pull point (m)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">z_tip</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"track1_z"</span><span class="p">)</span><span class="w">           </span><span class="c"># height of the fluke tip (m)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c"># stage 3, the drag: the pull point is held still until then, so the last row before it moves is t = 0 of stage 3</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">i0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findfirst</span><span class="p">(</span><span class="n">x_pull</span><span class="w"> </span><span class="o">.&gt;</span><span class="w"> </span><span class="n">x_pull</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">s</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">i0</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">x_pull</span><span class="p">)</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">drag</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">x_pull</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">x_pull</span><span class="p">[</span><span class="n">i0</span><span class="p">]</span><span class="w">       </span><span class="c"># drag distance (m)</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z_tip</span><span class="p">[</span><span class="n">i0</span><span class="p">]</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">z_tip</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="w">         </span><span class="c"># depth of the fluke tip below its position at t = 0 (m)</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">println</span><span class="p">(</span><span class="s">"final depth: MPM3S "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">depth</span><span class="p">[</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="s">" m, centrifuge 2.8 m"</span><span class="p">)</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="n">plot</span><span class="p">(</span><span class="n">drag</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">,</span><span class="w"> </span><span class="n">yflip</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"drag distance (m)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"fluke tip depth (m)"</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:topright</span><span class="p">)</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="n">hline!</span><span class="p">([</span><span class="mf">2.8</span><span class="p">],</span><span class="w"> </span><span class="n">linestyle</span><span class="o">=</span><span class="ss">:dash</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"centrifuge"</span><span class="p">)</span>
+</code></pre></div>
+<p>For this run it prints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>final depth: MPM3S 2.67 m, centrifuge 2.8 m
+</code></pre></div>
+<p><figure id="_figure-7"><img alt="Depth of the fluke tip below its position at the start of stage 3 against drag distance, with the final depth measured in the centrifuge." id="fig-anchor-depth" src="../../../img/Tutorial_6/anchor_depth.png" width="50%"><figcaption>Figure 7: Depth of the fluke tip below its position at the start of stage 3 against drag distance, with the final depth measured in the centrifuge.</figcaption></figure></p>
+<p>The fluke tip dives quickly over the first <span class="arithmatex">\(20\)</span> m of drag, then levels off at about <span class="arithmatex">\(2.7\)</span> m below where it started. The second script, run after the first, plots the pull-line force on the whole anchor. It rises as the anchor embeds and then fluctuates about a steady value once the depth levels off.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c"># run after anchor_depth.jl, which reads the data and sets s and drag</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">F_pull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column</span><span class="p">(</span><span class="s">"body3_reaction force_x"</span><span class="p">)</span><span class="w">   </span><span class="c"># force on the pull point, half the anchor (N)</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">force</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">F_pull</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="mf">1e3</span><span class="w">             </span><span class="c"># the whole anchor: twice the half model (kN)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c"># the force settles to a steady value once the anchor stops diving; average it over the last 20 m</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="n">steady</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">drag</span><span class="w"> </span><span class="o">.&gt;</span><span class="w"> </span><span class="n">drag</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">20</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="n">println</span><span class="p">(</span><span class="s">"steady pull-line force: "</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">force</span><span class="p">[</span><span class="n">steady</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">count</span><span class="p">(</span><span class="n">steady</span><span class="p">)),</span><span class="w"> </span><span class="s">" kN"</span><span class="p">)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">plot</span><span class="p">(</span><span class="n">drag</span><span class="p">,</span><span class="w"> </span><span class="n">force</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"drag distance (m)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"pull-line force (kN)"</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:bottomright</span><span class="p">)</span>
+</code></pre></div>
+<p>For this run it prints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>steady pull-line force: 698.0 kN
+</code></pre></div>
+<p><figure id="_figure-8"><img alt="Pull-line force on the whole anchor against drag distance." id="fig-anchor-force" src="../../../img/Tutorial_6/anchor_force.png" width="50%"><figcaption>Figure 8: Pull-line force on the whole anchor against drag distance.</figcaption></figure></p>
 <div class="footnote">
 <hr>
 <ol>
@@ -3579,13 +3561,10 @@
 <p>R.B.J. Brinkgreve, E. Engin, and H.K. Engin. Validation of empirical formulas to derive model parameters for sands. In <em>Numerical Methods in Geotechnical Engineering</em>, pages 137–142. CRC Press, 2010. <a class="footnote-backref" href="#fnref:brinkgreve2010validation" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:birdanchors2026">
-<p>Robert E. Bird, William M. Coombs, Michael J. Brown, Charles E. Augarde, Yaseen U. Sharif, Giuliano Pretti, Catriona Macdonald, Duncan Stevens, and Gareth Carter. Three-dimensional modelling of drag anchor penetration using the material point method. <em>Ocean Engineering</em>, 358:125456, 2026. <a class="footnote-backref" href="#fnref:birdanchors2026" title="Jump back to footnote 2 in the text">↩</a><a class="footnote-backref" href="#fnref2:birdanchors2026" title="Jump back to footnote 2 in the text">↩</a></p>
-</li>
-<li id="fn:bird2026implicitoctreebasedadaptivematerial">
-<p>Robert E. Bird, William M. Coombs, Charles E. Augarde, Giuliano Pretti, and Ted J. O'Hare. An implicit octree-based adaptive material point method. 2026. URL: <a href="https://arxiv.org/abs/2606.09275">https://arxiv.org/abs/2606.09275</a>, <a href="https://arxiv.org/abs/2606.09275">arXiv:2606.09275</a>. <a class="footnote-backref" href="#fnref:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 3 in the text">↩</a><a class="footnote-backref" href="#fnref2:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 3 in the text">↩</a><a class="footnote-backref" href="#fnref3:bird2026implicitoctreebasedadaptivematerial" title="Jump back to footnote 3 in the text">↩</a></p>
+<p>Robert E. Bird, William M. Coombs, Michael J. Brown, Charles E. Augarde, Yaseen U. Sharif, Giuliano Pretti, Catriona Macdonald, Duncan Stevens, and Gareth Carter. Three-dimensional modelling of drag anchor penetration using the material point method. <em>Ocean Engineering</em>, 358:125456, 2026. <a class="footnote-backref" href="#fnref:birdanchors2026" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 <li id="fn:sharif">
-<p>Yaseen Umar Sharif, Michael John Brown, Jonathan Adam Knappett, Craig Davidson, Robert Bird, Will Coombs, Charles Augarde, Gareth Carter, Catriona Macdonald, and Kirstin Johnson. Comparison of 1g and centrifuge modelling of drag anchors with subsurface wireless tracking. <em>International Journal of Physical Modelling in Geotechnics</em>, 25(2):102–114, 2025. <a class="footnote-backref" href="#fnref:sharif" title="Jump back to footnote 4 in the text">↩</a></p>
+<p>Yaseen Umar Sharif, Michael John Brown, Jonathan Adam Knappett, Craig Davidson, Robert Bird, Will Coombs, Charles Augarde, Gareth Carter, Catriona Macdonald, and Kirstin Johnson. Comparison of 1g and centrifuge modelling of drag anchors with subsurface wireless tracking. <em>International Journal of Physical Modelling in Geotechnics</em>, 25(2):102–114, 2025. <a class="footnote-backref" href="#fnref:sharif" title="Jump back to footnote 3 in the text">↩</a></p>
 </li>
 </ol>
 </div>
