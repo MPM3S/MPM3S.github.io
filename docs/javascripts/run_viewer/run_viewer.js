@@ -22,10 +22,10 @@ const KEY_VIEWS = { 0: "iso", 1: "top", 2: "bottom", 3: "front", 4: "rear", 5: "
 const HINT = "Left: rotate · Right: pan · Wheel or +/−: zoom · B: box zoom · F: fit all · 0–6: views · Space: play";
 const TOGGLES = [   // the Plater's display toggles: [label, option, tip, value when on, value when off]
   ["X-ray soil", "soil_opacity", "See bodies through the soil", 0.55, 1.0],
-  ["Grid", "grid", "Base-cell grid on the soil top"],
+  ["Grid", "grid", "Base-cell grid on the faces of the soil"],
   ["BC faces", "bc_faces", "Tint the material-box faces by the viewed stage's BCs and mark them: fixed, the triangle on hatched ground; roller, on rollers"],
   ["Octree", "octree", "The octree cube [0, L]³"],
-  ["Track", "track", "The viewed stage's boundary-track window"],
+  ["Tracked boundary", "track", "The viewed stage's boundary-track window"],
 ];
 
 let THREE, LineSegments2, LineSegmentsGeometry, LineMaterial;

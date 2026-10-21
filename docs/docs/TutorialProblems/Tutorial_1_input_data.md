@@ -20,7 +20,7 @@ The complete `input_data_gravity_column.json` for [Tutorial 1](Tutorial_1.md), a
         "layers": [
             {
                 "thickness": 0.8,
-                "material": { "type": "elastic", "E": 283.0, "nu": 0.0, "density": 50.0 }
+                "material": { "type": "elastic", "E": 1.0e4, "nu": 0.0, "density": 50.0 }
             }
         ]
     },
