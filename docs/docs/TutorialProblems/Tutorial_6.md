@@ -648,7 +648,7 @@ The VTK files are written to `vtk_AC14_dr32` (see [Output](#output)). The walkth
 
 The `time` column restarts at the start of each stage.
 
-The short Julia script below plots the depth of the fluke tip against the drag distance in stage 3, with the final depth measured in the centrifuge, $2.8$ m [@sharif]. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `anchor_depth.jl` and running `include("anchor_depth.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
+The short Julia script below plots the depth of the fluke tip against the drag distance in stage 3, with the final depth measured in the centrifuge, $2.4$ m [@sharif]. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `anchor_depth.jl` and running `include("anchor_depth.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
 
 ```julia
 using DelimitedFiles, Plots
@@ -665,16 +665,16 @@ s  = i0:length(x_pull)
 drag  = x_pull[s] .- x_pull[i0]       # drag distance (m)
 depth = z_tip[i0] .- z_tip[s]         # depth of the fluke tip below its position at t = 0 (m)
 
-println("final depth: MPM3S ", round(depth[end], digits=2), " m, centrifuge 2.8 m")
+println("final depth: MPM3S ", round(depth[end], digits=2), " m, centrifuge 2.4 m")
 
 plot(drag, depth, yflip=true, label="MPM3S", xlabel="drag distance (m)", ylabel="fluke tip depth (m)", legend=:topright)
-hline!([2.8], linestyle=:dash, label="centrifuge")
+hline!([2.4], linestyle=:dash, label="centrifuge")
 ```
 
 For this run it prints:
 
 ```text
-final depth: MPM3S 2.67 m, centrifuge 2.8 m
+final depth: MPM3S 2.67 m, centrifuge 2.4 m
 ```
 
 ![Depth of the fluke tip below its position at the start of stage 3 against drag distance, with the final depth measured in the centrifuge.](../../img/Tutorial_6/anchor_depth.png){ #fig-anchor-depth width="50%" }
