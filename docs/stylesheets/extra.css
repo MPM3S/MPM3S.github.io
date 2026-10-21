@@ -678,6 +678,25 @@ h1, h2, h3, h4, h5, h6 {
   grid-auto-rows: 1fr;
 }
 
+/* The tutorial cards (Tutorial problems): the link and the tutorial's animation, half the card wide, along
+   the bottom of each card. */
+.md-typeset .grid.cards.tutorial-cards > ul > li {
+  display: flex;
+  flex-direction: column;
+}
+.md-typeset .tutorial-cards .card-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+.md-typeset .tutorial-cards img.card-gif {
+  width: 50%;
+  aspect-ratio: 21 / 16;
+  object-fit: contain;
+}
+
 /* The tutorial animations: the same box everywhere, on the Introduction (three to a row) and beside each
    tutorial's level and time strip. */
 .md-typeset img.gif-box {

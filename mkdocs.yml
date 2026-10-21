@@ -118,7 +118,9 @@ nav:
 # Plugins
 plugins:
   - search
-  - caption
+  - caption:
+      figure:
+        ignore_classes: ["gif-box", "card-gif"]   # the tutorial animations are not numbered figures
   - bibtex:
       bib_file: "docs/refs.bib"
 

@@ -20,7 +20,7 @@ You can run every tutorial on your own hardware: the RAM decides whether a probl
 
 Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
-<div class="grid cards" markdown>
+<div class="grid cards tutorial-cards" markdown>
 
 -   :material-weight:{ .lg .middle } __Tutorial 1 - Self-weight column__
 
@@ -30,7 +30,8 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
     An elastic column compressed by its own weight. The simplest problem in the set: no contact, no plasticity and no mesh refinement, but large deformation, checked against an analytical vertical stress. Introduces the input file, running MPM3S and viewing the output.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_1.md)
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_1.md) <img class="card-gif" src="../../../img/gifs/MPM3S_column.gif" alt="The column compressing under its own weight." loading="lazy">
+    { .card-foot }
 
 -   :material-cube-outline:{ .lg .middle } __Tutorial 2 - Compaction via a rigid body__
 
@@ -40,7 +41,8 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
     A cube of soil compressed by a rigid cube through 25% of its height. Introduces rigid bodies defined by an STL surface, prescribed displacements and penalty contact.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_2.md)
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_2.md) <img class="card-gif" src="../../../img/gifs/cube.gif" alt="The rigid cube compressing the soil." loading="lazy">
+    { .card-foot }
 
 -   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.7 1 H13.3 V12.6 H10.7 Z"/><path fill="currentColor" d="M10.2 13 H13.8 V17 H10.2 Z"/><path fill="currentColor" d="M10.2 17.4 H13.8 L12 20.5 Z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M1.2 9 H9.2 M14.8 9 H22.8"/><path fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" d="M3.4 9 L2 11 M6.6 9 L5.2 11 M17.6 9 L16.2 11 M20.8 9 L19.4 11"/><path fill="currentColor" d="M4.7 1.2 H6.3 V3.8 H7.8 L5.5 6.6 L3.2 3.8 H4.7 Z M17.7 1.2 H19.3 V3.8 H20.8 L18.5 6.6 L16.2 3.8 H17.7 Z"/></svg></span> __Tutorial 3 - Vertical penetration (CPT)__
 
@@ -50,7 +52,8 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
     A quarter-symmetric cone penetration test in dry sand. Adds a two-stage analysis, Willam-Warnke sand with depth-dependent stiffness, frictional contact and mesh refinement that follows the cone.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_3.md)
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_3.md) <img class="card-gif" src="../../../img/gifs/CPT_dr32.gif" alt="The cone pushed into the sand." loading="lazy">
+    { .card-foot }
 
 -   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1 13.6 L2.4 12.2 L12.8 6 L12.8 8.4 Z"/><path fill="currentColor" d="M0.8 12.8 H2.5 V17 H0.8 Z"/><path fill="currentColor" d="M0.4 16 L13 11.4 L13.4 13.4 L1.2 17.9 L0.4 17.9 Z"/><path fill="currentColor" d="M8 14 L10.6 13 L9.4 19.6 Z"/><path fill="currentColor" d="M12.6 4.4 H17.6 V9.8 H12.6 Z"/><path fill="currentColor" d="M13.4 9.4 H15 V17.4 H13.4 Z M16 9.4 H17.6 V17.4 H16 Z"/><path fill="currentColor" d="M12 17 H21 L23 15 L24 15.9 L21.8 18.9 H12 Z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M17.6 6.6 L23.3 4.8"/></svg></span> __Tutorial 4 - Plough (horizontal penetration)__
 
@@ -68,7 +71,7 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 
 Implicit dynamic problems using the same Newton-Raphson framework, with inertia and time integration.
 
-<div class="grid cards" markdown>
+<div class="grid cards tutorial-cards" markdown>
 
 -   :material-rotate-right:{ .lg .middle } __Tutorial 5 - Rolling sphere__
 
@@ -78,7 +81,8 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     A rigid sphere rolling down a 45° slope, with a friction-coefficient sweep checked against the analytical slip/stick solution. Introduces dynamic stages, a free rigid body and a boundary track that follows the sphere.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_5.md)
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_5.md) <img class="card-gif" src="../../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope." loading="lazy">
+    { .card-foot }
 
 -   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M0.8 2.6 H3.6 L4.4 4.2 V19.8 L3.6 21.4 H0.8 Z"/><path fill="currentColor" d="M4.4 3.8 L15.4 8.4 V9.4 L4.4 10.4 Z"/><path fill="currentColor" d="M4.4 20.2 L15.4 15.6 V14.6 L4.4 13.6 Z"/><path fill="currentColor" d="M4.4 11 H20.4 V13 H4.4 Z"/><path fill="currentColor" fill-rule="evenodd" d="M21.4 9.9 A2.1 2.1 0 1 1 21.39 9.9 Z M21.4 11.2 A0.8 0.8 0 1 0 21.41 11.2 Z"/></svg></span> __Tutorial 6 - Drag anchor__
 
@@ -88,7 +92,8 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     A half-symmetric AC-14 drag anchor pulled through submerged sand. Combines Tutorial 3's soil model and Tutorial 5's dynamics and moving boundaries with an anchor of two hinged parts, an angle stop and a pull line, over three stages.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_6.md)
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_6.md) <img class="card-gif" src="../../../img/gifs/AC14_dr32.gif" alt="The AC-14 anchor dragged through the sand." loading="lazy">
+    { .card-foot }
 
 </div>
 
