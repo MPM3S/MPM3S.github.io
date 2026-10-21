@@ -20,8 +20,9 @@ body, input { font-family: var(--md-text-font-family); }
 .md-content__inner { padding-top: 1rem; }
 @media screen and (min-width: 76.25em) {
   /* the purple column, the whole height of the page: Material gives the sticky sidebar no height of
-     its own (the menu overflows it), so the column is painted on the row that holds it */
-  .md-main__inner { background: linear-gradient(to right, var(--sb-bg) 13rem, transparent 13rem); }
+     its own (the menu overflows it), so the column is painted behind it on .md-main, which Material
+     stretches to the footer even when the page is short */
+  .md-main { background: linear-gradient(to right, var(--sb-bg) 13rem, transparent 13rem); }
   .md-sidebar--secondary { border-left: 1px solid var(--page-line); }
 }
 
@@ -84,6 +85,9 @@ body, input { font-family: var(--md-text-font-family); }
   .md-sidebar--primary { background: var(--sb-bg); width: 13rem; padding: 0.8rem 0 0; }
   .md-sidebar--primary .md-sidebar__scrollwrap { margin: 0; }
   .md-sidebar--primary .md-sidebar__inner { padding: 0; }      /* Material keeps the menu to 11.5rem */
+  /* extra.css set the old menu right to left, right-aligned against the centred page: undone */
+  .md-sidebar--primary .md-nav, .md-sidebar--primary .md-nav__item { direction: ltr; }
+  .md-sidebar--primary .md-nav__link { justify-content: flex-start; text-align: left; }
   .md-sidebar--primary .md-nav { font-size: 0.68rem; }
   .md-nav--primary > .md-nav__title { display: none; }      /* the site name: it is in the header */
   .md-nav--primary > .md-nav__list { padding: 0 0.5rem; }
