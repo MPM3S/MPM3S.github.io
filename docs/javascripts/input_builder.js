@@ -387,15 +387,16 @@
 
   // ── the form ───────────────────────────────────────────────────────────────────────────
   let state = null;
-  // Everything starts minimised. Open sections are kept by path, open list items (stages, layers,
-  // ...) by the item itself, so they stay open when the list is reordered.
-  const openSet = new Set();
-  const expanded = new WeakSet();
+  // The main sections start minimised and everything inside them open. A section opened or closed by hand
+  // stays so, kept by path; a list item (stage, layer, ...) folded by hand is kept by the item itself, so it
+  // stays folded when the list is reordered.
+  const opened = new Map();
+  const folded = new WeakSet();
   // open every section and list item around a node of the form
   function reveal(node) {
     for (let d = node.closest("details, .ib-item"); d; d = d.parentElement.closest("details, .ib-item")) {
       if (d.tagName === "DETAILS") d.open = true;
-      else if (d.classList.contains("ib-collapsed")) { d.classList.remove("ib-collapsed"); expanded.add(d.ibItem); }
+      else if (d.classList.contains("ib-collapsed")) { d.classList.remove("ib-collapsed"); folded.delete(d.ibItem); }
     }
   }
   const el = (tag, attrs, ...kids) => {
@@ -645,11 +646,12 @@
     // a deeper item scrolls the preview to itself instead (flashPath)
     node.addEventListener("focusin", (e) => { if (activeKey !== key) markActive(key, e.target.closest("[data-p]") === node); });
   }
-  // a section that only its arrow opens and closes (a click elsewhere on its title row does not), kept open by key
-  function section(cls, id, key, ...head) {
+  // a section that only its arrow opens and closes (a click elsewhere on its title row does not): `shut` at first,
+  // or open, until it is opened or closed by hand
+  function section(cls, id, key, shut, ...head) {
     const box = el("details", { class: cls, id: id });
-    box.open = openSet.has(key);
-    box.addEventListener("toggle", () => (box.open ? openSet.add(key) : openSet.delete(key)));
+    box.open = opened.has(key) ? opened.get(key) : !shut;
+    box.addEventListener("toggle", () => opened.set(key, box.open));
     const chevron = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this section", "aria-label": "Show or hide this section" });
     chevron.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); box.open = !box.open; });
     const summary = el("summary", {}, ...head, chevron);
@@ -687,20 +689,20 @@
         toggle.addEventListener("change", () => {
           if (toggle.checked) {
             obj[f.key] = defaultFor(f);
-            if (f.kind === "list" && f.min === 0) { obj[f.key] = [makeObject(f.item)]; expanded.add(obj[f.key][0]); }
-            openSet.add(p.join("."));
+            if (f.kind === "list" && f.min === 0) obj[f.key] = [makeObject(f.item)];
+            opened.set(p.join("."), true);
           }
           else delete obj[f.key];
           render();
         });
       }
       if (f.kind === "obj" || f.kind === "list") {
-        const box = section("ib-group ib-st-" + st, pathId(p), p.join("."), toggle, label,
+        const box = section("ib-group ib-st-" + st, pathId(p), p.join("."), !path.length && !adv, toggle, label,
           f.kind === "list" && present && Array.isArray(obj[f.key]) ? el("span", { class: "ib-count" }, ` (${obj[f.key].length})`) : null);
         const meta = helpBits(f, p);
         if (meta.length) box.append(el("div", { class: "ib-meta" }, meta));
         if (!present) {
-          if (f.status !== "O") box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { obj[f.key] = defaultFor(f); openSet.add(p.join(".")); render(); } }, `Add "${f.key}"`));
+          if (f.status !== "O") box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { obj[f.key] = defaultFor(f); opened.set(p.join("."), true); render(); } }, `Add "${f.key}"`));
         } else if (f.kind === "obj" && (typeof obj[f.key] !== "object" || obj[f.key] === null || Array.isArray(obj[f.key]))) {
           box.append(mismatch(f, obj, p.concat("value"), "it should be an object { ... }"));
         } else if (f.kind === "list" && !Array.isArray(obj[f.key])) {
@@ -711,21 +713,21 @@
           const list = obj[f.key];
           list.forEach((item, i) => {
             const fold = el("button", { class: "ib-chevron", type: "button", title: "Show or hide this " + f.itemName, "aria-label": "Show or hide this " + f.itemName });
-            const card = el("div", { class: "ib-item" + (expanded.has(item) ? "" : " ib-collapsed"), id: pathId(p.concat(i)), "data-p": JSON.stringify(p.concat(i)) },
+            const card = el("div", { class: "ib-item" + (folded.has(item) ? " ib-collapsed" : ""), id: pathId(p.concat(i)), "data-p": JSON.stringify(p.concat(i)) },
               el("div", { class: "ib-item-head" }, el("strong", {}, `${f.itemName} ${i + 1}`),
                 el("span", { class: "ib-item-btns" },
                   i > 0 ? el("button", { class: "ib-btn ib-small", type: "button", title: "move up", onclick: () => { [list[i - 1], list[i]] = [list[i], list[i - 1]]; render(); } }, "↑") : null,
-                  el("button", { class: "ib-btn ib-small", type: "button", title: "duplicate", onclick: () => { const c = clone(item); expanded.add(c); list.splice(i + 1, 0, c); render(); } }, "⧉"),
+                  el("button", { class: "ib-btn ib-small", type: "button", title: "duplicate", onclick: () => { list.splice(i + 1, 0, clone(item)); render(); } }, "⧉"),
                   list.length > f.min ? el("button", { class: "ib-btn ib-small ib-remove", type: "button", title: "remove", onclick: () => { list.splice(i, 1); render(); } }, "✕") : null,
                   fold)));
             card.ibItem = item;
             fold.addEventListener("click", () => {
-              if (card.classList.toggle("ib-collapsed")) expanded.delete(item); else expanded.add(item);
+              if (card.classList.toggle("ib-collapsed")) folded.add(item); else folded.delete(item);
             });
             renderFields(f.item, item, p.concat(i), card);
             box.append(card);
           });
-          box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { const n = makeObject(f.item); expanded.add(n); list.push(n); render(); } }, `+ Add ${f.itemName}`));
+          box.append(el("button", { class: "ib-btn", type: "button", onclick: () => { list.push(makeObject(f.item)); render(); } }, `+ Add ${f.itemName}`));
         }
         box.dataset.p = JSON.stringify(p);
         if (!path.length) tagTop(box, f.key, box.querySelector("summary"));
@@ -747,7 +749,7 @@
   function renderAdvanced(host) {
     const reset = el("button", { class: "ib-btn ib-small ib-advreset", type: "button", title: "Put every advanced setting back to its default",
       onclick: advDefaults }, "Set to default");
-    const box = section("ib-group ib-adv", "ib-advanced", "__advanced", el("span", { class: "ib-key" }, "Advanced settings"), reset);
+    const box = section("ib-group ib-adv", "ib-advanced", "__advanced", true, el("span", { class: "ib-key" }, "Advanced settings"), reset);
     if (NOTES["Advanced settings"]) box.append(el("div", { class: "ib-meta" }, el("span", { class: "ib-help" }, NOTES["Advanced settings"])));
     const group = (title, fields, obj, path) => {
       if (!obj || typeof obj !== "object" || Array.isArray(obj) || !fields.some((x) => x.adv && applies(x, obj))) return;
@@ -991,7 +993,7 @@
     const note = holdFixed(obj);
     if (note) label = (label ? label + ". " : "") + note;
     state = obj;
-    openSet.clear();
+    opened.clear();
     loading = true;
     render();
     loading = false;
