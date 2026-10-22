@@ -166,7 +166,7 @@ body, input { font-family: var(--md-text-font-family); }
 /* ── the Introduction: lead, hero and the two buttons ── */
 .md-typeset .lead { font-size: 1.05rem; line-height: 1.45; color: var(--durham-ink); margin: -0.6rem 0 1.1rem; }
 /* the hero: class "gif-box" alone, which the caption plugin leaves unnumbered (mkdocs.yml), sized here */
-.md-typeset .hero > img.gif-box {
+.md-typeset .hero > video.gif-box {
   display: block;
   width: 100%;
   max-width: 48rem;                          /* no bigger than this on wide screens, */

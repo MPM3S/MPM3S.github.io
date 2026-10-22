@@ -336,7 +336,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 - VTK files for [ParaView](https://www.paraview.org/) are written to `vtk_CPT_dr32` every $0.5\%$ of each stage's load steps: every 2 load steps in the 450 of stage 2 ([output](../UsingTheSoftware/InputFormat/output.md)).
 - CSV files go to `csv_CPT_dr32` every $0.25\%$: every load step here.
 - The rigid-body CSV output includes the `reaction force` on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve.
-- [Cone resistance](#cone-resistance) shows how the tip resistance is calculated from it.
+- [Cone resistance](#cone-resistance) explains why the tip resistance cannot be calculated from it, and how to find the force on the tip alone.
 
 </div>
 
@@ -438,13 +438,9 @@ stage 2/2 ████████████ 100.0% t 1.001/1.0 step 457 Δt 0
 
 ### Cone resistance
 
-`csv_CPT_dr32/rigid_body.csv` has one row per output step for the cone's point, `body1`. `body1_position_z` is the height of the cone tip and `body1_reaction force_z` is the vertical force needed to push the cone. Because only a quarter of the soil is modelled, the tip resistance is approximately
+`csv_CPT_dr32/rigid_body.csv` has one row per output step for the cone's point, `body1`. `body1_reaction force_z`, $F_z$, is the vertical force needed to push the cone. Because only a quarter of the soil is modelled, the total load needed to push the full cone is $4\,|F_z|$. This is the force on the tip plus the friction along the sleeve, so it cannot be used to approximate the tip resistance $q_c$, which comes from the force on the conical tip alone; [the next section](#tip-resistance-without-the-sleeve-friction) shows how to find it.
 
-$$
-q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
-$$
-
-and the penetration depth is the height at which the cone is placed on the soil, minus `body1_position_z`. The sand settles under its own weight in stage 1, so the surface is at about $19.85$ m rather than $20$ m; MPM3S prints the exact value as `material top` in the `rigid body surface placement` message at the start of stage 2. $F_z$ includes the friction along the sleeve as well as the force on the tip, which is why $q_c$ is approximate. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the `time` column is the load fraction, which runs from 0 to 1 over the $4.5$ m of penetration.
+The vertical height of the cone tip is found from `body1_position_z`. The steps below show how to get the penetration depth into the sample.
 
 #### Tip resistance without the sleeve friction
 
@@ -579,7 +575,7 @@ The reaction force in `rigid_body.csv` includes the friction along the sleeve. T
 With $F_{tip}$ the summed vertical contact force from `load_data.csv`, the tip resistance of the full cone is
 
 $$
-q_c = \frac{4\, F_{tip}}{\pi r^2},
+q_c = \frac{4\, F_{tip}}{\pi r^2}, \qquad r = 0.4 \text{ m},
 $$
 
 and the penetration depth is the height at which the cone is placed on the soil - $19.8474$ m, the `material top` in the rigid body surface placement message - minus the tip height from `position_data.csv`. Both files have one row per output step; the first rows, from stage 1, have a tip height of $0$ and are skipped.

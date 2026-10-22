@@ -194,10 +194,10 @@ Install whichever runtime suits your machine, then pull the image.
 
     ```powershell
     docker pull ghcr.io/mpm3s/mpm3s:latest
-    docker run --rm -it --gpus all -v ${PWD}:/work -w /work ghcr.io/mpm3s/mpm3s:latest intut_data.json -t 4
+    docker run --rm -it --gpus all -v ${PWD}:/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
     - `--gpus all` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
@@ -205,10 +205,10 @@ Install whichever runtime suits your machine, then pull the image.
 
     ```bash
     sudo docker pull ghcr.io/mpm3s/mpm3s:latest
-    sudo docker run --rm -it -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest intut_data.json -t 4
+    sudo docker run --rm -it -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
     - The input file must have `"GPU": "off"`.
 
@@ -218,10 +218,10 @@ Install whichever runtime suits your machine, then pull the image.
 
     ```bash
     sudo docker pull ghcr.io/mpm3s/mpm3s:latest
-    sudo docker run --rm -it --gpus all -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest intut_data.json -t 4
+    sudo docker run --rm -it --gpus all -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
     - `--gpus all` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
@@ -231,10 +231,10 @@ Install whichever runtime suits your machine, then pull the image.
 
     ```bash
     docker pull ghcr.io/mpm3s/mpm3s:latest
-    docker run --rm -it -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest intut_data.json -t 4
+    docker run --rm -it -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance use the number of physical cores minus 2.
     - The input file must have `"GPU": "off"`.
 
@@ -256,20 +256,20 @@ To run the file, call it in the terminal or include it in your job script:
 === "CPU"
 
     ```bash
-    apptainer run mpm3s.sif intut_data.json -t 4
+    apptainer run mpm3s.sif input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
     - The input file must have `"GPU": "off"`.
 
 === "GPU"
 
     ```bash
-    apptainer run --nv mpm3s.sif intut_data.json -t 4
+    apptainer run --nv mpm3s.sif input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
     - `--nv` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
@@ -292,20 +292,20 @@ To run the file, call it in the terminal or include it in your job script:
 === "CPU"
 
     ```bash
-    singularity run mpm3s.sif intut_data.json -t 4
+    singularity run mpm3s.sif input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
     - The input file must have `"GPU": "off"`.
 
 === "GPU"
 
     ```bash
-    singularity run --nv mpm3s.sif intut_data.json -t 4
+    singularity run --nv mpm3s.sif input_data.json -t 4
     ```
 
-    - `intut_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
+    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
     - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
     - `--nv` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
 
