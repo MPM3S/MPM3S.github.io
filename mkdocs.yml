@@ -27,8 +27,8 @@ site_description: >-
   Material Point Method
 
 # Repository
-repo_name: mpm-netzero
-repo_url: https://github.com/DurhamARC/mpm-netzero
+repo_name: MPM3S-releases
+repo_url: https://github.com/MPM3S/MPM3S-releases
 
 # Copyright
 copyright: Copyright &copy; 2025 Durham University | UKRI Project Reference UKRI788
