@@ -32,23 +32,25 @@ Close and reopen the window, then verify the install with `julia --version`.
 
 ## Downloading MPM3S from GitHub
 
-The source lives at [github.com/MPM3S/MPM3S](https://github.com/MPM3S/MPM3S).
+Released versions of MPM3S are published at [github.com/MPM3S/MPM3S-releases](https://github.com/MPM3S/MPM3S-releases), which always holds the latest release.
 
-Use `git clone` to pull the code from GitHub into your current directory; updating later is then a single `git pull` from inside the folder:
+Use `git clone` to pull the code from GitHub into an `MPM3S` folder in your current directory:
 
 ```bash
-git clone https://github.com/MPM3S/MPM3S.git
+git clone https://github.com/MPM3S/MPM3S-releases.git MPM3S
 cd MPM3S
 ```
 
-If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/MPM3S](https://github.com/MPM3S/MPM3S).
+If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/MPM3S-releases](https://github.com/MPM3S/MPM3S-releases).
 
 
 ![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
 
-Then use the green *Code* button, choose *Download ZIP* and unzip it wherever you want to keep it.
+Then use the green *Code* button, choose *Download ZIP*, unzip it wherever you want to keep it and rename the folder to `MPM3S`.
 
 Both methods produce an `MPM3S` folder containing the Julia code.
+
+**Updating to a new release.** Each release replaces the previous one. Download the ZIP again into a fresh folder or, if you cloned with git, run `git fetch origin && git reset --hard origin/master` inside the `MPM3S` folder. This discards any changes made inside the folder, so keep your own input files elsewhere.
 
 ## MPM3S installation
 
