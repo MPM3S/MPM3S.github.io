@@ -6,7 +6,16 @@ description: MPM3S is software for large-deformation soil-structure interaction 
 
 <p class="lead">MPM3S is software for large-deformation soil–structure interaction problems, using the Material Point Method (MPM).</p>
 
-<a class="hero" href="../TutorialProblems/Tutorial_6/" title="Tutorial 6: Drag anchor"><video class="gif-box" src="../../img/gifs/AC14_dr32_hero.webm" autoplay loop muted playsinline aria-label="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."></video></a>
+<a class="hero" href="../TutorialProblems/Tutorial_6/" title="Tutorial 6: Drag anchor"><video class="gif-box" src="../../img/gifs/AC14_dr32_hero.webm" autoplay muted playsinline aria-label="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."></video></a>
+
+<script>
+/* The hero plays once and stays on its last frame. Coming back to the page with Back or Forward shows it
+   as it was left, ended, so it starts again from the beginning; a reload or a new visit starts it anyway. */
+addEventListener("pageshow", (e) => {
+  const v = document.querySelector(".md-typeset .hero > video");
+  if (v && e.persisted) { v.currentTime = 0; v.play().catch(() => {}); }
+});
+</script>
 
 <div class="cta" markdown>
 
