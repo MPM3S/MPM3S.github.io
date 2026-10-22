@@ -195,4 +195,20 @@ body, input { font-family: var(--md-text-font-family); }
 }
 .md-typeset .cta .md-button--primary { background: var(--durham-purple); color: #fff; }
 .md-typeset .cta .md-button:is(:hover, :focus) { background: var(--durham-purple-dark); border-color: var(--durham-purple-dark); color: #fff; }
+
+/* the tiles, everywhere: a see-through purple under the pointer, in place of Material's shadow */
+.md-typeset .grid.cards > ul > li:is(:hover, :focus-within),
+.md-typeset .grid > .card:is(:hover, :focus-within) {
+  border-color: color-mix(in srgb, var(--durham-purple) 45%, transparent);
+  background: color-mix(in srgb, var(--durham-purple) 8%, transparent);
+  box-shadow: none;
+}
+/* a click anywhere on a tile follows its arrow link (the one starting with an icon): the link's box is
+   stretched over the whole tile. The Technical reference tiles, lists of topic links, have none. */
+.md-typeset .grid.cards > ul > li { position: relative; }
+.md-typeset .grid.cards > ul > li a:has(> .twemoji:first-child)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
 .md-typeset .cta .md-button .twemoji { margin-right: 0.3em; }

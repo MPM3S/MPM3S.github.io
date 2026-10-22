@@ -1,0 +1,103 @@
+# Julia
+
+The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the [command/terminal window](#terminal-window).
+
+--8<-- "terminal_window.md"
+
+## Julia installation
+
+Install Julia with the [`juliaup`](https://github.com/JuliaLang/juliaup) toolchain manager, as recommended at [julialang.org/downloads](https://julialang.org/downloads/), by running the command for your system in the [command/terminal window](#terminal-window):
+
+=== "Windows"
+
+    ```powershell
+    winget install --name Julia --id 9NJNWW8PVKMN -e -s msstore
+    ```
+
+    - Alternatively, install *Julia* from the Microsoft Store, or use the `.exe` installer from [julialang.org/downloads](https://julialang.org/downloads/).
+
+=== "Linux"
+
+    ```bash
+    curl -fsSL https://install.julialang.org | sh
+    ```
+
+=== "macOS"
+
+    ```bash
+    curl -fsSL https://install.julialang.org | sh
+    ```
+
+Close and reopen the window, then verify the install with `julia --version`.
+
+## Downloading MPM3S from GitHub
+
+The source lives at [github.com/MPM3S/MPM3S](https://github.com/MPM3S/MPM3S).
+
+Use `git clone` to pull the code from GitHub into your current directory; updating later is then a single `git pull` from inside the folder:
+
+```bash
+git clone https://github.com/MPM3S/MPM3S.git
+cd MPM3S
+```
+
+If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/MPM3S](https://github.com/MPM3S/MPM3S).
+
+
+![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
+
+Then use the green *Code* button, choose *Download ZIP* and unzip it wherever you want to keep it.
+
+Both methods produce an `MPM3S` folder containing the Julia code.
+
+## MPM3S installation
+
+**1. Download the code** from GitHub, as described above.
+
+**2. Start Julia and install the MPM3S package.** Open a PowerShell (Windows) or terminal (Linux/macOS) window and start Julia with:
+
+```bash
+julia -t 4
+```
+`-t 4` sets the number of CPU threads. Four threads is sufficient when the analysis is on a GPU; for a CPU run, set the number of threads to the number of physical cores minus 2. Julia runs on one thread if `-t` is omitted.
+
+In the Julia REPL, change directory to `MPM3S` and install the MPM3S package. This installs the exact dependencies recorded in `Manifest.toml`:
+
+```julia-repl
+julia> cd("path/to/MPM3S")
+julia> using Pkg;
+julia> Pkg.activate(".")
+julia> Pkg.instantiate()
+julia> using MPM3S
+```
+
+If everything succeeds the REPL prints the package versions being resolved.
+
+**3. Run a problem.** Step 2 left Julia in the `MPM3S` folder with MPM3S loaded, and MPM3S is always run from there: every path is relative to the `MPM3S` folder. The tutorial input files are in `validation_data_and_jsons`, so Tutorial 1, for example, is run with:
+
+=== "CPU"
+
+    ```julia-repl
+    julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
+    ```
+
+    - The path to the input file is relative to the `MPM3S` folder.
+    - The semicolon stops the REPL printing the material-point data that is returned.
+    - The input file must have `"GPU": "off"`.
+
+=== "GPU"
+
+    ```julia-repl
+    julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_CPT_dr32.json");
+    ```
+
+    - The path to the input file is relative to the `MPM3S` folder; Tutorial 3's input file has `"GPU": "on"`.
+    - The semicolon stops the REPL printing the material-point data that is returned.
+    - The input file must have `"GPU": "on"`, and the machine needs an NVIDIA GPU with CUDA.
+
+This steps through the load increments set in the input file and writes the `.vtu`, `.vtk` and `.csv` output files to the `MPM3S` folder. To run your own problem, put its input file in a folder inside `MPM3S`, for example `my_runs/input_data.json`, and give that path: `MPM3S.non_linear_solve("my_runs/input_data.json")`.
+
+!!! warning "Important"
+    The paths to any `.stl` files in `input_data.json` are relative to the input file, not to the folder Julia is running in. The simplest set-up is to keep the `.stl` files in the same folder as `input_data.json`.
+
+Open the VTU/VTK files in [ParaView](https://www.paraview.org/) (or [VisIt](https://visit-dav.github.io/visit-website/)) to inspect the deformed mesh and the stress / displacement fields.

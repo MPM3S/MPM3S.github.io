@@ -60,7 +60,12 @@ theme:
 # an icon there when a top-level entry moves.
 nav:
   - Introduction: docs/Introduction.md
-  - Install and run: docs/GettingStarted/install_and_run.md
+  - Install and run:
+      - Overview: docs/GettingStarted/install_and_run.md
+      - Julia: docs/GettingStarted/julia.md
+      - Docker and containers: docs/GettingStarted/containers.md
+      - Cloud computing: docs/GettingStarted/cloud.md
+      - Viewing the output: docs/GettingStarted/viewing_output.md
   - Tutorial problems:
       - Overview: docs/TutorialProblems/TutorialProblems.md
       - Static:
@@ -161,6 +166,9 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.superfences
+  - pymdownx.snippets:            # --8<-- "file.md" pastes a shared block, e.g. the terminal window on each install page
+      base_path: [includes]
+      check_paths: true
   - pymdownx.keys
   - pymdownx.tabbed:
       alternate_style: true
