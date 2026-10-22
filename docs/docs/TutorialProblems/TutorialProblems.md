@@ -4,7 +4,7 @@ The MPM3S tutorial set walks you through benchmark problems, each one isolating 
 
 The recommended order is top to bottom - each tutorial reuses material settings, contact settings or solver choices established in earlier ones.
 
-Before starting, install Julia and MPM3S as described in [MPM3S installation](../GettingStarted/install_and_run.md#mpm3s-installation).
+Before starting, install Julia and MPM3S as described in [MPM3S installation](../GettingStarted/julia.md#mpm3s-installation).
 
 ## Difficulty and run time
 

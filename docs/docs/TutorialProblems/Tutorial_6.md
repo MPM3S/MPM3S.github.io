@@ -525,7 +525,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ## Deploying and running the problem
 
-MPM3S is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
+MPM3S is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/julia.md) for installing Julia and MPM3S, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 !!! note "Working in the MPM3S folder"
     Julia runs in the `MPM3S` folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from `validation_data_and_jsons/input_data_AC14_dr32.json`, and the output folder `csv_AC14_dr32` (and `vtk_AC14_dr32`, if VTK output is switched on) is written to the `MPM3S` folder.

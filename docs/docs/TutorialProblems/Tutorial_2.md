@@ -317,7 +317,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ## Deploying and running the problem
 
-MPM3S is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/install_and_run.md) for installing Julia and MPM3S.
+MPM3S is written in the [Julia](https://julialang.org/) programming language, and there are two ways to run the code, both explored on the [deployment page](../UsingTheSoftware/DeployingTheSoftware.md). As this is a small problem that runs quickly, this tutorial uses Julia directly; see the [installation guide](../GettingStarted/julia.md) for installing Julia and MPM3S.
 
 !!! note "Working in the MPM3S folder"
     Julia runs in the `MPM3S` folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from `validation_data_and_jsons/input_data_compress.json`, and the output folders `vtk_cube` and `csv_cube` are written to, and read back from, the `MPM3S` folder.
