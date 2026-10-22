@@ -2831,7 +2831,7 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <li>VTK files for <a href="https://www.paraview.org/">ParaView</a> are written to <code>vtk_CPT_dr32</code> every <span class="arithmatex">\(0.5\%\)</span> of each stage's load steps: every 2 load steps in the 450 of stage 2 (<a href="../../UsingTheSoftware/InputFormat/output/">output</a>).</li>
 <li>CSV files go to <code>csv_CPT_dr32</code> every <span class="arithmatex">\(0.25\%\)</span>: every load step here.</li>
 <li>The rigid-body CSV output includes the <code>reaction force</code> on the cone - the total force needed to push it, made up of the resistance at the tip and the friction along the sleeve.</li>
-<li><a href="#cone-resistance">Cone resistance</a> shows how the tip resistance is calculated from it.</li>
+<li><a href="#cone-resistance">Cone resistance</a> explains why the tip resistance cannot be calculated from it, and how to find the force on the tip alone.</li>
 </ul>
 </div>
 <div class="js-code">
@@ -2903,11 +2903,8 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <p>To see the displacements and stresses during the simulation, follow the same steps as for the compression cube in <a href="../Tutorial_2/#visualising-the-output-in-paraview">Tutorial 2</a>. All the VTK files for this problem are in <code>path/to/MPM3S/vtk_CPT_dr32</code>. This section shows how to extract the load on the cone and its penetration from them.</p>
 </div>
 <h3 id="cone-resistance">Cone resistance<a class="headerlink" href="#cone-resistance" title="Permanent link">¶</a></h3>
-<p><code>csv_CPT_dr32/rigid_body.csv</code> has one row per output step for the cone's point, <code>body1</code>. <code>body1_position_z</code> is the height of the cone tip and <code>body1_reaction force_z</code> is the vertical force needed to push the cone. Because only a quarter of the soil is modelled, the tip resistance is approximately</p>
-<div class="arithmatex">\[
-q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
-\]</div>
-<p>and the penetration depth is the height at which the cone is placed on the soil, minus <code>body1_position_z</code>. The sand settles under its own weight in stage 1, so the surface is at about <span class="arithmatex">\(19.85\)</span> m rather than <span class="arithmatex">\(20\)</span> m; MPM3S prints the exact value as <code>material top</code> in the <code>rigid body surface placement</code> message at the start of stage 2. <span class="arithmatex">\(F_z\)</span> includes the friction along the sleeve as well as the force on the tip, which is why <span class="arithmatex">\(q_c\)</span> is approximate. The rows from stage 1 come before the cone is placed on the soil, with zero force, and should be skipped. In a static stage the <code>time</code> column is the load fraction, which runs from 0 to 1 over the <span class="arithmatex">\(4.5\)</span> m of penetration.</p>
+<p><code>csv_CPT_dr32/rigid_body.csv</code> has one row per output step for the cone's point, <code>body1</code>. <code>body1_reaction force_z</code>, <span class="arithmatex">\(F_z\)</span>, is the vertical force needed to push the cone. Because only a quarter of the soil is modelled, the total load needed to push the full cone is <span class="arithmatex">\(4\,|F_z|\)</span>. This is the force on the tip plus the friction along the sleeve, so it cannot be used to approximate the tip resistance <span class="arithmatex">\(q_c\)</span>, which comes from the force on the conical tip alone; <a href="#tip-resistance-without-the-sleeve-friction">the next section</a> shows how to find it.</p>
+<p>The vertical height of the cone tip is found from <code>body1_position_z</code>. The steps below show how to get the penetration depth into the sample.</p>
 <h4 id="tip-resistance-without-the-sleeve-friction">Tip resistance without the sleeve friction<a class="headerlink" href="#tip-resistance-without-the-sleeve-friction" title="Permanent link">¶</a></h4>
 <p>The reaction force in <code>rigid_body.csv</code> includes the friction along the sleeve. To find the force on the tip alone, sum the vertical contact force on the triangles of the conical tip in ParaView, and track the height of the tip:</p>
 <div class="walkthrough">
@@ -3024,7 +3021,7 @@ q_c = \frac{4\, |F_z|}{\pi r^2}, \qquad r = 0.4 \text{ m},
 </div>
 <p>With <span class="arithmatex">\(F_{tip}\)</span> the summed vertical contact force from <code>load_data.csv</code>, the tip resistance of the full cone is</p>
 <div class="arithmatex">\[
-q_c = \frac{4\, F_{tip}}{\pi r^2},
+q_c = \frac{4\, F_{tip}}{\pi r^2}, \qquad r = 0.4 \text{ m},
 \]</div>
 <p>and the penetration depth is the height at which the cone is placed on the soil - <span class="arithmatex">\(19.8474\)</span> m, the <code>material top</code> in the rigid body surface placement message - minus the tip height from <code>position_data.csv</code>. Both files have one row per output step; the first rows, from stage 1, have a tip height of <span class="arithmatex">\(0\)</span> and are skipped.</p>
 <p>The short Julia script below plots <span class="arithmatex">\(q_c\)</span> against the penetration depth. Run it from the <code>MPM3S</code> folder, either by copying it into the REPL or by saving it as <code>plot_qc.jl</code> and running <code>include("plot_qc.jl")</code>. It needs <a href="https://docs.juliaplots.org/">Plots</a>, installed as described in <a href="../Tutorial_1/#analysing-the-stress-variation-with-height">Tutorial 1</a>. It also plots ten points interpolated from a centrifuge CPT in sand at <span class="arithmatex">\(D_r = 38\%\)</span>, the data used by Bird <em>et al.</em> <sup id="fnref:birdanchors2026"><a class="footnote-ref" href="#fn:birdanchors2026">5</a></sup>; the sand in this tutorial is slightly looser, at <span class="arithmatex">\(D_r = 32\%\)</span>.</p>
