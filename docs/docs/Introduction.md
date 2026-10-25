@@ -6,15 +6,30 @@ description: MPM3S is software for large-deformation soil-structure interaction 
 
 <p class="lead">MPM3S is software for large-deformation soil–structure interaction problems, using the Material Point Method (MPM).</p>
 
-<a class="hero" href="../TutorialProblems/Tutorial_6/" title="Tutorial 6: Drag anchor"><video class="gif-box" src="../../img/gifs/AC14_dr32_hero.webm" autoplay muted playsinline aria-label="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."></video></a>
+<a class="hero" href="../TutorialProblems/Tutorial_6/" title="Tutorial 6: Drag anchor"><img class="gif-box" src="../../img/gifs/AC14_dr32_hero.gif" alt="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."></a>
 
 <script>
-/* The hero plays once and stays on its last frame. Coming back to the page with Back or Forward shows it
-   as it was left, ended, so it starts again from the beginning; a reload or a new visit starts it anyway. */
-addEventListener("pageshow", (e) => {
-  const v = document.querySelector(".md-typeset .hero > video");
-  if (v && e.persisted) { v.currentTime = 0; v.play().catch(() => {}); }
-});
+/* The hero gif plays once and stops on its last frame. A browser keeps a finished gif finished when it
+   shows the page again from its cache (Back or Forward, and a reload in some browsers), so then the gif
+   gets a fresh blob: address for the same bytes - from the browser's cache, not downloaded again - which
+   starts it from the first frame. A first visit plays it as it downloads, untouched. */
+(function () {
+  const img = document.querySelector(".md-typeset .hero > img");
+  if (!img || !window.fetch || !window.URL) return;
+  const url = img.getAttribute("src");
+  let bytes = null, shown = null;
+  function replay() {
+    (bytes ? Promise.resolve(bytes) : fetch(url).then((r) => (r.ok ? r.blob() : Promise.reject())).then((b) => (bytes = b)))
+      .then((b) => {
+        if (shown) URL.revokeObjectURL(shown);
+        shown = URL.createObjectURL(b);
+        img.src = shown;
+      })
+      .catch(() => {});                           // e.g. opened as a file: the gif just stays as it is
+  }
+  if (img.complete) replay();                     // already in the cache when the page opened
+  addEventListener("pageshow", (e) => { if (e.persisted) replay(); });   // back to the page
+})();
 </script>
 
 <div class="cta" markdown>
