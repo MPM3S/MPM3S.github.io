@@ -1,10 +1,10 @@
 % Rolling sphere (Tutorial 5), in the style of cube_setup.png and cpt_setup.png.
-% The domain is a 12.8 x 1.6 x 0.8 m slab of 0.8 m elements with a 2 x 2 x 2 grid
+% The material domain is 12.8 x 1.6 x 0.8 m, of 0.8 m elements with a 2 x 2 x 2 grid
 % of GIMPs in each. The four elements beneath the sphere are refined once (shown
 % schematically; the finest elements are 0.025 m), and their GIMPs follow the refined
 % mesh, two per direction in every element. The sphere, radius 1 m, has its centre
 % at (1.5, 0.8, 1.8) m, and gravity is tilted 45 degrees towards +x. The ends and
-% the base of the slab are fixed (only the base is drawn); its sides are rollers.
+% the base of the material domain are fixed (only the base is drawn); its sides are rollers.
 % Lengths are in units of the 0.8 m element.
 % Build: pdflatex sphere_setup.tex
 %        pdftocairo -png -transp -r 300 -singlefile sphere_setup.pdf sphere_setup
@@ -58,7 +58,7 @@
   \foreach \x in {-0.15,-0.05,...,0.2} {\draw[hatch] (\x,0.05) -- (\x-0.07,-0.03);}}}%
 \begin{tikzpicture}[x={(0.8cm,0cm)}, y={(0.4cm,0.32cm)}, z={(0cm,0.8cm)}, font=\sffamily]
 
-  % the hidden mesh lines and nodes, on the back, the base and inside the slab
+  % the hidden mesh lines and nodes, on the back, the base and inside the material domain
   \foreach \y in {1,2} {\draw[hidden] (0,\y,0) -- (16,\y,0);}
   \foreach \x in {0,...,15} {
     \draw[hidden] (\x,0,0) -- (\x,2,0);

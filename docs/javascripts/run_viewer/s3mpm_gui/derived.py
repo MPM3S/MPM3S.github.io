@@ -88,7 +88,7 @@ def derive(s: M.Scene) -> Derived:
         if not sizes_ok:
             raise ValueError("every element size must be > 0")
         if not mp.layers:
-            raise ValueError("the soil block needs at least one layer")
+            raise ValueError("the material domain needs at least one layer")
         if any(l.thickness <= 0 for l in mp.layers):
             raise ValueError("every layer thickness must be > 0")
         if mp.npart < 1:
@@ -266,18 +266,18 @@ def validate(s: M.Scene, base_dir: Optional[str] = None, d: Optional[Derived] = 
     I = lambda w, m: out.append(Issue("info", w, m))
 
     if not d.ok:
-        E("Soil block", d.error)
+        E("Material domain", d.error)
     mp = s.material_points
     if mp.extra_capacity < 1:
-        E("Soil block", f'"extra capacity" is a factor ≥ 1 (1.2 = 20 % spare slots), got {mp.extra_capacity:g}')
+        E("Material domain", f'"extra capacity" is a factor ≥ 1 (1.2 = 20 % spare slots), got {mp.extra_capacity:g}')
     if d.ok:
         for i, (n, l) in enumerate(zip(d.layer_mp, mp.layers)):
             if n == 0:
                 E(f"Layer {i + 1}", f"holds no material points — thinner ({l.thickness:g}) than the MP spacing {d.s:g}")
         if abs(d.fx - mp.size_max[0]) > 1e-12 or abs(d.fy - mp.size_max[1]) > 1e-12:
-            I("Soil block", f"footprint {mp.size_max[0]:g} × {mp.size_max[1]:g} snaps up to whole cells: {d.fx:g} × {d.fy:g}")
+            I("Material domain", f"footprint {mp.size_max[0]:g} × {mp.size_max[1]:g} snaps up to whole cells: {d.fx:g} × {d.fy:g}")
         if abs(d.dx - mp.element_size) > 1e-12 * d.dx:
-            I("Soil block", f'"element size" {mp.element_size:g} snaps down to {d.dx:g} (a power-of-two multiple of the finest size {d.h:g})')
+            I("Material domain", f'"element size" {mp.element_size:g} snaps down to {d.dx:g} (a power-of-two multiple of the finest size {d.h:g})')
         if d.finest_depth > 31:
             W("Mesh", f"finest octree depth {d.finest_depth} needs UInt64 Morton codes")
     for i, l in enumerate(mp.layers):

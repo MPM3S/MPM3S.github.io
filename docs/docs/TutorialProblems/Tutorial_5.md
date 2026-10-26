@@ -33,15 +33,15 @@ You will define the slope, the sphere, the dynamic stage, the solver and the out
 
 To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane component of gravity.
 
-![The rolling sphere problem: a $12.8 \times 1.6 \times 0.8$ m slab of $0.8$ m elements with a $2 \times 2 \times 2$ grid of GIMPs in each. The elements beneath the sphere are refined, shown schematically as one level (the finest elements are $0.025$ m), and their GIMPs follow the refined mesh. The sphere, of radius $1$ m, rests on the slab, and gravity is tilted $45^\circ$ towards $+x$. The ends and base of the slab are fixed and its sides are rollers.](../../img/Tutorial_5/sphere_setup.png){ #fig-sphere-setup width="70%" }
+![The rolling sphere problem: a $12.8 \times 1.6 \times 0.8$ m material domain of $0.8$ m elements with a $2 \times 2 \times 2$ grid of GIMPs in each. The elements beneath the sphere are refined, shown schematically as one level (the finest elements are $0.025$ m), and their GIMPs follow the refined mesh. The sphere, of radius $1$ m, rests on the material domain, and gravity is tilted $45^\circ$ towards $+x$. The ends and base of the material domain are fixed and its sides are rollers.](../../img/Tutorial_5/sphere_setup.png){ #fig-sphere-setup width="70%" }
 
 *Figure adapted from [@bird2026implicitoctreebasedadaptivematerial].*
 
-**Slope:** A slab $12.8$ m long, $1.6$ m wide and $0.8$ m thick, made of $0.8$ m base elements with $2 \times 2 \times 2$ material points in each. The elements the sphere touches are refined to $0.025$ m.
+**Slope:** A material domain $12.8$ m long, $1.6$ m wide and $0.8$ m thick, made of $0.8$ m base elements with $2 \times 2 \times 2$ material points in each. The elements the sphere touches are refined to $0.025$ m.
 
-**Boundary conditions:** The two ends of the slab ($x = 0$ and $x = 12.8$ m) and its base are fixed, and its two sides are rollers. The top surface is free.
+**Boundary conditions:** The two ends of the material domain ($x = 0$ and $x = 12.8$ m) and its base are fixed, and its two sides are rollers. The top surface is free.
 
-**Material:** A very stiff Hencky elastic slab: Young's modulus $E = 10^9$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 1000$ kg/m$^3$. It deforms negligibly, but modelling it with material points is what exercises the contact between a rigid body and a refined mesh - the point of the test.
+**Material:** A very stiff Hencky elastic material domain: Young's modulus $E = 10^9$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 1000$ kg/m$^3$. It deforms negligibly, but modelling it with material points is what exercises the contact between a rigid body and a refined mesh - the point of the test.
 
 **Sphere:** `sphere.stl`, a sphere of radius $r = 1$ m made of 3120 triangles on a latitude-longitude grid, drawn centred on the origin. Its point is at the centre, with mass $m = 5000$ kg and rotational inertia $I = \tfrac{2}{5} m r^2 = 2000$ kg$\cdot$m$^2$, a solid sphere. The sphere can move in $x$ and $z$ and rotate about $y$; its other three degrees of freedom are fixed.
 
@@ -103,7 +103,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background grid is a cube, sized automatically to hold the slab: its $12.8$ m length makes it a $12.8$ m cube ([domain](../UsingTheSoftware/InputFormat/domain.md)).
+- The background grid is a cube, sized automatically to hold the material domain: its $12.8$ m length makes it a $12.8$ m cube ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - `"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
 
 </div>
@@ -161,7 +161,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 - The sphere is one system with one [point](../UsingTheSoftware/InputFormat/rigid_bodies.md#points), at its centre.
 - The point's six boundary conditions, in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$, leave it free to move in $x$ and $z$ and to rotate about $y$.
 - `sphere.stl` is drawn centred on the origin, the same place as the point ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)).
-- `"offset"` then places the whole sphere with its centre above $x = 1.5$ m, halfway across the slab's width and $1.8$ m up - resting on the slab surface at $0.8$ m.
+- `"offset"` then places the whole sphere with its centre above $x = 1.5$ m, halfway across the material domain's width and $1.8$ m up - resting on the material domain surface at $0.8$ m.
 
 </div>
 
@@ -192,7 +192,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Contact
 
-- The friction coefficient between the sphere and the slab, here $\mu = 0.2$ ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
+- The friction coefficient between the sphere and the material domain, here $\mu = 0.2$ ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
 - This is below $\tan(45^\circ)/3.5 \approx 0.286$, so the sphere slips as it rolls.
 - Change it between runs to reproduce the friction sweep, and change the output directory names to match, so the runs do not overwrite each other.
 
@@ -218,12 +218,12 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 - A single dynamic stage: $1$ s of motion in steps of $0.005$ s ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
 - The Newmark parameters $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping, which keeps the stiff contact stable.
-- `"rigid body surface placement": "on"` makes sure the sphere starts exactly on the slab surface.
+- `"rigid body surface placement": "on"` makes sure the sphere starts exactly on the material domain surface.
 - `"rigid body surface"` adaptivity refines the elements the sphere's surface passes through to $0.025$ m at every step ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
-- The slab's ends and base are fixed and its sides are rollers ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- The material domain's ends and base are fixed and its sides are rollers ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
 - `"boundary track"` makes the $x$ boundaries follow the sphere ([boundary track](../UsingTheSoftware/InputFormat/analysis.md#boundary-track)):
-    - a fixed plane at the back of the sphere deletes the slab it leaves behind (`"remove": "yes"`);
-    - a fixed plane $1$ m ahead of it keeps the slab further ahead inactive until the sphere approaches;
+    - a fixed plane at the back of the sphere deletes the material domain it leaves behind (`"remove": "yes"`);
+    - a fixed plane $1$ m ahead of it keeps the material domain further ahead inactive until the sphere approaches;
     - tracking is `"off"` in $y$ and $z$.
 
 </div>
@@ -352,7 +352,7 @@ The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a
 
 #### Reading the output
 
-Before the first time step, MPM3S reports the rigid body surface placement: the lowest point of the sphere (`body base`) and the top of the slab (`material top`) are both at $0.8$ m, so the sphere is moved by only `Δz = 1.87755e-7` m.
+Before the first time step, MPM3S reports the rigid body surface placement: the lowest point of the sphere (`body base`) and the top of the material domain (`material top`) are both at $0.8$ m, so the sphere is moved by only `Δz = 1.87755e-7` m.
 
 The progress line works as in [Tutorial 1](Tutorial_1.md#reading-the-output), except that in a dynamic stage `t` is the simulated time, out of the $1$ s final time. The $200$ time steps of `Δt 0.005` s end at `step 201`, each converging in about 4 Newton-Raphson iterations (`NR`) with no steps cut or material points deleted. `N` is large, over $100\,000$ nodes, because the mesh is refined to $0.025$ m around the sphere.
 

@@ -1,6 +1,6 @@
 # Material points
 
-The soil block: the background element size, how many material points are placed in each element, the plan footprint and the layers from the surface downwards. The status labels are explained on the [format overview](index.md#how-to-read-these-pages).
+The material domain: the background element size, how many material points are placed in each element, the plan footprint and the layers from the surface downwards. The status labels are explained on the [format overview](index.md#how-to-read-these-pages).
 
 ```json
 "material points": {
@@ -24,8 +24,8 @@ The soil block: the background element size, how many material points are placed
 | `"extra capacity"`                           | Required | number $\geq 1$  | -       | Storage reserved for material points, as a multiple of the initial number. Refinement splits material points, so leave headroom (1.2 = 20% extra). |
 | `"element size"`                             | Required | number (m)       | -       | Size of the base background element, before [rounding](#how-element-sizes-set-the-mesh).                                  |
 | `"number of material points per element 1"`  | Required | integer $\geq 1$ | -       | Material points per element **per axis**, so $n^3$ in each element. 2 is typical.                                         |
-| `"material size"`                            | Required | object           | -       | Plan footprint of the soil block (below).                                                                                  |
-| `"layers"`                                   | Required | array of objects | -       | The soil layers, listed **from the surface down**. The block rests on $z = 0$.                                             |
+| `"material size"`                            | Required | object           | -       | Plan footprint of the material domain (below).                                                                             |
+| `"layers"`                                   | Required | array of objects | -       | The soil layers, listed **from the surface down**. The material domain rests on $z = 0$.                                   |
 
 </div>
 
@@ -35,8 +35,8 @@ The soil block: the background element size, how many material points are placed
 
 | Key       | Status   | Type        | Default | Description                                                                                          |
 |-----------|----------|-------------|---------|------------------------------------------------------------------------------------------------------|
-| `"max"`   | Required | [x, y] (m)  | -       | Plan extent of the soil block. Rounded up to a whole number of base elements.                        |
-| `"min"`   | Ignored  | [x, y]      | -       | The block always starts at $x = y = 0$. Writing `[0.0, 0.0]` keeps the file readable.                |
+| `"max"`   | Required | [x, y] (m)  | -       | Plan extent of the material domain. Rounded up to a whole number of base elements.                   |
+| `"min"`   | Ignored  | [x, y]      | -       | The material domain always starts at $x = y = 0$. Writing `[0.0, 0.0]` keeps the file readable.      |
 
 </div>
 
@@ -106,7 +106,7 @@ $$
 E = E_\text{ref} \left( \frac{\sigma_v}{\sigma_\text{ref}} \right)^m, \qquad \sigma_v = |g| \int \rho \, \text{d}z,
 $$
 
-measured from the top of the block down through every layer above. The modulus is set from the initial position once, so it does not change as the soil deforms.
+measured from the top of the material domain down through every layer above. The modulus is set from the initial position once, so it does not change as the soil deforms.
 
 ```json
 "E overburden": { "reference stress": 1.0e5, "exponent": 0.5 }
@@ -129,7 +129,7 @@ The background grid is an octree, so all element sizes must be power-of-two mult
 
 - The **smallest** element size requested anywhere in the file - the base `"element size"` or any stage's `"element size"` or `"element size in region"` - is used exactly.
 - Every other size is rounded **down** to the nearest $h_\text{min} \cdot 2^n$. For example, a base size of 4.0 m with a refinement size of 0.1 m gives a base element of $0.1 \times 2^5 = 3.2$ m.
-- The footprint `"max"` is rounded **up** to whole base elements, and the top of the block is rounded up to a whole row of material points.
+- The footprint `"max"` is rounded **up** to whole base elements, and the top of the material domain is rounded up to a whole row of material points.
 
 The background mesh these elements make up is described on the [domain](domain.md#the-background-mesh) page.
 

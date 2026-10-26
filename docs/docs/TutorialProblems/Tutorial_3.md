@@ -31,13 +31,13 @@ This tutorial has four sections:
 
 You will define the soil, the cone, the two loading stages, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
-To reduce the computational cost the symmetry of the problem is exploited and therefore only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the soil block at $x = y = 0$, and the two faces that meet there carry roller conditions.
+To reduce the computational cost the symmetry of the problem is exploited and therefore only a quarter of the problem is modelled, using the two vertical planes of symmetry through the cone axis. The cone axis runs down the corner of the material domain at $x = y = 0$, and the two faces that meet there carry roller conditions.
 
 ![The quarter model: a $10 \times 10 \times 20$ m block of sand with the cone above the corner at $x = y = 0$, where the two symmetry planes meet. Rollers act on the four vertical faces and the base is fixed. The cone, $0.8$ m across with a $60^\circ$ tip, is not drawn to scale.](../../img/Tutorial_3/cpt_setup.png){ #fig-cpt-domain width="25%" }
 
 *Figure adapted from [@bird2026implicitoctreebasedadaptivematerial].*
 
-**Soil block:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)).
+**Material domain:** $10 \times 10$ m in plan and $20$ m deep, starting with $2 \times 2 \times 2$ material points in each element. The base element size is given as $2.0$ m, but every element size must be a power-of-two multiple of the smallest one - $0.025$ m at the cone - so the base size becomes $0.025 \times 2^6 = 1.6$ m and the footprint is rounded up to seven elements, $11.2 \times 11.2$ m (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)).
 
 **Boundary conditions:** Rollers on the four vertical faces and a fixed base, at $x = 0$ and $y = 0$ these are the symmetry conditions. The soil surface is free.
 
@@ -114,7 +114,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background grid is a cube, sized automatically to hold the soil block and the empty space above it: here a cube of side $51.2$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
+- The background grid is a cube, sized automatically to hold the material domain and the empty space above it: here a cube of side $51.2$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - Gravity acts in $-z$.
 
 </div>
@@ -176,7 +176,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 - The cone is one system with a single [point](../UsingTheSoftware/InputFormat/rigid_bodies.md#points), placed at its tip - the origin of `CPT.stl`.
 - All positions in the file are global, so the point and the STL geometry are given in the same frame.
-- `"offset"` shifts the whole cone $10$ mm in $-x$ and $-y$, so its axis sits just outside the corner of the soil block.
+- `"offset"` shifts the whole cone $10$ mm in $-x$ and $-y$, so its axis sits just outside the corner of the material domain.
 - All six degrees of freedom are `"fixed"`, so the cone does not move and its mass and inertia play no part; stage 2 replaces the vertical condition to push the cone down.
 - `CPT_mesh.txt` stores the tetrahedral mesh of the cone; if it is missing, it is generated from the STL on the first run ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)).
 

@@ -89,7 +89,7 @@ It needs the sphere geometry `sphere.stl` and its mesh cache `sphere_mesh.txt` i
 2.  Gravity tilted $45^\circ$ towards $+x$, modelling the slope on a level grid. [Domain →](Tutorial_5.md#domain) · [Domain →](../UsingTheSoftware/InputFormat/domain.md)
 3.  One $0.8$ m stiff elastic layer, $12.8 \times 1.6$ m. [Material points →](Tutorial_5.md#material-points) · [Material points →](../UsingTheSoftware/InputFormat/material_points.md)
 4.  One system: the sphere. [Rigid body →](Tutorial_5.md#rigid-body) · [Rigid bodies →](../UsingTheSoftware/InputFormat/rigid_bodies.md)
-5.  Places the sphere's centre at $(1.5, 0.8, 1.8)$ m, resting on the slab. [Rigid body →](Tutorial_5.md#rigid-body) · [Rigid bodies →](../UsingTheSoftware/InputFormat/rigid_bodies.md)
+5.  Places the sphere's centre at $(1.5, 0.8, 1.8)$ m, resting on the material domain. [Rigid body →](Tutorial_5.md#rigid-body) · [Rigid bodies →](../UsingTheSoftware/InputFormat/rigid_bodies.md)
 6.  One point at the sphere's centre, free to move in $x$ and $z$ and to rotate about $y$. [Rigid body →](Tutorial_5.md#rigid-body) · [Points →](../UsingTheSoftware/InputFormat/rigid_bodies.md#points)
 7.  `sphere.stl`, drawn centred on the origin. [Rigid body →](Tutorial_5.md#rigid-body) · [STL files →](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)
 8.  $\mu = 0.2$: the sphere slips as it rolls. [Contact →](Tutorial_5.md#contact) · [Contact →](../UsingTheSoftware/InputFormat/contact.md)

@@ -64,6 +64,7 @@ nav:
       - Overview: docs/GettingStarted/install_and_run.md
       - Julia: docs/GettingStarted/julia.md
       - Docker and containers: docs/GettingStarted/containers.md
+      - HPC (Hamilton): docs/GettingStarted/hpc.md
       - Cloud computing: docs/GettingStarted/cloud.md
       - Viewing the output: docs/GettingStarted/viewing_output.md
   - Tutorial problems:

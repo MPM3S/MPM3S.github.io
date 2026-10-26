@@ -35,7 +35,7 @@ You will model an anchor (AC14) being dragged through a subsurface soil. To do t
 
 ![The half model at the start of stage 2, drawn shortened.](../../img/Tutorial_6/anchor_setup.png){ #fig-anchor-setup width="80%" }
 
-**Soil block:** The soil is $120$ m long, $10$ m wide and $18.123$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the anchor are refined to $0.1$ m, while those far from it are $2.0$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.1$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)):
+**Material domain:** The soil is $120$ m long, $10$ m wide and $18.123$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the anchor are refined to $0.1$ m, while those far from it are $2.0$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.1$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)):
 
 - element sizes are rounded **down** to a power-of-two multiple of $0.1$ m, so the mesh is never coarser than requested: the $2.0$ m elements become $0.1 \times 2^4 = 1.6$ m;
 - the $x$ and $y$ dimensions are rounded **up** to whole elements: $120 \times 11.2$ m;
@@ -136,7 +136,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background mesh is a cube, sized automatically to hold the soil block plus the same height of empty space above it ([domain](../UsingTheSoftware/InputFormat/domain.md)).
+- The background mesh is a cube, sized automatically to hold the material domain plus the same height of empty space above it ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - Here the $120$ m length governs: the side is rounded up to a power-of-two number of $1.6$ m elements, $1.6 \times 2^7 = 204.8$ m.
 - Gravity acts in $-z$.
 

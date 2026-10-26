@@ -25,7 +25,7 @@ Only half of the domain is modelled, exploiting the symmetry of the plough in $x
 
 <div class="grid" markdown>
 
-![Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the soil block dimensions, and the Signorini exit face (C).](../../img/Tutorial_4/plough_figure_1.png){ #fig-plough-setup width="100%" }
+![Initial numerical setup of the half-symmetric plough domain, showing the plough geometry, the material domain dimensions, and the Signorini exit face (C).](../../img/Tutorial_4/plough_figure_1.png){ #fig-plough-setup width="100%" }
 
 ![Side view of Signorini boundary conditions.](../../img/Tutorial_4/plough_figure_2.png){ #fig-plough-setup-BCs width="100%" }
 

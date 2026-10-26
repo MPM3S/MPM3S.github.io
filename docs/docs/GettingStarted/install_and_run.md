@@ -1,6 +1,6 @@
 # Install and run
 
-There are three ways to run MPM3S, and a viewer for its output. Each tile below links to the page for one of them, and every page starts with how to open a command/terminal window.
+There are four ways to run MPM3S, and a viewer for its output. Each tile below links to the page for one of them, and every page starts with how to open a command/terminal window.
 
 <div class="grid cards equal" markdown>
 
@@ -19,6 +19,14 @@ There are three ways to run MPM3S, and a viewer for its output. Each tile below 
     An image with Julia and MPM3S already installed, run with Docker, Apptainer or Singularity. The easiest way to set up the simulations on an HPC.
 
     [:octicons-arrow-right-24: Docker and containers](containers.md)
+
+-   :material-server-network:{ .lg .middle } __HPC (Hamilton)__
+
+    ---
+
+    Run MPM3S as SLURM batch jobs on Durham's Hamilton cluster, on a GPU or on CPU cores, from the two example scripts.
+
+    [:octicons-arrow-right-24: HPC (Hamilton)](hpc.md)
 
 -   :material-cloud-outline:{ .lg .middle } __Cloud computing__
 

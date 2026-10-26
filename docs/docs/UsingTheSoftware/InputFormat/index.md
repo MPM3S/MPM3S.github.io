@@ -26,7 +26,7 @@ Every MPM3S analysis is set up by one JSON file with nine top-level sections. Ea
 
     ---
 
-    The soil block: element size, material points per element, footprint, and the layers and their materials; and `"domain update"`, which lets the material points' domains stretch.
+    The material domain: element size, material points per element, footprint, and the layers and their materials; and `"domain update"`, which lets the material points' domains stretch.
 
     [:octicons-arrow-right-24: Material points](material_points.md)
 

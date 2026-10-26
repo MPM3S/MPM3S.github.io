@@ -10,7 +10,7 @@ Without stabilisation the material point method has the potential to be highly u
 
 ![Elasto-plastic collapse: background mesh incremental displacements](../../img/ghostStabilisation/ghostCollapseVectors.png)
 
-To explore this issue in more detail, consider the simpler problem shown in Figure 2, where a block of material is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of $E=1$ Pa, a Poisson's ratio of $\nu=0$ and a density of $\rho=1~\text{kg/m}^3$.   
+To explore this issue in more detail, consider the simpler problem shown in Figure 2, where a material domain is displaced with a value of $a$, as a rigid body through a 2D background mesh with element size $h$. The condition number (the ratio of the largest to smallest eigenvalue) of the mass and stiffness matrices are determined at each displaced solution. The test case assumes linear elastic material behaviour with a Young's modulus of $E=1$ Pa, a Poisson's ratio of $\nu=0$ and a density of $\rho=1~\text{kg/m}^3$.   
 
 
 <iframe src="../../../interactive/smallCut.html" style="border:none;box-sizing:border-box;display:block;margin:0 auto;width:75%;aspect-ratio:128/100;" loading="lazy" title="Rigid translation test case"></iframe>

@@ -122,7 +122,7 @@ Replaces the six [point boundary conditions](rigid_bodies.md#points) of chosen p
 
 ## Boundary track
 
-For bodies that travel a long way through the soil (e.g. a dragged anchor). Instead of solving the whole soil block, only a window around the rigid bodies is active. Soil ahead of the window waits, unsolved, until the window reaches it, and soil the window leaves behind can be deleted.
+For bodies that travel a long way through the soil (e.g. a dragged anchor). Instead of solving the whole material domain, only a window around the rigid bodies is active. Soil ahead of the window waits, unsolved, until the window reaches it, and soil the window leaves behind can be deleted.
 
 ```json
 "boundary track": {

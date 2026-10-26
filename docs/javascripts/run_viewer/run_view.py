@@ -218,7 +218,7 @@ class RunView:
         if d.ok:
             steps = sum(st.n_steps() for st in s.analysis)
             info = (f"{d.n_mp:,} material points · base cell {d.dx:g} m, finest {d.scaling / 2 ** d.finest_depth:g} m"
-                    f" · octree cube {d.scaling:g} m · soil block {d.fx:g} × {d.fy:g} × {d.block_top:g} m"
+                    f" · octree cube {d.scaling:g} m · material domain {d.fx:g} × {d.fy:g} × {d.block_top:g} m"
                     f" · {len(s.analysis)} stage{'s' * (len(s.analysis) != 1)}, {steps:,} steps")
         return {"ok": d.ok, "error": self.error, "stages": [st.label(i) for i, st in enumerate(s.analysis)],
                 "frames": P.n_frames(s) if d.ok else 0, "info": info,
