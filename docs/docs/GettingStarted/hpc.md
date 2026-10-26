@@ -139,3 +139,5 @@ The STL files and mesh caches named in the input file are found from the input f
 ```bash
 scp -r <username>@hamilton8.dur.ac.uk:/nobackup/<username>/MPM3S/<output folder> .
 ```
+
+Or open the results in ParaView **on Hamilton**, without copying them, through the [Hamilton 8 portal](https://www.durham.ac.uk/research/institutes-and-centres/advanced-research-computing/hamilton-supercomputer/usage/portal/).
