@@ -50,7 +50,7 @@ Then use the green *Code* button, choose *Download ZIP*, unzip it wherever you w
 
 Both methods produce an `MPM3S` folder containing the Julia code.
 
-**Updating to a new release.** Each release replaces the previous one. Download the ZIP again into a fresh folder or, if you cloned with git, run `git fetch origin && git reset --hard origin/master` inside the `MPM3S` folder. This discards any changes made inside the folder, so keep your own input files elsewhere.
+**Updating to a new release.** Each release is added on top of the previous one and tagged (`v0.2.5`, …). If you cloned with git, run `git pull` inside the `MPM3S` folder; a copy cloned before v0.2.4 needs cloning again once. Otherwise, download the ZIP again into a fresh folder. Keep your own input files outside the `MPM3S` folder, so an update never clashes with them.
 
 ## MPM3S installation
 
