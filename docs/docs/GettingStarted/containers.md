@@ -68,7 +68,7 @@ The login is remembered, so you only do this again when the token expires.
     docker pull ghcr.io/mpm3s/mpm3s:latest
     ```
 
-`latest` is the newest release. For work you need to reproduce later, use a release instead, e.g. `v0.3.0` (Docker)
+`latest` is the newest release (its images are published the night after it). For work you need to reproduce later, use a release instead, e.g. `v0.3.0` (Docker)
 or `v0.3.0-sif` (Singularity, Apptainer), so the image cannot change underneath you.
 
 ## 3. Organise your work
