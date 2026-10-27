@@ -175,6 +175,9 @@ Every problem gets its own folder beside `MPM3S.sif`, holding its input file, th
     └── csv_column_gpu/         ← created by the run
 ```
 
+!!! warning "The rest of this example assumes exactly this layout"
+    `MPM3S.sif` in `/nobackup/<username>/simulations`, and each problem folder directly inside it, beside the image. The container scripts run the image as `../MPM3S.sif`, one folder up from the problem folder, so with any other layout (or another name for the image) they will not find it unless you edit them.
+
 The container scripts are in the [`scripts`](https://github.com/MPM3S/MPM3S.jl/tree/master/scripts) folder of [MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) on GitHub, and the tutorial files in its [`validation_data_and_jsons`](https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons) folder. For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md)):
 
 === "GPU run"
@@ -191,7 +194,7 @@ The container scripts are in the [`scripts`](https://github.com/MPM3S/MPM3S.jl/t
     scp hamilton_container_GPU.sh input_data_gravity_column_gpu.json <username>@hamilton8.dur.ac.uk:/nobackup/<username>/simulations/column_gpu/
     ```
 
-    In the script, set `INPUT` to your input file and choose the GPU with the `--gres` line, as in the table under [2. Copy and edit an example](#2-copy-and-edit-an-example). There is no core count to set for a GPU run.
+    The script is already set up for this example: `INPUT` is `input_data_gravity_column_gpu.json`, and it asks for 1/8 of an H200 for 4 hours, so nothing needs editing. For your own problems, set `INPUT` to your input file, and choose the GPU with the `--gres` line, as in the table under [2. Copy and edit an example](#2-copy-and-edit-an-example). There is no core count to set for a GPU run.
 
     !!! warning "GPU runs"
         - The input file must say `"GPU": "on"`, or the job stops with an error.
@@ -211,7 +214,7 @@ The container scripts are in the [`scripts`](https://github.com/MPM3S/MPM3S.jl/t
     scp hamilton_container_CPU.sh input_data_gravity_column.json <username>@hamilton8.dur.ac.uk:/nobackup/<username>/simulations/column/
     ```
 
-    In the script, set `INPUT` to your input file, and the cores (`-c`), memory (`--mem`) and time (`--time`). MPM3S uses the cores minus 2 as threads.
+    The script is already set up for this example: `INPUT` is `input_data_gravity_column.json`, and it asks for 8 cores, 8 GB and 4 hours, so nothing needs editing. For your own problems, set `INPUT` to your input file, and the cores (`-c`), memory (`--mem`) and time (`--time`). MPM3S uses the cores minus 2 as threads.
 
     !!! warning "CPU runs"
         - The input file must say `"GPU": "off"`, or the job stops with an error.

@@ -73,29 +73,55 @@ or `v0.3.0-sif` (Singularity, Apptainer), so the image cannot change underneath 
 
 ## 3. Organise your work
 
-Keep the image in a working folder, and give every problem its own folder inside it:
+Use a working folder, and give every problem its own folder inside it:
 
-```text
-my_work/
-├── MPM3S.sif                         ← Singularity / Apptainer (Docker keeps its image itself)
-├── column/
-│   ├── input_data_gravity_column.json
-│   ├── vtk_column/                   ← created by the run
-│   └── csv_column/                   ← created by the run
-└── compaction/
-    ├── input_data_compress.json
-    ├── cube.stl
-    ├── cube_mesh.txt
-    ├── vtk_cube/                     ← created by the run
-    └── csv_cube/                     ← created by the run
-```
+=== "Singularity / Apptainer"
+
+    Keep the image, `MPM3S.sif`, in the working folder beside the problem folders:
+
+    ```text
+    my_work/
+    ├── MPM3S.sif
+    ├── column/
+    │   ├── input_data_gravity_column.json
+    │   ├── vtk_column/                   ← created by the run
+    │   └── csv_column/                   ← created by the run
+    └── compaction/
+        ├── input_data_compress.json
+        ├── cube.stl
+        ├── cube_mesh.txt
+        ├── vtk_cube/                     ← created by the run
+        └── csv_cube/                     ← created by the run
+    ```
+
+    The container sees the folder you run in; anywhere else has to be added with `--bind`.
+
+=== "Docker"
+
+    Docker keeps the image itself (`docker images` lists it), so the working folder holds only the problem folders:
+
+    ```text
+    my_work/
+    ├── column/
+    │   ├── input_data_gravity_column.json
+    │   ├── vtk_column/                   ← created by the run
+    │   └── csv_column/                   ← created by the run
+    └── compaction/
+        ├── input_data_compress.json
+        ├── cube.stl
+        ├── cube_mesh.txt
+        ├── vtk_cube/                     ← created by the run
+        └── csv_cube/                     ← created by the run
+    ```
+
+    The container sees only what you mount: the run command mounts the problem folder with `-v`, and anywhere else
+    needs a `-v` of its own.
 
 - **A problem folder holds everything its problem needs:** the input file and, for a rigid body, its `.stl` and its
   mesh cache (the `_mesh.txt` file named by `"mesh cache"`). The image cannot create a mesh cache, so it must be there.
 - **Run from inside the problem folder.** The results are written there, into the folders the input file names in
   `"vtk directory"` and `"csv directory"`.
-- **Keep the paths in the input file relative and inside the folder.** The container only sees the folder you run in;
-  anywhere else has to be added (`--bind` for Singularity and Apptainer, `-v` for Docker).
+- **Keep the paths in the input file relative and inside the folder,** so the container can see them.
 - **The input file's `"GPU"` setting decides** whether a problem runs on the CPU (`"off"`) or the GPU (`"on"`), and
   the command must match it.
 
