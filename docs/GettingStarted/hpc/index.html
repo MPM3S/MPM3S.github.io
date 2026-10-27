@@ -2406,10 +2406,22 @@
 
 <h1 id="hpc-hamilton">HPC (Hamilton)<a class="headerlink" href="#hpc-hamilton" title="Permanent link">¶</a></h1>
 <p>MPM3S runs on Durham's Hamilton cluster as batch jobs, on a GPU or on CPU cores, in one of two ways:</p>
+<div class="grid cards equal">
 <ul>
-<li><strong>Installed with Julia</strong> (sections 1–3 below): set it up once on a login node, then copy one of the two example scripts in <code>scripts/</code>, set its input file and submit it.</li>
-<li><strong>From the container image</strong>, which needs no installation: see <a href="#with-the-container">With the container</a>.</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M11.138 17.569a5.569 5.569 0 1 1-11.138 0 5.569 5.569 0 1 1 11.138 0m6.431-11.138a5.569 5.569 0 1 1-11.138 0 5.569 5.569 0 1 1 11.138 0M24 17.569a5.569 5.569 0 1 1-11.138 0 5.569 5.569 0 1 1 11.138 0"></path></svg></span> <strong>Installed with Julia</strong></p>
+<hr>
+<p>Install Julia and MPM3S once on a login node, then copy one of the two example scripts in <code>scripts/</code>, set its input file and submit it.</p>
+<p><a href="#1-one-time-setup"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span> One-time setup</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.99.99 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88zM12 4.15l-1.89 1.07L16 8.61l1.96-1.11zM6.04 7.5 12 10.85l1.96-1.1-5.88-3.4zM5 15.91l6 3.38v-6.71L5 9.21zm14 0v-6.7l-6 3.37v6.71z"></path></svg></span> <strong>With the container</strong></p>
+<hr>
+<p>Nothing to install: download the MPM3S image once, then submit a job script from each problem's folder.</p>
+<p><a href="#with-the-container"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span> With the container</a></p>
+</li>
 </ul>
+</div>
 <h2 id="terminal-window">Command/terminal window<a class="headerlink" href="#terminal-window" title="Permanent link">¶</a></h2>
 <p>Julia, MPM3S and the containers are all operated through the terminal (macOS/Linux) or command (Windows) window. To open one:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">Linux</label><label for="__tabbed_1_3">macOS</label></div>
