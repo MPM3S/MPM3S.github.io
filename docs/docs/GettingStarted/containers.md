@@ -282,6 +282,7 @@ files from [`validation_data_and_jsons`](https://github.com/MPM3S/MPM3S.jl/tree/
 | Message | Fix |
 |---|---|
 | `unauthorized` or `denied` when downloading | Log in first ([section 1](#1-log-in-to-the-github-container-registry)), with a token that has `read:packages`. |
+| `cached file hash … does not match` when pulling | The download cache, in your home folder, is full or damaged: run `singularity cache clean -f` (or `apptainer cache clean -f`), then pull again with `--disable-cache`. On an HPC, also point `SINGULARITY_TMPDIR` (or `APPTAINER_TMPDIR`) at a large disk. |
 | `… says "GPU": "on", but no GPU is visible` | Add `--nv` (Singularity, Apptainer) or `--gpus all` (Docker), on a machine with an NVIDIA GPU. |
 | `the output folder … is not in a mounted host folder` | Run from inside the problem folder (Docker: with `-v … -w /work`), or keep the output paths in the input file relative. |
 | `usage: mpm3s input.json` | Give exactly one input file, and check it is in the folder you run from. |

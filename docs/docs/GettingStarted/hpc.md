@@ -155,11 +155,14 @@ The container image holds Julia, MPM3S and its GPU libraries, so there is nothin
 **On Hamilton**, make a working folder, log in to the registry while MPM3S.jl is private ([how to make the token](containers.md#1-log-in-to-the-github-container-registry)), and download the image into it:
 
 ```bash
-mkdir /nobackup/<username>/simulations
+mkdir -p /nobackup/<username>/simulations /nobackup/<username>/singularity_tmp
 cd /nobackup/<username>/simulations
 singularity registry login --username <github-username> oras://ghcr.io
-singularity pull MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
+export SINGULARITY_TMPDIR=/nobackup/<username>/singularity_tmp
+singularity pull --disable-cache MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
 ```
+
+`--disable-cache` and `SINGULARITY_TMPDIR` keep the 2 GB download out of your home folder, whose quota is small. A pull that fills it fails with a checksum error (`cached file hash … does not match`).
 
 ### 2. Make a problem folder
 
