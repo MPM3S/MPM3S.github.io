@@ -11,6 +11,8 @@ A list of rigid-body **systems**. Use `"rigid bodies": []` for an analysis witho
 
 Each system is built from **points**: 6-degree-of-freedom frames (3 displacements, 3 rotations) that carry mass and inertia. STL surfaces are welded to a point, several points can be joined by **constraints**, and a point without any geometry acts as a handle - for example the end of a towing line.
 
+The example is the AC-14 anchor from [Tutorial 6](../../TutorialProblems/Tutorial_6.md#problem-description): a fluke and a shank joined by a hinge with an angle stop, pulled through a 9.5 m line from a fixed pull point.
+
 ```json
 "rigid bodies": [
     {
@@ -18,16 +20,25 @@ Each system is built from **points**: 6-degree-of-freedom frames (3 displacement
         "points": [
             { "position": [0.6121, 0.0, -0.044805], "mass": 3291.6, "rotational inertia": [275.0, 275.0, 275.0],
               "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] },
+            { "position": [1.7592, 0.0, 0.0], "mass": 1058.4, "rotational inertia": [337.5, 337.5, 337.5],
+              "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] },
             { "position": [12.51226633, 0.0, -0.5703035], "mass": 1.0, "rotational inertia": [1.0e-6, 1.0e-6, 1.0e-6],
               "boundary conditions": ["fixed", "fixed", "fixed", "fixed", "fixed", "fixed"] }
         ],
         "constraints": [
-            { "type": "distance lock", "points": [1, 2],
-              "position 1": [0.0, 0.0, 0.0], "position 2": [12.51226633, 0.0, -0.5703035],
+            { "type": "rotation lock", "points": [1, 2], "rotation centre": [0.489, 0.0, 0.0],
+              "direction 1": [0.0, 1.0, 0.0], "direction 2": [0.0, 1.0, 0.0],
+              "stiffness": 1.0e9, "rotational stiffness": 1.0e8 },
+            { "type": "distance stop", "points": [1, 2], "rotation centre": [0.489, 0.0, 0.0],
+              "position 1": [0.6121, 0.0, -0.044805], "position 2": [0.62, 0.0, 0.0],
+              "angle limit": 35.0, "stiffness": 8.5814e9 },
+            { "type": "distance lock", "points": [2, 3],
+              "position 1": [3.0294, 0.0, 0.0], "position 2": [12.51226633, 0.0, -0.5703035],
               "distance": 9.5, "stiffness": 1.0526e9 }
         ],
         "stl files": [
-            { "name": "fluke", "stl": "AC14_fluke_rot20.stl", "mesh cache": "AC14_fluke_rot20_mesh.txt", "point": 1 }
+            { "name": "fluke", "stl": "AC14_fluke_rot20.stl", "mesh cache": "AC14_fluke_rot20_mesh.txt", "point": 1 },
+            { "name": "shank", "stl": "AC14_shank.stl", "mesh cache": "AC14_shank_mesh.txt", "point": 2 }
         ],
         "tracked nodes": [
             { "position": [1.994, 0.6489, -0.5478], "point": 1 }
