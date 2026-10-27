@@ -1,0 +1,107 @@
+% Contact cube (Tutorial 2): a vertical section through the soil and the rigid
+% cube, in the style of contact_example_image.png and column_setup.png. The soil
+% cube is 0.8 m (2 elements of h = 0.4 m) with a 2 x 2 grid of GIMPs per
+% element, under the two rows of empty elements above it. The rigid cube is
+% 1.2 m wide and 1.0 m tall, and is pushed 0.2 m down over 20 load steps.
+% Build: pdflatex cube_bcs.tex
+%        pdftocairo -png -transp -r 300 -singlefile cube_bcs.pdf cube_bcs
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\definecolor{gridgrey}{RGB}{185,185,185}
+\definecolor{activeorange}{RGB}{245,130,32}
+\definecolor{mpnavy}{RGB}{0,0,153}
+\definecolor{gimpfill}{RGB}{179,179,226}
+\definecolor{support}{RGB}{254,238,224}
+\definecolor{dimpurple}{RGB}{104,36,109}
+\definecolor{rigidred}{RGB}{237,28,36}
+
+% lengths in units of h
+\newcommand{\gimpside}{0.44}  % drawn GIMP side (true side 0.5)
+\newcommand{\rr}{0.07}        % roller radius; the walls are at 2\rr = 0.14
+
+\tikzset{
+  mesh/.style={draw=gridgrey, line width=1pt},
+  dimline/.style={draw=dimpurple, line width=1pt},
+  dim/.style={dimline, {Latex[length=5pt]}-{Latex[length=5pt]}},
+  gimpedge/.style={draw=mpnavy, line width=0.8pt, line join=round},
+  activenode/.style={fill=activeorange, draw=black, line width=0.5pt},
+  rigid/.style={draw=rigidred, line width=1.6pt},
+  finalbase/.style={draw=rigidred, line width=1.2pt, dash pattern=on 5pt off 3pt},
+  roller/.style={fill=white, draw=black, line width=0.6pt},
+  wall/.style={draw=black, line width=0.8pt},
+  hatch/.style={draw=black, line width=0.4pt},
+}
+
+\newcommand{\activenode}[1]{\path[activenode] #1 circle (3pt);}
+\newcommand{\gridnode}[1]{\fill[black] #1 circle (1.8pt);}
+\newcommand{\mpoint}[1]{\fill[mpnavy] #1 circle (1.4pt);}
+\newcommand{\roller}[1]{\path[roller] #1 circle (\rr);}
+
+\begin{document}
+% legend glyphs, drawn outside the main picture so they use plain axes
+\newsavebox{\legnode}\sbox{\legnode}{\tikz[baseline=-0.6ex]\path[activenode] (0,0) circle (3pt);}
+\newsavebox{\leggrid}\sbox{\leggrid}{\tikz[baseline=-0.6ex]\fill[black] (0,0) circle (1.8pt);}
+\newsavebox{\legmp}\sbox{\legmp}{\tikz[baseline=-0.6ex]\fill[mpnavy] (0,0) circle (1.4pt);}
+\newsavebox{\leggimp}\sbox{\leggimp}{\tikz[baseline=-0.6ex]\filldraw[gimpedge, fill=gimpfill, fill opacity=0.55] (0,-0.15) rectangle (0.3,0.15);}
+\newsavebox{\legsupport}\sbox{\legsupport}{\tikz[baseline=-0.6ex]\fill[support] (0,-0.15) rectangle (0.3,0.15);}
+\newsavebox{\legrigid}\sbox{\legrigid}{\tikz[baseline=-0.6ex]\draw[rigid] (0,-0.15) rectangle (0.6,0.15);}
+\newsavebox{\legfinal}\sbox{\legfinal}{\tikz[baseline=-0.6ex]\draw[finalbase] (0,0) -- (0.6,0);}
+\newsavebox{\legroller}\sbox{\legroller}{\tikz[baseline=-0.6ex]{%
+  \path[roller] (0,0.1) circle (3pt); \draw[wall] (-0.2,-0.006) -- (0.2,-0.006);
+  \foreach \x in {-0.15,-0.05,...,0.2} {\draw[hatch] (\x,-0.006) -- (\x-0.07,-0.08);}}}
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm]
+
+  % the support and the GIMP domains of the cube
+  \fill[support] (0,0) rectangle (2,2);
+  \pgfmathsetmacro{\gap}{(0.5-\gimpside)/2}
+  \foreach \i in {0,...,3} {
+    \foreach \k in {0,...,3} {
+      \filldraw[gimpedge, fill=gimpfill, fill opacity=0.55]
+        (0.5*\i+\gap,0.5*\k+\gap) rectangle ++(\gimpside,\gimpside);
+      \mpoint{(0.5*\i+0.25,0.5*\k+0.25)}}}
+
+  % the background mesh: the cube and the two rows of empty elements above it
+  \foreach \x in {0,1,2} {\draw[mesh] (\x,0) -- (\x,4);}
+  \foreach \z in {0,...,4} {\draw[mesh] (0,\z) -- (2,\z);}
+
+  % rollers on the base and on the sides, with the walls meeting at the corners
+  \draw[wall, line join=miter] (-0.14,2) -- (-0.14,-0.14) -- (2.14,-0.14) -- (2.14,2);
+  \foreach \x in {-0.14,-0.04,...,2.15} {\draw[hatch] (\x,-0.14) -- ++(-0.1,-0.12);}
+  \foreach \s/\x in {-1/-0.14,1/2.14} {
+    \foreach \z in {-0.04,0.06,...,2.0} {\draw[hatch] (\x,\z) -- ++(0.12*\s,-0.1);}}
+  \foreach \p in {0.25,0.75,1.25,1.75} {
+    \roller{(\p,-\rr)} \roller{(-\rr,\p)} \roller{(2+\rr,\p)}}
+
+  % the rigid cube at the start, and its base after the 20 load steps
+  \draw[rigid] (-0.5,2) rectangle (2.5,4.5);
+  \draw[finalbase] (-0.5,1.5) -- (2.5,1.5);
+
+  % the nodes
+  \foreach \x in {0,1,2} {
+    \foreach \z in {0,1,2} {\activenode{(\x,\z)}}
+    \foreach \z in {3,4} {\gridnode{(\x,\z)}}}
+
+  % dimensions and the prescribed displacement of the rigid cube
+  \draw[dim] (-0.75,0) -- node[left=3pt, font=\sffamily] {0.8 m} (-0.75,2);
+  \draw[dim] (2.8,2) -- node[right=3pt, font=\sffamily] {1.0 m} (2.8,4.5);
+  \draw[dim] (2.8,1.5) -- node[right=3pt, font=\sffamily] {0.2 m} (2.8,2);
+  \draw[dim] (-0.5,4.8) -- node[above=1pt, font=\sffamily] {1.2 m} (2.5,4.8);
+  \draw[dimline, -{Latex[length=7pt, width=6pt]}, line width=1.4pt] (-0.85,4.3) -- (-0.85,3.5)
+    node[midway, left=3pt, font=\sffamily, align=right] {0.01 m per\\load step};
+
+  % legend, centred under the section
+  \node[font=\sffamily, anchor=north, align=center] at (1.0,-0.65) {%
+    \usebox{\legnode}~active node\hspace{1.6em}%
+    \usebox{\leggrid}~inactive node\hspace{1.6em}%
+    \usebox{\legmp}~material point\\[0.5em]%
+    \usebox{\leggimp}~GIMP domain\hspace{1.6em}%
+    \usebox{\legsupport}~support\hspace{1.6em}%
+    \usebox{\legroller}~roller\\[0.5em]%
+    \usebox{\legrigid}~rigid body\hspace{1.6em}%
+    \usebox{\legfinal}~rigid-body base after 20 load steps};
+
+\end{tikzpicture}
+\end{document}

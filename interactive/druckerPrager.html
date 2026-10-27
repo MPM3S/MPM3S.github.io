@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="yieldSurface.js"></script>
+</head>
+<body>
+<script>
+// Drucker-Prager:  f = rho - alpha.(xi - xi_c) = 0  with a circular
+// deviatoric section (rho_bar = 1). Tension positive, so alpha = -tan(phi)
+// and the cone opens towards compression.
+var phi = 30 * Math.PI / 180, c = 0.2;
+var xic = c * Math.sqrt(3) / Math.tan(phi);
+drawYieldSurface({
+  rho: function (xi, theta) { return Math.tan(phi) * (xic - xi); },
+  xiMin: -2.5, xiMax: xic
+});
+</script>
+</body>
+</html>

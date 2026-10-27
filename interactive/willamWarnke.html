@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="yieldSurface.js"></script>
+</head>
+<body>
+<script>
+// Frictional surface with a Willam-Warnke deviatoric section: rho_bar is
+// Lode angle dependent, with rho_bar_e fixed by matching a Mohr-Coulomb
+// section at the compression and extension meridians.
+var phi = 30 * Math.PI / 180, c = 0.2;
+var xic = c * Math.sqrt(3) / Math.tan(phi);
+var re  = (3 - Math.sin(phi)) / (3 + Math.sin(phi));
+var a1  = 2 * (1 - re * re) / Math.pow(2 * re - 1, 2);
+var a2  = (5 * re * re - 4 * re) / Math.pow(2 * re - 1, 2);
+function rbar(theta) {
+  var C = Math.cos(theta + Math.PI / 6);
+  return (a1 * C + Math.sqrt(2 * a1 * C * C + a2)) / (2 * a1 * C * C + 1);
+}
+drawYieldSurface({
+  rho: function (xi, theta) { return Math.tan(phi) * rbar(theta) * (xic - xi); },
+  xiMin: -2.5, xiMax: xic
+});
+</script>
+</body>
+</html>
