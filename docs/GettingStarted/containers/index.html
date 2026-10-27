@@ -2433,9 +2433,13 @@ then download the image (Docker keeps it for you, rather than as a file):</p>
 <p><code>latest</code> is the newest release (its images are published the night after it). For work you need to reproduce later, use a release instead, e.g. <code>v0.3.0</code> (Docker)
 or <code>v0.3.0-sif</code> (Singularity, Apptainer), so the image cannot change underneath you.</p>
 <h2 id="3-organise-your-work">3. Organise your work<a class="headerlink" href="#3-organise-your-work" title="Permanent link">¶</a></h2>
-<p>Keep the image in a working folder, and give every problem its own folder inside it:</p>
+<p>Use a working folder, and give every problem its own folder inside it:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">Singularity / Apptainer</label><label for="__tabbed_4_2">Docker</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Keep the image, <code>MPM3S.sif</code>, in the working folder beside the problem folders:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>my_work/
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── MPM3S.sif                         ← Singularity / Apptainer (Docker keeps its image itself)
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── MPM3S.sif
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>├── column/
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│   ├── input_data_gravity_column.json
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>│   ├── vtk_column/                   ← created by the run
@@ -2447,31 +2451,51 @@ or <code>v0.3.0-sif</code> (Singularity, Apptainer), so the image cannot change 
 <a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    ├── vtk_cube/                     ← created by the run
 <a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    └── csv_cube/                     ← created by the run
 </code></pre></div>
+<p>The container sees the folder you run in; anywhere else has to be added with <code>--bind</code>.</p>
+</div>
+<div class="tabbed-block">
+<p>Docker keeps the image itself (<code>docker images</code> lists it), so the working folder holds only the problem folders:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>my_work/
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── column/
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│   ├── input_data_gravity_column.json
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│   ├── vtk_column/                   ← created by the run
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│   └── csv_column/                   ← created by the run
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>└── compaction/
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    ├── input_data_compress.json
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    ├── cube.stl
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    ├── cube_mesh.txt
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    ├── vtk_cube/                     ← created by the run
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    └── csv_cube/                     ← created by the run
+</code></pre></div>
+<p>The container sees only what you mount: the run command mounts the problem folder with <code>-v</code>, and anywhere else
+needs a <code>-v</code> of its own.</p>
+</div>
+</div>
+</div>
 <ul>
 <li><strong>A problem folder holds everything its problem needs:</strong> the input file and, for a rigid body, its <code>.stl</code> and its
   mesh cache (the <code>_mesh.txt</code> file named by <code>"mesh cache"</code>). The image cannot create a mesh cache, so it must be there.</li>
 <li><strong>Run from inside the problem folder.</strong> The results are written there, into the folders the input file names in
   <code>"vtk directory"</code> and <code>"csv directory"</code>.</li>
-<li><strong>Keep the paths in the input file relative and inside the folder.</strong> The container only sees the folder you run in;
-  anywhere else has to be added (<code>--bind</code> for Singularity and Apptainer, <code>-v</code> for Docker).</li>
+<li><strong>Keep the paths in the input file relative and inside the folder,</strong> so the container can see them.</li>
 <li><strong>The input file's <code>"GPU"</code> setting decides</strong> whether a problem runs on the CPU (<code>"off"</code>) or the GPU (<code>"on"</code>), and
   the command must match it.</li>
 </ul>
 <h2 id="4-run-a-problem">4. Run a problem<a class="headerlink" href="#4-run-a-problem" title="Permanent link">¶</a></h2>
 <p>From inside the problem folder, give the image the input file. On the CPU, MPM3S uses the number of cores minus 2 as
 threads (at least 1): set <code>MPM3S_CORES</code> to the cores you have, or leave it out to use every core the container sees.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><input id="__tabbed_4_3" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">Singularity</label><label for="__tabbed_4_2">Apptainer</label><label for="__tabbed_4_3">Docker</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:3"><input checked id="__tabbed_5_1" name="__tabbed_5" type="radio"><input id="__tabbed_5_2" name="__tabbed_5" type="radio"><input id="__tabbed_5_3" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="__tabbed_5_1">Singularity</label><label for="__tabbed_5_2">Apptainer</label><label for="__tabbed_5_3">Docker</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked id="__tabbed_5_1" name="__tabbed_5" type="radio"><input id="__tabbed_5_2" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="__tabbed_5_1">CPU</label><label for="__tabbed_5_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked id="__tabbed_6_1" name="__tabbed_6" type="radio"><input id="__tabbed_6_2" name="__tabbed_6" type="radio"><div class="tabbed-labels"><label for="__tabbed_6_1">CPU</label><label for="__tabbed_6_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p>The input file must have <code>"GPU": "off"</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
 </code></pre></div>
 <p><code>--nv</code> passes the GPU into the container; the input file must have <code>"GPU": "on"</code>.</p>
 </div>
@@ -2479,15 +2503,15 @@ threads (at least 1): set <code>MPM3S_CORES</code> to the cores you have, or lea
 </div>
 </div>
 <div class="tabbed-block">
-<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked id="__tabbed_6_1" name="__tabbed_6" type="radio"><input id="__tabbed_6_2" name="__tabbed_6" type="radio"><div class="tabbed-labels"><label for="__tabbed_6_1">CPU</label><label for="__tabbed_6_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked id="__tabbed_7_1" name="__tabbed_7" type="radio"><input id="__tabbed_7_2" name="__tabbed_7" type="radio"><div class="tabbed-labels"><label for="__tabbed_7_1">CPU</label><label for="__tabbed_7_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>apptainer<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>apptainer<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p>The input file must have <code>"GPU": "off"</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
 </code></pre></div>
 <p><code>--nv</code> passes the GPU into the container; the input file must have <code>"GPU": "on"</code>.</p>
 </div>
@@ -2496,22 +2520,22 @@ threads (at least 1): set <code>MPM3S_CORES</code> to the cores you have, or lea
 </div>
 <div class="tabbed-block">
 <p>Docker sees only what you mount, so <code>-v … -w /work</code> mounts the problem folder as the container's working folder.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked id="__tabbed_7_1" name="__tabbed_7" type="radio"><input id="__tabbed_7_2" name="__tabbed_7" type="radio"><div class="tabbed-labels"><label for="__tabbed_7_1">CPU</label><label for="__tabbed_7_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked id="__tabbed_8_1" name="__tabbed_8" type="radio"><input id="__tabbed_8_2" name="__tabbed_8" type="radio"><div class="tabbed-labels"><label for="__tabbed_8_1">CPU</label><label for="__tabbed_8_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="tabbed-set tabbed-alternate" data-tabs="8:3"><input checked id="__tabbed_8_1" name="__tabbed_8" type="radio"><input id="__tabbed_8_2" name="__tabbed_8" type="radio"><input id="__tabbed_8_3" name="__tabbed_8" type="radio"><div class="tabbed-labels"><label for="__tabbed_8_1">Linux</label><label for="__tabbed_8_2">macOS</label><label for="__tabbed_8_3">Windows</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:3"><input checked id="__tabbed_9_1" name="__tabbed_9" type="radio"><input id="__tabbed_9_2" name="__tabbed_9" type="radio"><input id="__tabbed_9_3" name="__tabbed_9" type="radio"><div class="tabbed-labels"><label for="__tabbed_9_1">Linux</label><label for="__tabbed_9_2">macOS</label><label for="__tabbed_9_3">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--user<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span><span class="s2">:</span><span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="s2">"</span><span class="w"> </span>-e<span class="w"> </span><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--user<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span><span class="s2">:</span><span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="s2">"</span><span class="w"> </span>-e<span class="w"> </span><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p><code>--user</code> makes the results yours rather than root's.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-e<span class="w"> </span><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-e<span class="w"> </span><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-e</span> <span class="n">MPM3S_CORES</span><span class="p">=</span><span class="n">8</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data_gravity_column</span><span class="p">.</span><span class="n">json</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-e</span> <span class="n">MPM3S_CORES</span><span class="p">=</span><span class="n">8</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data_gravity_column</span><span class="p">.</span><span class="n">json</span>
 </code></pre></div>
 </div>
 </div>
@@ -2519,16 +2543,16 @@ threads (at least 1): set <code>MPM3S_CORES</code> to the cores you have, or lea
 <p>The input file must have <code>"GPU": "off"</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked id="__tabbed_9_1" name="__tabbed_9" type="radio"><input id="__tabbed_9_2" name="__tabbed_9" type="radio"><div class="tabbed-labels"><label for="__tabbed_9_1">Linux</label><label for="__tabbed_9_2">Windows</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked id="__tabbed_10_1" name="__tabbed_10" type="radio"><input id="__tabbed_10_2" name="__tabbed_10" type="radio"><div class="tabbed-labels"><label for="__tabbed_10_1">Linux</label><label for="__tabbed_10_2">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Requires the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Container Toolkit</a>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>--user<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span><span class="s2">:</span><span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="s2">"</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_gravity_column_gpu.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>--user<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span><span class="s2">:</span><span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="s2">"</span><span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work<span class="w"> </span>-w<span class="w"> </span>/work<span class="w"> </span>ghcr.io/mpm3s/mpm3s:latest<span class="w"> </span>input_data_gravity_column_gpu.json
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>Requires Docker Desktop's WSL 2 engine (the default) and the NVIDIA driver you already have.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="p">-</span><span class="n">-gpus</span> <span class="n">all</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data_gravity_column_gpu</span><span class="p">.</span><span class="n">json</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="p">-</span><span class="n">-gpus</span> <span class="n">all</span> <span class="n">-v</span> <span class="p">${</span><span class="n">PWD</span><span class="p">}:/</span><span class="n">work</span> <span class="n">-w</span> <span class="p">/</span><span class="n">work</span> <span class="n">ghcr</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">/</span><span class="n">mpm3s</span><span class="p">:</span><span class="n">latest</span> <span class="n">input_data_gravity_column_gpu</span><span class="p">.</span><span class="n">json</span>
 </code></pre></div>
 </div>
 </div>
@@ -2550,29 +2574,29 @@ for Hamilton see <a href="../hpc/">HPC (Hamilton)</a>.</p>
 <a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a> on GitHub: for each tutorial, make a problem folder and download its files
 into it (open a file on GitHub, then <strong>Download raw file</strong>).</p>
 <p>For example, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>) with Singularity:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked id="__tabbed_10_1" name="__tabbed_10" type="radio"><input id="__tabbed_10_2" name="__tabbed_10" type="radio"><div class="tabbed-labels"><label for="__tabbed_10_1">CPU</label><label for="__tabbed_10_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked id="__tabbed_11_1" name="__tabbed_11" type="radio"><input id="__tabbed_11_2" name="__tabbed_11" type="radio"><div class="tabbed-labels"><label for="__tabbed_11_1">CPU</label><label for="__tabbed_11_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Make the problem folder:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>mkdir<span class="w"> </span>column
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mkdir<span class="w"> </span>column
 </code></pre></div>
 <p>Download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json"><code>validation_data_and_jsons/input_data_gravity_column.json</code></a>
 into <code>column</code>, then run it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>column
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">cd</span><span class="w"> </span>column
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p>The results appear in <code>column/vtk_column</code> and <code>column/csv_column</code>.</p>
 </div>
 <div class="tabbed-block">
 <p>Make the problem folder:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>mkdir<span class="w"> </span>column_gpu
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>mkdir<span class="w"> </span>column_gpu
 </code></pre></div>
 <p>Download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json"><code>validation_data_and_jsons/input_data_gravity_column_gpu.json</code></a>
 into <code>column_gpu</code>, then run it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>column_gpu
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">cd</span><span class="w"> </span>column_gpu
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
 </code></pre></div>
 <p>The results appear in <code>column_gpu/vtk_column_gpu</code> and <code>column_gpu/csv_column_gpu</code>.</p>
 </div>

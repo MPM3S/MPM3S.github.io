@@ -2609,6 +2609,10 @@
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    ├── vtk_column_gpu/         ← created by the run
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    └── csv_column_gpu/         ← created by the run
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">The rest of this example assumes exactly this layout</p>
+<p><code>MPM3S.sif</code> in <code>/nobackup/&lt;username&gt;/simulations</code>, and each problem folder directly inside it, beside the image. The container scripts run the image as <code>../MPM3S.sif</code>, one folder up from the problem folder, so with any other layout (or another name for the image) they will not find it unless you edit them.</p>
+</div>
 <p>The container scripts are in the <a href="https://github.com/MPM3S/MPM3S.jl/tree/master/scripts"><code>scripts</code></a> folder of <a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a> on GitHub, and the tutorial files in its <a href="https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons"><code>validation_data_and_jsons</code></a> folder. For example, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>):</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">GPU run</label><label for="__tabbed_4_2">CPU run</label></div>
 <div class="tabbed-content">
@@ -2619,7 +2623,7 @@
 <p><strong>On your computer</strong>, download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/scripts/hamilton_container_GPU.sh"><code>scripts/hamilton_container_GPU.sh</code></a> and <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json"><code>validation_data_and_jsons/input_data_gravity_column_gpu.json</code></a> (open each on GitHub, then <strong>Download raw file</strong>), and copy them into it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>scp<span class="w"> </span>hamilton_container_GPU.sh<span class="w"> </span>input_data_gravity_column_gpu.json<span class="w"> </span>&lt;username&gt;@hamilton8.dur.ac.uk:/nobackup/&lt;username&gt;/simulations/column_gpu/
 </code></pre></div>
-<p>In the script, set <code>INPUT</code> to your input file and choose the GPU with the <code>--gres</code> line, as in the table under <a href="#2-copy-and-edit-an-example">2. Copy and edit an example</a>. There is no core count to set for a GPU run.</p>
+<p>The script is already set up for this example: <code>INPUT</code> is <code>input_data_gravity_column_gpu.json</code>, and it asks for 1/8 of an H200 for 4 hours, so nothing needs editing. For your own problems, set <code>INPUT</code> to your input file, and choose the GPU with the <code>--gres</code> line, as in the table under <a href="#2-copy-and-edit-an-example">2. Copy and edit an example</a>. There is no core count to set for a GPU run.</p>
 <div class="admonition warning">
 <p class="admonition-title">GPU runs</p>
 <ul>
@@ -2635,7 +2639,7 @@
 <p><strong>On your computer</strong>, download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/scripts/hamilton_container_CPU.sh"><code>scripts/hamilton_container_CPU.sh</code></a> and <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json"><code>validation_data_and_jsons/input_data_gravity_column.json</code></a> (open each on GitHub, then <strong>Download raw file</strong>), and copy them into it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>scp<span class="w"> </span>hamilton_container_CPU.sh<span class="w"> </span>input_data_gravity_column.json<span class="w"> </span>&lt;username&gt;@hamilton8.dur.ac.uk:/nobackup/&lt;username&gt;/simulations/column/
 </code></pre></div>
-<p>In the script, set <code>INPUT</code> to your input file, and the cores (<code>-c</code>), memory (<code>--mem</code>) and time (<code>--time</code>). MPM3S uses the cores minus 2 as threads.</p>
+<p>The script is already set up for this example: <code>INPUT</code> is <code>input_data_gravity_column.json</code>, and it asks for 8 cores, 8 GB and 4 hours, so nothing needs editing. For your own problems, set <code>INPUT</code> to your input file, and the cores (<code>-c</code>), memory (<code>--mem</code>) and time (<code>--time</code>). MPM3S uses the cores minus 2 as threads.</p>
 <div class="admonition warning">
 <p class="admonition-title">CPU runs</p>
 <ul>
