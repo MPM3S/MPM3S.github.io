@@ -2594,11 +2594,13 @@
 <p>The container image holds Julia, MPM3S and its GPU libraries, so there is nothing to install: no <code>juliaup</code>, no <code>julia_depot</code>. Hamilton runs it with Singularity (<code>singularity --version</code>). <a href="../containers/">Docker and containers</a> explains the image in general; this section is the Hamilton version.</p>
 <h3 id="1-one-time-setup_1">1. One-time setup<a class="headerlink" href="#1-one-time-setup_1" title="Permanent link">¶</a></h3>
 <p><strong>On Hamilton</strong>, make a working folder, log in to the registry while MPM3S.jl is private (<a href="../containers/#1-log-in-to-the-github-container-registry">how to make the token</a>), and download the image into it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>/nobackup/&lt;username&gt;/simulations
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/nobackup/&lt;username&gt;/simulations<span class="w"> </span>/nobackup/&lt;username&gt;/singularity_tmp
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">cd</span><span class="w"> </span>/nobackup/&lt;username&gt;/simulations
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>singularity<span class="w"> </span>registry<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>oras://ghcr.io
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>singularity<span class="w"> </span>pull<span class="w"> </span>MPM3S.sif<span class="w"> </span>oras://ghcr.io/mpm3s/mpm3s:latest-sif
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/nobackup/&lt;username&gt;/singularity_tmp
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>singularity<span class="w"> </span>pull<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>oras://ghcr.io/mpm3s/mpm3s:latest-sif
 </code></pre></div>
+<p><code>--disable-cache</code> and <code>SINGULARITY_TMPDIR</code> keep the 2 GB download out of your home folder, whose quota is small. A pull that fills it fails with a checksum error (<code>cached file hash … does not match</code>).</p>
 <h3 id="2-make-a-problem-folder">2. Make a problem folder<a class="headerlink" href="#2-make-a-problem-folder" title="Permanent link">¶</a></h3>
 <p>Every problem gets its own folder beside <code>MPM3S.sif</code>, holding its input file, the <code>.stl</code> and mesh cache (<code>_mesh.txt</code>) of any rigid body, and a copy of a container script:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>/nobackup/&lt;username&gt;/simulations/
