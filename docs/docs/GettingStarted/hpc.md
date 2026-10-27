@@ -39,18 +39,18 @@ Put MPM3S in `/nobackup` and go into it:
 
 === "ZIP"
 
-    **On your computer**, download the ZIP from [MPM3S-releases](https://github.com/MPM3S/MPM3S-releases) (the green **Code** button, then **Download ZIP**) and copy it to Hamilton, replacing `/path/to/zip/location` with the folder on your computer where you saved it:
+    **On your computer**, download the ZIP from [MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) (the green **Code** button, then **Download ZIP**) and copy it to Hamilton, replacing `/path/to/zip/location` with the folder on your computer where you saved it:
 
     ```bash
-    scp /path/to/zip/location/MPM3S-releases-master.zip <username>@hamilton8.dur.ac.uk:/nobackup/<username>/
+    scp /path/to/zip/location/MPM3S.jl-master.zip <username>@hamilton8.dur.ac.uk:/nobackup/<username>/
     ```
 
     Then **on Hamilton**, unzip it and go into it:
 
     ```bash
     cd /nobackup/<username>
-    unzip MPM3S-releases-master.zip
-    mv MPM3S-releases-master MPM3S
+    unzip MPM3S.jl-master.zip
+    mv MPM3S.jl-master MPM3S
     cd MPM3S
     ```
 
@@ -59,7 +59,7 @@ Put MPM3S in `/nobackup` and go into it:
     **On Hamilton**:
 
     ```bash
-    git clone https://github.com/MPM3S/MPM3S-releases.git /nobackup/<username>/MPM3S
+    git clone https://github.com/MPM3S/MPM3S.jl.git /nobackup/<username>/MPM3S
     cd /nobackup/<username>/MPM3S
     ```
 

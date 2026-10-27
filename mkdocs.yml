@@ -27,8 +27,8 @@ site_description: >-
   Material Point Method
 
 # Repository
-repo_name: MPM3S-releases
-repo_url: https://github.com/MPM3S/MPM3S-releases
+repo_name: MPM3S.jl
+repo_url: https://github.com/MPM3S/MPM3S.jl
 
 # Copyright
 copyright: Copyright &copy; 2025 Durham University | UKRI Project Reference UKRI788

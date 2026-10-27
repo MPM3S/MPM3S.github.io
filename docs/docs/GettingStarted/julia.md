@@ -32,16 +32,16 @@ Close and reopen the window, then verify the install with `julia --version`.
 
 ## Downloading MPM3S from GitHub
 
-Released versions of MPM3S are published at [github.com/MPM3S/MPM3S-releases](https://github.com/MPM3S/MPM3S-releases), which always holds the latest release.
+Released versions of MPM3S are published at [github.com/MPM3S/MPM3S.jl](https://github.com/MPM3S/MPM3S.jl), which always holds the latest release.
 
 Use `git clone` to pull the code from GitHub into an `MPM3S` folder in your current directory:
 
 ```bash
-git clone https://github.com/MPM3S/MPM3S-releases.git MPM3S
+git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
 cd MPM3S
 ```
 
-If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/MPM3S-releases](https://github.com/MPM3S/MPM3S-releases).
+If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/MPM3S.jl](https://github.com/MPM3S/MPM3S.jl).
 
 
 ![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
