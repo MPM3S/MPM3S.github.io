@@ -1,6 +1,9 @@
 # HPC (Hamilton)
 
-MPM3S runs on Durham's Hamilton cluster as batch jobs, on a GPU or on CPU cores. Set it up once on a login node, then copy one of the two example scripts in `scripts/`, set its input file and submit it.
+MPM3S runs on Durham's Hamilton cluster as batch jobs, on a GPU or on CPU cores, in one of two ways:
+
+- **Installed with Julia** (sections 1–3 below): set it up once on a login node, then copy one of the two example scripts in `scripts/`, set its input file and submit it.
+- **From the container image**, which needs no installation: see [With the container](#with-the-container).
 
 --8<-- "terminal_window.md"
 
@@ -19,6 +22,7 @@ The scripts in `scripts/` come in two kinds:
 | `hamilton_GPU_example.sh` | Copy, edit and submit for a GPU run |
 | `hamilton_CPU_example.sh` | Copy, edit and submit for a CPU run |
 | `hamilton_gpu_run.sh`, `hamilton_cpu_run.sh` | Run the problem for the examples; never edit or submit these |
+| `hamilton_container_GPU.sh`, `hamilton_container_CPU.sh` | For the container: copy into a problem folder, edit and submit ([With the container](#with-the-container)) |
 
 !!! danger "Never submit the `_run.sh` scripts"
     Submit an example, or your copy of one. Submitted directly, `hamilton_gpu_run.sh` and `hamilton_cpu_run.sh` stop with an error.
@@ -141,3 +145,81 @@ scp -r <username>@hamilton8.dur.ac.uk:/nobackup/<username>/MPM3S/<output folder>
 ```
 
 Or open the results in ParaView **on Hamilton**, without copying them, through the [Hamilton 8 portal](https://www.durham.ac.uk/research/institutes-and-centres/advanced-research-computing/hamilton-supercomputer/usage/portal/).
+
+## With the container
+
+The container image holds Julia, MPM3S and its GPU libraries, so there is nothing to install: no `juliaup`, no `julia_depot`. Hamilton runs it with Singularity (`singularity --version`). [Docker and containers](containers.md) explains the image in general; this section is the Hamilton version.
+
+### 1. One-time setup
+
+You still need the `MPM3S` folder for the job scripts and the tutorial files: put it in `/nobackup` as in [1. One-time setup](#1-one-time-setup) (the ZIP or git clone step only).
+
+**On Hamilton**, make a working folder beside it, log in to the registry while MPM3S.jl is private ([how to make the token](containers.md#1-log-in-to-the-github-container-registry)), and download the image into the working folder:
+
+```bash
+mkdir /nobackup/<username>/simulations
+cd /nobackup/<username>/simulations
+singularity registry login --username <github-username> oras://ghcr.io
+singularity pull MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
+```
+
+### 2. Make a problem folder
+
+Every problem gets its own folder beside `MPM3S.sif`, holding its input file, the `.stl` and mesh cache (`_mesh.txt`) of any rigid body, and a copy of a container script:
+
+```text
+/nobackup/<username>/
+├── MPM3S/                          ← the download: scripts/ and the tutorial files
+└── simulations/
+    ├── MPM3S.sif
+    └── column_gpu/
+        ├── hamilton_container_GPU.sh
+        ├── input_data_gravity_column_gpu.json
+        ├── vtk_column_gpu/         ← created by the run
+        └── csv_column_gpu/         ← created by the run
+```
+
+For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md)), **on Hamilton**:
+
+=== "GPU run"
+
+    ```bash
+    cd /nobackup/<username>/simulations
+    mkdir column_gpu
+    cp ../MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json column_gpu/
+    cp ../MPM3S/scripts/hamilton_container_GPU.sh column_gpu/
+    ```
+
+    In the script, set `INPUT` to your input file and choose the GPU with the `--gres` line, as in the table under [2. Copy and edit an example](#2-copy-and-edit-an-example). There is no core count to set for a GPU run.
+
+    !!! warning "GPU runs"
+        - The input file must say `"GPU": "on"`, or the job stops with an error.
+        - Do not add `-c`, `--mem` or `--tmp` lines: the CPU cores and memory come with the GPU.
+
+=== "CPU run"
+
+    ```bash
+    cd /nobackup/<username>/simulations
+    mkdir column
+    cp ../MPM3S/validation_data_and_jsons/input_data_gravity_column.json column/
+    cp ../MPM3S/scripts/hamilton_container_CPU.sh column/
+    ```
+
+    In the script, set `INPUT` to your input file, and the cores (`-c`), memory (`--mem`) and time (`--time`). MPM3S uses the cores minus 2 as threads.
+
+    !!! warning "CPU runs"
+        - The input file must say `"GPU": "off"`, or the job stops with an error.
+        - Large 3D problems are much slower on the CPU: use CPU runs for small problems and checks.
+
+The other tutorials work the same way; [Docker and containers](containers.md#5-practise-on-the-tutorials) lists the files each one needs.
+
+### 3. Submit
+
+**On Hamilton**, from **inside the problem folder**, since the results are written to the folder you submit from:
+
+```bash
+cd /nobackup/<username>/simulations/column_gpu
+sbatch hamilton_container_GPU.sh
+```
+
+The results appear in the problem folder, with the log `mpm3s_gpu_<job id>.out` (`mpm3s_cpu_<job id>.out` for a CPU run). Its first line shows how the run used the machine, e.g. `MPM3S 0.3.0 · CPU znver5 · 1 threads · GPU NVIDIA H200 NVL MIG 1g.18gb`. Copy the results back as in [3. Submit](#3-submit), from `/nobackup/<username>/simulations/<problem folder>/<output folder>`.

@@ -1,160 +1,246 @@
 # Docker and containers
 
-A container image bundles Julia, MPM3S and its dependencies, so nothing needs installing on the host machine. This is the usual route on HPC.
+A container image bundles Julia, MPM3S and its GPU libraries, so nothing needs installing on the host machine: download
+the image once and run your problems with it. Use Docker on a workstation, and Singularity or Apptainer on an HPC.
 
 --8<-- "terminal_window.md"
 
-## The MPM3S image
+## 1. Log in to the GitHub container registry
 
-Images are built by a GitHub Actions workflow in the MPM3S repository and published to the GitHub container registry. The latest build of the default branch is:
+!!! note "Only while MPM3S.jl is private"
+    The image is private for now, so downloading it needs a GitHub login. This section disappears when it is made public.
+
+You need a GitHub account with access to [MPM3S.jl](https://github.com/MPM3S/MPM3S.jl), and a token to use as the
+password:
+
+1. On GitHub, go to **Settings → Developer settings → Personal access tokens → Tokens (classic)** and click
+   **Generate new token (classic)**.
+2. Tick only **`read:packages`**, choose an expiry date, and generate the token. Copy it: GitHub shows it once.
+3. Log in once on each machine, pasting the token when asked for the password:
+
+=== "Singularity"
+
+    ```bash
+    singularity registry login --username <github-username> oras://ghcr.io
+    ```
+
+=== "Apptainer"
+
+    ```bash
+    apptainer registry login --username <github-username> oras://ghcr.io
+    ```
+
+=== "Docker"
+
+    ```bash
+    docker login ghcr.io -u <github-username>
+    ```
+
+The login is remembered, so you only do this again when the token expires.
+
+## 2. Get the image
+
+=== "Singularity"
+
+    Check that your machine has it with `singularity --version`; on an HPC, ask your administrator if not. Download the
+    image as a single file, `MPM3S.sif`:
+
+    ```bash
+    singularity pull MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
+    ```
+
+=== "Apptainer"
+
+    Check that your machine has it with `apptainer --version`; on an HPC, ask your administrator if not. Download the
+    image as a single file, `MPM3S.sif`:
+
+    ```bash
+    apptainer pull MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
+    ```
+
+=== "Docker"
+
+    Install Docker using the official guide for [Windows](https://docs.docker.com/desktop/setup/install/windows-install/),
+    [macOS](https://docs.docker.com/desktop/setup/install/mac-install/) or [Linux](https://docs.docker.com/desktop/setup/install/linux/),
+    then download the image (Docker keeps it for you, rather than as a file):
+
+    ```bash
+    docker pull ghcr.io/mpm3s/mpm3s:latest
+    ```
+
+`latest` is the newest release. For work you need to reproduce later, use a release instead, e.g. `v0.3.0` (Docker)
+or `v0.3.0-sif` (Singularity, Apptainer), so the image cannot change underneath you.
+
+## 3. Organise your work
+
+Keep the image in a working folder, and give every problem its own folder inside it:
 
 ```text
-ghcr.io/mpm3s/mpm3s:latest
+my_work/
+├── MPM3S.sif                         ← Singularity / Apptainer (Docker keeps its image itself)
+├── column/
+│   ├── input_data_gravity_column.json
+│   ├── vtk_column/                   ← created by the run
+│   └── csv_column/                   ← created by the run
+└── compaction/
+    ├── input_data_compress.json
+    ├── cube.stl
+    ├── cube_mesh.txt
+    ├── vtk_cube/                     ← created by the run
+    └── csv_cube/                     ← created by the run
 ```
 
-For work you need to reproduce later, pull a fixed version tag such as `ghcr.io/mpm3s/mpm3s:v1.0.0` rather than `latest`, so that the image cannot change underneath you.
+- **A problem folder holds everything its problem needs:** the input file and, for a rigid body, its `.stl` and its
+  mesh cache (the `_mesh.txt` file named by `"mesh cache"`). The image cannot create a mesh cache, so it must be there.
+- **Run from inside the problem folder.** The results are written there, into the folders the input file names in
+  `"vtk directory"` and `"csv directory"`.
+- **Keep the paths in the input file relative and inside the folder.** The container only sees the folder you run in;
+  anywhere else has to be added (`--bind` for Singularity and Apptainer, `-v` for Docker).
+- **The input file's `"GPU"` setting decides** whether a problem runs on the CPU (`"off"`) or the GPU (`"on"`), and
+  the command must match it.
 
-!!! note "Placeholder"
-    This image is not published yet, so the address above will not resolve. Until it is, install MPM3S through the [Julia](julia.md) route.
+## 4. Run a problem
 
-Install whichever runtime suits your machine, then pull the image.
+From inside the problem folder, give the image the input file. On the CPU, MPM3S uses the number of cores minus 2 as
+threads (at least 1): set `MPM3S_CORES` to the cores you have, or leave it out to use every core the container sees.
 
-## Docker
+=== "Singularity"
 
-**1. Install Docker** using the official guide for your system: [Windows](https://docs.docker.com/desktop/setup/install/windows-install/), [macOS](https://docs.docker.com/desktop/setup/install/mac-install/) or [Linux](https://docs.docker.com/desktop/setup/install/linux/).
+    === "CPU"
 
-**2. Pull the image and start a container** from the folder holding your `input_data.json`:
+        ```bash
+        MPM3S_CORES=8 singularity run ../MPM3S.sif input_data_gravity_column.json
+        ```
 
-=== "Windows (CPU)"
+        The input file must have `"GPU": "off"`.
 
-    ```powershell
-    docker pull ghcr.io/mpm3s/mpm3s:latest
-    docker run --rm -it -v ${PWD}:/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
-    ```
+    === "GPU"
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2; if the analysis is on a GPU, 4 threads is sufficient.
-    - The input file must have `"GPU": "off"`.
+        ```bash
+        singularity run --nv ../MPM3S.sif input_data_gravity_column_gpu.json
+        ```
 
-=== "Windows (GPU)"
+        `--nv` passes the GPU into the container; the input file must have `"GPU": "on"`.
 
-    Requirements: Docker Desktop's WSL 2 engine, which is the default. The NVIDIA driver you already have on Windows is all that is needed.
+=== "Apptainer"
 
-    ```powershell
-    docker pull ghcr.io/mpm3s/mpm3s:latest
-    docker run --rm -it --gpus all -v ${PWD}:/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
-    ```
+    === "CPU"
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
-    - `--gpus all` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
+        ```bash
+        MPM3S_CORES=8 apptainer run ../MPM3S.sif input_data_gravity_column.json
+        ```
 
-=== "Linux (CPU)"
+        The input file must have `"GPU": "off"`.
 
-    ```bash
-    sudo docker pull ghcr.io/mpm3s/mpm3s:latest
-    sudo docker run --rm -it -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
-    ```
+    === "GPU"
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
-    - The input file must have `"GPU": "off"`.
+        ```bash
+        apptainer run --nv ../MPM3S.sif input_data_gravity_column_gpu.json
+        ```
 
-=== "Linux (GPU)"
+        `--nv` passes the GPU into the container; the input file must have `"GPU": "on"`.
 
-    Requirements: the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+=== "Docker"
 
-    ```bash
-    sudo docker pull ghcr.io/mpm3s/mpm3s:latest
-    sudo docker run --rm -it --gpus all -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
-    ```
+    Docker sees only what you mount, so `-v … -w /work` mounts the problem folder as the container's working folder.
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
-    - `--gpus all` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
+    === "CPU"
 
-=== "macOS (CPU)"
+        === "Linux"
 
-    Note: Macs have no NVIDIA GPU, so MPM3S runs on the CPU.
+            ```bash
+            sudo docker run --rm --user "$(id -u):$(id -g)" -e MPM3S_CORES=8 -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data_gravity_column.json
+            ```
 
-    ```bash
-    docker pull ghcr.io/mpm3s/mpm3s:latest
-    docker run --rm -it -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data.json -t 4
-    ```
+            `--user` makes the results yours rather than root's.
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance use the number of physical cores minus 2.
-    - The input file must have `"GPU": "off"`.
+        === "macOS"
 
-Docker runs in the folder you call it from, so keep `input_data.json` there and the `.vtu` and `.csv` results appear beside it.
+            ```bash
+            docker run --rm -e MPM3S_CORES=8 -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data_gravity_column.json
+            ```
 
-## Apptainer (Linux only)
+        === "Windows"
 
-Apptainer is the usual choice on HPC as it runs without administrator rights. Check whether your cluster already provides it with `apptainer --version`; if not, ask your administrator.
+            ```powershell
+            docker run --rm -e MPM3S_CORES=8 -v ${PWD}:/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data_gravity_column.json
+            ```
 
-To install locally on your Linux machine follow the [installation guide](https://apptainer.org/docs/admin/main/installation.html). The `--nv` flag passes NVIDIA GPUs into the container, as described in the [GPU support guide](https://apptainer.org/docs/user/main/gpu.html).
+        The input file must have `"GPU": "off"`.
 
-To obtain the image, pull it into a local `.sif` file in your current directory:
+    === "GPU"
 
-```bash
-apptainer pull mpm3s.sif docker://ghcr.io/mpm3s/mpm3s:latest
-```
-To run the file, call it in the terminal or include it in your job script:
+        === "Linux"
+
+            Requires the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+
+            ```bash
+            sudo docker run --rm --gpus all --user "$(id -u):$(id -g)" -v "$PWD":/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data_gravity_column_gpu.json
+            ```
+
+        === "Windows"
+
+            Requires Docker Desktop's WSL 2 engine (the default) and the NVIDIA driver you already have.
+
+            ```powershell
+            docker run --rm --gpus all -v ${PWD}:/work -w /work ghcr.io/mpm3s/mpm3s:latest input_data_gravity_column_gpu.json
+            ```
+
+        Macs have no NVIDIA GPU, so they run on the CPU only. `--gpus all` passes the GPU into the container; the input
+        file must have `"GPU": "on"`.
+
+The first line of the output shows how the run uses the machine, e.g.
+`MPM3S 0.3.0 · CPU znver2 · 6 threads`, with the GPU added on a GPU run. On an HPC, put the command in a job script;
+for Hamilton see [HPC (Hamilton)](hpc.md).
+
+## 5. Practise on the tutorials
+
+The [tutorials](../TutorialProblems/TutorialProblems.md) make good practice. Their files come with MPM3S: download
+[MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) (**Code → Download ZIP**, or `git clone`), and copy each tutorial's files
+from its `validation_data_and_jsons` folder into a new problem folder.
+
+For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md)) with Singularity:
 
 === "CPU"
 
     ```bash
-    apptainer run mpm3s.sif input_data.json -t 4
+    cd my_work
+    mkdir column
+    cp MPM3S/validation_data_and_jsons/input_data_gravity_column.json column/
+    cd column
+    MPM3S_CORES=8 singularity run ../MPM3S.sif input_data_gravity_column.json
     ```
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
-    - The input file must have `"GPU": "off"`.
+    The results appear in `column/vtk_column` and `column/csv_column`.
 
 === "GPU"
 
     ```bash
-    apptainer run --nv mpm3s.sif input_data.json -t 4
+    cd my_work
+    mkdir column_gpu
+    cp MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json column_gpu/
+    cd column_gpu
+    singularity run --nv ../MPM3S.sif input_data_gravity_column_gpu.json
     ```
 
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
-    - `--nv` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
+    The results appear in `column_gpu/vtk_column_gpu` and `column_gpu/csv_column_gpu`.
 
-Apptainer runs in the directory you call it from, so keep `input_data.json` beside `mpm3s.sif` and the `.vtu` and `.csv` results appear there too.
+Open them as described in [Viewing the output](viewing_output.md). The other tutorials work the same way:
 
-## Singularity (Linux only)
+| Tutorial | Copy into its folder | Runs on |
+|---|---|---|
+| [1 Self-weight column](../TutorialProblems/Tutorial_1.md) | `input_data_gravity_column.json`, or `input_data_gravity_column_gpu.json` | CPU, or GPU |
+| [2 Compaction via a rigid body](../TutorialProblems/Tutorial_2.md) | `input_data_compress.json`, `cube.stl`, `cube_mesh.txt` | CPU |
+| [3 Vertical penetration](../TutorialProblems/Tutorial_3.md) | `input_data_CPT_dr32.json`, `CPT.stl`, `CPT_mesh.txt` | GPU |
+| [5 Rolling sphere](../TutorialProblems/Tutorial_5.md) | `input_data_sphere.json`, `sphere.stl`, `sphere_mesh.txt` | CPU |
+| [6 Drag anchor](../TutorialProblems/Tutorial_6.md) | `input_data_AC14_dr32.json`, `AC14_fluke_rot20.stl`, `AC14_fluke_rot20_mesh.txt`, `AC14_shank.stl`, `AC14_shank_mesh.txt` | GPU |
 
-SingularityCE is a common choice on HPC as it runs without administrator rights. Check whether your cluster already provides it with `singularity --version`; if not, ask your administrator.
+## Troubleshooting
 
-To install locally on your Linux machine follow the [installation guide](https://docs.sylabs.io/guides/latest/admin-guide/installation.html). The `--nv` flag passes NVIDIA GPUs into the container, as described in the [GPU support guide](https://docs.sylabs.io/guides/latest/user-guide/gpu.html).
-
-To obtain the image, pull it into a local `.sif` file in your current directory:
-
-```bash
-singularity pull mpm3s.sif docker://ghcr.io/mpm3s/mpm3s:latest
-```
-
-To run the file, call it in the terminal or include it in your job script:
-
-=== "CPU"
-
-    ```bash
-    singularity run mpm3s.sif input_data.json -t 4
-    ```
-
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; if it is not given it defaults to 4. For the fastest performance on a CPU use the number of physical cores minus 2.
-    - The input file must have `"GPU": "off"`.
-
-=== "GPU"
-
-    ```bash
-    singularity run --nv mpm3s.sif input_data.json -t 4
-    ```
-
-    - `input_data.json` contains the simulation data; if it is not given it defaults to `input_data.json`.
-    - `-t 4` is the number of CPU threads; 4 threads is sufficient when the analysis is on a GPU, and if it is not given it defaults to 4.
-    - `--nv` only makes the GPU visible to the container; the input file must also have `"GPU": "on"`.
-
-Singularity runs in the directory you call it from, so keep `input_data.json` beside `mpm3s.sif` and the `.vtu` and `.csv` results appear there too.
+| Message | Fix |
+|---|---|
+| `unauthorized` or `denied` when downloading | Log in first ([section 1](#1-log-in-to-the-github-container-registry)), with a token that has `read:packages`. |
+| `… says "GPU": "on", but no GPU is visible` | Add `--nv` (Singularity, Apptainer) or `--gpus all` (Docker), on a machine with an NVIDIA GPU. |
+| `the output folder … is not in a mounted host folder` | Run from inside the problem folder (Docker: with `-v … -w /work`), or keep the output paths in the input file relative. |
+| `usage: mpm3s input.json` | Give exactly one input file, and check it is in the folder you run from. |
+| An error about meshing or Gmsh | The rigid body's mesh cache (`_mesh.txt`) is missing from the problem folder. |
