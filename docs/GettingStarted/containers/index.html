@@ -2545,65 +2545,73 @@ file must have <code>"GPU": "on"</code>.</p>
 <code>MPM3S 0.3.0 · CPU znver2 · 6 threads</code>, with the GPU added on a GPU run. On an HPC, put the command in a job script;
 for Hamilton see <a href="../hpc/">HPC (Hamilton)</a>.</p>
 <h2 id="5-practise-on-the-tutorials">5. Practise on the tutorials<a class="headerlink" href="#5-practise-on-the-tutorials" title="Permanent link">¶</a></h2>
-<p>The <a href="../../TutorialProblems/TutorialProblems/">tutorials</a> make good practice. Their files come with MPM3S: download
-<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a> (<strong>Code → Download ZIP</strong>, or <code>git clone</code>), and copy each tutorial's files
-from its <code>validation_data_and_jsons</code> folder into a new problem folder.</p>
+<p>The <a href="../../TutorialProblems/TutorialProblems/">tutorials</a> make good practice. Their files are in the
+<a href="https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons"><code>validation_data_and_jsons</code></a> folder of
+<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a> on GitHub: for each tutorial, make a problem folder and download its files
+into it (open a file on GitHub, then <strong>Download raw file</strong>).</p>
 <p>For example, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>) with Singularity:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked id="__tabbed_10_1" name="__tabbed_10" type="radio"><input id="__tabbed_10_2" name="__tabbed_10" type="radio"><div class="tabbed-labels"><label for="__tabbed_10_1">CPU</label><label for="__tabbed_10_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
+<p>Make the problem folder:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>mkdir<span class="w"> </span>column
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>cp<span class="w"> </span>MPM3S/validation_data_and_jsons/input_data_gravity_column.json<span class="w"> </span>column/
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">cd</span><span class="w"> </span>column
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
+</code></pre></div>
+<p>Download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json"><code>validation_data_and_jsons/input_data_gravity_column.json</code></a>
+into <code>column</code>, then run it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>column
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p>The results appear in <code>column/vtk_column</code> and <code>column/csv_column</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mkdir<span class="w"> </span>column_gpu
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>cp<span class="w"> </span>MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json<span class="w"> </span>column_gpu/
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nb">cd</span><span class="w"> </span>column_gpu
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
+<p>Make the problem folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">cd</span><span class="w"> </span>my_work
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>mkdir<span class="w"> </span>column_gpu
+</code></pre></div>
+<p>Download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json"><code>validation_data_and_jsons/input_data_gravity_column_gpu.json</code></a>
+into <code>column_gpu</code>, then run it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>column_gpu
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
 </code></pre></div>
 <p>The results appear in <code>column_gpu/vtk_column_gpu</code> and <code>column_gpu/csv_column_gpu</code>.</p>
 </div>
 </div>
 </div>
-<p>Open them as described in <a href="../viewing_output/">Viewing the output</a>. The other tutorials work the same way:</p>
+<p>Open them as described in <a href="../viewing_output/">Viewing the output</a>. The other tutorials work the same way, with these
+files from <a href="https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons"><code>validation_data_and_jsons</code></a>:</p>
 <table>
 <thead>
 <tr>
 <th>Tutorial</th>
-<th>Copy into its folder</th>
+<th>Download into its folder</th>
 <th>Runs on</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="../../TutorialProblems/Tutorial_1/">1 Self-weight column</a></td>
-<td><code>input_data_gravity_column.json</code>, or <code>input_data_gravity_column_gpu.json</code></td>
+<td><a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json"><code>input_data_gravity_column.json</code></a>, or <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json"><code>input_data_gravity_column_gpu.json</code></a></td>
 <td>CPU, or GPU</td>
 </tr>
 <tr>
 <td><a href="../../TutorialProblems/Tutorial_2/">2 Compaction via a rigid body</a></td>
-<td><code>input_data_compress.json</code>, <code>cube.stl</code>, <code>cube_mesh.txt</code></td>
+<td><a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_compress.json"><code>input_data_compress.json</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/cube.stl"><code>cube.stl</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/cube_mesh.txt"><code>cube_mesh.txt</code></a></td>
 <td>CPU</td>
 </tr>
 <tr>
 <td><a href="../../TutorialProblems/Tutorial_3/">3 Vertical penetration</a></td>
-<td><code>input_data_CPT_dr32.json</code>, <code>CPT.stl</code>, <code>CPT_mesh.txt</code></td>
+<td><a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_CPT_dr32.json"><code>input_data_CPT_dr32.json</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/CPT.stl"><code>CPT.stl</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/CPT_mesh.txt"><code>CPT_mesh.txt</code></a></td>
 <td>GPU</td>
 </tr>
 <tr>
 <td><a href="../../TutorialProblems/Tutorial_5/">5 Rolling sphere</a></td>
-<td><code>input_data_sphere.json</code>, <code>sphere.stl</code>, <code>sphere_mesh.txt</code></td>
+<td><a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_sphere.json"><code>input_data_sphere.json</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/sphere.stl"><code>sphere.stl</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/sphere_mesh.txt"><code>sphere_mesh.txt</code></a></td>
 <td>CPU</td>
 </tr>
 <tr>
 <td><a href="../../TutorialProblems/Tutorial_6/">6 Drag anchor</a></td>
-<td><code>input_data_AC14_dr32.json</code>, <code>AC14_fluke_rot20.stl</code>, <code>AC14_fluke_rot20_mesh.txt</code>, <code>AC14_shank.stl</code>, <code>AC14_shank_mesh.txt</code></td>
+<td><a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_AC14_dr32.json"><code>input_data_AC14_dr32.json</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_fluke_rot20.stl"><code>AC14_fluke_rot20.stl</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_fluke_rot20_mesh.txt"><code>AC14_fluke_rot20_mesh.txt</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_shank.stl"><code>AC14_shank.stl</code></a>, <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_shank_mesh.txt"><code>AC14_shank_mesh.txt</code></a></td>
 <td>GPU</td>
 </tr>
 </tbody>

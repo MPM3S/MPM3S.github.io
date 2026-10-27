@@ -2593,8 +2593,7 @@
 <h2 id="with-the-container">With the container<a class="headerlink" href="#with-the-container" title="Permanent link">¶</a></h2>
 <p>The container image holds Julia, MPM3S and its GPU libraries, so there is nothing to install: no <code>juliaup</code>, no <code>julia_depot</code>. Hamilton runs it with Singularity (<code>singularity --version</code>). <a href="../containers/">Docker and containers</a> explains the image in general; this section is the Hamilton version.</p>
 <h3 id="1-one-time-setup_1">1. One-time setup<a class="headerlink" href="#1-one-time-setup_1" title="Permanent link">¶</a></h3>
-<p>You still need the <code>MPM3S</code> folder for the job scripts and the tutorial files: put it in <code>/nobackup</code> as in <a href="#1-one-time-setup">1. One-time setup</a> (the ZIP or git clone step only).</p>
-<p><strong>On Hamilton</strong>, make a working folder beside it, log in to the registry while MPM3S.jl is private (<a href="../containers/#1-log-in-to-the-github-container-registry">how to make the token</a>), and download the image into the working folder:</p>
+<p><strong>On Hamilton</strong>, make a working folder, log in to the registry while MPM3S.jl is private (<a href="../containers/#1-log-in-to-the-github-container-registry">how to make the token</a>), and download the image into it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>/nobackup/&lt;username&gt;/simulations
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">cd</span><span class="w"> </span>/nobackup/&lt;username&gt;/simulations
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>singularity<span class="w"> </span>registry<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>oras://ghcr.io
@@ -2602,24 +2601,23 @@
 </code></pre></div>
 <h3 id="2-make-a-problem-folder">2. Make a problem folder<a class="headerlink" href="#2-make-a-problem-folder" title="Permanent link">¶</a></h3>
 <p>Every problem gets its own folder beside <code>MPM3S.sif</code>, holding its input file, the <code>.stl</code> and mesh cache (<code>_mesh.txt</code>) of any rigid body, and a copy of a container script:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>/nobackup/&lt;username&gt;/
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── MPM3S/                          ← the download: scripts/ and the tutorial files
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>└── simulations/
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    ├── MPM3S.sif
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    └── column_gpu/
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>        ├── hamilton_container_GPU.sh
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        ├── input_data_gravity_column_gpu.json
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        ├── vtk_column_gpu/         ← created by the run
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>        └── csv_column_gpu/         ← created by the run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>/nobackup/&lt;username&gt;/simulations/
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── MPM3S.sif
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>└── column_gpu/
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    ├── hamilton_container_GPU.sh
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    ├── input_data_gravity_column_gpu.json
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    ├── vtk_column_gpu/         ← created by the run
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    └── csv_column_gpu/         ← created by the run
 </code></pre></div>
-<p>For example, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>), <strong>on Hamilton</strong>:</p>
+<p>The container scripts are in the <a href="https://github.com/MPM3S/MPM3S.jl/tree/master/scripts"><code>scripts</code></a> folder of <a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a> on GitHub, and the tutorial files in its <a href="https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons"><code>validation_data_and_jsons</code></a> folder. For example, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>):</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">GPU run</label><label for="__tabbed_4_2">CPU run</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">cd</span><span class="w"> </span>/nobackup/&lt;username&gt;/simulations
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>mkdir<span class="w"> </span>column_gpu
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>cp<span class="w"> </span>../MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json<span class="w"> </span>column_gpu/
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>cp<span class="w"> </span>../MPM3S/scripts/hamilton_container_GPU.sh<span class="w"> </span>column_gpu/
+<p><strong>On Hamilton</strong>, make the problem folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mkdir<span class="w"> </span>/nobackup/&lt;username&gt;/simulations/column_gpu
+</code></pre></div>
+<p><strong>On your computer</strong>, download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/scripts/hamilton_container_GPU.sh"><code>scripts/hamilton_container_GPU.sh</code></a> and <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json"><code>validation_data_and_jsons/input_data_gravity_column_gpu.json</code></a> (open each on GitHub, then <strong>Download raw file</strong>), and copy them into it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>scp<span class="w"> </span>hamilton_container_GPU.sh<span class="w"> </span>input_data_gravity_column_gpu.json<span class="w"> </span>&lt;username&gt;@hamilton8.dur.ac.uk:/nobackup/&lt;username&gt;/simulations/column_gpu/
 </code></pre></div>
 <p>In the script, set <code>INPUT</code> to your input file and choose the GPU with the <code>--gres</code> line, as in the table under <a href="#2-copy-and-edit-an-example">2. Copy and edit an example</a>. There is no core count to set for a GPU run.</p>
 <div class="admonition warning">
@@ -2631,10 +2629,11 @@
 </div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>/nobackup/&lt;username&gt;/simulations
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>mkdir<span class="w"> </span>column
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>cp<span class="w"> </span>../MPM3S/validation_data_and_jsons/input_data_gravity_column.json<span class="w"> </span>column/
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>cp<span class="w"> </span>../MPM3S/scripts/hamilton_container_CPU.sh<span class="w"> </span>column/
+<p><strong>On Hamilton</strong>, make the problem folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mkdir<span class="w"> </span>/nobackup/&lt;username&gt;/simulations/column
+</code></pre></div>
+<p><strong>On your computer</strong>, download <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/scripts/hamilton_container_CPU.sh"><code>scripts/hamilton_container_CPU.sh</code></a> and <a href="https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json"><code>validation_data_and_jsons/input_data_gravity_column.json</code></a> (open each on GitHub, then <strong>Download raw file</strong>), and copy them into it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>scp<span class="w"> </span>hamilton_container_CPU.sh<span class="w"> </span>input_data_gravity_column.json<span class="w"> </span>&lt;username&gt;@hamilton8.dur.ac.uk:/nobackup/&lt;username&gt;/simulations/column/
 </code></pre></div>
 <p>In the script, set <code>INPUT</code> to your input file, and the cores (<code>-c</code>), memory (<code>--mem</code>) and time (<code>--time</code>). MPM3S uses the cores minus 2 as threads.</p>
 <div class="admonition warning">
@@ -2650,8 +2649,8 @@
 <p>The other tutorials work the same way; <a href="../containers/#5-practise-on-the-tutorials">Docker and containers</a> lists the files each one needs.</p>
 <h3 id="3-submit_1">3. Submit<a class="headerlink" href="#3-submit_1" title="Permanent link">¶</a></h3>
 <p><strong>On Hamilton</strong>, from <strong>inside the problem folder</strong>, since the results are written to the folder you submit from:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">cd</span><span class="w"> </span>/nobackup/&lt;username&gt;/simulations/column_gpu
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>sbatch<span class="w"> </span>hamilton_container_GPU.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>/nobackup/&lt;username&gt;/simulations/column_gpu
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>sbatch<span class="w"> </span>hamilton_container_GPU.sh
 </code></pre></div>
 <p>The results appear in the problem folder, with the log <code>mpm3s_gpu_&lt;job id&gt;.out</code> (<code>mpm3s_cpu_&lt;job id&gt;.out</code> for a CPU run). Its first line shows how the run used the machine, e.g. <code>MPM3S 0.3.0 · CPU znver5 · 1 threads · GPU NVIDIA H200 NVL MIG 1g.18gb</code>. Copy the results back as in <a href="#3-submit">3. Submit</a>, from <code>/nobackup/&lt;username&gt;/simulations/&lt;problem folder&gt;/&lt;output folder&gt;</code>.</p>
 
