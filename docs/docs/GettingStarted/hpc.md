@@ -2,8 +2,25 @@
 
 MPM3S runs on Durham's Hamilton cluster as batch jobs, on a GPU or on CPU cores, in one of two ways:
 
-- **Installed with Julia** (sections 1–3 below): set it up once on a login node, then copy one of the two example scripts in `scripts/`, set its input file and submit it.
-- **From the container image**, which needs no installation: see [With the container](#with-the-container).
+<div class="grid cards equal" markdown>
+
+-   :simple-julia:{ .lg .middle } __Installed with Julia__
+
+    ---
+
+    Install Julia and MPM3S once on a login node, then copy one of the two example scripts in `scripts/`, set its input file and submit it.
+
+    [:octicons-arrow-right-24: One-time setup](#1-one-time-setup)
+
+-   :material-package-variant-closed:{ .lg .middle } __With the container__
+
+    ---
+
+    Nothing to install: download the MPM3S image once, then submit a job script from each problem's folder.
+
+    [:octicons-arrow-right-24: With the container](#with-the-container)
+
+</div>
 
 --8<-- "terminal_window.md"
 

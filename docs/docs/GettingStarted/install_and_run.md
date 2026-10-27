@@ -24,7 +24,7 @@ There are four ways to run MPM3S, and a viewer for its output. Each tile below l
 
     ---
 
-    Run MPM3S as SLURM batch jobs on Durham's Hamilton cluster, on a GPU or on CPU cores, from the two example scripts.
+    Run MPM3S as SLURM batch jobs on Durham's Hamilton cluster, on a GPU or on CPU cores, installed with Julia or from the container.
 
     [:octicons-arrow-right-24: HPC (Hamilton)](hpc.md)
 
