@@ -152,9 +152,7 @@ The container image holds Julia, MPM3S and its GPU libraries, so there is nothin
 
 ### 1. One-time setup
 
-You still need the `MPM3S` folder for the job scripts and the tutorial files: put it in `/nobackup` as in [1. One-time setup](#1-one-time-setup) (the ZIP or git clone step only).
-
-**On Hamilton**, make a working folder beside it, log in to the registry while MPM3S.jl is private ([how to make the token](containers.md#1-log-in-to-the-github-container-registry)), and download the image into the working folder:
+**On Hamilton**, make a working folder, log in to the registry while MPM3S.jl is private ([how to make the token](containers.md#1-log-in-to-the-github-container-registry)), and download the image into it:
 
 ```bash
 mkdir /nobackup/<username>/simulations
@@ -168,26 +166,29 @@ singularity pull MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
 Every problem gets its own folder beside `MPM3S.sif`, holding its input file, the `.stl` and mesh cache (`_mesh.txt`) of any rigid body, and a copy of a container script:
 
 ```text
-/nobackup/<username>/
-├── MPM3S/                          ← the download: scripts/ and the tutorial files
-└── simulations/
-    ├── MPM3S.sif
-    └── column_gpu/
-        ├── hamilton_container_GPU.sh
-        ├── input_data_gravity_column_gpu.json
-        ├── vtk_column_gpu/         ← created by the run
-        └── csv_column_gpu/         ← created by the run
+/nobackup/<username>/simulations/
+├── MPM3S.sif
+└── column_gpu/
+    ├── hamilton_container_GPU.sh
+    ├── input_data_gravity_column_gpu.json
+    ├── vtk_column_gpu/         ← created by the run
+    └── csv_column_gpu/         ← created by the run
 ```
 
-For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md)), **on Hamilton**:
+The container scripts are in the [`scripts`](https://github.com/MPM3S/MPM3S.jl/tree/master/scripts) folder of [MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) on GitHub, and the tutorial files in its [`validation_data_and_jsons`](https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons) folder. For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md)):
 
 === "GPU run"
 
+    **On Hamilton**, make the problem folder:
+
     ```bash
-    cd /nobackup/<username>/simulations
-    mkdir column_gpu
-    cp ../MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json column_gpu/
-    cp ../MPM3S/scripts/hamilton_container_GPU.sh column_gpu/
+    mkdir /nobackup/<username>/simulations/column_gpu
+    ```
+
+    **On your computer**, download [`scripts/hamilton_container_GPU.sh`](https://github.com/MPM3S/MPM3S.jl/blob/master/scripts/hamilton_container_GPU.sh) and [`validation_data_and_jsons/input_data_gravity_column_gpu.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json) (open each on GitHub, then **Download raw file**), and copy them into it:
+
+    ```bash
+    scp hamilton_container_GPU.sh input_data_gravity_column_gpu.json <username>@hamilton8.dur.ac.uk:/nobackup/<username>/simulations/column_gpu/
     ```
 
     In the script, set `INPUT` to your input file and choose the GPU with the `--gres` line, as in the table under [2. Copy and edit an example](#2-copy-and-edit-an-example). There is no core count to set for a GPU run.
@@ -198,11 +199,16 @@ For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1
 
 === "CPU run"
 
+    **On Hamilton**, make the problem folder:
+
     ```bash
-    cd /nobackup/<username>/simulations
-    mkdir column
-    cp ../MPM3S/validation_data_and_jsons/input_data_gravity_column.json column/
-    cp ../MPM3S/scripts/hamilton_container_CPU.sh column/
+    mkdir /nobackup/<username>/simulations/column
+    ```
+
+    **On your computer**, download [`scripts/hamilton_container_CPU.sh`](https://github.com/MPM3S/MPM3S.jl/blob/master/scripts/hamilton_container_CPU.sh) and [`validation_data_and_jsons/input_data_gravity_column.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json) (open each on GitHub, then **Download raw file**), and copy them into it:
+
+    ```bash
+    scp hamilton_container_CPU.sh input_data_gravity_column.json <username>@hamilton8.dur.ac.uk:/nobackup/<username>/simulations/column/
     ```
 
     In the script, set `INPUT` to your input file, and the cores (`-c`), memory (`--mem`) and time (`--time`). MPM3S uses the cores minus 2 as threads.

@@ -195,18 +195,26 @@ for Hamilton see [HPC (Hamilton)](hpc.md).
 
 ## 5. Practise on the tutorials
 
-The [tutorials](../TutorialProblems/TutorialProblems.md) make good practice. Their files come with MPM3S: download
-[MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) (**Code → Download ZIP**, or `git clone`), and copy each tutorial's files
-from its `validation_data_and_jsons` folder into a new problem folder.
+The [tutorials](../TutorialProblems/TutorialProblems.md) make good practice. Their files are in the
+[`validation_data_and_jsons`](https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons) folder of
+[MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) on GitHub: for each tutorial, make a problem folder and download its files
+into it (open a file on GitHub, then **Download raw file**).
 
 For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md)) with Singularity:
 
 === "CPU"
 
+    Make the problem folder:
+
     ```bash
     cd my_work
     mkdir column
-    cp MPM3S/validation_data_and_jsons/input_data_gravity_column.json column/
+    ```
+
+    Download [`validation_data_and_jsons/input_data_gravity_column.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json)
+    into `column`, then run it:
+
+    ```bash
     cd column
     MPM3S_CORES=8 singularity run ../MPM3S.sif input_data_gravity_column.json
     ```
@@ -215,25 +223,33 @@ For example, the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1
 
 === "GPU"
 
+    Make the problem folder:
+
     ```bash
     cd my_work
     mkdir column_gpu
-    cp MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json column_gpu/
+    ```
+
+    Download [`validation_data_and_jsons/input_data_gravity_column_gpu.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json)
+    into `column_gpu`, then run it:
+
+    ```bash
     cd column_gpu
     singularity run --nv ../MPM3S.sif input_data_gravity_column_gpu.json
     ```
 
     The results appear in `column_gpu/vtk_column_gpu` and `column_gpu/csv_column_gpu`.
 
-Open them as described in [Viewing the output](viewing_output.md). The other tutorials work the same way:
+Open them as described in [Viewing the output](viewing_output.md). The other tutorials work the same way, with these
+files from [`validation_data_and_jsons`](https://github.com/MPM3S/MPM3S.jl/tree/master/validation_data_and_jsons):
 
-| Tutorial | Copy into its folder | Runs on |
+| Tutorial | Download into its folder | Runs on |
 |---|---|---|
-| [1 Self-weight column](../TutorialProblems/Tutorial_1.md) | `input_data_gravity_column.json`, or `input_data_gravity_column_gpu.json` | CPU, or GPU |
-| [2 Compaction via a rigid body](../TutorialProblems/Tutorial_2.md) | `input_data_compress.json`, `cube.stl`, `cube_mesh.txt` | CPU |
-| [3 Vertical penetration](../TutorialProblems/Tutorial_3.md) | `input_data_CPT_dr32.json`, `CPT.stl`, `CPT_mesh.txt` | GPU |
-| [5 Rolling sphere](../TutorialProblems/Tutorial_5.md) | `input_data_sphere.json`, `sphere.stl`, `sphere_mesh.txt` | CPU |
-| [6 Drag anchor](../TutorialProblems/Tutorial_6.md) | `input_data_AC14_dr32.json`, `AC14_fluke_rot20.stl`, `AC14_fluke_rot20_mesh.txt`, `AC14_shank.stl`, `AC14_shank_mesh.txt` | GPU |
+| [1 Self-weight column](../TutorialProblems/Tutorial_1.md) | [`input_data_gravity_column.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column.json), or [`input_data_gravity_column_gpu.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_gravity_column_gpu.json) | CPU, or GPU |
+| [2 Compaction via a rigid body](../TutorialProblems/Tutorial_2.md) | [`input_data_compress.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_compress.json), [`cube.stl`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/cube.stl), [`cube_mesh.txt`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/cube_mesh.txt) | CPU |
+| [3 Vertical penetration](../TutorialProblems/Tutorial_3.md) | [`input_data_CPT_dr32.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_CPT_dr32.json), [`CPT.stl`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/CPT.stl), [`CPT_mesh.txt`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/CPT_mesh.txt) | GPU |
+| [5 Rolling sphere](../TutorialProblems/Tutorial_5.md) | [`input_data_sphere.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_sphere.json), [`sphere.stl`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/sphere.stl), [`sphere_mesh.txt`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/sphere_mesh.txt) | CPU |
+| [6 Drag anchor](../TutorialProblems/Tutorial_6.md) | [`input_data_AC14_dr32.json`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/input_data_AC14_dr32.json), [`AC14_fluke_rot20.stl`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_fluke_rot20.stl), [`AC14_fluke_rot20_mesh.txt`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_fluke_rot20_mesh.txt), [`AC14_shank.stl`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_shank.stl), [`AC14_shank_mesh.txt`](https://github.com/MPM3S/MPM3S.jl/blob/master/validation_data_and_jsons/AC14_shank_mesh.txt) | GPU |
 
 ## Troubleshooting
 
