@@ -1,23 +1,28 @@
 # HPC: installed with Julia
 
+!!! warning "Use the container if you can"
+    Installing Julia on an HPC is much more troublesome than the container, which needs nothing installed:
+    [HPC with the container](hpc_container.md) is easier. Install with Julia only if you need to change MPM3S's code.
+
 Julia and MPM3S are installed once on the cluster, and every job runs MPM3S from that install.
 Read [Before you start](hpc.md#before-you-start) first. Note this install is different to the [Julia](julia.md) page for PCs.
 
---8<-- "github_account.md"
+!!! note "Add your GitHub account to your HPC (while MPM3S.jl is private)"
+    --8<-- "github_account.md"
 
-Here, `git clone` in step 1 uses the token: when it asks for your GitHub username and password, give the token as the
-password. Run `git config --global credential.helper store` once before cloning to have git remember it, in
-`~/.git-credentials`.
+    On your HPC, `git clone` in step 1 uses the token: when it asks for your GitHub username and password, give
+    the token as the password. Run `git config --global credential.helper store` on your HPC once before cloning to
+    have git remember it, in `~/.git-credentials`.
 
 ## 1. Install Julia and MPM3S
 
-Install Julia, then log out and back in, so that the new path to `juliaup` takes effect:
+**On your HPC**, install Julia:
 
 ```bash
 curl -fsSL https://install.julialang.org | sh
 ```
 
-Then set the version, download MPM3S and install its packages:
+Log out and back in, so that the new path to `juliaup` takes effect. Then set the version and download MPM3S:
 
 ```bash
 juliaup add 1.12.4
@@ -25,15 +30,21 @@ juliaup default 1.12.4
 cd <path to large drive>
 mkdir -p <path to large drive>/julia_depot
 git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
+```
+
+Without git, download the ZIP as on the [Julia](julia.md#downloading-mpm3s-from-github) page, copy it to
+`<path to large drive>` with `scp`, unzip it there and rename the folder to `MPM3S`.
+
+Then install MPM3S's packages into `julia_depot`:
+
+```bash
 cd MPM3S
 export JULIA_DEPOT_PATH=<path to large drive>/julia_depot
 julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
 julia -e 'using Pkg; Pkg.activate("."); using CUDA; CUDA.precompile_runtime()'
 ```
 
-The last line installs the CUDA runtime, for GPU runs. Without git, download the ZIP as on the
-[Julia](julia.md#downloading-mpm3s-from-github) page, copy it to `<path to large drive>` with `scp`, unzip it there and
-rename the folder to `MPM3S`.
+The last line installs the CUDA runtime, for GPU runs.
 
 ```text
 <path to large drive>/
@@ -129,7 +140,7 @@ The example job scripts:
 
 ## 3. Submit
 
-**On the cluster**, from the `MPM3S` folder:
+**On your HPC**, from the `MPM3S` folder:
 
 === "GPU run"
 
@@ -195,6 +206,7 @@ If your cluster offers ParaView through a web portal, you can open the results t
 | `ERROR: … says "GPU": "on" but this is a CPU job`, or `… does not say "GPU": "on" but this is a GPU job` | The input file and the script do not match. |
 | `ERROR: no <INPUT> in <MPM3S folder>` | `INPUT` must be the path from the `MPM3S` folder to the input file. |
 | `ERROR: no julia`, or `ERROR: julia … but the Manifest needs 1.12.4` | Install Julia on the login node: see [1. Install Julia and MPM3S](#1-install-julia-and-mpm3s). |
+| `The Julia launcher failed to load a configuration file`, naming a `.juliaup-backup-…` folder | An earlier Julia install was left in a backup folder. Run `rm -rf ~/.juliaup`, then install Julia again as in [step 1](#1-install-julia-and-mpm3s), logging out and back in after the `curl` line. |
 | `ERROR: source this from a wrapper …` | A run script was submitted: submit an example script instead. |
 | `Invalid generic resource (gres) specification` when submitting | The `--gres` line names a GPU the cluster does not have: `sinfo -o "%P %G"` lists the ones it has. |
 | `CANCELLED … DUE TO TIME LIMIT` | The job ran out of time: raise `--time`. |

@@ -1,6 +1,6 @@
 ## Following a job
 
-`sbatch` prints the job's id when you submit it. Then, **on the cluster**:
+`sbatch` prints the job's id when you submit it. Then, **on your HPC**:
 
 | Command | What it does |
 |---|---|

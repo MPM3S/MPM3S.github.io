@@ -33,6 +33,10 @@ repo_url: https://github.com/MPM3S/MPM3S.jl
 # Copyright
 copyright: Copyright &copy; 2025 Durham University | UKRI Project Reference UKRI788
 
+# mkdocs serve rebuilds when a shared snippet (--8<-- "file.md") changes, not only a page
+watch:
+  - includes
+
 # Theme
 theme:
   name: material

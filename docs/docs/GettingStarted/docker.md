@@ -4,10 +4,11 @@ Docker runs the MPM3S container image on a workstation running Windows, macOS or
 its GPU libraries and the tutorial files, so nothing else needs installing. On an HPC, where Docker is rarely
 available, use [Singularity / Apptainer](singularity.md).
 
---8<-- "github_account.md"
+!!! note "Add your GitHub account to your computer or HPC (while MPM3S.jl is private)"
+    --8<-- "github_account.md"
 
-Here, downloading the image uses the token: [section 2](#2-log-in-to-the-github-container-registry) logs this
-computer in with it.
+    On your computer or HPC, downloading the image uses the token:
+    [section 2](#2-log-in-to-the-github-container-registry) logs it in with the token.
 
 --8<-- "terminal_window.md"
 
@@ -101,7 +102,8 @@ input files are inside the image. To copy them into the `column` folder, use:
     docker run --rm -v ${PWD}:/work -w /work --entrypoint cp ghcr.io/mpm3s/mpm3s:latest /opt/MPM3S/validation_data_and_jsons/input_data_gravity_column.json /opt/MPM3S/validation_data_and_jsons/input_data_gravity_column_gpu.json .
     ```
 
-`-v … -w /work` mounts the problem folder as the container's working folder, and `--entrypoint cp` runs `cp` in the
+`$PWD` (`${PWD}` in PowerShell) is the folder you are in, and `-v "$PWD":/work -w /work` makes it the container's
+working folder, so the files are copied into your current directory, here `column`. `--entrypoint cp` runs `cp` in the
 image in place of MPM3S.
 
 ```text
@@ -116,7 +118,8 @@ image in place of MPM3S.
 ### Run it
 
 From inside the problem folder (in this example you should be in `column`), give the image the input file and run it.
-On the CPU, MPM3S uses the number of cores minus 2 as threads (at least 1): set `MPM3S_CORES` to the cores to use, or
+As in the copy, `$PWD` (`${PWD}` in PowerShell) is the folder you are in, so the results are written into your current
+directory. On the CPU, MPM3S uses the number of cores minus 2 as threads (at least 1): set `MPM3S_CORES` to the cores to use, or
 leave it out to use every core the container sees. An input file with `"GPU": "on"` needs the GPU passed in with
 `--gpus all`.
 

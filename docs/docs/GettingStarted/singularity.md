@@ -8,10 +8,11 @@ install [Apptainer](https://apptainer.org/docs/admin/main/installation.html) or
 and the tutorial files, so nothing else needs installing. To run it as batch jobs on a Slurm cluster, see
 [HPC with the container](hpc_container.md), which adds the job scripts.
 
---8<-- "github_account.md"
+!!! note "Add your GitHub account to your computer or HPC (while MPM3S.jl is private)"
+    --8<-- "github_account.md"
 
-Here, downloading the image uses the token: [section 2](#2-log-in-to-the-github-container-registry) logs this
-computer in with it.
+    On your computer or HPC, downloading the image uses the token:
+    [section 2](#2-log-in-to-the-github-container-registry) logs it in with the token.
 
 --8<-- "terminal_window.md"
 
@@ -90,7 +91,9 @@ the same commands update the image to a new release.
 reproduce later, name a release instead, e.g. `oras://ghcr.io/mpm3s/mpm3s:v0.3.0-sif`, so the image cannot change
 underneath you.
 
-## 5. Run a problem
+## 5. Run a problem (on your PC)
+
+On an HPC, run it as a batch job instead: see [HPC with the container](hpc_container.md).
 
 ### Make a problem folder
 

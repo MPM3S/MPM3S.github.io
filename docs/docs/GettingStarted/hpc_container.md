@@ -1,28 +1,49 @@
 # HPC: with the container
 
-The image holds Julia, MPM3S, its GPU libraries, the job scripts and the tutorial files, so there is nothing to
-install. [Singularity / Apptainer](singularity.md) covers the image in general; this is the Slurm version.
+The image holds Julia, MPM3S, its GPU libraries, the job scripts and the tutorial files, so nothing else needs
+installing. [Singularity / Apptainer](singularity.md) covers the image in general; this is the Slurm version.
 
 Read [Before you start](hpc.md#before-you-start) first.
 
---8<-- "github_account.md"
+!!! note "Add your GitHub account to your HPC (while MPM3S.jl is private)"
+    --8<-- "github_account.md"
 
-Here, downloading the image uses the token:
-[section 2 of Singularity / Apptainer](singularity.md#2-log-in-to-the-github-container-registry) logs the cluster in
-with it.
+    On your HPC, downloading the image uses the token: [step 1](#1-install-the-container) logs your HPC in with it.
 
-## 1. Add a job script
+## 1. Install the container
 
-Following on from the [Singularity / Apptainer](singularity.md) page, up to
-[Make a problem folder](singularity.md#make-a-problem-folder) in section 5 (with the working folder on the large drive,
-`<path to large drive>/my_work`), add a job script in place of *Run it*. The job scripts are inside the image too. From
-inside the problem folder (`column` in the example), copy out the GPU and CPU job scripts:
+**On your HPC**, log in to the GitHub container registry, make a working folder on the large drive and download the
+image into it (see [Singularity / Apptainer](singularity.md) for the full description):
 
 ```bash
-singularity exec ../MPM3S.sif cp /opt/MPM3S/scripts/{hamilton_container_GPU.sh,hamilton_container_CPU.sh} .
+singularity registry login --username <github-username> oras://ghcr.io
+mkdir -p <path to large drive>/my_work
+cd <path to large drive>/my_work
+singularity pull -F --disable-cache MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
 ```
 
-Both are already set up for this problem; set their `#SBATCH` lines (partition, and GPU) for your cluster:
+The login asks for the token as the password, and is remembered until the token expires. If `singularity` is not
+found, load it first, e.g. `module load apptainer`.
+
+```text
+<path to large drive>/my_work/
+└── MPM3S.sif                               ← downloaded
+```
+
+## 2. Run an example problem
+
+### Make a problem folder
+
+From the working folder, make a folder for the self-weight column ([Tutorial 1](../TutorialProblems/Tutorial_1.md))
+and copy its GPU and CPU job scripts and input files out of the image:
+
+```bash
+mkdir column
+cd column
+singularity exec ../MPM3S.sif cp /opt/MPM3S/scripts/{hamilton_container_GPU.sh,hamilton_container_CPU.sh} /opt/MPM3S/validation_data_and_jsons/{input_data_gravity_column.json,input_data_gravity_column_gpu.json} .
+```
+
+Both job scripts are already set up for this problem; set their `#SBATCH` lines (partition, and GPU) for your cluster:
 
 - **`hamilton_container_GPU.sh`** runs `input_data_gravity_column_gpu.json` on one GPU for 4 hours.
 - **`hamilton_container_CPU.sh`** runs `input_data_gravity_column.json` on 8 cores with 8 GB for 4 hours.
@@ -31,22 +52,14 @@ Both are already set up for this problem; set their `#SBATCH` lines (partition, 
 <path to large drive>/my_work/
 ├── MPM3S.sif
 └── column/
-    ├── input_data_gravity_column.json
-    ├── input_data_gravity_column_gpu.json
     ├── hamilton_container_GPU.sh           ← copied from the image
-    └── hamilton_container_CPU.sh           ← copied from the image
+    ├── hamilton_container_CPU.sh           ← copied from the image
+    ├── input_data_gravity_column.json      ← copied from the image
+    └── input_data_gravity_column_gpu.json  ← copied from the image
 ```
 
 The job scripts run the image as `../MPM3S.sif`, one folder up, so keep to this layout or edit the `singularity run`
 line in your copy.
-
-For a problem of your own, copy its files into its problem folder **on your computer**:
-
-```bash
-scp input_data.json part.stl <username>@<cluster address>:<path to large drive>/my_work/my_problem/
-```
-
-In the job script, set `INPUT` to the input file's name and the `#SBATCH` lines for your problem.
 
 The job script as it comes out of the image:
 
@@ -106,9 +119,9 @@ The job script as it comes out of the image:
     singularity run ../MPM3S.sif "$INPUT"
     ```
 
-## 2. Submit
+### Submit
 
-**On the cluster**, from inside the problem folder, as the results are written to the folder you submit from:
+**On your HPC**, from inside the problem folder, as the results are written to the folder you submit from:
 
 ```bash
 cd <path to large drive>/my_work/column
@@ -161,8 +174,9 @@ If your cluster offers ParaView through a web portal, you can open the results t
 
 | Message | Fix |
 |---|---|
-| `cached file hash … does not match` when downloading | Download the image with the commands in [Download the image](singularity.md#4-download-the-image), which clear the cache first. |
-| `could not open image …/MPM3S.sif` | The problem folder is not directly beside `MPM3S.sif`: see [1. Add a job script](#1-add-a-job-script). |
+| `unauthorized` or `denied` when downloading | Log in first, as in [step 1](#1-install-the-container), with a token that has `read:packages`. |
+| `cached file hash … does not match` when downloading | Run `singularity cache clean -f`, then download again as in [step 1](#1-install-the-container). |
+| `could not open image …/MPM3S.sif` | The problem folder is not directly beside `MPM3S.sif`: see [Make a problem folder](#make-a-problem-folder). |
 | `… says "GPU": "on", but no GPU is visible` | A GPU input file in a CPU job. Use the GPU script, or set `"GPU": "off"`. |
 | `Invalid generic resource (gres) specification` when submitting | The `--gres` line names a GPU the cluster does not have: `sinfo -o "%P %G"` lists the ones it has. |
 | `CANCELLED … DUE TO TIME LIMIT` | The job ran out of time: raise `--time`. |

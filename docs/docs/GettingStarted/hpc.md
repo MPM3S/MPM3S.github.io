@@ -18,7 +18,7 @@ page:
 
     ---
 
-    Install Julia and MPM3S once, then copy an example job script, set its input file and submit it.
+    Install Julia and MPM3S once, then submit an example job script.
 
     [:octicons-arrow-right-24: Installed with Julia](hpc_julia.md)
 
@@ -30,7 +30,7 @@ page:
 
 - **Log in** to the cluster's login node with `ssh <username>@<cluster address>`, with your username in place of
   `<username>` and the cluster's address in place of `<cluster address>` throughout these pages. Each step says whether
-  it runs **on the cluster**, in the bash shell on the login node (whether you connect from Windows, Linux or macOS), or
+  it runs **on your HPC**, in the bash shell on the login node (whether you connect from Windows, Linux or macOS), or
   **on your computer**.
 - **Work on a drive with plenty of space, not in your home folder.** The image is 2 GB and the results can run to many
   GB, but a home folder's quota is usually small. Clusters have a large drive for this, often called scratch
