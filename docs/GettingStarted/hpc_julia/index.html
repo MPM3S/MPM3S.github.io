@@ -2594,46 +2594,51 @@
 
 
 <h1 id="hpc-installed-with-julia">HPC: installed with Julia<a class="headerlink" href="#hpc-installed-with-julia" title="Permanent link">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Use the container if you can</p>
+<p>Installing Julia on an HPC is much more troublesome than the container, which needs nothing installed:
+<a href="../hpc_container/">HPC with the container</a> is easier. Install with Julia only if you need to change MPM3S's code.</p>
+</div>
 <p>Julia and MPM3S are installed once on the cluster, and every job runs MPM3S from that install.
 Read <a href="../hpc/#before-you-start">Before you start</a> first. Note this install is different to the <a href="../julia/">Julia</a> page for PCs.</p>
 <div class="admonition note">
-<p class="admonition-title">Add your GitHub account to this computer (while MPM3S.jl is private)</p>
+<p class="admonition-title">Add your GitHub account to your HPC (while MPM3S.jl is private)</p>
 <p>MPM3S.jl is private for now, so downloading it needs a GitHub account with access to
-<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a>, and a token that this computer uses in place of your GitHub password.
-This note disappears when MPM3S.jl is made public. To make the token:</p>
+<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a>, and a token to use in place of your GitHub password. This note
+disappears when MPM3S.jl is made public. To make the token:</p>
 <ol>
 <li>On GitHub, go to <strong>Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> and click
    <strong>Generate new token (classic)</strong>.</li>
-<li>Tick <strong><code>repo</code></strong> to download the code with <code>git</code> (the Julia pages), or <strong><code>read:packages</code></strong> to download the
-   container image (the container pages); tick both to use one token for both. Choose an expiry date and generate
-   the token.</li>
+<li>Tick <strong><code>repo</code></strong> and <strong><code>read:packages</code></strong>, choose an expiry date and generate the token.</li>
 <li>Copy the token and keep it as safe as a password: GitHub shows it only once.</li>
 </ol>
+<p>On your HPC, <code>git clone</code> in step 1 uses the token: when it asks for your GitHub username and password, give
+the token as the password. Run <code>git config --global credential.helper store</code> on your HPC once before cloning to
+have git remember it, in <code>~/.git-credentials</code>.</p>
 </div>
-<p>Here, <code>git clone</code> in step 1 uses the token: when it asks for your GitHub username and password, give the token as the
-password. Run <code>git config --global credential.helper store</code> once before cloning to have git remember it, in
-<code>~/.git-credentials</code>.</p>
 <h2 id="1-install-julia-and-mpm3s">1. Install Julia and MPM3S<a class="headerlink" href="#1-install-julia-and-mpm3s" title="Permanent link">¶</a></h2>
-<p>Install Julia, then log out and back in, so that the new path to <code>juliaup</code> takes effect:</p>
+<p><strong>On your HPC</strong>, install Julia:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://install.julialang.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </code></pre></div>
-<p>Then set the version, download MPM3S and install its packages:</p>
+<p>Log out and back in, so that the new path to <code>juliaup</code> takes effect. Then set the version and download MPM3S:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>juliaup<span class="w"> </span>add<span class="w"> </span><span class="m">1</span>.12.4
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>juliaup<span class="w"> </span>default<span class="w"> </span><span class="m">1</span>.12.4
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/julia_depot
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/MPM3S/MPM3S.jl.git<span class="w"> </span>MPM3S
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">JULIA_DEPOT_PATH</span><span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/julia_depot
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>julia<span class="w"> </span>-e<span class="w"> </span><span class="s1">'using Pkg; Pkg.activate("."); Pkg.instantiate()'</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>julia<span class="w"> </span>-e<span class="w"> </span><span class="s1">'using Pkg; Pkg.activate("."); using CUDA; CUDA.precompile_runtime()'</span>
 </code></pre></div>
-<p>The last line installs the CUDA runtime, for GPU runs. Without git, download the ZIP as on the
-<a href="../julia/#downloading-mpm3s-from-github">Julia</a> page, copy it to <code>&lt;path to large drive&gt;</code> with <code>scp</code>, unzip it there and
-rename the folder to <code>MPM3S</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;path to large drive&gt;/
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── MPM3S/                                  ← downloaded from GitHub
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>└── julia_depot/                            ← MPM3S's packages
+<p>Without git, download the ZIP as on the <a href="../julia/#downloading-mpm3s-from-github">Julia</a> page, copy it to
+<code>&lt;path to large drive&gt;</code> with <code>scp</code>, unzip it there and rename the folder to <code>MPM3S</code>.</p>
+<p>Then install MPM3S's packages into <code>julia_depot</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">JULIA_DEPOT_PATH</span><span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/julia_depot
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>julia<span class="w"> </span>-e<span class="w"> </span><span class="s1">'using Pkg; Pkg.activate("."); Pkg.instantiate()'</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>julia<span class="w"> </span>-e<span class="w"> </span><span class="s1">'using Pkg; Pkg.activate("."); using CUDA; CUDA.precompile_runtime()'</span>
+</code></pre></div>
+<p>The last line installs the CUDA runtime, for GPU runs.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;path to large drive&gt;/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── MPM3S/                                  ← downloaded from GitHub
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>└── julia_depot/                            ← MPM3S's packages
 </code></pre></div>
 <h2 id="2-the-example-job-scripts">2. The example job scripts<a class="headerlink" href="#2-the-example-job-scripts" title="Permanent link">¶</a></h2>
 <p><code>MPM3S/scripts</code> holds two example job scripts, each set up to run a tutorial:</p>
@@ -2645,88 +2650,88 @@ rename the folder to <code>MPM3S</code>.</p>
 <p>Before running one, set its <code>#SBATCH</code> lines (partition, and GPU) for your cluster.</p>
 <p>Each hands over to a run script, <code>hamilton_gpu_run.sh</code> or <code>hamilton_cpu_run.sh</code>, which checks the setup, starts Julia
 and runs the problem: never edit or submit the run scripts.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;path to large drive&gt;/
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── MPM3S/
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│   ├── scripts/
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   │   ├── hamilton_GPU_example.sh
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   │   ├── hamilton_CPU_example.sh
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   │   ├── hamilton_gpu_run.sh
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   │   └── hamilton_cpu_run.sh
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   └── validation_data_and_jsons/          ← the tutorials' files
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>└── julia_depot/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&lt;path to large drive&gt;/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── MPM3S/
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│   ├── scripts/
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│   │   ├── hamilton_GPU_example.sh
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│   │   ├── hamilton_CPU_example.sh
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│   │   ├── hamilton_gpu_run.sh
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│   │   └── hamilton_cpu_run.sh
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│   └── validation_data_and_jsons/          ← the tutorials' files
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>└── julia_depot/
 </code></pre></div>
 <p>The example job scripts:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">GPU run</label><label for="__tabbed_1_2">CPU run</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><span class="filename">hamilton_GPU_example.sh</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># What to change — edit the #SBATCH lines below, or override one submit: sbatch --time=08:00:00 scripts/hamilton_GPU_example.sh</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#   --gres   the GPU unit — the only resource the cuda partition takes; cores and memory come with it (Hamilton docs):</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">#              gpu:h200_nvl_1g.18gb:1   1/8 of an H200: 2 cores, 39 GB memory, 18 GB GPU memory, 49 GB TMPDIR — starts sooner</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#              gpu:h200_nvl:1           a whole H200: 16 cores, 273 GB memory, 144 GB GPU memory, 349 GB TMPDIR — can queue longer</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">#            gpu:1 is the same 1/8 unit, and the default if none is given · what is free right now:  sfree</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">#   --time   the wall-clock limit, days-hours:minutes:seconds · -J / -o  the job name and its log file (%j = the job id)</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">#   INPUT    the JSON to run, relative to the repo root — it must say "GPU": "on" — or per submit:</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#              sbatch --export=ALL,INPUT=other.json scripts/hamilton_GPU_example.sh</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># ⚠ No -c or --mem: the cuda partition rejects them. The CPU version of this file is scripts/hamilton_CPU_example.sh.</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1">#SBATCH -p cuda</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1">#SBATCH --gres=gpu:h200_nvl_1g.18gb:1</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">#SBATCH --time=04:00:00          # days-hours:minutes:seconds</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">#SBATCH -J mpm3s_gpu_example</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1">#SBATCH -o mpm3s_gpu_example_%j.out</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INPUT</span><span class="o">=</span><span class="si">${</span><span class="nv">INPUT</span><span class="k">:-</span><span class="nv">validation_data_and_jsons</span><span class="p">/input_data_CPT_dr32.json</span><span class="si">}</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="c1"># ⚠ via SLURM_SUBMIT_DIR, not ${BASH_SOURCE[0]}: SLURM copies the batch script to a node-local spool dir.</span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_gpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/scripts"</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_gpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"ERROR: no hamilton_gpu_run.sh under </span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_gpu_run.sh"</span>
+<div class="highlight"><span class="filename">hamilton_GPU_example.sh</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># What to change — edit the #SBATCH lines below, or override one submit: sbatch --time=08:00:00 scripts/hamilton_GPU_example.sh</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">#   --gres   the GPU unit — the only resource the cuda partition takes; cores and memory come with it (Hamilton docs):</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">#              gpu:h200_nvl_1g.18gb:1   1/8 of an H200: 2 cores, 39 GB memory, 18 GB GPU memory, 49 GB TMPDIR — starts sooner</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">#              gpu:h200_nvl:1           a whole H200: 16 cores, 273 GB memory, 144 GB GPU memory, 349 GB TMPDIR — can queue longer</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">#            gpu:1 is the same 1/8 unit, and the default if none is given · what is free right now:  sfree</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">#   --time   the wall-clock limit, days-hours:minutes:seconds · -J / -o  the job name and its log file (%j = the job id)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">#   INPUT    the JSON to run, relative to the repo root — it must say "GPU": "on" — or per submit:</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">#              sbatch --export=ALL,INPUT=other.json scripts/hamilton_GPU_example.sh</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># ⚠ No -c or --mem: the cuda partition rejects them. The CPU version of this file is scripts/hamilton_CPU_example.sh.</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1">#SBATCH -p cuda</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">#SBATCH --gres=gpu:h200_nvl_1g.18gb:1</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1">#SBATCH --time=04:00:00          # days-hours:minutes:seconds</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1">#SBATCH -J mpm3s_gpu_example</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1">#SBATCH -o mpm3s_gpu_example_%j.out</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INPUT</span><span class="o">=</span><span class="si">${</span><span class="nv">INPUT</span><span class="k">:-</span><span class="nv">validation_data_and_jsons</span><span class="p">/input_data_CPT_dr32.json</span><span class="si">}</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># ⚠ via SLURM_SUBMIT_DIR, not ${BASH_SOURCE[0]}: SLURM copies the batch script to a node-local spool dir.</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_gpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/scripts"</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_gpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"ERROR: no hamilton_gpu_run.sh under </span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_gpu_run.sh"</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><span class="filename">hamilton_CPU_example.sh</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># What to change — edit the #SBATCH lines below, or override one submit: sbatch --mem=16G -c 8 scripts/hamilton_CPU_example.sh</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">#   -p       the partition: `shared` (part of a node) or `multi` (whole nodes) — list them with  sinfo -o '%P %l %c %m'</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">#   -c       cores, which is also julia's thread count · --mem  the job's memory (what it used: sacct -j &lt;id&gt; --format=MaxRSS)</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">#   --time   the wall-clock limit, days-hours:minutes:seconds · -J / -o  the job name and its log file (%j = the job id)</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">#   INPUT    the JSON to run, relative to the repo root — or per submit:  sbatch --export=ALL,INPUT=other.json …</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># The input must say "GPU": "off" — hamilton_cpu_run.sh stops a GPU input with an error in the log.</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># The GPU version of this file is scripts/hamilton_GPU_example.sh.</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">#SBATCH -p shared</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1">#SBATCH -c 4                     # 4 cores -&gt; julia -t 4</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1">#SBATCH --mem=8G</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">#SBATCH --time=00:30:00          # days-hours:minutes:seconds</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1">#SBATCH -J mpm3s_cpu_example</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1">#SBATCH -o mpm3s_cpu_example_%j.out</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INPUT</span><span class="o">=</span><span class="si">${</span><span class="nv">INPUT</span><span class="k">:-</span><span class="nv">validation_data_and_jsons</span><span class="p">/input_data_gravity_column.json</span><span class="si">}</span>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="c1"># ⚠ via SLURM_SUBMIT_DIR, not ${BASH_SOURCE[0]}: SLURM copies the batch script to a node-local spool dir.</span>
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span>
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_cpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/scripts"</span>
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_cpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"ERROR: no hamilton_cpu_run.sh under </span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_cpu_run.sh"</span>
+<div class="highlight"><span class="filename">hamilton_CPU_example.sh</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># What to change — edit the #SBATCH lines below, or override one submit: sbatch --mem=16G -c 8 scripts/hamilton_CPU_example.sh</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">#   -p       the partition: `shared` (part of a node) or `multi` (whole nodes) — list them with  sinfo -o '%P %l %c %m'</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">#   -c       cores, which is also julia's thread count · --mem  the job's memory (what it used: sacct -j &lt;id&gt; --format=MaxRSS)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">#   --time   the wall-clock limit, days-hours:minutes:seconds · -J / -o  the job name and its log file (%j = the job id)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">#   INPUT    the JSON to run, relative to the repo root — or per submit:  sbatch --export=ALL,INPUT=other.json …</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># The input must say "GPU": "off" — hamilton_cpu_run.sh stops a GPU input with an error in the log.</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># The GPU version of this file is scripts/hamilton_GPU_example.sh.</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">#SBATCH -p shared</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1">#SBATCH -c 4                     # 4 cores -&gt; julia -t 4</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">#SBATCH --mem=8G</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">#SBATCH --time=00:30:00          # days-hours:minutes:seconds</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1">#SBATCH -J mpm3s_cpu_example</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1">#SBATCH -o mpm3s_cpu_example_%j.out</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INPUT</span><span class="o">=</span><span class="si">${</span><span class="nv">INPUT</span><span class="k">:-</span><span class="nv">validation_data_and_jsons</span><span class="p">/input_data_gravity_column.json</span><span class="si">}</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1"># ⚠ via SLURM_SUBMIT_DIR, not ${BASH_SOURCE[0]}: SLURM copies the batch script to a node-local spool dir.</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_cpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">_S</span><span class="o">=</span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/scripts"</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_cpu_run.sh"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"ERROR: no hamilton_cpu_run.sh under </span><span class="si">${</span><span class="nv">SLURM_SUBMIT_DIR</span><span class="k">:-</span><span class="nv">$PWD</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$_S</span><span class="s2">/hamilton_cpu_run.sh"</span>
 </code></pre></div>
 </div>
 </div>
 </div>
 <h2 id="3-submit">3. Submit<a class="headerlink" href="#3-submit" title="Permanent link">¶</a></h2>
-<p><strong>On the cluster</strong>, from the <code>MPM3S</code> folder:</p>
+<p><strong>On your HPC</strong>, from the <code>MPM3S</code> folder:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">GPU run</label><label for="__tabbed_2_2">CPU run</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sbatch<span class="w"> </span>scripts/hamilton_GPU_example.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sbatch<span class="w"> </span>scripts/hamilton_GPU_example.sh
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sbatch<span class="w"> </span>scripts/hamilton_CPU_example.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sbatch<span class="w"> </span>scripts/hamilton_CPU_example.sh
 </code></pre></div>
 </div>
 </div>
@@ -2736,7 +2741,7 @@ them, <code>mpm3s_gpu_example_&lt;job id&gt;.out</code> (<code>mpm3s_cpu_example
 show the machine the job ran on and its Julia version. Then see <a href="#following-a-job">Following a job</a> and
 <a href="#getting-the-results">Getting the results</a>.</p>
 <h2 id="following-a-job">Following a job<a class="headerlink" href="#following-a-job" title="Permanent link">¶</a></h2>
-<p><code>sbatch</code> prints the job's id when you submit it. Then, <strong>on the cluster</strong>:</p>
+<p><code>sbatch</code> prints the job's id when you submit it. Then, <strong>on your HPC</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -2769,20 +2774,20 @@ ParaView as described in <a href="../viewing_output/">Viewing the output</a>:</p
 <div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><input id="__tabbed_3_3" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">Linux</label><label for="__tabbed_3_2">macOS</label><label for="__tabbed_3_3">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
-</code></pre></div>
-<p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g. <code>~/mpm3s_results</code>.</p>
-</div>
-<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
 </code></pre></div>
 <p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g. <code>~/mpm3s_results</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">my</span> <span class="n">results</span> <span class="n">folder</span><span class="p">&gt;</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">scp</span> <span class="n">-r</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;@&lt;</span><span class="n">cluster</span> <span class="n">address</span><span class="p">&gt;:&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">large</span> <span class="n">drive</span><span class="p">&gt;/</span><span class="n">MPM3S</span><span class="p">/&lt;</span><span class="n">output</span> <span class="n">folder</span><span class="p">&gt;</span> <span class="p">.</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/MPM3S/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
+</code></pre></div>
+<p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g. <code>~/mpm3s_results</code>.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">my</span> <span class="n">results</span> <span class="n">folder</span><span class="p">&gt;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">scp</span> <span class="n">-r</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;@&lt;</span><span class="n">cluster</span> <span class="n">address</span><span class="p">&gt;:&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">large</span> <span class="n">drive</span><span class="p">&gt;/</span><span class="n">MPM3S</span><span class="p">/&lt;</span><span class="n">output</span> <span class="n">folder</span><span class="p">&gt;</span> <span class="p">.</span>
 </code></pre></div>
 <p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g.
 <code>$HOME\Documents\mpm3s_results</code>; <code>scp</code> comes with Windows 10 and 11.</p>
@@ -2814,6 +2819,10 @@ ParaView as described in <a href="../viewing_output/">Viewing the output</a>:</p
 <tr>
 <td><code>ERROR: no julia</code>, or <code>ERROR: julia … but the Manifest needs 1.12.4</code></td>
 <td>Install Julia on the login node: see <a href="#1-install-julia-and-mpm3s">1. Install Julia and MPM3S</a>.</td>
+</tr>
+<tr>
+<td><code>The Julia launcher failed to load a configuration file</code>, naming a <code>.juliaup-backup-…</code> folder</td>
+<td>An earlier Julia install was left in a backup folder. Run <code>rm -rf ~/.juliaup</code>, then install Julia again as in <a href="#1-install-julia-and-mpm3s">step 1</a>, logging out and back in after the <code>curl</code> line.</td>
 </tr>
 <tr>
 <td><code>ERROR: source this from a wrapper …</code></td>

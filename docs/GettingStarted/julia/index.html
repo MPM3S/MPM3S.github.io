@@ -2505,22 +2505,20 @@
 
 
 <h1 id="julia">Julia<a class="headerlink" href="#julia" title="Permanent link">¶</a></h1>
-<p>The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the <a href="#terminal-window">command/terminal window</a>.</p>
+<p>The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the <a href="#terminal-window">command/terminal window</a>. This page is for your own computer; to install on an HPC and run as Slurm batch jobs, see <a href="../hpc_julia/">HPC installed with Julia</a>.</p>
 <div class="admonition note">
-<p class="admonition-title">Add your GitHub account to this computer (while MPM3S.jl is private)</p>
+<p class="admonition-title">Add your GitHub account to your computer (while MPM3S.jl is private)</p>
 <p>MPM3S.jl is private for now, so downloading it needs a GitHub account with access to
-<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a>, and a token that this computer uses in place of your GitHub password.
-This note disappears when MPM3S.jl is made public. To make the token:</p>
+<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a>, and a token to use in place of your GitHub password. This note
+disappears when MPM3S.jl is made public. To make the token:</p>
 <ol>
 <li>On GitHub, go to <strong>Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> and click
    <strong>Generate new token (classic)</strong>.</li>
-<li>Tick <strong><code>repo</code></strong> to download the code with <code>git</code> (the Julia pages), or <strong><code>read:packages</code></strong> to download the
-   container image (the container pages); tick both to use one token for both. Choose an expiry date and generate
-   the token.</li>
+<li>Tick <strong><code>repo</code></strong> and <strong><code>read:packages</code></strong>, choose an expiry date and generate the token.</li>
 <li>Copy the token and keep it as safe as a password: GitHub shows it only once.</li>
 </ol>
+<p>On your computer, <code>git clone</code> uses the token: when it asks for your GitHub username and password, give the token as the password. On Windows, Git may instead open a window to sign in to GitHub in your browser. On Linux, run <code>git config --global credential.helper store</code> once before cloning to have git remember the token; Windows and macOS remember it for you. Downloading the ZIP from the GitHub website needs no token, only signing in there.</p>
 </div>
-<p>On this page, <code>git clone</code> uses the token: when it asks for your GitHub username and password, give the token as the password. On Windows, Git may instead open a window to sign in to GitHub in your browser. On Linux, run <code>git config --global credential.helper store</code> once before cloning to have git remember the token; Windows and macOS remember it for you. Downloading the ZIP from the GitHub website needs no token, only signing in there.</p>
 <h2 id="terminal-window">Command/terminal window<a class="headerlink" href="#terminal-window" title="Permanent link">¶</a></h2>
 <p>Julia, MPM3S and the containers are all operated through the terminal (macOS/Linux) or command (Windows) window. To open one:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">Linux</label><label for="__tabbed_1_3">macOS</label></div>

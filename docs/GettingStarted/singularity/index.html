@@ -569,15 +569,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-run-a-problem" class="md-nav__link">
+  <a href="#5-run-a-problem-on-your-pc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Run a problem
+        5. Run a problem (on your PC)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Run a problem">
+    <nav class="md-nav" aria-label="5. Run a problem (on your PC)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2564,15 +2564,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-run-a-problem" class="md-nav__link">
+  <a href="#5-run-a-problem-on-your-pc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Run a problem
+        5. Run a problem (on your PC)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Run a problem">
+    <nav class="md-nav" aria-label="5. Run a problem (on your PC)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2702,21 +2702,19 @@ install <a href="https://apptainer.org/docs/admin/main/installation.html">Apptai
 and the tutorial files, so nothing else needs installing. To run it as batch jobs on a Slurm cluster, see
 <a href="../hpc_container/">HPC with the container</a>, which adds the job scripts.</p>
 <div class="admonition note">
-<p class="admonition-title">Add your GitHub account to this computer (while MPM3S.jl is private)</p>
+<p class="admonition-title">Add your GitHub account to your computer or HPC (while MPM3S.jl is private)</p>
 <p>MPM3S.jl is private for now, so downloading it needs a GitHub account with access to
-<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a>, and a token that this computer uses in place of your GitHub password.
-This note disappears when MPM3S.jl is made public. To make the token:</p>
+<a href="https://github.com/MPM3S/MPM3S.jl">MPM3S.jl</a>, and a token to use in place of your GitHub password. This note
+disappears when MPM3S.jl is made public. To make the token:</p>
 <ol>
 <li>On GitHub, go to <strong>Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> and click
    <strong>Generate new token (classic)</strong>.</li>
-<li>Tick <strong><code>repo</code></strong> to download the code with <code>git</code> (the Julia pages), or <strong><code>read:packages</code></strong> to download the
-   container image (the container pages); tick both to use one token for both. Choose an expiry date and generate
-   the token.</li>
+<li>Tick <strong><code>repo</code></strong> and <strong><code>read:packages</code></strong>, choose an expiry date and generate the token.</li>
 <li>Copy the token and keep it as safe as a password: GitHub shows it only once.</li>
 </ol>
+<p>On your computer or HPC, downloading the image uses the token:
+<a href="#2-log-in-to-the-github-container-registry">section 2</a> logs it in with the token.</p>
 </div>
-<p>Here, downloading the image uses the token: <a href="#2-log-in-to-the-github-container-registry">section 2</a> logs this
-computer in with it.</p>
 <h2 id="terminal-window">Command/terminal window<a class="headerlink" href="#terminal-window" title="Permanent link">¶</a></h2>
 <p>Julia, MPM3S and the containers are all operated through the terminal (macOS/Linux) or command (Windows) window. To open one:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">Linux</label><label for="__tabbed_1_3">macOS</label></div>
@@ -2764,7 +2762,7 @@ computer in with it.</p>
 </div>
 <h2 id="2-log-in-to-the-github-container-registry">2. Log in to the GitHub container registry<a class="headerlink" href="#2-log-in-to-the-github-container-registry" title="Permanent link">¶</a></h2>
 <p>Log in with the command below, giving your GitHub username, and paste the token from the note at the top of this page
-when asked for the password. The login is remembered on this computer, so you only log in again when the token expires.</p>
+when asked for the password. The login is remembered, so you only log in again when the token expires.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>singularity<span class="w"> </span>registry<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>oras://ghcr.io
 </code></pre></div>
 <h2 id="3-make-a-working-folder">3. Make a working folder<a class="headerlink" href="#3-make-a-working-folder" title="Permanent link">¶</a></h2>
@@ -2792,7 +2790,8 @@ the same commands update the image to a new release.</p>
 <p><code>latest-sif</code> is the newest release; its images are published the night after the release. For work you need to
 reproduce later, name a release instead, e.g. <code>oras://ghcr.io/mpm3s/mpm3s:v0.3.0-sif</code>, so the image cannot change
 underneath you.</p>
-<h2 id="5-run-a-problem">5. Run a problem<a class="headerlink" href="#5-run-a-problem" title="Permanent link">¶</a></h2>
+<h2 id="5-run-a-problem-on-your-pc">5. Run a problem (on your PC)<a class="headerlink" href="#5-run-a-problem-on-your-pc" title="Permanent link">¶</a></h2>
+<p>On an HPC, run it as a batch job instead: see <a href="../hpc_container/">HPC with the container</a>.</p>
 <h3 id="make-a-problem-folder">Make a problem folder<a class="headerlink" href="#make-a-problem-folder" title="Permanent link">¶</a></h3>
 <p>From your working folder, make a folder for the problem beside the image, go into it and put the problem's files in it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mkdir<span class="w"> </span>column
