@@ -27,12 +27,14 @@ Log out and back in, so that the new path to `juliaup` takes effect. Then set th
 ```bash
 juliaup add 1.12.4
 juliaup default 1.12.4
+julia --version
 cd <path to large drive>
 mkdir -p <path to large drive>/julia_depot
 git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
 ```
 
-Without git, download the ZIP as on the [Julia](julia.md#downloading-mpm3s-from-github) page, copy it to
+`julia --version` should print `julia version 1.12.4`; if it prints an error instead, see
+[Troubleshooting](#troubleshooting) before going on. Without git, download the ZIP as on the [Julia](julia.md#downloading-mpm3s-from-github) page, copy it to
 `<path to large drive>` with `scp`, unzip it there and rename the folder to `MPM3S`.
 
 Then install MPM3S's packages into `julia_depot`:
