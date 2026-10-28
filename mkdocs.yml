@@ -46,6 +46,7 @@ theme:
     code: JetBrains Mono
   features:
     - content.code.copy
+    - content.tabs.link
     - content.tooltips
     - navigation.path
     - navigation.top
@@ -63,8 +64,14 @@ nav:
   - Install and run:
       - Overview: docs/GettingStarted/install_and_run.md
       - Julia: docs/GettingStarted/julia.md
-      - Docker and containers: docs/GettingStarted/containers.md
-      - HPC (Hamilton): docs/GettingStarted/hpc.md
+      - Docker and containers:
+          - Overview: docs/GettingStarted/containers.md
+          - Singularity / Apptainer: docs/GettingStarted/singularity.md
+          - Docker: docs/GettingStarted/docker.md
+      - HPC (Slurm):
+          - Overview: docs/GettingStarted/hpc.md
+          - With the container: docs/GettingStarted/hpc_container.md
+          - Installed with Julia: docs/GettingStarted/hpc_julia.md
       - Cloud computing: docs/GettingStarted/cloud.md
       - Viewing the output: docs/GettingStarted/viewing_output.md
   - Tutorial problems:

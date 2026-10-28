@@ -20,13 +20,13 @@ There are four ways to run MPM3S, and a viewer for its output. Each tile below l
 
     [:octicons-arrow-right-24: Docker and containers](containers.md)
 
--   :material-server-network:{ .lg .middle } __HPC (Hamilton)__
+-   :material-server-network:{ .lg .middle } __HPC (Slurm)__
 
     ---
 
-    Run MPM3S as SLURM batch jobs on Durham's Hamilton cluster, on a GPU or on CPU cores, installed with Julia or from the container.
+    Run MPM3S as Slurm batch jobs, on a GPU or on CPU cores, from the container or installed with Julia.
 
-    [:octicons-arrow-right-24: HPC (Hamilton)](hpc.md)
+    [:octicons-arrow-right-24: HPC (Slurm)](hpc.md)
 
 -   :material-cloud-outline:{ .lg .middle } __Cloud computing__
 

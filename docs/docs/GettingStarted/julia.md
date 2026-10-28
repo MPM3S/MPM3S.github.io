@@ -2,6 +2,10 @@
 
 The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the [command/terminal window](#terminal-window).
 
+--8<-- "github_account.md"
+
+On this page, `git clone` uses the token: when it asks for your GitHub username and password, give the token as the password. On Windows, Git may instead open a window to sign in to GitHub in your browser. On Linux, run `git config --global credential.helper store` once before cloning to have git remember the token; Windows and macOS remember it for you. Downloading the ZIP from the GitHub website needs no token, only signing in there.
+
 --8<-- "terminal_window.md"
 
 ## Julia installation
