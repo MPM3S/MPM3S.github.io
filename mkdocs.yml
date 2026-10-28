@@ -67,7 +67,7 @@ nav:
   - Introduction: docs/Introduction.md
   - Install and run:
       - Overview: docs/GettingStarted/install_and_run.md
-      - Julia: docs/GettingStarted/julia.md
+      - Julia (PC): docs/GettingStarted/julia.md
       - Docker and containers:
           - Overview: docs/GettingStarted/containers.md
           - Singularity / Apptainer: docs/GettingStarted/singularity.md

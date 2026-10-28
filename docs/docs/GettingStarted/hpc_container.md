@@ -174,7 +174,7 @@ If your cluster offers ParaView through a web portal, you can open the results t
 
 | Message | Fix |
 |---|---|
-| `unauthorized` or `denied` when downloading | Log in first, as in [step 1](#1-install-the-container), with a token that has `read:packages`. |
+| `unauthorized` or `denied` when downloading | Log in first, as in [step 1](#1-install-the-container), with a token that has `repo` and `read:packages` ticked. |
 | `cached file hash … does not match` when downloading | Run `singularity cache clean -f`, then download again as in [step 1](#1-install-the-container). |
 | `could not open image …/MPM3S.sif` | The problem folder is not directly beside `MPM3S.sif`: see [Make a problem folder](#make-a-problem-folder). |
 | `… says "GPU": "on", but no GPU is visible` | A GPU input file in a CPU job. Use the GPU script, or set `"GPU": "off"`. |

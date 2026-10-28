@@ -4,13 +4,13 @@ There are four ways to run MPM3S, and a viewer for its output. Each tile below l
 
 <div class="grid cards equal" markdown>
 
--   :simple-julia:{ .lg .middle } __Julia__
+-   :simple-julia:{ .lg .middle } __Julia (PC)__
 
     ---
 
     Install Julia and MPM3S and run from the Julia REPL. The simplest route, on a PC that you have admin rights to.
 
-    [:octicons-arrow-right-24: Julia](julia.md)
+    [:octicons-arrow-right-24: Julia (PC)](julia.md)
 
 -   :simple-docker:{ .lg .middle } __Docker and containers__
 

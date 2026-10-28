@@ -5,7 +5,7 @@
     [HPC with the container](hpc_container.md) is easier. Install with Julia only if you need to change MPM3S's code.
 
 Julia and MPM3S are installed once on the cluster, and every job runs MPM3S from that install.
-Read [Before you start](hpc.md#before-you-start) first. Note this install is different to the [Julia](julia.md) page for PCs.
+Read [Before you start](hpc.md#before-you-start) first. Note this install is different to the [Julia (PC)](julia.md) page.
 
 !!! note "Add your GitHub account to your HPC (while MPM3S.jl is private)"
     --8<-- "github_account.md"
@@ -34,7 +34,7 @@ git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
 ```
 
 `julia --version` should print `julia version 1.12.4`; if it prints an error instead, see
-[Troubleshooting](#troubleshooting) before going on. Without git, download the ZIP as on the [Julia](julia.md#downloading-mpm3s-from-github) page, copy it to
+[Troubleshooting](#troubleshooting) before going on. Without git, download the ZIP as on the [Julia (PC)](julia.md#downloading-mpm3s-from-github) page, copy it to
 `<path to large drive>` with `scp`, unzip it there and rename the folder to `MPM3S`.
 
 Then install MPM3S's packages into `julia_depot`:
@@ -204,7 +204,7 @@ If your cluster offers ParaView through a web portal, you can open the results t
 
 | Message | Fix |
 |---|---|
-| `Authentication failed` or `Repository not found` when cloning | Give your GitHub token, with `repo` ticked, as the password: see the note at the top of this page. |
+| `Authentication failed` or `Repository not found` when cloning | Give your GitHub token, with `repo` and `read:packages` ticked, as the password: see the note at the top of this page. |
 | `ERROR: … says "GPU": "on" but this is a CPU job`, or `… does not say "GPU": "on" but this is a GPU job` | The input file and the script do not match. |
 | `ERROR: no <INPUT> in <MPM3S folder>` | `INPUT` must be the path from the `MPM3S` folder to the input file. |
 | `ERROR: no julia`, or `ERROR: julia … but the Manifest needs 1.12.4` | Install Julia on the login node: see [1. Install Julia and MPM3S](#1-install-julia-and-mpm3s). |

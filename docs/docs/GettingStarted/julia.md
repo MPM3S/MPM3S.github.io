@@ -1,4 +1,4 @@
-# Julia
+# Julia (PC)
 
 The simplest deployment is to install Julia and run MPM3S from source. Julia and MPM3S are both operated through the [command/terminal window](#terminal-window). This page is for your own computer; to install on an HPC and run as Slurm batch jobs, see [HPC installed with Julia](hpc_julia.md).
 

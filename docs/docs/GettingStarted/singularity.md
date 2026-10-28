@@ -209,7 +209,7 @@ singularity exec ../MPM3S.sif cp /opt/MPM3S/validation_data_and_jsons/{input_dat
 | Message | Fix |
 |---|---|
 | `singularity: command not found` | Load it first, e.g. `module load apptainer`, or type `apptainer` in place of `singularity` ([section 1](#1-check-it-is-installed)). |
-| `unauthorized` or `denied` when downloading | Log in first ([section 2](#2-log-in-to-the-github-container-registry)), with a token that has `read:packages`. |
+| `unauthorized` or `denied` when downloading | Log in first ([section 2](#2-log-in-to-the-github-container-registry)), with a token that has `repo` and `read:packages` ticked. |
 | `cached file hash … does not match` when downloading | The download cache, in your home folder, is full or damaged: download with the commands in [section 4](#4-download-the-image), which clear it first. |
 | `could not open image …/MPM3S.sif` | Run from a problem folder directly beside `MPM3S.sif`, or give the image's path in place of `../MPM3S.sif`. |
 | `… says "GPU": "on", but no GPU is visible` | Add `--nv`, on a machine with an NVIDIA GPU. |
