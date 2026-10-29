@@ -37,6 +37,8 @@ git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
 [Troubleshooting](#troubleshooting) before going on. Without git, download the ZIP as on the [Julia (PC)](julia.md#downloading-mpm3s-from-github) page, copy it to
 `<path to large drive>` with `scp`, unzip it there and rename the folder to `MPM3S`.
 
+--8<-- "rename_folder.md"
+
 Then install MPM3S's packages into `julia_depot`:
 
 ```bash

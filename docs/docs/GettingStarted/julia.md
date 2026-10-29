@@ -53,6 +53,8 @@ If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/M
 
 Then use the green *Code* button, choose *Download ZIP*, unzip it wherever you want to keep it and rename the folder to `MPM3S`.
 
+--8<-- "rename_folder.md"
+
 Both methods produce an `MPM3S` folder containing the Julia code.
 
 **Updating to a new release.** Each release is added on top of the previous one and tagged (`v0.2.5`, …). If you cloned with git, run `git pull` inside the `MPM3S` folder; a copy cloned before v0.2.4 needs cloning again once. Otherwise, download the ZIP again into a fresh folder. Keep your own input files outside the `MPM3S` folder, so an update never clashes with them.

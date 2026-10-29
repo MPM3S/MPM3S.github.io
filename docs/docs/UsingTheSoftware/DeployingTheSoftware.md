@@ -40,6 +40,8 @@ git clone [insert here]
 cd [insert here]
 ```
 
+--8<-- "rename_folder.md"
+
 **3. Instantiate the project environment.** This installs the exact dependencies recorded in `Manifest.toml` into a local environment:
 
 ```bash
