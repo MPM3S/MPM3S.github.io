@@ -2379,6 +2379,10 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span><span class="o">[</span>insert<span class="w"> </span>here<span class="o">]</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span><span class="o">[</span>insert<span class="w"> </span>here<span class="o">]</span>
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Rename the folder to <code>MPM3S</code></p>
+<p>The ZIP from GitHub unpacks to a folder called <code>MPM3S.jl-master</code>, and <code>git clone</code> without the trailing <code>MPM3S</code> makes one called <code>MPM3S.jl</code>. Rename it to <code>MPM3S</code> so that it matches the folder names used in the commands on these pages.</p>
+</div>
 <p><strong>3. Instantiate the project environment.</strong> This installs the exact dependencies recorded in <code>Manifest.toml</code> into a local environment:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>julia<span class="w"> </span>--project<span class="o">=</span>.<span class="w"> </span>-e<span class="w"> </span><span class="s1">'using Pkg; Pkg.instantiate()'</span>
 </code></pre></div>

@@ -2575,6 +2575,10 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <p>If you prefer to download the ZIP containing the code, go to <a href="https://github.com/MPM3S/MPM3S.jl">github.com/MPM3S/MPM3S.jl</a>.</p>
 <p><figure id="_figure-1"><img alt="The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu." id="fig-github-zip" src="../../../img/install_and_run/git_download.png" width="70%"><figcaption>Figure 1: The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.</figcaption></figure></p>
 <p>Then use the green <em>Code</em> button, choose <em>Download ZIP</em>, unzip it wherever you want to keep it and rename the folder to <code>MPM3S</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Rename the folder to <code>MPM3S</code></p>
+<p>The ZIP from GitHub unpacks to a folder called <code>MPM3S.jl-master</code>, and <code>git clone</code> without the trailing <code>MPM3S</code> makes one called <code>MPM3S.jl</code>. Rename it to <code>MPM3S</code> so that it matches the folder names used in the commands on these pages.</p>
+</div>
 <p>Both methods produce an <code>MPM3S</code> folder containing the Julia code.</p>
 <p><strong>Updating to a new release.</strong> Each release is added on top of the previous one and tagged (<code>v0.2.5</code>, …). If you cloned with git, run <code>git pull</code> inside the <code>MPM3S</code> folder; a copy cloned before v0.2.4 needs cloning again once. Otherwise, download the ZIP again into a fresh folder. Keep your own input files outside the <code>MPM3S</code> folder, so an update never clashes with them.</p>
 <h2 id="mpm3s-installation">MPM3S installation<a class="headerlink" href="#mpm3s-installation" title="Permanent link">¶</a></h2>

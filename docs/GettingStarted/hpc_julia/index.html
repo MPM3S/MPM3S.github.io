@@ -2631,6 +2631,10 @@ have git remember it, in <code>~/.git-credentials</code>.</p>
 <p><code>julia --version</code> should print <code>julia version 1.12.4</code>; if it prints an error instead, see
 <a href="#troubleshooting">Troubleshooting</a> before going on. Without git, download the ZIP as on the <a href="../julia/#downloading-mpm3s-from-github">Julia (PC)</a> page, copy it to
 <code>&lt;path to large drive&gt;</code> with <code>scp</code>, unzip it there and rename the folder to <code>MPM3S</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Rename the folder to <code>MPM3S</code></p>
+<p>The ZIP from GitHub unpacks to a folder called <code>MPM3S.jl-master</code>, and <code>git clone</code> without the trailing <code>MPM3S</code> makes one called <code>MPM3S.jl</code>. Rename it to <code>MPM3S</code> so that it matches the folder names used in the commands on these pages.</p>
+</div>
 <p>Then install MPM3S's packages into <code>julia_depot</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">JULIA_DEPOT_PATH</span><span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/julia_depot
