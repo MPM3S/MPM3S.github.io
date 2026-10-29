@@ -2647,10 +2647,10 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <h2 id="1-install-the-container">1. Install the container<a class="headerlink" href="#1-install-the-container" title="Permanent link">¶</a></h2>
 <p><strong>On your HPC</strong>, log in to the GitHub container registry, make a working folder on the large drive and download the
 image into it (see <a href="../singularity/">Singularity / Apptainer</a> for the full description):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>singularity<span class="w"> </span>registry<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>oras://ghcr.io
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>singularity<span class="w"> </span>remote<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>docker://ghcr.io
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>oras://ghcr.io/mpm3s/mpm3s:latest-sif
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 <p>The login asks for the token as the password, and is remembered until the token expires. If <code>singularity</code> is not
 found, load it first, e.g. <code>module load apptainer</code>.</p>
@@ -2817,6 +2817,10 @@ ParaView as described in <a href="../viewing_output/">Viewing the output</a>:</p
 <tr>
 <td><code>cached file hash … does not match</code> when downloading</td>
 <td>Run <code>singularity cache clean -f</code>, then download again as in <a href="#1-install-the-container">step 1</a>.</td>
+</tr>
+<tr>
+<td><code>no space left on device</code> when downloading</td>
+<td>Turning the Docker image into <code>MPM3S.sif</code> needs temporary space, by default in <code>/tmp</code>: run <code>mkdir -p &lt;path to large drive&gt;/tmp</code> and <code>export SINGULARITY_TMPDIR=&lt;path to large drive&gt;/tmp</code>, then download again.</td>
 </tr>
 <tr>
 <td><code>could not open image …/MPM3S.sif</code></td>

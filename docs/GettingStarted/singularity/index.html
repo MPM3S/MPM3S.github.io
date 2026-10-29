@@ -2763,7 +2763,7 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <h2 id="2-log-in-to-the-github-container-registry">2. Log in to the GitHub container registry<a class="headerlink" href="#2-log-in-to-the-github-container-registry" title="Permanent link">¶</a></h2>
 <p>Log in with the command below, giving your GitHub username, and paste the token from the note at the top of this page
 when asked for the password. The login is remembered, so you only log in again when the token expires.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>singularity<span class="w"> </span>registry<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>oras://ghcr.io
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>singularity<span class="w"> </span>remote<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>docker://ghcr.io
 </code></pre></div>
 <h2 id="3-make-a-working-folder">3. Make a working folder<a class="headerlink" href="#3-make-a-working-folder" title="Permanent link">¶</a></h2>
 <p>Create a working folder, which we have called <code>my_work</code>, on a drive with plenty of space: the image is 2 GB and the
@@ -2777,9 +2777,10 @@ First we must make the working directory and <code>cd</code> into it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>&lt;path to large drive&gt;/my_work/
 </code></pre></div>
 <h2 id="4-download-the-image">4. Download the image<a class="headerlink" href="#4-download-the-image" title="Permanent link">¶</a></h2>
-<p>In your working folder (here called <code>my_work</code>), download the image as a single 2 GB file, <code>MPM3S.sif</code>:</p>
+<p>In your working folder (here called <code>my_work</code>), download the image. Singularity downloads the Docker image and turns
+it into a single 2 GB file, <code>MPM3S.sif</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>singularity<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>-f
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>oras://ghcr.io/mpm3s/mpm3s:latest-sif
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&lt;path to large drive&gt;/my_work/
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>└── MPM3S.sif                               ← downloaded
@@ -2787,9 +2788,8 @@ First we must make the working directory and <code>cd</code> into it:</p>
 <p>The first line and <code>--disable-cache</code> keep the download out of your home folder, which on an HPC is often too small: a
 cached download can fill it and fail with <code>cached file hash … does not match</code>. <code>-F</code> replaces any older <code>MPM3S.sif</code>, so
 the same commands update the image to a new release.</p>
-<p><code>latest-sif</code> is the newest release; its images are published the night after the release. For work you need to
-reproduce later, name a release instead, e.g. <code>oras://ghcr.io/mpm3s/mpm3s:v0.3.0-sif</code>, so the image cannot change
-underneath you.</p>
+<p><code>latest</code> is the newest release; its image is published the night after the release. For work you need to reproduce
+later, name a release instead, e.g. <code>docker://ghcr.io/mpm3s/mpm3s:v0.3.0</code>, so the image cannot change underneath you.</p>
 <h2 id="5-run-a-problem-on-your-pc">5. Run a problem (on your PC)<a class="headerlink" href="#5-run-a-problem-on-your-pc" title="Permanent link">¶</a></h2>
 <p>On an HPC, run it as a batch job instead: see <a href="../hpc_container/">HPC with the container</a>.</p>
 <h3 id="make-a-problem-folder">Make a problem folder<a class="headerlink" href="#make-a-problem-folder" title="Permanent link">¶</a></h3>
@@ -2930,6 +2930,10 @@ GPU:</p>
 <tr>
 <td><code>cached file hash … does not match</code> when downloading</td>
 <td>The download cache, in your home folder, is full or damaged: download with the commands in <a href="#4-download-the-image">section 4</a>, which clear it first.</td>
+</tr>
+<tr>
+<td><code>no space left on device</code> when downloading</td>
+<td>Turning the Docker image into <code>MPM3S.sif</code> needs temporary space, by default in <code>/tmp</code>: run <code>mkdir -p &lt;path to large drive&gt;/tmp</code> and <code>export SINGULARITY_TMPDIR=&lt;path to large drive&gt;/tmp</code>, then download again.</td>
 </tr>
 <tr>
 <td><code>could not open image …/MPM3S.sif</code></td>
