@@ -49,7 +49,7 @@ Check that your machine has Singularity or Apptainer by typing into your command
 --8<-- "container_login.md"
 
 ```bash
-singularity registry login --username <github-username> oras://ghcr.io
+singularity remote login --username <github-username> docker://ghcr.io
 ```
 
 ## 3. Make a working folder
@@ -71,11 +71,12 @@ cd <path to large drive>/my_work
 
 ## 4. Download the image
 
-In your working folder (here called `my_work`), download the image as a single 2 GB file, `MPM3S.sif`:
+In your working folder (here called `my_work`), download the image. Singularity downloads the Docker image and turns
+it into a single 2 GB file, `MPM3S.sif`:
 
 ```bash
 singularity cache clean -f
-singularity pull -F --disable-cache MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
+singularity pull -F --disable-cache MPM3S.sif docker://ghcr.io/mpm3s/mpm3s:latest
 ```
 
 ```text
@@ -87,9 +88,8 @@ The first line and `--disable-cache` keep the download out of your home folder, 
 cached download can fill it and fail with `cached file hash … does not match`. `-F` replaces any older `MPM3S.sif`, so
 the same commands update the image to a new release.
 
-`latest-sif` is the newest release; its images are published the night after the release. For work you need to
-reproduce later, name a release instead, e.g. `oras://ghcr.io/mpm3s/mpm3s:v0.3.0-sif`, so the image cannot change
-underneath you.
+`latest` is the newest release; its image is published the night after the release. For work you need to reproduce
+later, name a release instead, e.g. `docker://ghcr.io/mpm3s/mpm3s:v0.3.0`, so the image cannot change underneath you.
 
 ## 5. Run a problem (on your PC)
 
@@ -211,6 +211,7 @@ singularity exec ../MPM3S.sif cp /opt/MPM3S/validation_data_and_jsons/{input_dat
 | `singularity: command not found` | Load it first, e.g. `module load apptainer`, or type `apptainer` in place of `singularity` ([section 1](#1-check-it-is-installed)). |
 | `unauthorized` or `denied` when downloading | Log in first ([section 2](#2-log-in-to-the-github-container-registry)), with a token that has `repo` and `read:packages` ticked. |
 | `cached file hash … does not match` when downloading | The download cache, in your home folder, is full or damaged: download with the commands in [section 4](#4-download-the-image), which clear it first. |
+| `no space left on device` when downloading | Turning the Docker image into `MPM3S.sif` needs temporary space, by default in `/tmp`: run `mkdir -p <path to large drive>/tmp` and `export SINGULARITY_TMPDIR=<path to large drive>/tmp`, then download again. |
 | `could not open image …/MPM3S.sif` | Run from a problem folder directly beside `MPM3S.sif`, or give the image's path in place of `../MPM3S.sif`. |
 | `… says "GPU": "on", but no GPU is visible` | Add `--nv`, on a machine with an NVIDIA GPU. |
 | `the output folder … is not in a mounted host folder` | Run from inside the problem folder, and keep the output paths in the input file relative. |

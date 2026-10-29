@@ -31,7 +31,7 @@ Two programs run the image; choose by the machine:
 | Runs on | Linux, including HPCs | Windows, macOS and Linux |
 | Admin rights | Not needed to run it | Needed to install it |
 | The image | One file, `MPM3S.sif`, in your working folder | Kept by Docker; `docker images` lists it |
-| Its name | `oras://ghcr.io/mpm3s/mpm3s:latest-sif` | `ghcr.io/mpm3s/mpm3s:latest` |
+| Its name | `docker://ghcr.io/mpm3s/mpm3s:latest` | `ghcr.io/mpm3s/mpm3s:latest` |
 | GPU runs | `--nv`, on a machine with an NVIDIA GPU | `--gpus all`, on Windows or Linux with an NVIDIA GPU |
 
 Each page takes the same steps: install or check the program, log in to the GitHub container registry (while MPM3S.jl is private), download the image, run a problem from inside its folder, and practise on the tutorials. To run the image as batch jobs on a Slurm cluster, see [HPC with the container](hpc_container.md).

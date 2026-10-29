@@ -16,10 +16,10 @@ Read [Before you start](hpc.md#before-you-start) first.
 image into it (see [Singularity / Apptainer](singularity.md) for the full description):
 
 ```bash
-singularity registry login --username <github-username> oras://ghcr.io
+singularity remote login --username <github-username> docker://ghcr.io
 mkdir -p <path to large drive>/my_work
 cd <path to large drive>/my_work
-singularity pull -F --disable-cache MPM3S.sif oras://ghcr.io/mpm3s/mpm3s:latest-sif
+singularity pull -F --disable-cache MPM3S.sif docker://ghcr.io/mpm3s/mpm3s:latest
 ```
 
 The login asks for the token as the password, and is remembered until the token expires. If `singularity` is not
@@ -176,6 +176,7 @@ If your cluster offers ParaView through a web portal, you can open the results t
 |---|---|
 | `unauthorized` or `denied` when downloading | Log in first, as in [step 1](#1-install-the-container), with a token that has `repo` and `read:packages` ticked. |
 | `cached file hash … does not match` when downloading | Run `singularity cache clean -f`, then download again as in [step 1](#1-install-the-container). |
+| `no space left on device` when downloading | Turning the Docker image into `MPM3S.sif` needs temporary space, by default in `/tmp`: run `mkdir -p <path to large drive>/tmp` and `export SINGULARITY_TMPDIR=<path to large drive>/tmp`, then download again. |
 | `could not open image …/MPM3S.sif` | The problem folder is not directly beside `MPM3S.sif`: see [Make a problem folder](#make-a-problem-folder). |
 | `… says "GPU": "on", but no GPU is visible` | A GPU input file in a CPU job. Use the GPU script, or set `"GPU": "off"`. |
 | `Invalid generic resource (gres) specification` when submitting | The `--gres` line names a GPU the cluster does not have: `sinfo -o "%P %G"` lists the ones it has. |
