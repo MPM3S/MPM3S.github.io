@@ -138,6 +138,10 @@ exclude_docs: |
 # Plugins
 plugins:
   - search
+  - social:                                       # the preview card (og:image) when a page's link is shared
+      cards_layout_options:
+        background_color: "#68246d"               # Durham purple
+        color: "#ffffff"
   - caption:
       figure:
         ignore_classes: ["gif-box", "card-gif"]   # the tutorial animations are not numbered figures
