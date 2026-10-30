@@ -2568,13 +2568,21 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <p>Close and reopen the window, then verify the install with <code>julia --version</code>.</p>
 <h2 id="downloading-mpm3s-from-github">Downloading MPM3S from GitHub<a class="headerlink" href="#downloading-mpm3s-from-github" title="Permanent link">¶</a></h2>
 <p>Released versions of MPM3S are published at <a href="https://github.com/MPM3S/MPM3S.jl">github.com/MPM3S/MPM3S.jl</a>, which always holds the latest release.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">git clone</label><label for="__tabbed_3_2">ZIP</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <p>Use <code>git clone</code> to pull the code from GitHub into an <code>MPM3S</code> folder in your current directory:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/MPM3S/MPM3S.jl.git<span class="w"> </span>MPM3S
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
 </code></pre></div>
-<p>If you prefer to download the ZIP containing the code, go to <a href="https://github.com/MPM3S/MPM3S.jl">github.com/MPM3S/MPM3S.jl</a>.</p>
+</div>
+<div class="tabbed-block">
+<p>Go to <a href="https://github.com/MPM3S/MPM3S.jl">github.com/MPM3S/MPM3S.jl</a>, use the green <em>Code</em> button and choose <em>Download ZIP</em>:</p>
 <p><figure id="_figure-1"><img alt="The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu." id="fig-github-zip" src="../../../img/install_and_run/git_download.png" width="70%"><figcaption>Figure 1: The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.</figcaption></figure></p>
-<p>Then use the green <em>Code</em> button, choose <em>Download ZIP</em>, unzip it wherever you want to keep it and rename the folder to <code>MPM3S</code>.</p>
+<p>Unzip it wherever you want to keep it and rename the folder to <code>MPM3S</code>.</p>
+</div>
+</div>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Rename the folder to <code>MPM3S</code></p>
 <p>The ZIP from GitHub unpacks to a folder called <code>MPM3S.jl-master</code>, and <code>git clone</code> without the trailing <code>MPM3S</code> makes one called <code>MPM3S.jl</code>. Rename it to <code>MPM3S</code> so that it matches the folder names used in the commands on these pages.</p>
@@ -2596,7 +2604,7 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 </code></pre></div>
 <p>If everything succeeds the REPL prints the package versions being resolved.</p>
 <p><strong>3. Run a problem.</strong> Step 2 left Julia in the <code>MPM3S</code> folder with MPM3S loaded, and MPM3S is always run from there: every path is relative to the <code>MPM3S</code> folder. The tutorial input files are in <code>validation_data_and_jsons</code>, so Tutorial 1, for example, is run with:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">CPU</label><label for="__tabbed_3_2">GPU</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">CPU</label><label for="__tabbed_4_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_gravity_column.json"</span><span class="p">);</span>

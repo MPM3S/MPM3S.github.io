@@ -2774,16 +2774,14 @@ First we must make the working directory and <code>cd</code> into it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>mkdir<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>&lt;path to large drive&gt;/my_work/
-</code></pre></div>
 <h2 id="4-download-the-image">4. Download the image<a class="headerlink" href="#4-download-the-image" title="Permanent link">¶</a></h2>
 <p>In your working folder (here called <code>my_work</code>), download the image. Singularity downloads the Docker image and turns
 it into a single 2 GB file, <code>MPM3S.sif</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>singularity<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>-f
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>singularity<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>-f
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&lt;path to large drive&gt;/my_work/
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>└── MPM3S.sif                               ← downloaded
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&lt;path to large drive&gt;/my_work/
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>└── MPM3S.sif                               ← downloaded
 </code></pre></div>
 <p>The first line and <code>--disable-cache</code> keep the download out of your home folder, which on an HPC is often too small: a
 cached download can fill it and fail with <code>cached file hash … does not match</code>. <code>-F</code> replaces any older <code>MPM3S.sif</code>, so
@@ -2794,18 +2792,18 @@ later, name a release instead, e.g. <code>docker://ghcr.io/mpm3s/mpm3s:v0.3.0</c
 <p>On an HPC, run it as a batch job instead: see <a href="../hpc_container/">HPC with the container</a>.</p>
 <h3 id="make-a-problem-folder">Make a problem folder<a class="headerlink" href="#make-a-problem-folder" title="Permanent link">¶</a></h3>
 <p>From your working folder, make a folder for the problem beside the image, go into it and put the problem's files in it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mkdir<span class="w"> </span>column
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">cd</span><span class="w"> </span>column
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkdir<span class="w"> </span>column
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span><span class="w"> </span>column
 </code></pre></div>
 <p>This example uses a premade problem, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>), whose
 input files are inside the image. To copy them into the <code>column</code> folder, use:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_gravity_column.json,input_data_gravity_column_gpu.json<span class="o">}</span><span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_gravity_column.json,input_data_gravity_column_gpu.json<span class="o">}</span><span class="w"> </span>.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>&lt;path to large drive&gt;/my_work/
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── MPM3S.sif
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>└── column/
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    ├── input_data_gravity_column.json      ← copied from the image
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    └── input_data_gravity_column_gpu.json  ← copied from the image
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&lt;path to large drive&gt;/my_work/
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>├── MPM3S.sif
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>└── column/
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    ├── input_data_gravity_column.json      ← copied from the image
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    └── input_data_gravity_column_gpu.json  ← copied from the image
 </code></pre></div>
 <ul>
 <li><strong>A problem folder holds everything its problem needs:</strong> the input file and the <code>.stl</code> of each rigid body.</li>
@@ -2818,13 +2816,13 @@ input files are inside the image. To copy them into the <code>column</code> fold
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">CPU</label><label for="__tabbed_3_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">MPM3S_CORES</span><span class="o">=</span><span class="m">8</span><span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p>MPM3S uses the number of cores minus 2 as threads (at least 1): set <code>MPM3S_CORES</code> to the cores to use, or leave it
 out to use every core the container sees. The input file has <code>"GPU": "off"</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column_gpu.json
 </code></pre></div>
 <p><code>--nv</code> passes the GPU into the container, which an input file with <code>"GPU": "on"</code> needs.</p>
 </div>
@@ -2833,23 +2831,23 @@ out to use every core the container sees. The input file has <code>"GPU": "off"<
 <p><code>../MPM3S.sif</code> is the image, one folder up. The first line of the output shows how the run uses the machine, e.g.
 <code>MPM3S 0.3.0 · CPU znver2 · 6 threads</code>, with the GPU added on a GPU run. The results are written into the problem
 folder:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>&lt;path to large drive&gt;/my_work/
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>├── MPM3S.sif
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>└── column/
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    ├── input_data_gravity_column.json
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    ├── input_data_gravity_column_gpu.json
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    ├── vtk_column/                         ← created by the run
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    └── csv_column/                         ← created by the run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>&lt;path to large drive&gt;/my_work/
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>├── MPM3S.sif
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>└── column/
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    ├── input_data_gravity_column.json
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    ├── input_data_gravity_column_gpu.json
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    ├── vtk_column/                         ← created by the run
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    └── csv_column/                         ← created by the run
 </code></pre></div>
 <h2 id="6-practise-on-the-tutorials">6. Practise on the tutorials<a class="headerlink" href="#6-practise-on-the-tutorials" title="Permanent link">¶</a></h2>
 <p>The <a href="../../TutorialProblems/TutorialProblems/">tutorials'</a> files are inside the image, in
 <code>/opt/MPM3S/validation_data_and_jsons</code>, so a tutorial needs nothing downloaded: copy its files into a problem folder and
 run it there. For example, the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>), from your working
 folder:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mkdir<span class="w"> </span>column
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">cd</span><span class="w"> </span>column
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_gravity_column.json,input_data_gravity_column_gpu.json<span class="o">}</span><span class="w"> </span>.
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mkdir<span class="w"> </span>column
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">cd</span><span class="w"> </span>column
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_gravity_column.json,input_data_gravity_column_gpu.json<span class="o">}</span><span class="w"> </span>.
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span>input_data_gravity_column.json
 </code></pre></div>
 <p>The results appear in <code>column/vtk_column</code> and <code>column/csv_column</code>; open them as described in
 <a href="../viewing_output/">Viewing the output</a>. The other tutorials run the same way, with the GPU passed in for those on the
@@ -2897,18 +2895,18 @@ GPU:</p>
 </tbody>
 </table>
 <p>A tutorial with a rigid body needs its <code>.stl</code> copied too. For Tutorial 2, from inside its problem folder:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_compress.json,cube.stl<span class="o">}</span><span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_compress.json,cube.stl<span class="o">}</span><span class="w"> </span>.
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>&lt;path to large drive&gt;/my_work/
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>├── MPM3S.sif
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>├── column/
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>│   ├── input_data_gravity_column.json
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>│   ├── input_data_gravity_column_gpu.json
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>│   ├── vtk_column/
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>│   └── csv_column/
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>└── compaction/
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    ├── input_data_compress.json            ← copied from the image
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    └── cube.stl                            ← copied from the image
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>&lt;path to large drive&gt;/my_work/
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>├── MPM3S.sif
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>├── column/
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>│   ├── input_data_gravity_column.json
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>│   ├── input_data_gravity_column_gpu.json
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>│   ├── vtk_column/
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>│   └── csv_column/
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>└── compaction/
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    ├── input_data_compress.json            ← copied from the image
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    └── cube.stl                            ← copied from the image
 </code></pre></div>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
 <table>

@@ -2650,7 +2650,8 @@ image into it (see <a href="../singularity/">Singularity / Apptainer</a> for the
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>singularity<span class="w"> </span>remote<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>docker://ghcr.io
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>singularity<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>-f
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 <p>The login asks for the token as the password, and is remembered until the token expires. If <code>singularity</code> is not
 found, load it first, e.g. <code>module load apptainer</code>.</p>
@@ -2678,8 +2679,7 @@ and copy its GPU and CPU job scripts and input files out of the image:</p>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    ├── input_data_gravity_column.json      ← copied from the image
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    └── input_data_gravity_column_gpu.json  ← copied from the image
 </code></pre></div>
-<p>The job scripts run the image as <code>../MPM3S.sif</code>, one folder up, so keep to this layout or edit the <code>singularity run</code>
-line in your copy.</p>
+<p>The job scripts run the image as <code>../MPM3S.sif</code>, one folder up, so keep to this layout or edit the <code>singularity run</code> line in your copy (the last line of the job script below).</p>
 <p>The job script as it comes out of the image:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">GPU run</label><label for="__tabbed_1_2">CPU run</label></div>
 <div class="tabbed-content">
