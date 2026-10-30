@@ -1,3 +1,7 @@
+---
+title: HPC installed with Julia
+---
+
 # HPC: installed with Julia
 
 !!! warning "Use the container if you can"

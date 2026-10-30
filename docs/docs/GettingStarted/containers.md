@@ -1,3 +1,7 @@
+---
+title: Docker and containers
+---
+
 # Docker and containers
 
 A container image bundles Julia, MPM3S, its GPU libraries, the tutorial files and the HPC job scripts, ready to run.

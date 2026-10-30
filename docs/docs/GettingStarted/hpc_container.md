@@ -1,3 +1,7 @@
+---
+title: HPC with the container
+---
+
 # HPC: with the container
 
 The image holds Julia, MPM3S, its GPU libraries, the job scripts and the tutorial files, so nothing else needs

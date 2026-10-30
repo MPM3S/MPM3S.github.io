@@ -1,3 +1,7 @@
+---
+title: The input_data.json format
+---
+
 # The `input_data.json` format
 
 Every MPM3S analysis is set up by one JSON file with nine top-level sections. Each tile below links to the reference page for a section, and the [quick reference](#quick-reference) underneath lists every key. To run a file, see [install and run](../../GettingStarted/install_and_run.md).

@@ -1,3 +1,7 @@
+---
+title: Constitutive models
+---
+
 # Constitutive models
 
 Constitutive models provide the fundamental link between stress and strain within any stress analysis algorithm. The following forms constitutive models are included in the software:

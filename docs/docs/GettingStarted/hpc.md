@@ -1,3 +1,7 @@
+---
+title: HPC (Slurm)
+---
+
 # HPC (Slurm)
 
 MPM3S runs on a Slurm cluster as batch jobs, on a GPU or on CPU cores. There are two ways to run it, each on its own

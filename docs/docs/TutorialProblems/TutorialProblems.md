@@ -1,3 +1,7 @@
+---
+title: Tutorial problems
+---
+
 # Tutorial problems
 
 The MPM3S tutorial set walks you through benchmark problems, each one isolating a different capability of the solver - large deformation under self-weight, rigid-body contact, plastic soil, dynamic time integration, articulated rigid bodies, and adaptive mesh refinement following a moving body. Every tutorial uses the same [`input_data.json` format](../UsingTheSoftware/InputFormat/index.md), so once you've completed Tutorial 1 the workflow is the same the whole way through; later tutorials add capabilities one at a time.

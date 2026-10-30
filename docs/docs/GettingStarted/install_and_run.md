@@ -1,3 +1,7 @@
+---
+title: Install and run
+---
+
 # Install and run
 
 There are four ways to run MPM3S, and a viewer for its output. Each tile below links to the page for one of them, and every page starts with how to open a command/terminal window.
