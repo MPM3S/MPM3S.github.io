@@ -2658,102 +2658,106 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <p>On your HPC, downloading the image uses the token: <a href="#1-install-the-container">step 1</a> logs your HPC in with it.</p>
 </div>
 <h2 id="1-install-the-container">1. Install the container<a class="headerlink" href="#1-install-the-container" title="Permanent link">¶</a></h2>
-<p><strong>On your HPC</strong>, log in to the GitHub container registry, make a working folder on the large drive and download the
-image into it (see <a href="../singularity/">Singularity / Apptainer</a> for the full description):</p>
+<p><strong>On your HPC</strong> (see <a href="../singularity/">Singularity / Apptainer</a> for the full description), log in to the GitHub
+container registry:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>singularity<span class="w"> </span>remote<span class="w"> </span>login<span class="w"> </span>--username<span class="w"> </span>&lt;github-username&gt;<span class="w"> </span>docker://ghcr.io
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>singularity<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>-f
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
 </code></pre></div>
 <p>The login asks for the token as the password, and is remembered until the token expires. If <code>singularity</code> is not
 found, load it first, e.g. <code>module load apptainer</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&lt;path to large drive&gt;/my_work/
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>└── MPM3S.sif                               ← downloaded
+<p>Make a working folder on the large drive:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
+</code></pre></div>
+<p>Go into it and download the image:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>singularity<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>-f
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>singularity<span class="w"> </span>pull<span class="w"> </span>-F<span class="w"> </span>--disable-cache<span class="w"> </span>MPM3S.sif<span class="w"> </span>docker://ghcr.io/mpm3s/mpm3s:latest
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;path to large drive&gt;/my_work/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>└── MPM3S.sif                               ← downloaded
 </code></pre></div>
 <h2 id="2-run-an-example-problem">2. Run an example problem<a class="headerlink" href="#2-run-an-example-problem" title="Permanent link">¶</a></h2>
 <h3 id="make-a-problem-folder">Make a problem folder<a class="headerlink" href="#make-a-problem-folder" title="Permanent link">¶</a></h3>
 <p>From the working folder, make a folder for the self-weight column (<a href="../../TutorialProblems/Tutorial_1/">Tutorial 1</a>)
 and copy its GPU and CPU job scripts and input files out of the image:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkdir<span class="w"> </span>column
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>column
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/scripts/<span class="o">{</span>hamilton_container_GPU.sh,hamilton_container_CPU.sh<span class="o">}</span><span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_gravity_column.json,input_data_gravity_column_gpu.json<span class="o">}</span><span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkdir<span class="w"> </span>column
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>column
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>../MPM3S.sif<span class="w"> </span>cp<span class="w"> </span>/opt/MPM3S/scripts/<span class="o">{</span>hamilton_container_GPU.sh,hamilton_container_CPU.sh<span class="o">}</span><span class="w"> </span>/opt/MPM3S/validation_data_and_jsons/<span class="o">{</span>input_data_gravity_column.json,input_data_gravity_column_gpu.json<span class="o">}</span><span class="w"> </span>.
 </code></pre></div>
 <p>Both job scripts are already set up for this problem; set their <code>#SBATCH</code> lines (partition, and GPU) for your cluster:</p>
 <ul>
 <li><strong><code>hamilton_container_GPU.sh</code></strong> runs <code>input_data_gravity_column_gpu.json</code> on one GPU for 4 hours.</li>
 <li><strong><code>hamilton_container_CPU.sh</code></strong> runs <code>input_data_gravity_column.json</code> on 8 cores with 8 GB for 4 hours.</li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;path to large drive&gt;/my_work/
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── MPM3S.sif
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>└── column/
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    ├── hamilton_container_GPU.sh           ← copied from the image
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    ├── hamilton_container_CPU.sh           ← copied from the image
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    ├── input_data_gravity_column.json      ← copied from the image
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    └── input_data_gravity_column_gpu.json  ← copied from the image
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&lt;path to large drive&gt;/my_work/
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── MPM3S.sif
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>└── column/
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    ├── hamilton_container_GPU.sh           ← copied from the image
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    ├── hamilton_container_CPU.sh           ← copied from the image
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    ├── input_data_gravity_column.json      ← copied from the image
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    └── input_data_gravity_column_gpu.json  ← copied from the image
 </code></pre></div>
 <p>The job scripts run the image as <code>../MPM3S.sif</code>, one folder up, so keep to this layout or edit the <code>singularity run</code> line in your copy (the last line of the job script below).</p>
 <p>The job script as it comes out of the image:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">GPU run</label><label for="__tabbed_1_2">CPU run</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><span class="filename">hamilton_container_GPU.sh</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># MPM3S on a GPU with the container. Copy this script into your problem folder, beside its input file, with MPM3S.sif</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># one folder up; then, from inside the problem folder:   sbatch hamilton_container_GPU.sh</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># The results appear in the problem folder; the log is mpm3s_gpu_&lt;job id&gt;.out.</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Set-up and the folder layout: https://mpm3s.github.io/docs/GettingStarted/hpc/</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">#</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># What to change:</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">#   INPUT    the input file, in this folder — it must say "GPU": "on"</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#   --gres   gpu:h200_nvl_1g.18gb:1   1/8 of an H200 (18 GB) — starts sooner</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">#            gpu:h200_nvl:1           a whole H200 (144 GB) — for large problems</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">#   --time   the wall-clock limit, days-hours:minutes:seconds</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># ⚠ No -c or --mem: the cuda partition rejects them; the cores and memory come with the GPU.</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">#SBATCH -p cuda</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">#SBATCH --gres=gpu:h200_nvl_1g.18gb:1</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1">#SBATCH --time=04:00:00</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1">#SBATCH -J mpm3s_gpu</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1">#SBATCH -o mpm3s_gpu_%j.out</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="nv">INPUT</span><span class="o">=</span>input_data_gravity_column_gpu.json
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SLURM_SUBMIT_DIR</span><span class="s2">"</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span><span class="s2">"</span><span class="nv">$INPUT</span><span class="s2">"</span>
+<div class="highlight"><span class="filename">hamilton_container_GPU.sh</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># MPM3S on a GPU with the container. Copy this script into your problem folder, beside its input file, with MPM3S.sif</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># one folder up; then, from inside the problem folder:   sbatch hamilton_container_GPU.sh</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># The results appear in the problem folder; the log is mpm3s_gpu_&lt;job id&gt;.out.</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Set-up and the folder layout: https://mpm3s.github.io/docs/GettingStarted/hpc/</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">#</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># What to change:</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">#   INPUT    the input file, in this folder — it must say "GPU": "on"</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">#   --gres   gpu:h200_nvl_1g.18gb:1   1/8 of an H200 (18 GB) — starts sooner</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">#            gpu:h200_nvl:1           a whole H200 (144 GB) — for large problems</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1">#   --time   the wall-clock limit, days-hours:minutes:seconds</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># ⚠ No -c or --mem: the cuda partition rejects them; the cores and memory come with the GPU.</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1">#SBATCH -p cuda</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1">#SBATCH --gres=gpu:h200_nvl_1g.18gb:1</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1">#SBATCH --time=04:00:00</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="c1">#SBATCH -J mpm3s_gpu</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1">#SBATCH -o mpm3s_gpu_%j.out</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="nv">INPUT</span><span class="o">=</span>input_data_gravity_column_gpu.json
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SLURM_SUBMIT_DIR</span><span class="s2">"</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>singularity<span class="w"> </span>run<span class="w"> </span>--nv<span class="w"> </span>../MPM3S.sif<span class="w"> </span><span class="s2">"</span><span class="nv">$INPUT</span><span class="s2">"</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><span class="filename">hamilton_container_CPU.sh</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="ch">#!/bin/bash</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># MPM3S on CPU cores with the container. Copy this script into your problem folder, beside its input file, with</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># MPM3S.sif one folder up; then, from inside the problem folder:   sbatch hamilton_container_CPU.sh</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># The results appear in the problem folder; the log is mpm3s_cpu_&lt;job id&gt;.out.</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Set-up and the folder layout: https://mpm3s.github.io/docs/GettingStarted/hpc/</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">#</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># What to change:</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">#   INPUT    the input file, in this folder — it must say "GPU": "off"</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">#   -c       the cores; MPM3S uses 2 fewer as threads · --mem  the memory · --time  the wall-clock limit</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1">#SBATCH -p shared</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1">#SBATCH -c 8</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">#SBATCH --mem=8G</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1">#SBATCH --time=04:00:00</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1">#SBATCH -J mpm3s_cpu</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1">#SBATCH -o mpm3s_cpu_%j.out</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="nv">INPUT</span><span class="o">=</span>input_data_gravity_column.json
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SLURM_SUBMIT_DIR</span><span class="s2">"</span>
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span><span class="s2">"</span><span class="nv">$INPUT</span><span class="s2">"</span>
+<div class="highlight"><span class="filename">hamilton_container_CPU.sh</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># MPM3S on CPU cores with the container. Copy this script into your problem folder, beside its input file, with</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># MPM3S.sif one folder up; then, from inside the problem folder:   sbatch hamilton_container_CPU.sh</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># The results appear in the problem folder; the log is mpm3s_cpu_&lt;job id&gt;.out.</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Set-up and the folder layout: https://mpm3s.github.io/docs/GettingStarted/hpc/</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1">#</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># What to change:</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1">#   INPUT    the input file, in this folder — it must say "GPU": "off"</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1">#   -c       the cores; MPM3S uses 2 fewer as threads · --mem  the memory · --time  the wall-clock limit</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1">#SBATCH -p shared</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1">#SBATCH -c 8</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">#SBATCH --mem=8G</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1">#SBATCH --time=04:00:00</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="c1">#SBATCH -J mpm3s_cpu</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="c1">#SBATCH -o mpm3s_cpu_%j.out</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="nv">INPUT</span><span class="o">=</span>input_data_gravity_column.json
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SLURM_SUBMIT_DIR</span><span class="s2">"</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>singularity<span class="w"> </span>run<span class="w"> </span>../MPM3S.sif<span class="w"> </span><span class="s2">"</span><span class="nv">$INPUT</span><span class="s2">"</span>
 </code></pre></div>
 </div>
 </div>
 </div>
 <h3 id="submit">Submit<a class="headerlink" href="#submit" title="Permanent link">¶</a></h3>
 <p><strong>On your HPC</strong>, from inside the problem folder, as the results are written to the folder you submit from:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work/column
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sbatch<span class="w"> </span>hamilton_container_GPU.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work/column
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sbatch<span class="w"> </span>hamilton_container_GPU.sh
 </code></pre></div>
 <p>The results appear in the problem folder, with the job's log, <code>mpm3s_gpu_&lt;job id&gt;.out</code> (<code>mpm3s_cpu_&lt;job id&gt;.out</code> for a
 CPU run). Its first line shows how the run used the machine, e.g.
@@ -2793,20 +2797,20 @@ ParaView as described in <a href="../viewing_output/">Viewing the output</a>:</p
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Linux</label><label for="__tabbed_2_2">macOS</label><label for="__tabbed_2_3">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work/&lt;problem<span class="w"> </span>folder&gt;/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work/&lt;problem<span class="w"> </span>folder&gt;/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
 </code></pre></div>
 <p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g. <code>~/mpm3s_results</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work/&lt;problem<span class="w"> </span>folder&gt;/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;my<span class="w"> </span>results<span class="w"> </span>folder&gt;
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>scp<span class="w"> </span>-r<span class="w"> </span>&lt;username&gt;@&lt;cluster<span class="w"> </span>address&gt;:&lt;path<span class="w"> </span>to<span class="w"> </span>large<span class="w"> </span>drive&gt;/my_work/&lt;problem<span class="w"> </span>folder&gt;/&lt;output<span class="w"> </span>folder&gt;<span class="w"> </span>.
 </code></pre></div>
 <p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g. <code>~/mpm3s_results</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">my</span> <span class="n">results</span> <span class="n">folder</span><span class="p">&gt;</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">scp</span> <span class="n">-r</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;@&lt;</span><span class="n">cluster</span> <span class="n">address</span><span class="p">&gt;:&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">large</span> <span class="n">drive</span><span class="p">&gt;/</span><span class="n">my_work</span><span class="p">/&lt;</span><span class="n">problem</span> <span class="n">folder</span><span class="p">&gt;/&lt;</span><span class="n">output</span> <span class="n">folder</span><span class="p">&gt;</span> <span class="p">.</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">my</span> <span class="n">results</span> <span class="n">folder</span><span class="p">&gt;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">scp</span> <span class="n">-r</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;@&lt;</span><span class="n">cluster</span> <span class="n">address</span><span class="p">&gt;:&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">large</span> <span class="n">drive</span><span class="p">&gt;/</span><span class="n">my_work</span><span class="p">/&lt;</span><span class="n">problem</span> <span class="n">folder</span><span class="p">&gt;/&lt;</span><span class="n">output</span> <span class="n">folder</span><span class="p">&gt;</span> <span class="p">.</span>
 </code></pre></div>
 <p><code>&lt;my results folder&gt;</code> is the folder on your computer to put the results in, e.g.
 <code>$HOME\Documents\mpm3s_results</code>; <code>scp</code> comes with Windows 10 and 11.</p>
