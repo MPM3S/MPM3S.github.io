@@ -236,7 +236,7 @@ If your cluster offers ParaView through a web portal, you can open the results t
 
 | Message | Fix |
 |---|---|
-| `Authentication failed` or `Repository not found` when cloning | Give your GitHub token, with `repo` and `read:packages` ticked, as the password: see the note at the top of this page. |
+| `Authentication failed` or `Repository not found` when cloning | Give your [GitHub token](https://github.com/settings/tokens), with `repo` and `read:packages` ticked, as the password: see the note at the top of this page. |
 | `ERROR: … says "GPU": "on" but this is a CPU job`, or `… does not say "GPU": "on" but this is a GPU job` | The input file and the script do not match. |
 | `ERROR: no <INPUT> in <MPM3S folder>` | `INPUT` must be the path from the `MPM3S` folder to the input file. |
 | `ERROR: no julia`, or `ERROR: julia … but the Manifest needs 1.12.4` | Install Julia on the login node: see [1. Install Julia and MPM3S](#1-install-julia-and-mpm3s). |

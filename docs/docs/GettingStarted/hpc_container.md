@@ -174,7 +174,7 @@ If your cluster offers ParaView through a web portal, you can open the results t
 
 | Message | Fix |
 |---|---|
-| `unauthorized` or `denied` when downloading | Log in first, as in [step 1](#1-install-the-container), with a token that has `repo` and `read:packages` ticked. |
+| `unauthorized` or `denied` when downloading | Log in first, as in [step 1](#1-install-the-container), with a [token](https://github.com/settings/tokens) that has `repo` and `read:packages` ticked. |
 | `cached file hash … does not match` when downloading | Run `singularity cache clean -f`, then download again as in [step 1](#1-install-the-container). |
 | `no space left on device` when downloading | Turning the Docker image into `MPM3S.sif` needs temporary space, by default in `/tmp`: run `mkdir -p <path to large drive>/tmp` and `export SINGULARITY_TMPDIR=<path to large drive>/tmp`, then download again. |
 | `could not open image …/MPM3S.sif` | The problem folder is not directly beside `MPM3S.sif`: see [Make a problem folder](#make-a-problem-folder). |

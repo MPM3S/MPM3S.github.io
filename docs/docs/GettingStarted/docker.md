@@ -235,7 +235,7 @@ and run it as in [section 5](#5-run-a-problem). For Tutorial 2, from inside its 
 | Message | Fix |
 |---|---|
 | `permission denied` on `/var/run/docker.sock` | On Linux, add yourself to the `docker` group, or put `sudo` in front of `docker` ([section 1](#1-install-docker)). |
-| `unauthorized` or `denied` when downloading | Log in first ([section 2](#2-log-in-to-the-github-container-registry)), with a token that has `repo` and `read:packages` ticked. |
+| `unauthorized` or `denied` when downloading | Log in first ([section 2](#2-log-in-to-the-github-container-registry)), with a [token](https://github.com/settings/tokens) that has `repo` and `read:packages` ticked. |
 | `could not select device driver "" with capabilities: [[gpu]]` | On Linux, install the NVIDIA Container Toolkit ([section 1](#1-install-docker)) and restart Docker. |
 | `… says "GPU": "on", but no GPU is visible` | Add `--gpus all`, on a machine with an NVIDIA GPU. |
 | `the output folder … is not in a mounted host folder` | Run from inside the problem folder with `-v … -w /work`, and keep the output paths in the input file relative. |
