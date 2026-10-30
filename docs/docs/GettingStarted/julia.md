@@ -39,19 +39,22 @@ Close and reopen the window, then verify the install with `julia --version`.
 
 Released versions of MPM3S are published at [github.com/MPM3S/MPM3S.jl](https://github.com/MPM3S/MPM3S.jl), which always holds the latest release.
 
-Use `git clone` to pull the code from GitHub into an `MPM3S` folder in your current directory:
+=== "git clone"
 
-```bash
-git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
-cd MPM3S
-```
+    Use `git clone` to pull the code from GitHub into an `MPM3S` folder in your current directory:
 
-If you prefer to download the ZIP containing the code, go to [github.com/MPM3S/MPM3S.jl](https://github.com/MPM3S/MPM3S.jl).
+    ```bash
+    git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
+    cd MPM3S
+    ```
 
+=== "ZIP"
 
-![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
+    Go to [github.com/MPM3S/MPM3S.jl](https://github.com/MPM3S/MPM3S.jl), use the green *Code* button and choose *Download ZIP*:
 
-Then use the green *Code* button, choose *Download ZIP*, unzip it wherever you want to keep it and rename the folder to `MPM3S`.
+    ![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
+
+    Unzip it wherever you want to keep it and rename the folder to `MPM3S`.
 
 --8<-- "rename_folder.md"
 

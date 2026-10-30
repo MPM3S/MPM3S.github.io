@@ -22,20 +22,50 @@ Read [Before you start](hpc.md#before-you-start) first. Note this install is dif
 curl -fsSL https://install.julialang.org | sh
 ```
 
-Log out and back in, so that the new path to `juliaup` takes effect. Then set the version and download MPM3S:
+Log out and back in, so that the new path to `juliaup` takes effect. Then set the version and make the folder for
+the packages:
 
 ```bash
 juliaup add 1.12.4
 juliaup default 1.12.4
 julia --version
-cd <path to large drive>
 mkdir -p <path to large drive>/julia_depot
-git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
 ```
 
 `julia --version` should print `julia version 1.12.4`; if it prints an error instead, see
-[Troubleshooting](#troubleshooting) before going on. Without git, download the ZIP as on the [Julia (PC)](julia.md#downloading-mpm3s-from-github) page, copy it to
-`<path to large drive>` with `scp`, unzip it there and rename the folder to `MPM3S`.
+[Troubleshooting](#troubleshooting) before going on.
+
+Download MPM3S onto the large drive:
+
+=== "git clone"
+
+    **On your HPC**:
+
+    ```bash
+    cd <path to large drive>
+    git clone https://github.com/MPM3S/MPM3S.jl.git MPM3S
+    ```
+
+=== "ZIP"
+
+    **On your computer**, sign in to GitHub, open [MPM3S.jl](https://github.com/MPM3S/MPM3S.jl) and click the green
+    **Code** button, then **Download ZIP**:
+
+    ![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
+
+    Copy it to your HPC, from the folder you saved it in (e.g. `cd ~/Downloads`, or `cd $HOME\Downloads` on Windows):
+
+    ```bash
+    scp MPM3S.jl-master.zip <username>@<cluster address>:<path to large drive>/
+    ```
+
+    Then **on your HPC**, unzip it and rename the folder:
+
+    ```bash
+    cd <path to large drive>
+    unzip MPM3S.jl-master.zip
+    mv MPM3S.jl-master MPM3S
+    ```
 
 --8<-- "rename_folder.md"
 

@@ -19,6 +19,7 @@ image into it (see [Singularity / Apptainer](singularity.md) for the full descri
 singularity remote login --username <github-username> docker://ghcr.io
 mkdir -p <path to large drive>/my_work
 cd <path to large drive>/my_work
+singularity cache clean -f
 singularity pull -F --disable-cache MPM3S.sif docker://ghcr.io/mpm3s/mpm3s:latest
 ```
 
@@ -58,8 +59,7 @@ Both job scripts are already set up for this problem; set their `#SBATCH` lines 
     └── input_data_gravity_column_gpu.json  ← copied from the image
 ```
 
-The job scripts run the image as `../MPM3S.sif`, one folder up, so keep to this layout or edit the `singularity run`
-line in your copy.
+The job scripts run the image as `../MPM3S.sif`, one folder up, so keep to this layout or edit the `singularity run` line in your copy (the last line of the job script below).
 
 The job script as it comes out of the image:
 

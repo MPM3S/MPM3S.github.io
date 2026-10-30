@@ -65,10 +65,6 @@ mkdir <path to large drive>/my_work
 cd <path to large drive>/my_work
 ```
 
-```text
-<path to large drive>/my_work/
-```
-
 ## 4. Download the image
 
 In your working folder (here called `my_work`), download the image. Singularity downloads the Docker image and turns
