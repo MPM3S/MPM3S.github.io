@@ -16,19 +16,29 @@ Read [Before you start](hpc.md#before-you-start) first.
 
 ## 1. Install the container
 
-**On your HPC**, log in to the GitHub container registry, make a working folder on the large drive and download the
-image into it (see [Singularity / Apptainer](singularity.md) for the full description):
+**On your HPC** (see [Singularity / Apptainer](singularity.md) for the full description), log in to the GitHub
+container registry:
 
 ```bash
 singularity remote login --username <github-username> docker://ghcr.io
-mkdir -p <path to large drive>/my_work
-cd <path to large drive>/my_work
-singularity cache clean -f
-singularity pull -F --disable-cache MPM3S.sif docker://ghcr.io/mpm3s/mpm3s:latest
 ```
 
 The login asks for the token as the password, and is remembered until the token expires. If `singularity` is not
 found, load it first, e.g. `module load apptainer`.
+
+Make a working folder on the large drive:
+
+```bash
+mkdir -p <path to large drive>/my_work
+```
+
+Go into it and download the image:
+
+```bash
+cd <path to large drive>/my_work
+singularity cache clean -f
+singularity pull -F --disable-cache MPM3S.sif docker://ghcr.io/mpm3s/mpm3s:latest
+```
 
 ```text
 <path to large drive>/my_work/
