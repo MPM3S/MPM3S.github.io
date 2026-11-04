@@ -1,6 +1,6 @@
 % Self-weight column (Tutorial 1): background mesh and GIMP domains, in the
-% style of GIMP_example2.png. The column is 0.05 x 0.05 x 0.8 m: 16 elements of
-% size h = 0.05 m, each holding a 2 x 2 x 2 grid of GIMPs. Only the bottom two
+% style of GIMP_example2.png. The column is 3.125 x 3.125 x 50 m: 16 elements of
+% size h = 3.125 m, each holding a 2 x 2 x 2 grid of GIMPs. Only the bottom two
 % elements and the top element are drawn; the dots between them stand for the
 % 13 elements left out.
 % Build: pdflatex column_setup.tex
@@ -65,7 +65,7 @@
   \draw[dimline, {Latex[length=5pt]}-] (-0.4,0,0) -- (-0.4,0,2.1);
   \draw[dimline, -{Latex[length=5pt]}] (-0.4,0,3.1) -- (-0.4,0,\ztop);
   \gapdots{dimpurple}{-0.4}{0}
-  \node[left=3pt, font=\sffamily] at (-0.4,0,2.6) {0.8 m};
+  \node[left=3pt, font=\sffamily] at (-0.4,0,2.6) {50 m};
   \draw[dim] (0,0,-0.35) -- node[below=1pt] {$h$} (1,0,-0.35);}
 % the support: the visible faces of the elements drawn
 \newcommand{\supportblock}[2]{%
