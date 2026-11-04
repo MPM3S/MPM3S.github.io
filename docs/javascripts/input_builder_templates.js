@@ -10,12 +10,12 @@ window.MPM3S_TEMPLATES = [
     "gravity": [
      0.0,
      0.0,
-     -9.81
+     -10.0
     ]
    },
    "material points": {
     "extra capacity": 1.2,
-    "element size": 0.05,
+    "element size": 3.125,
     "number of material points per element 1": 2,
     "material size": {
      "min": [
@@ -23,18 +23,18 @@ window.MPM3S_TEMPLATES = [
       0.0
      ],
      "max": [
-      0.05,
-      0.05
+      3.125,
+      3.125
      ]
     },
     "layers": [
      {
-      "thickness": 0.8,
+      "thickness": 50.0,
       "material": {
        "type": "elastic",
        "E": 1.0e4,
        "nu": 0.0,
-       "density": 50.0
+       "density": 80.0
       }
      }
     ]
@@ -46,7 +46,7 @@ window.MPM3S_TEMPLATES = [
    "analysis": [
     {
      "type": "static",
-     "load steps": 50,
+     "load steps": 40,
      "load": "gravity ramp",
      "rigid bodies": "off",
      "boundary conditions": {

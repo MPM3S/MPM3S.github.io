@@ -44,13 +44,13 @@ $$
 \sigma_{zz} = -\rho\, g\, (L - z_p),
 $$
 
-where $\rho$ is the density, $g = 9.81$ m/s$^2$ is the acceleration due to gravity, $L = 0.8$ m is the initial height of the column and $z_p$ is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change and this Cauchy stress calculation is true for any magnitude of deformation.
+where $\rho$ is the density, $g = 10$ m/s$^2$ is the acceleration due to gravity, $L = 50$ m is the initial height of the column and $z_p$ is the initial height of the material point. Stress is tension positive, so the column is in compression. Because Poisson's ratio is zero and the sides of the column are on rollers, the cross-section does not change and this Cauchy stress calculation is true for any magnitude of deformation.
 
-The column is $0.05 \times 0.05 \times 0.8$ m, made of a homogeneous Hencky elastic material with Poisson's ratio $\nu = 0$ and density $\rho = 50$ kg/m$^3$. The Young's modulus is $E = 10^4$ Pa, which gives a reasonable deformation.
+The column is $3.125 \times 3.125 \times 50$ m, made of a homogeneous Hencky elastic material with Poisson's ratio $\nu = 0$ and density $\rho = 80$ kg/m$^3$. The Young's modulus is $E = 10^4$ Pa, which gives a large deformation: the column shortens to under half its height. These are the height, material and gravity of the column example in [AMPLE](https://github.com/wmcoombs/AMPLE-m).
 
-The column is divided into 16 elements of $0.05$ m, each filled with a $2 \times 2 \times 2$ grid of GIMPs - 128 in total. Gravity is applied gradually over 50 load steps, each solved by a Newton-Raphson scheme.
+The column is divided into 16 elements of $3.125$ m, each filled with a $2 \times 2 \times 2$ grid of GIMPs - 128 in total. Gravity is applied gradually over 40 load steps, each solved by a Newton-Raphson scheme.
 
-![The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size $h = 0.05$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/Tutorial_1/column_setup.png){ #fig-column-setup width="50%" }
+![The bottom two elements and the top element of the column; the dots stand for the 13 elements in between. (a) The background mesh, with element size $h = 3.125$ m, and (b) the $2 \times 2 \times 2$ grid of GIMP domains in each element.](../../img/Tutorial_1/column_setup.png){ #fig-column-setup width="50%" }
 
 The simulation is configured through a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_1_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
@@ -89,7 +89,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Domain
 
-- The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side $1.6$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
+- The background mesh is a cube, sized automatically to hold the column plus the same height of empty space above it: here a cube of side $100$ m ([domain](../UsingTheSoftware/InputFormat/domain.md)).
 - Gravity acts in $-z$.
 
 </div>
@@ -98,7 +98,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ```json
 "domain": {
-    "gravity": [0.0, 0.0, -9.81]
+    "gravity": [0.0, 0.0, -10.0]
 },
 ```
 
@@ -112,8 +112,8 @@ The simulation is configured through a single JSON object - a human-readable, ed
 
 ### Material points
 
-- One layer, $0.8$ m thick, on a $0.05 \times 0.05$ m footprint ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
-- `"element size"` sets the background elements to $0.05$ m.
+- One layer, $50$ m thick, on a $3.125 \times 3.125$ m footprint ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
+- `"element size"` sets the background elements to $3.125$ m.
 - `"number of material points per element 1": 2` places a $2 \times 2 \times 2$ grid of GIMPs in each element.
 - The material is the Hencky elastic model, with the parameters from the [Problem summary](#problem-summary).
 - `"extra capacity"` reserves spare storage for material points created by mesh refinement; there is no refinement here, but the key is still required.
@@ -125,13 +125,13 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ```json
 "material points": {
     "extra capacity": 1.2,
-    "element size": 0.05,
+    "element size": 3.125,
     "number of material points per element 1": 2,
-    "material size": { "min": [0.0, 0.0], "max": [0.05, 0.05] },
+    "material size": { "min": [0.0, 0.0], "max": [3.125, 3.125] },
     "layers": [
         {
-            "thickness": 0.8,
-            "material": { "type": "elastic", "E": 1.0e4, "nu": 0.0, "density": 50.0 }
+            "thickness": 50.0,
+            "material": { "type": "elastic", "E": 1.0e4, "nu": 0.0, "density": 80.0 }
         }
     ]
 },
@@ -173,7 +173,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 ### Analysis
 
 - A single static stage ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
-- `"load": "gravity ramp"` increases gravity from zero to its full value over the 50 load steps.
+- `"load": "gravity ramp"` increases gravity from zero to its full value over the 40 load steps.
 - `"rigid bodies": "off"`, as there are none.
 - Rollers on the four sides ($x$ and $y$ `"min"` and `"max"`) and a fixed base ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
 - The top is left free; the `"max"` $z$ face lies at twice the column height, in the empty space above the column, so it never touches the material.
@@ -186,7 +186,7 @@ The simulation is configured through a single JSON object - a human-readable, ed
 "analysis": [
     {
         "type": "static",
-        "load steps": 50,
+        "load steps": 40,
         "load": "gravity ramp",
         "rigid bodies": "off",
         "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "free"] }
@@ -339,7 +339,7 @@ Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for t
 ```
 MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
 ```
-This reads the input file, steps through the 50 load steps and writes the VTK and CSV output as it goes.
+This reads the input file, steps through the 40 load steps and writes the VTK and CSV output as it goes.
 
 #### Reading the output
 
@@ -348,12 +348,12 @@ MPM3S prints a single progress line, redrawn in place after every step; in a log
 - `stage 1/1` - the current stage and the number of stages.
 - the bar and `100.0%` - progress through the stage.
 - `t 1.0/1.0` - the load fraction reached in a static stage (or the time in a dynamic stage), out of its final value.
-- `step 51` - the step counter. It starts at 1 and counts every converged step of the analysis; it is also the number in the output file names.
-- `Δt 0.02` - the current increment, here $1/50$ of the load.
+- `step 41` - the step counter. It starts at 1 and counts every converged step of the analysis; it is also the number in the output file names.
+- `Δt 0.025` - the current increment, here $1/40$ of the load.
 - `NR 3` - the Newton-Raphson iterations used by the last step.
 - `cuts 0` - steps that did not converge and were retried with half the increment.
 - `del 0` - material points deleted because they became too distorted or isolated.
-- `N 299` - the number of nodes in the background mesh.
+- `N 201` - the number of nodes in the background mesh.
 
 In dynamic analyses a `P2G-fail` count is added if a velocity projection fails to converge.
 
@@ -365,7 +365,7 @@ In dynamic analyses a `P2G-fail` count is added if a velocity projection fails t
 
 ```console
 julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_gravity_column.json");
-stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02 NR 3 cuts 0 del 0 N 299
+stage 1/1 ████████████ 100.0% t 1.0/1.0 step 41 Δt 0.025 NR 3 cuts 0 del 0 N 201
 ```
 
 </div>
@@ -376,7 +376,7 @@ stage 1/1 ████████████ 100.0% t 1.0/1.0 step 51 Δt 0.02
 
 ## Viewing the results
 
-The results are written as the simulation runs, so you do not need to wait until it has finished to view them. The VTK files are in `vtk_column` and the CSV files in `csv_column`, one file per load step, numbered from `00002` to `00051`. The `1` in `mps_1_...` is the layer number.
+The results are written as the simulation runs, so you do not need to wait until it has finished to view them. The VTK files are in `vtk_column` and the CSV files in `csv_column`, one file per load step, numbered from `00002` to `00041`. The `1` in `mps_1_...` is the layer number.
 
 ### Visualising the output in ParaView
 
@@ -428,7 +428,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**5. Advance to the final step.** Click the *Go to Last* button (`▶|`) (1) in the time toolbar, then *Rescale to Visible Range* (2) in the colour-map toolbar so the colour scale matches the deformed column. The column has shortened from $0.8$ m to about $0.785$ m, so the top has moved down by about $0.015$ m.
+**5. Advance to the final step.** Click the *Go to Last* button (`▶|`) (1) in the time toolbar, then *Rescale to Visible Range* (2) in the colour-map toolbar so the colour scale matches the deformed column. The column has shortened from $50$ m to about $24$ m, so the top has moved down by about $26$ m.
 </div>
 <div markdown>
 ![The deformed column at the final load step, coloured by displacement.](../../img/Tutorial_1/column_v2_1.png){ #fig-paraview-5 }
@@ -446,7 +446,7 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 <div class="walkthrough" markdown>
 <div markdown>
-**7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* (1) and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed by about $4\%$ of their original height, while those near the top are barely deformed.
+**7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* (1) and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about $30\%$ of their original height, while those near the top have shortened by only about $6\%$.
 </div>
 <div markdown>
 ![The column drawn with Surface With Edges, coloured by vertical stress.](../../img/Tutorial_1/column_v2_3.png){ #fig-paraview-7 }
@@ -455,21 +455,21 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
 
 ## Analysing the stress variation with height
 
-`csv_column` holds one CSV file per load step. The first line of each file is the load fraction, `time`, and the second line holds the column headers; after that there is one row per GIMP. The final step, `mps_1_00051.csv`, starts:
+`csv_column` holds one CSV file per load step. The first line of each file is the load fraction, `time`, and the second line holds the column headers; after that there is one row per GIMP. The final step, `mps_1_00041.csv`, starts:
 
 ```text
 time,1.0000000000000004
 initial position_x,initial position_y,initial position_z,position_x,position_y,position_z,stress_xx,stress_yy,stress_zz,stress_xy,stress_yz,stress_xz
-0.0125,0.0125,0.0125,0.0125,0.0125,0.012049772208144434,0.0,0.0,-380.53508196098755,0.0,0.0,0.0
-0.0125,0.0125,0.037500000000000006,0.0125,0.0125,0.03614931662443334,0.0,0.0,-380.53508196098755,0.0,0.0,0.0
-0.0125,0.0125,0.0625,0.0125,0.0125,0.06027504228355748,0.0,0.0,-356.3835934261951,0.0,0.0,0.0
+0.78125,0.78125,0.78125,0.78125,0.78125,0.2403573773453606,0.0,0.0,-38314.3115766303,0.0,0.0,0.0
+0.78125,0.78125,2.34375,0.78125,0.78125,0.7210721320360816,0.0,0.0,-38314.311576630294,0.0,0.0,0.0
+0.78125,0.78125,3.90625,0.78125,0.78125,1.204539179340215,-1.777267913332324e-12,-1.777267913332324e-12,-37256.332724039145,-0.0,-0.0,-0.0
 --- many more rows of data ---
 ```
 
 `initial position_z` is $z_p$ in the analytical solution, `position_z` is the GIMP's current height, and `stress_zz` is the vertical Cauchy stress in Pa.
 
 !!! note "Floating-point spellings in the raw CSV"
-    Values such as `1.0000000000000004` and `0.037500000000000006` are the exact binary representations Julia stores for `1.0` and `0.0375`, and the trailing digits of the stresses are floating-point noise.
+    Values such as `1.0000000000000004` are the exact binary representation Julia stores for `1.0`, the trailing digits of the stresses are floating-point noise, and horizontal stresses such as `-1.777267913332324e-12` are zero to round-off.
 
 The short Julia script below plots the stresses from the final step against the analytical solution from the [Problem summary](#problem-summary). You can run it in the same Julia session straight after the analysis, either by copying it into the REPL or by saving it as `plot_stress.jl` in the `MPM3S` folder and running `include("plot_stress.jl")`. It needs [Plots](https://docs.juliaplots.org/); `DelimitedFiles` comes with Julia.
 
@@ -485,13 +485,13 @@ The commands to run the plot are:
 using DelimitedFiles, Plots
 
 # the final output step of the column; skip the "time" line, then read the header
-data, header = readdlm("csv_column/mps_1_00051.csv", ',', Float64; skipstart=1, header=true)
+data, header = readdlm("csv_column/mps_1_00041.csv", ',', Float64; skipstart=1, header=true)
 column(name) = data[:, findfirst(==(name), vec(header))]
 z0  = column("initial position_z")
 szz = column("stress_zz")
 
 # analytical vertical stress
-ρ, g, L = 50.0, 9.81, 0.8
+ρ, g, L = 80.0, 10.0, 50.0
 σ(z) = -ρ * g * (L - z)
 z = range(0.0, L, length=100)
 
@@ -501,6 +501,6 @@ plot!(-σ.(z), z, label="analytical")
 
 ![Vertical compressive stress at the GIMPs after the final load step, plotted against their initial height, compared with the analytical solution.](../../img/Tutorial_1/column_analytical_stress.png){ #fig-column-stress width="40%" }
 
-The numerical stresses agree with the analytical solution to within 2% of the stress at the base ($392.4$ Pa). The two GIMPs in each element fall either side of the analytical line, and the differences are largest near the base. 
+The numerical stresses agree with the analytical solution to within 3% of the stress at the base ($40$ kPa). The differences are largest in the bottom element, where the column is most compressed, and in the top element.
 
-To see how the accuracy depends on the mesh, halve `"element size"` in [Material points](#material-points) to `0.025` and run the problem again.
+To see how the accuracy depends on the mesh, halve `"element size"` in [Material points](#material-points) to `1.5625` and run the problem again.
