@@ -16,7 +16,7 @@ The world the analysis runs in: gravity, and the background mesh that holds the 
 
 </div>
 
-Gravity does not have to point straight down. [Tutorial 5](../../TutorialProblems/Tutorial_5.md) tilts it by $45^\circ$ to model a slope while keeping the grid axis-aligned.
+Gravity does not have to point straight down. [Tutorial 4](../../TutorialProblems/Tutorial_4.md) tilts it by $45^\circ$ to model a slope while keeping the grid axis-aligned.
 
 ## The background mesh
 

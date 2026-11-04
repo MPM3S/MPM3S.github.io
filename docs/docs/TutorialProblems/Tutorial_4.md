@@ -3,22 +3,22 @@ hide:
   - toc
 ---
 
-# Tutorial 4: Plough
+# Tutorial 4: Rolling sphere
 
 <div class="tutorial-head">
-<div class="tutorial-facts level-advanced-strip">
-<span class="level level-advanced">Advanced</span>
-<span><strong>Work through time:</strong> about 1 to 1.5 h</span>
-<span><strong>Approx. run time:</strong> about 2 h on a GPU</span>
+<div class="tutorial-facts level-intermediate-strip">
+<span class="level level-intermediate">Intermediate</span>
+<span><strong>Work through time:</strong> about 1 h</span>
+<span><strong>Approx. run time:</strong> 5 min on a GPU, 30 min on a CPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
 </div>
-<img class="gif-box" src="../../../img/gifs/plough_dr44.gif" alt="The plough driven down into the sand and along it, coloured by displacement magnitude.">
+<img class="gif-box" src="../../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope with μ = 0.2, coloured by displacement magnitude.">
 </div>
 
 ## Introduction
-This tutorial drives a plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with the $426$ kN measured in the centrifuge tests of Robinson et al. [@robinson2021cone].
+This is the first dynamic tutorial in MPM3S. A rigid sphere rolls down a slope under gravity, and the distance it travels is compared against the analytical slip/stick solution for a range of friction coefficients.
 
-The problem uses the gravity stage from [Tutorial 1](Tutorial_1.md), the displacement-controlled rigid body with contact from [Tutorial 2](Tutorial_2.md), the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), and the dynamic time integration, frictional contact and moving boundaries from [Tutorial 5](Tutorial_5.md) and [Tutorial 6](Tutorial_6.md). Unlike the anchor of Tutorial 6, the plough is not free: its whole path is prescribed, so the soil only decides the force needed to move it. The contact between the GIMPs and the plough uses the dynamic implicit 3D material point-to-rigid body contact approach of Bird et al. [@bird_dynamic_2025].
+The problem validates frictional contact and dynamic time integration together. As the sphere moves, the elements beneath it are refined to a fine mesh that travels with it, and a boundary track keeps only the part of the slope around the sphere active.
 
 This tutorial has four sections:
 
@@ -29,59 +29,52 @@ This tutorial has four sections:
 
 ## Problem description
 
-You will model a plough being driven into, and then along, a bed of sand. To do this, you will define the soil, the plough, the three loading stages, the solver and the output in the input file, using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
+You will define the slope, the sphere, the dynamic stage, the solver and the output in the input file. All the inputs to the simulation are defined using the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md).
 
-[](#fig-plough-setup) shows the model at the start of stage 2. To reduce the problem size, only half of the plough and soil is modelled, using the vertical $xz$ plane of symmetry at $y = 0$. The plough starts on the soil surface and moves at $0.2$ m/s down to a depth of $1.85$ m over two plough lengths, then level at $0.1$ m/s for $25$ m. Instead of solving the whole length of soil, a boundary track keeps only a window of soil active, from $5$ m behind to $10$ m ahead of the plough. The elements around the plough are refined down to $0.05$ m; the figure only shows this schematically.
+To keep the slope aligned with the background grid, the slope is kept horizontal and gravity is tilted by $45^\circ$ instead (see [](#fig-sphere-setup)). The sphere then rolls along $+x$ under the in-plane component of gravity.
 
-![The half model at the start of stage 2, drawn shortened, with the path of the share tip through stages 2 and 3.](../../img/Tutorial_4/plough_setup.png){ #fig-plough-setup width="80%" }
+![The rolling sphere problem: a $12.8 \times 1.6 \times 0.8$ m material domain of $0.8$ m elements with a $2 \times 2 \times 2$ grid of GIMPs in each. The elements beneath the sphere are refined, shown schematically as one level (the finest elements are $0.025$ m), and their GIMPs follow the refined mesh. The sphere, of radius $1$ m, rests on the material domain, and gravity is tilted $45^\circ$ towards $+x$. The ends and base of the material domain are fixed and its sides are rollers.](../../img/Tutorial_4/sphere_setup.png){ #fig-sphere-setup width="70%" }
 
-**Material domain:** The soil is $100$ m long, $20$ m wide and $20$ m deep. As in [Tutorial 3](Tutorial_3.md), the mesh is refined around the rigid body: the elements which intersect the plough are refined to $0.05$ m, while those far from it are $5$ m, and every element is created with $2 \times 2 \times 2$ material points. Because the mesh is an octree whose smallest element is $0.05$ m, MPM3S adjusts these sizes (see [how element sizes set the mesh](../UsingTheSoftware/InputFormat/material_points.md#how-element-sizes-set-the-mesh)):
+*Figure adapted from [@bird2026implicitoctreebasedadaptivematerial].*
 
-- element sizes are rounded **down** to a power-of-two multiple of $0.05$ m, so the mesh is never coarser than requested: the $5$ m elements become $0.05 \times 2^6 = 3.2$ m;
-- the $x$ and $y$ dimensions are rounded **up** to whole elements: $102.4 \times 22.4$ m;
-- the depth is rounded **up** to a whole row of material points ($1.6$ m): $20$ m becomes $20.8$ m.
+**Slope:** A material domain $12.8$ m long, $1.6$ m wide and $0.8$ m thick, made of $0.8$ m base elements with $2 \times 2 \times 2$ material points in each. The elements the sphere touches are refined to $0.025$ m.
 
-**Loading:** Three stages, with $L = 7.93$ m the length of the plough:
+**Boundary conditions:** The two ends of the material domain ($x = 0$ and $x = 12.8$ m) and its base are fixed, and its two sides are rollers. The top surface is free.
 
-- **Stage 1 - initial stresses:** static; the plough is switched off and gravity is ramped up over 5 load steps.
-- **Stage 2 - penetration:** dynamic, $79.3$ s in steps of $0.05$ s; the plough is placed on the soil surface, then moves $0.2$ m/s in $+x$ while it descends, reaching a depth of $1.85$ m after $2L = 15.86$ m.
-- **Stage 3 - horizontal penetration:** dynamic, $250$ s in steps of $0.05$ s; the plough moves $0.1$ m/s in $+x$ at a constant depth of $1.85$ m, for $25$ m.
+**Material:** A very stiff Hencky elastic material domain: Young's modulus $E = 10^9$ Pa, Poisson's ratio $\nu = 0$ and density $\rho = 1000$ kg/m$^3$. It deforms negligibly, but modelling it with material points is what exercises the contact between a rigid body and a refined mesh - the point of the test.
 
-**Boundary conditions:** The boundary conditions are defined separately for each stage. In every stage the base is fixed, and the side at $y = 0$ (the plane of symmetry) and the opposite side carry rollers; the top face lies in the empty space above the soil, so its condition has no effect. Only the two ends, the $x$ faces, change:
+**Sphere:** `sphere.stl`, a sphere of radius $r = 1$ m made of 3120 triangles on a latitude-longitude grid, drawn centred on the origin. Its point is at the centre, with mass $m = 5000$ kg and rotational inertia $I = \tfrac{2}{5} m r^2 = 2000$ kg$\cdot$m$^2$, a solid sphere. The sphere can move in $x$ and $z$ and rotate about $y$; its other three degrees of freedom are fixed.
 
-- **Stage 1 - initial stresses:** all vertical sides are rollers, the bottom face is fixed.
-- **Stages 2 and 3:** a boundary track replaces both ends with fixed planes that move with the plough: one $5$ m behind it, which deletes the soil the plough leaves behind, and one $10$ m ahead of it. Both distances are rounded outward to whole $3.2$ m elements. On the plane of symmetry, $y = 0$, the roller stops the soil moving in $y$ but leaves it free to slide in $x$ and $z$, which is exactly the symmetry condition: the modelled half behaves as one half of the full plough and soil.
+**Friction:** The friction coefficient $\mu$ is the parameter you sweep. Try $\mu \in \{0,\, 0.1,\, 0.2,\, 0.4,\, 1.0\}$ to cover both the slipping ($\tan\theta_s > 3.5\mu$) and sticking regimes.
 
-**Material:** Willam-Warnke elasto-plastic dry sand at a relative density of $D_r = 44\%$, with the parameters from the Brinkgreve correlations [@brinkgreve2010validation], as in [Tutorial 3](Tutorial_3.md#problem-description):
+**Loading:** A single dynamic stage lasting $1$ s, with a time step of $0.005$ s. Gravity is applied as a tilted vector
 
-<div class="centered-table" markdown>
+$$
+g_i = 9.81 \times \left[ \tfrac{1}{\sqrt{2}},\, 0,\, -\tfrac{1}{\sqrt{2}} \right] \text{ m/s}^2,
+$$
 
-| Property                     | Correlation                                         | Value at $D_r = 44\%$     | Input key                     |
-|------------------------------|-----------------------------------------------------|---------------------------|-------------------------------|
-| Reference Young's modulus    | $E^{ref} = 60\,000\; D_r/100$ kPa                   | $26.4$ MPa                | `"E": 2.64e7`                 |
-| Friction angle               | $\phi = 28 + 12.5\; D_r/100$                        | $33.5^\circ$              | `"friction angle": 33.5`      |
-| Dilation angle               | $\psi = -2 + 12.5\; D_r/100$, not below 0           | $3.5^\circ$               | `"dilation angle": 3.5`       |
-| Dry unit weight              | $\gamma = 15 + 4\; D_r/100$ kN/m$^3$                | $16.76$ kN/m$^3$          | -            |
-| Dry density                  | $\rho = \gamma/g$, with $g = 10$ m/s$^2$            | $1676$ kg/m$^3$           | `"density": 1676.0`           |
-| Stiffness exponent           | $m = 0.7 - D_r/320$                                 | $0.5625$                  | `"exponent": 0.5625`          |
-| Earth pressure at rest       | $K_0 = 1 - \sin\phi$                                | $0.4481$                  | `"reference stress"` (below)  |
-| Poisson's ratio              | -                                                   | $0.25$                    | `"nu": 0.25`                  |
-| Cohesion                     | -                                                   | $0.3$ kPa                 | `"cohesion": 300.0`           |
+equivalent to a $45^\circ$ slope under vertical gravity.
 
-</div>
+**Solver:** Newton-Raphson, implicit dynamic. The sphere's velocity, angular velocity and rotation evolve through time under gravity and contact.
 
-As in [Tutorial 3](Tutorial_3.md#problem-description), the reference stress for the depth-dependent stiffness is $p^{ref}/K_0 = 100/0.4481 = 223.2$ kPa.
+The analytical solution to compare against is the distance the sphere has travelled along $+x$ as a function of time:
 
-**Plough:** The plough is a blade with a share at its foot, $7.93$ m long, $3.15$ m tall and $0.375$ m wide, drawn in `plough.stl` with the share pointing in $+x$. It is centred on the plane of symmetry, so half its width, $0.1875$ m, lies in the modelled soil. The plough is a single rigid body welded to one `rigid body point` at its centroid. Its motion is prescribed in every stage, so it has no free degree of freedom and its mass plays no part: the point is given a nominal mass of $1$ kg. Frictional contact between the plough and the sand uses $\mu = 0.3$.
+$$
+d_x(t) =
+\begin{cases}
+\dfrac{g t^2}{2} \left[ \sin\theta_s - \mu \cos\theta_s \right] & \text{slipping, } \tan\theta_s > 3.5\mu \\[6pt]
+\dfrac{5\, g t^2 \sin\theta_s}{14} & \text{sticking, otherwise}
+\end{cases}
+$$
 
-**Solver:** Newton-Raphson, pseudo-static for stage 1 and implicit dynamic for stages 2 and 3.
+with $g = 9.81$ m/s$^2$ and $\theta_s = 45^\circ$.
 
 ## Input setup
 The input file is a single JSON object - a human-readable, editable text file. The complete file for this problem can be found [here](Tutorial_4_input_data.md), and every key is described on the [`input_data.json` file format](../UsingTheSoftware/InputFormat/index.md) page.
 
 <div class="json-side-header">
 <div>Description</div>
-<div><code>input_data_plough_dr44.json</code></div>
+<div><code>input_data_sphere.json</code></div>
 </div>
 
 <div class="json-side" markdown>
@@ -90,15 +83,14 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Machine
 
-- `"GPU": "on"` runs the analysis on an NVIDIA GPU ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
-- Without a GPU, set it to `"off"` to run on the CPU: the results are the same, but the analysis will be much slower.
+- `"GPU": "off"` runs the analysis on the CPU ([GPU](../UsingTheSoftware/InputFormat/gpu.md)).
 
 </div>
 
 <div class="js-code" markdown>
 
 ```json
-"GPU": "on",
+"GPU": "off",
 ```
 
 </div>
@@ -111,9 +103,8 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Domain
 
-- The background mesh is a cube, sized automatically to hold the material domain plus the same height of empty space above it ([domain](../UsingTheSoftware/InputFormat/domain.md)).
-- Here the $102.4$ m length governs: the side is a power-of-two number of $3.2$ m elements, $3.2 \times 2^5 = 102.4$ m.
-- Gravity acts in $-z$.
+- The background grid is a cube, sized automatically to hold the material domain: its $12.8$ m length makes it a $12.8$ m cube ([domain](../UsingTheSoftware/InputFormat/domain.md)).
+- `"gravity"` is the tilted vector from the [Problem description](#problem-description): its two non-zero components are $9.81/\sqrt{2} \approx 6.93672$ m/s$^2$.
 
 </div>
 
@@ -121,7 +112,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ```json
 "domain": {
-    "gravity": [0.0, 0.0, -9.81]
+    "gravity": [6.93672, 0.0, -6.93672]
 },
 ```
 
@@ -135,9 +126,8 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Material points
 
-- One layer of Willam-Warnke sand, with the properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
-- A $100 \times 20$ m footprint, whose $y = 0$ side is the plane of symmetry.
-- $5$ m base elements (rounded to $3.2$ m), each starting with $2 \times 2 \times 2$ material points.
+- A single $0.8$ m layer over a $12.8 \times 1.6$ m footprint, with the stiff elastic properties from the [Problem description](#problem-description) ([material points](../UsingTheSoftware/InputFormat/material_points.md)).
+- The refinement size used later, $0.025$ m, is $0.8/2^5$, so the base element size needs no rounding.
 
 </div>
 
@@ -146,17 +136,13 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "material points": {
     "extra capacity": 1.2,
-    "element size": 5.0,
+    "element size": 0.8,
     "number of material points per element 1": 2,
-    "material size": { "min": [0.0, 0.0], "max": [100.0, 20.0] },
+    "material size": { "min": [0.0, 0.0], "max": [12.8, 1.6] },
     "layers": [
         {
-            "thickness": 20.0,
-            "material": { "type": "willam warnke",
-                          "E": 2.64e7, "nu": 0.25,
-                          "friction angle": 33.5, "dilation angle": 3.5, "cohesion": 300.0,
-                          "density": 1676.0,
-                          "E overburden": { "reference stress": 223183.0, "exponent": 0.5625 } }
+            "thickness": 0.8,
+            "material": { "type": "elastic", "E": 1.0e9, "nu": 0.0, "density": 1000.0 }
         }
     ]
 },
@@ -172,10 +158,10 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Rigid body
 
-- The plough is one rigid-body system with a single [point](../UsingTheSoftware/InputFormat/rigid_bodies.md#points), at the plough's centroid, $(4.549, 0, 1.244)$ in the frame `plough.stl` is drawn in.
-- All six of its degrees of freedom are fixed; stages 2 and 3 replace them with the prescribed motion. Nothing is left free, so the mass and rotational inertia are nominal values of $1$.
-- The plough surface is welded to the point ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)), and its tetrahedral mesh is stored in the mesh-cache file. `plough.stl` is drawn with its rear at $x = 0$, its base at $z = 0$ and its width centred on $y = 0$.
-- `"offset"` moves the whole system $5$ m in $+x$, so that $5$ m of soil lies behind the plough, and $20$ m up, to about the soil surface; stage 2 then places it exactly on the surface.
+- The sphere is one system with one [point](../UsingTheSoftware/InputFormat/rigid_bodies.md#points), at its centre.
+- The point's six boundary conditions, in the order $[u_x, u_y, u_z, \theta_x, \theta_y, \theta_z]$, leave it free to move in $x$ and $z$ and to rotate about $y$.
+- `sphere.stl` is drawn centred on the origin, the same place as the point ([STL files](../UsingTheSoftware/InputFormat/rigid_bodies.md#stl-files)).
+- `"offset"` then places the whole sphere with its centre above $x = 1.5$ m, halfway across the material domain's width and $1.8$ m up - resting on the material domain surface at $0.8$ m.
 
 </div>
 
@@ -184,13 +170,13 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "rigid bodies": [
     {
-        "offset": [5.0, 0.0, 20.0],
+        "offset": [1.5, 0.8, 1.8],
         "points": [
-            { "position": [4.549060, 0.0, 1.244252], "mass": 1.0, "rotational inertia": [1.0, 1.0, 1.0],
-              "boundary conditions": ["fixed", "fixed", "fixed", "fixed", "fixed", "fixed"] }
+            { "position": [0.0, 0.0, 0.0], "mass": 5000.0, "rotational inertia": [2000.0, 2000.0, 2000.0],
+              "boundary conditions": ["free", "fixed", "free", "fixed", "free", "fixed"] }
         ],
         "stl files": [
-            { "name": "plough", "stl": "plough.stl", "mesh cache": "plough_mesh.txt", "point": 1 }
+            { "name": "sphere", "stl": "sphere.stl", "mesh cache": "sphere_mesh.txt", "point": 1 }
         ]
     }
 ],
@@ -206,7 +192,9 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Contact
 
-- Coulomb friction with $\mu = 0.3$ between the plough and the sand ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
+- The friction coefficient between the sphere and the material domain, here $\mu = 0.2$ ([contact properties](../UsingTheSoftware/InputFormat/contact.md)).
+- This is below $\tan(45^\circ)/3.5 \approx 0.286$, so the sphere slips as it rolls.
+- Change it between runs to reproduce the friction sweep, and change the output directory names to match, so the runs do not overwrite each other.
 
 </div>
 
@@ -214,7 +202,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ```json
 "contact": {
-    "friction coefficient": 0.3
+    "friction coefficient": 0.2
 },
 ```
 
@@ -226,12 +214,17 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 <div class="js-text" markdown>
 
-### Stage 1: initial stresses
+### Analysis
 
-- Static, with the plough switched off.
-- Gravity is ramped up from zero over 5 load steps.
-- A uniform $3.2$ m mesh ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
-- Rollers on the four vertical faces and a fixed base; the top face lies in the empty space above the soil ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- A single dynamic stage: $1$ s of motion in steps of $0.005$ s ([analysis stages](../UsingTheSoftware/InputFormat/analysis.md)).
+- The Newmark parameters $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping, which keeps the stiff contact stable.
+- `"rigid body surface placement": "on"` makes sure the sphere starts exactly on the material domain surface.
+- `"rigid body surface"` adaptivity refines the elements the sphere's surface passes through to $0.025$ m at every step ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
+- The material domain's ends and base are fixed and its sides are rollers ([boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#boundary-conditions)).
+- `"boundary track"` makes the $x$ boundaries follow the sphere ([boundary track](../UsingTheSoftware/InputFormat/analysis.md#boundary-track)):
+    - a fixed plane at the back of the sphere deletes the material domain it leaves behind (`"remove": "yes"`);
+    - a fixed plane $1$ m ahead of it keeps the material domain further ahead inactive until the sphere approaches;
+    - tracking is `"off"` in $y$ and $z$.
 
 </div>
 
@@ -240,102 +233,22 @@ The input file is a single JSON object - a human-readable, editable text file. T
 ```json
 "analysis": [
     {
-        "type": "static",
-        "load steps": 5,
-        "load": "gravity ramp",
-        "rigid bodies": "off",
-        "adaptivity": { "type": "uniform" },
-        "boundary conditions": { "min": ["roller", "roller", "fixed"], "max": ["roller", "roller", "fixed"] }
-    },
-```
-
-</div>
-
-</div>
-
-<div class="json-side" markdown>
-
-<div class="js-text" markdown>
-
-### Stage 2: penetration
-
-- Dynamic, $79.3$ s in steps of $0.05$ s: $1586$ steps.
-- `"rigid body surface placement": "on"` first moves the plough vertically so that its base rests on the soil surface.
-- `"rigid body boundary conditions"` replaces the plough's conditions (system 1, point 1) for this stage, prescribing every step ([rigid body boundary conditions](../UsingTheSoftware/InputFormat/analysis.md#rigid-body-boundary-conditions)):
-    - $0.01$ m in $+x$, which is $0.2$ m/s;
-    - $0.0011665$ m in $-z$, which is $1.85/1586$, so the plough reaches $1.85$ m below the surface after $15.86$ m, two plough lengths.
-- $\beta = 0.5$ and $\gamma = 1.0$ add numerical damping.
-- The mesh is refined to $0.05$ m wherever the plough surface is ([adaptivity](../UsingTheSoftware/InputFormat/analysis.md#adaptivity)).
-- `"boundary track"` replaces the two $x$ ends with fixed planes that follow the plough ([boundary track](../UsingTheSoftware/InputFormat/analysis.md#boundary-track)):
-    - one $5$ m behind it, which deletes the soil the plough leaves behind;
-    - one $10$ m ahead of it; the soil beyond it stays inactive until the plane reaches it.
-
-</div>
-
-<div class="js-code" markdown>
-
-```json
-    {
         "type": "dynamic",
-        "dt": 0.05,
-        "final time": 79.3,
+        "dt": 0.005,
+        "final time": 1.0,
         "beta": 0.5,
         "gamma": 1.0,
         "rigid bodies": "on",
         "rigid body surface placement": "on",
-        "adaptivity": { "type": "rigid body surface", "element size": 0.05 },
-        "rigid body boundary conditions": [
-            { "system": 1, "point": 1,
-              "boundary conditions": [{ "prescribed": 0.01 }, "fixed", { "prescribed": -0.0011664565 }, "fixed", "fixed", "fixed"] }
-        ],
-        "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
+        "adaptivity": {
+            "type": "rigid body surface",
+            "element size": 0.025
+        },
+        "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["fixed", "roller", "free"] },
         "boundary track": {
-            "min": { "type": ["fixed", "off", "off"], "distance": [5.0, 0.0, 0.0],
+            "min": { "type": ["fixed", "off", "off"], "distance": [0.0, 0.0, 0.0],
                      "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-            "max": { "type": ["fixed", "off", "off"], "distance": [10.0, 0.0, 0.0],
-                     "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
-        }
-    },
-```
-
-</div>
-
-</div>
-
-<div class="json-side" markdown>
-
-<div class="js-text" markdown>
-
-### Stage 3: horizontal penetration
-
-- Dynamic, $250$ s in steps of $0.05$ s: $5000$ steps.
-- The plough moves $0.005$ m in $+x$ every step, which is $0.1$ m/s, $25$ m in all, and is held at its depth.
-- The plough is already in place, so `"rigid body surface placement"` is `"off"`.
-- The refinement and the boundary track are the same as in stage 2.
-
-</div>
-
-<div class="js-code" markdown>
-
-```json
-    {
-        "type": "dynamic",
-        "dt": 0.05,
-        "final time": 250.0,
-        "beta": 0.5,
-        "gamma": 1.0,
-        "rigid bodies": "on",
-        "rigid body surface placement": "off",
-        "adaptivity": { "type": "rigid body surface", "element size": 0.05 },
-        "rigid body boundary conditions": [
-            { "system": 1, "point": 1,
-              "boundary conditions": [{ "prescribed": 0.005 }, "fixed", "fixed", "fixed", "fixed", "fixed"] }
-        ],
-        "boundary conditions": { "min": ["fixed", "roller", "fixed"], "max": ["roller", "roller", "fixed"] },
-        "boundary track": {
-            "min": { "type": ["fixed", "off", "off"], "distance": [5.0, 0.0, 0.0],
-                     "advance": ["positive", "positive", "positive"], "remove": ["yes", "no", "no"] },
-            "max": { "type": ["fixed", "off", "off"], "distance": [10.0, 0.0, 0.0],
+            "max": { "type": ["fixed", "off", "off"], "distance": [1.0, 0.0, 0.0],
                      "advance": ["positive", "positive", "positive"], "remove": ["no", "no", "no"] }
         }
     }
@@ -352,9 +265,9 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Solver
 
-- Newton-Raphson iterations to a tolerance of $10^{-6}$ in each step ([solver](../UsingTheSoftware/InputFormat/solver.md)).
-- A step that has not converged after 20 iterations is retried with half the increment.
-- The same [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) settings as [Tutorial 6](Tutorial_6.md#solver).
+- Newton-Raphson iterations to a tolerance of $10^{-6}$ in each time step ([solver](../UsingTheSoftware/InputFormat/solver.md)).
+- A step that has not converged after 20 iterations is retried with half the time step.
+- The [ghost stabilisation](../TechnicalReferences/ghostStabilisation.md) uses `"ghost factor": 10.0` for the stiffness and `"ghost factor mass": 0.25` for the mass.
 
 </div>
 
@@ -365,7 +278,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
     "tolerance": 1.0e-6,
     "max newton iterations": 20,
     "poor factor": 0.25,
-    "ghost factor": 0.025,
+    "ghost factor": 10.0,
     "ghost factor mass": 0.25
 },
 ```
@@ -380,8 +293,8 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ### Output
 
-- Only CSV files are written, to `csv_plough_dr44`, every $0.25\%$ of a stage's steps: every 4 steps in stage 2 and every 12 in stage 3 ([output](../UsingTheSoftware/InputFormat/output.md)).
-- `rigid_body.csv` records the position, velocity, reaction force and reaction moment of the plough's point; the tow force is calculated from it.
+- `"vtk percent": 0` writes a VTK frame at every time step, with every field, to `vtk_sphere_mu0.2` ([output](../UsingTheSoftware/InputFormat/output.md)).
+- The CSV output writes no material-point files (an empty list), but records the sphere's position, velocity, acceleration and angular velocity in `csv_sphere_mu0.2/rigid_body.csv`.
 
 </div>
 
@@ -389,13 +302,15 @@ The input file is a single JSON object - a human-readable, editable text file. T
 
 ```json
 "output": {
-    "vtk": "off",
+    "vtk": "on",
+    "vtk directory": "vtk_sphere_mu0.2",
+    "vtk percent": 0,
 
     "csv": "on",
-    "csv directory": "csv_plough_dr44",
-    "csv percent": 0.25,
-    "csv material point fields": ["initial position", "position", "stress"],
-    "csv rigid body fields": ["position", "velocity", "reaction force", "reaction moment"]
+    "csv directory": "csv_sphere_mu0.2",
+    "csv percent": 0,
+    "csv material point fields": [],
+    "csv rigid body fields": ["position", "velocity", "acceleration", "angular velocity"]
 }
 ```
 
@@ -408,7 +323,7 @@ The input file is a single JSON object - a human-readable, editable text file. T
 MPM3S is written in the [Julia](https://julialang.org/) programming language. See the [installation guide](../GettingStarted/julia.md) for installing Julia and MPM3S, and [Tutorial 1](Tutorial_1.md#deploying-and-running-the-problem) for a first, small run.
 
 !!! note "Working in the MPM3S folder"
-    Julia runs in the `MPM3S` folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from `validation_data_and_jsons/input_data_plough_dr44.json`, and the output folder `csv_plough_dr44` is written to the `MPM3S` folder.
+    Julia runs in the `MPM3S` folder - the folder you downloaded - throughout this tutorial, and every path in the commands and scripts is relative to it. The input file is read from `validation_data_and_jsons/input_data_sphere.json`, and the output folders `vtk_sphere_mu0.2` and `csv_sphere_mu0.2` are written to, and read back from, the `MPM3S` folder.
 
 <div class="json-side-header">
 <div>Deployment instructions</div>
@@ -421,28 +336,25 @@ MPM3S is written in the [Julia](https://julialang.org/) programming language. Se
 
 ### Setting up the problem
 
-The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_plough_dr44.json`, together with the plough geometry - `plough.stl` and its mesh cache, `plough_mesh.txt`; the input file is the same as the [complete input file](Tutorial_4_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
+The input file for this tutorial comes with MPM3S, as `validation_data_and_jsons/input_data_sphere.json`, together with the sphere geometry, `sphere.stl`, and its mesh cache, `sphere_mesh.txt`; the input file is the same as the [complete input file](Tutorial_4_input_data.md). The STL and mesh-cache paths in the input file are relative to the input file, so the files must stay in the same folder.
 
-As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it, install its dependencies with `Pkg.instantiate()` and load MPM3S. The output folder `csv_plough_dr44` is created in the `MPM3S` folder.
+As in [Tutorial 1](Tutorial_1.md#setting-up-and-running-the-problem), open a terminal, start Julia with every CPU thread available (`-t auto`), then move into the folder where you downloaded MPM3S, activate it, install its dependencies with `Pkg.instantiate()` and load MPM3S. The output folders are created in the `MPM3S` folder.
 
 ### Running the problem
 
 Julia is now running in the `MPM3S` folder and MPM3S loaded. The JSON file for this problem is loaded with MPM3S and is stored in the folder `validation_data_and_jsons`, the simulations are started with:
 
 ```
-MPM3S.non_linear_solve("validation_data_and_jsons/input_data_plough_dr44.json");
+MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");
 ```
 
-This is a large analysis, run on an NVIDIA GPU (`"GPU": "on"`); without one, set `"GPU": "off"` and run it on an HPC node.
+The analysis runs on a workstation CPU but takes a while; set `"GPU": "on"` if a GPU is available.
 
 #### Reading the output
 
-The progress line works as in [Tutorial 1](Tutorial_1.md#reading-the-output), counting through `stage 1/3`, `stage 2/3` and `stage 3/3`:
+Before the first time step, MPM3S reports the rigid body surface placement: the lowest point of the sphere (`body base`) and the top of the material domain (`material top`) are both at $0.8$ m, so the sphere is moved by only `Δz = 1.87755e-7` m.
 
-- **Stage 1:** the uniform mesh fills the whole $102.4$ m background cube with $3.2$ m elements, $32^3$ of them, hence $33^3 = 35\,937$ nodes (`N`).
-- **Start of stage 2:** MPM3S reports the rigid body surface placement: the plough's base (`body base`) is moved by `Δz` to the soil surface (`material top`), which has settled slightly below $20.8$ m under the weight of the sand.
-- **Stages 2 and 3:** `N` now counts the nodes of the active window of soil inside the boundary track, refined around the plough. Steps that do not converge are retried with half the increment (`cuts`), and material points next to the plough that become too distorted are deleted (`del`).
-- **End of the analysis:** the last line shows the $6617$ steps of the whole analysis - $5$ load steps, then $1586$ and $5000$ time steps, plus the extra steps from the $6$ cuts - with $248$ material points deleted and $35\,413$ nodes in the refined window.
+The progress line works as in [Tutorial 1](Tutorial_1.md#reading-the-output), except that in a dynamic stage `t` is the simulated time, out of the $1$ s final time. The $200$ time steps of `Δt 0.005` s end at `step 201`, each converging in about 4 Newton-Raphson iterations (`NR`) with no steps cut or material points deleted. `N` is large, over $100\,000$ nodes, because the mesh is refined to $0.025$ m around the sphere.
 
 </div>
 
@@ -461,8 +373,9 @@ julia> Pkg.instantiate()
 
 julia> using MPM3S
 
-julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_plough_dr44.json");
-stage 3/3 ████████████ 100.0% t 250.0/250.0 step 6617 Δt 0.05 NR 5 cuts 6 del 248 N 35413
+julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_sphere.json");
+[ Info: rigid body surface placement: body base 0.8 → material top 0.8   Δz = 1.87755e-7
+stage 1/1 ████████████ 100.0% t 1.0/1.0 step 201 Δt 0.005 NR 4 cuts 0 del 0 N 109572
 ```
 
 </div>
@@ -473,32 +386,62 @@ stage 3/3 ████████████ 100.0% t 250.0/250.0 step 6617 Δ
 
 ## Viewing the results
 
-### Tow force
+!!! note "Watching the sphere roll"
+    The VTK files in `path/to/MPM3S/vtk_sphere_mu0.2` can be opened in ParaView to watch the sphere roll, following the same steps as for the compression cube in [Tutorial 2](Tutorial_2.md#visualising-the-output-in-paraview). Everything needed to check the result is in `rigid_body.csv`, used below.
 
-`csv_plough_dr44/rigid_body.csv` has one row per output step, through all three stages, with columns for the plough's point, `body1`. The `time` column restarts at the start of each stage.
+### Distance travelled
 
-- **Tow force:** `body1_reaction force_x` is the force the soil exerts on the plough in $x$. It opposes the motion, so the force needed to tow the plough is minus this. Only half the plough is modelled, so the force on the whole plough is twice that.
-- **Travel:** `body1_position_x` minus its value at the start. The plough first moves in $x$ in stage 2, and reaches its full depth at the start of stage 3.
+`csv_sphere_mu0.2/rigid_body.csv` has one row per time step. The distance travelled is $d_x = $ `body1_position_x` $- 1.5$ m, to be plotted against the `time` column and compared with $d_x(t)$ from the [Problem description](#problem-description). When the sphere sticks, it rolls without slipping, so `body1_angular velocity_y` equals `body1_velocity_x` (the radius is $1$ m); when it slips, the angular velocity lags behind.
 
-**Reference tow force:** Robinson et al. [@robinson2021cone] towed a $1/50$ scale model of a cable plough, with the same $375$ mm wide share, through dry sand in a centrifuge at $50g$. In their test SR27, in sand at $D_r = 43\%$, the plough ran at a final depth of $1.85$ m with a steady horizontal tow force of $0.17$ kN at model scale, $426$ kN at full scale (forces scale by $50^2$ in the centrifuge). The model plough's mass corresponds to $45$ t at full scale, so part of that force is friction from the plough's weight, which the weightless plough here does not have.
-
-The short Julia script below plots the tow force on the whole plough against its horizontal travel through the whole run, with the measured $426$ kN, and marks the start of stage 3. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `plough_force.jl` and running `include("plough_force.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
+The short Julia script below compares the distance travelled with the analytical solution. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `distance.jl` and running `include("distance.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
 
 ```julia
 using DelimitedFiles, Plots
 
-data, header = readdlm("csv_plough_dr44/rigid_body.csv", ',', Float64; header=true)
+# one row per time step for the sphere's point, body1
+data, header = readdlm("csv_sphere_mu0.2/rigid_body.csv", ',', Float64; header=true)
 column(name) = data[:, findfirst(==(name), vec(header))]
+t  = column("time")
+dx = column("body1_position_x") .- 1.5   # distance travelled (m)
 
-x  = column("body1_position_x")
-F  = -2 .* column("body1_reaction force_x") ./ 1e3   # tow force on the whole plough (kN)
-s3 = findlast(diff(column("time")) .< 0) + 1         # first row of stage 3: where the time last restarts
+# analytical solution: the sphere slips if tan θ > 3.5 μ, otherwise it rolls without slipping
+g, θ, μ = 9.81, π/4, 0.2
+slipping = tan(θ) > 3.5μ
+a = slipping ? g * (sin(θ) - μ * cos(θ)) : 5/7 * g * sin(θ)   # acceleration along x (m/s²)
+dx_exact = a .* t.^2 ./ 2
 
-plot(x .- x[1], F, label="MPM3S", xlabel="horizontal travel (m)", ylabel="tow force (kN)", ylims=(0, 1.05 * maximum(F)))
-hline!([426], linestyle=:dash, label="centrifuge, 426 kN")
-vline!([x[s3] - x[1]], linestyle=:dot, color=:gray, label="start of stage 3")
+println(slipping ? "slipping" : "sticking")
+println("distance after 1 s: MPM3S ", round(dx[end], digits=3), " m, analytical ", round(dx_exact[end], digits=3), " m")
+
+plot(t, dx_exact, label="analytical", xlabel="time (s)", ylabel="distance travelled (m)")
+scatter!(t[1:5:end], dx[1:5:end], label="MPM3S", markersize=3)
 ```
 
-![Tow force on the whole plough against horizontal travel through stages 2 and 3, with the 426 kN measured in the centrifuge.](../../img/Tutorial_4/plough_force.png){ #fig-plough-force width="50%" }
+For this run it prints:
 
-While the plough is driven down in stage 2, the tow force rises steadily, to about $1600$ kN when it reaches its full depth after $15.9$ m. Much of this comes from forcing the plough down: the soil pushes up on it with a force between two and a half and three times the tow force, and the friction from that acts against the motion. Once the plough runs level in stage 3, the upward force falls away, to about $110$ kN, and over the next $8$ m the tow force drops to a steady value. Over the rest of the run it stays between $470$ and $535$ kN, with a mean of $500$ kN, $17\%$ above the $426$ kN measured in the centrifuge. Part of the measured force is friction from the model plough's weight, which the weightless plough here does not have.
+```text
+slipping
+distance after 1 s: MPM3S 2.77 m, analytical 2.775 m
+```
+
+![Distance travelled by the sphere against time for mu = 0.2, compared with the analytical slipping solution.](../../img/Tutorial_4/distance_travelled.png){ #fig-sphere-distance width="50%" }
+
+The second script, run after the first, compares the speed of the sphere's centre, $v_x$, with the speed of its surface, $r\omega$. With $\mu = 0.2$ the sphere slips, so $r\omega$ grows more slowly than $v_x$; with $\mu \geq 0.286$ it rolls without slipping and the two lines lie on top of each other.
+
+```julia
+# run after distance.jl, which reads the data and sets t, g, θ, μ, a and slipping
+vx = column("body1_velocity_x")           # speed of the centre (m/s)
+ω  = column("body1_angular velocity_y")   # spin (rad/s)
+r  = 1.0                                   # sphere radius (m)
+
+# analytical: the centre speeds up at a; while slipping, friction spins the sphere up at 5μg cos θ / 2r
+v_exact  = a .* t
+rω_exact = slipping ? 2.5 * μ * g * cos(θ) .* t : v_exact
+
+plot(t, v_exact, label="v_x analytical", xlabel="time (s)", ylabel="speed (m/s)")
+plot!(t, rω_exact, label="r ω analytical")
+scatter!(t[1:5:end], vx[1:5:end], label="v_x MPM3S", markersize=3)
+scatter!(t[1:5:end], r .* ω[1:5:end], label="r ω MPM3S", markersize=3)
+```
+
+![Speed of the sphere's centre and of its surface against time for mu = 0.2, compared with the analytical slipping solution.](../../img/Tutorial_4/sphere_slip.png){ #fig-sphere-slip width="50%" }

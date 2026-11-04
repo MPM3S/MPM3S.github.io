@@ -102,10 +102,10 @@ Click an animation to open its tutorial.
 <figcaption><a href="../TutorialProblems/Tutorial_2/">Tutorial 2: Compaction via a rigid body</a></figcaption></figure>
 <figure><a href="../TutorialProblems/Tutorial_3/"><img src="../../img/gifs/CPT_dr32.gif" alt="The cone pushed into the sand, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
 <figcaption><a href="../TutorialProblems/Tutorial_3/">Tutorial 3: Cone Penetration Test</a></figcaption></figure>
-<figure><a href="../TutorialProblems/Tutorial_4/"><img src="../../img/gifs/plough_dr44.gif" alt="The plough driven down into the sand and along it, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
-<figcaption><a href="../TutorialProblems/Tutorial_4/">Tutorial 4: Plough</a></figcaption></figure>
-<figure><a href="../TutorialProblems/Tutorial_5/"><img src="../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope with μ = 0.2, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
-<figcaption><a href="../TutorialProblems/Tutorial_5/">Tutorial 5: Rolling sphere</a></figcaption></figure>
+<figure><a href="../TutorialProblems/Tutorial_4/"><img src="../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope with μ = 0.2, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_4/">Tutorial 4: Rolling sphere</a></figcaption></figure>
+<figure><a href="../TutorialProblems/Tutorial_5/"><img src="../../img/gifs/plough_dr44.gif" alt="The plough driven down into the sand and along it, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
+<figcaption><a href="../TutorialProblems/Tutorial_5/">Tutorial 5: Plough</a></figcaption></figure>
 <figure><a href="../TutorialProblems/Tutorial_6/"><img src="../../img/gifs/AC14_dr32.gif" alt="The AC-14 anchor dragged through the sand, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
 <figcaption><a href="../TutorialProblems/Tutorial_6/">Tutorial 6: Drag anchor</a></figcaption></figure>
 </div>

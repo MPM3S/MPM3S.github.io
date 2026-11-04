@@ -67,18 +67,7 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
 <div class="grid cards tutorial-cards" markdown>
 
--   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1 13.6 L2.4 12.2 L12.8 6 L12.8 8.4 Z"/><path fill="currentColor" d="M0.8 12.8 H2.5 V17 H0.8 Z"/><path fill="currentColor" d="M0.4 16 L13 11.4 L13.4 13.4 L1.2 17.9 L0.4 17.9 Z"/><path fill="currentColor" d="M8 14 L10.6 13 L9.4 19.6 Z"/><path fill="currentColor" d="M12.6 4.4 H17.6 V9.8 H12.6 Z"/><path fill="currentColor" d="M13.4 9.4 H15 V17.4 H13.4 Z M16 9.4 H17.6 V17.4 H16 Z"/><path fill="currentColor" d="M12 17 H21 L23 15 L24 15.9 L21.8 18.9 H12 Z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M17.6 6.6 L23.3 4.8"/></svg></span> __Tutorial 4 - Plough__
-
-    ---
-
-    <span class="level level-advanced">Advanced</span> ~1 to 1.5 h work through · approx. run 2 h (GPU)
-
-    A half-symmetric plough driven through dry sand on a prescribed path: down to 1.85 m over two plough lengths, then level for 25 m. A fully prescribed rigid body with frictional contact and a moving window of soil; the tow force is compared with 426 kN measured in centrifuge tests.
-
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_4.md) <img class="card-gif" src="../../../img/gifs/plough_dr44.gif" alt="The plough driven through the sand." loading="lazy">
-    { .card-foot }
-
--   :material-rotate-right:{ .lg .middle } __Tutorial 5 - Rolling sphere__
+-   :material-rotate-right:{ .lg .middle } __Tutorial 4 - Rolling sphere__
 
     ---
 
@@ -86,7 +75,18 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     A rigid sphere rolling down a 45° slope, with a friction-coefficient sweep checked against the analytical slip/stick solution. Introduces dynamic stages, a free rigid body and a boundary track that follows the sphere.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_5.md) <img class="card-gif" src="../../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope." loading="lazy">
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_4.md) <img class="card-gif" src="../../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope." loading="lazy">
+    { .card-foot }
+
+-   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1 13.6 L2.4 12.2 L12.8 6 L12.8 8.4 Z"/><path fill="currentColor" d="M0.8 12.8 H2.5 V17 H0.8 Z"/><path fill="currentColor" d="M0.4 16 L13 11.4 L13.4 13.4 L1.2 17.9 L0.4 17.9 Z"/><path fill="currentColor" d="M8 14 L10.6 13 L9.4 19.6 Z"/><path fill="currentColor" d="M12.6 4.4 H17.6 V9.8 H12.6 Z"/><path fill="currentColor" d="M13.4 9.4 H15 V17.4 H13.4 Z M16 9.4 H17.6 V17.4 H16 Z"/><path fill="currentColor" d="M12 17 H21 L23 15 L24 15.9 L21.8 18.9 H12 Z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M17.6 6.6 L23.3 4.8"/></svg></span> __Tutorial 5 - Plough__
+
+    ---
+
+    <span class="level level-advanced">Advanced</span> ~1 to 1.5 h work through · approx. run 30 min (GPU), 5 h (CPU)
+
+    A half-symmetric plough driven through dry sand on a prescribed path: down to 1.85 m over two plough lengths, then level for 25 m. Adds Tutorial 3's soil model to Tutorial 4's dynamics and moving boundaries, with a fully prescribed rigid body; the tow force is compared with 426 kN measured in centrifuge tests.
+
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_5.md) <img class="card-gif" src="../../../img/gifs/plough_dr44.gif" alt="The plough driven through the sand." loading="lazy">
     { .card-foot }
 
 -   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M0.8 2.6 H3.6 L4.4 4.2 V19.8 L3.6 21.4 H0.8 Z"/><path fill="currentColor" d="M4.4 3.8 L15.4 8.4 V9.4 L4.4 10.4 Z"/><path fill="currentColor" d="M4.4 20.2 L15.4 15.6 V14.6 L4.4 13.6 Z"/><path fill="currentColor" d="M4.4 11 H20.4 V13 H4.4 Z"/><path fill="currentColor" fill-rule="evenodd" d="M21.4 9.9 A2.1 2.1 0 1 1 21.39 9.9 Z M21.4 11.2 A0.8 0.8 0 1 0 21.41 11.2 Z"/></svg></span> __Tutorial 6 - Drag anchor__
@@ -95,7 +95,7 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     <span class="level level-advanced">Advanced</span> ~1.5 to 2 h work through · approx. run 45 min (GPU), 6 h (CPU)
 
-    A half-symmetric AC-14 drag anchor pulled through submerged sand. Combines Tutorial 3's soil model and Tutorial 5's dynamics and moving boundaries with an anchor of two hinged parts, an angle stop and a pull line, over three stages.
+    A half-symmetric AC-14 drag anchor pulled through submerged sand. Combines Tutorial 3's soil model and Tutorial 4's dynamics and moving boundaries with an anchor of two hinged parts, an angle stop and a pull line, over three stages.
 
     [:octicons-arrow-right-24: Open the tutorial](Tutorial_6.md) <img class="card-gif" src="../../../img/gifs/AC14_dr32.gif" alt="The AC-14 anchor dragged through the sand." loading="lazy">
     { .card-foot }
