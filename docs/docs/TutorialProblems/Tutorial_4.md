@@ -9,15 +9,16 @@ hide:
 <div class="tutorial-facts level-advanced-strip">
 <span class="level level-advanced">Advanced</span>
 <span><strong>Work through time:</strong> about 1 to 1.5 h</span>
-<span><strong>Approx. run time:</strong> to be added (GPU)</span>
+<span><strong>Approx. run time:</strong> about 2 h on a GPU</span>
 <span class="facts-note">You can run every tutorial on your own hardware: the RAM decides whether a problem fits, and the number of CPU or GPU cores how long it takes. The run times are approximate, to give an idea of the hardware needed.</span>
 </div>
+<img class="gif-box" src="../../../img/gifs/plough_dr44.gif" alt="The plough driven down into the sand and along it, coloured by displacement magnitude.">
 </div>
 
 ## Introduction
-This tutorial drives a plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with a reference value of $810$ kN, from the centrifuge tests of Robinson et al. [@robinson2019centrifuge].
+This tutorial drives a plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with the $426$ kN measured in the centrifuge tests of Robinson et al. [@robinson2021cone].
 
-The problem uses the gravity stage from [Tutorial 1](Tutorial_1.md), the displacement-controlled rigid body with contact from [Tutorial 2](Tutorial_2.md), the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), and the dynamic time integration, frictional contact and moving boundaries from [Tutorial 5](Tutorial_5.md) and [Tutorial 6](Tutorial_6.md). Unlike the anchor of Tutorial 6, the plough is not free: its whole path is prescribed, so the soil only decides the force needed to move it.
+The problem uses the gravity stage from [Tutorial 1](Tutorial_1.md), the displacement-controlled rigid body with contact from [Tutorial 2](Tutorial_2.md), the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), and the dynamic time integration, frictional contact and moving boundaries from [Tutorial 5](Tutorial_5.md) and [Tutorial 6](Tutorial_6.md). Unlike the anchor of Tutorial 6, the plough is not free: its whole path is prescribed, so the soil only decides the force needed to move it. The contact between the GIMPs and the plough uses the dynamic implicit 3D material point-to-rigid body contact approach of Bird et al. [@bird_dynamic_2025].
 
 This tutorial has four sections:
 
@@ -441,6 +442,7 @@ The progress line works as in [Tutorial 1](Tutorial_1.md#reading-the-output), co
 - **Stage 1:** the uniform mesh fills the whole $102.4$ m background cube with $3.2$ m elements, $32^3$ of them, hence $33^3 = 35\,937$ nodes (`N`).
 - **Start of stage 2:** MPM3S reports the rigid body surface placement: the plough's base (`body base`) is moved by `Δz` to the soil surface (`material top`), which has settled slightly below $20.8$ m under the weight of the sand.
 - **Stages 2 and 3:** `N` now counts the nodes of the active window of soil inside the boundary track, refined around the plough. Steps that do not converge are retried with half the increment (`cuts`), and material points next to the plough that become too distorted are deleted (`del`).
+- **End of the analysis:** the last line shows the $6617$ steps of the whole analysis - $5$ load steps, then $1586$ and $5000$ time steps, plus the extra steps from the $6$ cuts - with $248$ material points deleted and $35\,413$ nodes in the refined window.
 
 </div>
 
@@ -460,6 +462,7 @@ julia> Pkg.instantiate()
 julia> using MPM3S
 
 julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_plough_dr44.json");
+stage 3/3 ████████████ 100.0% t 250.0/250.0 step 6617 Δt 0.05 NR 5 cuts 6 del 248 N 35413
 ```
 
 </div>
@@ -472,37 +475,30 @@ julia> MPM3S.non_linear_solve("validation_data_and_jsons/input_data_plough_dr44.
 
 ### Tow force
 
-`csv_plough_dr44/rigid_body.csv` has one row per output step, through all three stages, with columns for the plough's point, `body1`:
+`csv_plough_dr44/rigid_body.csv` has one row per output step, through all three stages, with columns for the plough's point, `body1`. The `time` column restarts at the start of each stage.
 
 - **Tow force:** `body1_reaction force_x` is the force the soil exerts on the plough in $x$. It opposes the motion, so the force needed to tow the plough is minus this. Only half the plough is modelled, so the force on the whole plough is twice that.
-- **Travel:** `body1_position_x` minus its value at the start of stage 2. The plough does not move in $x$ before then.
+- **Travel:** `body1_position_x` minus its value at the start. The plough first moves in $x$ in stage 2, and reaches its full depth at the start of stage 3.
 
-**Reference tow force:** Robinson et al. [@robinson2019centrifuge] predict the tow force of a plough as $F = C_w W' + C_s \gamma' D^3$, plus a rate term that is zero for drained ploughing. The first term is friction from the plough's own weight $W'$; the plough here has no weight, so only the second, depth-dependent term applies. With $C_s = 12.9$, their value for medium-dense sand, $\gamma' = 9.89$ kN/m$^3$ and $D = 1.85$ m, it is $810$ kN.
+**Reference tow force:** Robinson et al. [@robinson2021cone] towed a $1/50$ scale model of a cable plough, with the same $375$ mm wide share, through dry sand in a centrifuge at $50g$. In their test SR27, in sand at $D_r = 43\%$, the plough ran at a final depth of $1.85$ m with a steady horizontal tow force of $0.17$ kN at model scale, $426$ kN at full scale (forces scale by $50^2$ in the centrifuge). The model plough's mass corresponds to $45$ t at full scale, so part of that force is friction from the plough's weight, which the weightless plough here does not have.
 
-The short Julia script below plots the tow force on the whole plough against its horizontal travel, with the reference value of $810$ kN, and prints the mean tow force in stage 3, once the plough has reached its full depth. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `plough_force.jl` and running `include("plough_force.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
+The short Julia script below plots the tow force on the whole plough against its horizontal travel through the whole run, with the measured $426$ kN, and marks the start of stage 3. Run it from the `MPM3S` folder, either by copying it into the REPL or by saving it as `plough_force.jl` and running `include("plough_force.jl")`. It needs [Plots](https://docs.juliaplots.org/), installed as described in [Tutorial 1](Tutorial_1.md#analysing-the-stress-variation-with-height).
 
 ```julia
 using DelimitedFiles, Plots
 
-# one row per output step, through all three stages
 data, header = readdlm("csv_plough_dr44/rigid_body.csv", ',', Float64; header=true)
 column(name) = data[:, findfirst(==(name), vec(header))]
-x  = column("body1_position_x")         # the plough (m)
-Fx = column("body1_reaction force_x")   # force of the soil on the half plough (N)
 
-travel = x .- x[1]                      # horizontal travel since the start of stage 2 (m)
-force  = -2 .* Fx ./ 1e3                # tow force on the whole plough: twice the half model (kN)
+x  = column("body1_position_x")
+F  = -2 .* column("body1_reaction force_x") ./ 1e3   # tow force on the whole plough (kN)
+s3 = findlast(diff(column("time")) .< 0) + 1         # first row of stage 3: where the time last restarts
 
-# stage 3: the plough reaches its full depth, 1.85 m, after two plough lengths
-L = 7.93
-steady = travel .> 2L
-println("mean tow force in stage 3: ", round(sum(force[steady]) / count(steady)), " kN, reference 810 kN")
-
-plot(travel, force, label="MPM3S", xlabel="horizontal travel (m)", ylabel="tow force (kN)", legend=:bottomright)
-hline!([810], linestyle=:dash, label="reference, 810 kN")
-vline!([2L], linestyle=:dot, color=:gray, label="full depth reached")
+plot(x .- x[1], F, label="MPM3S", xlabel="horizontal travel (m)", ylabel="tow force (kN)", ylims=(0, 1.05 * maximum(F)))
+hline!([426], linestyle=:dash, label="centrifuge, 426 kN")
+vline!([x[s3] - x[1]], linestyle=:dot, color=:gray, label="start of stage 3")
 ```
 
-<!-- After the reference run: add what the script prints, and the figure, e.g.
-![Tow force on the whole plough against horizontal travel, with the reference value of 810 kN.](../../img/Tutorial_4/plough_force.png){ #fig-plough-force width="50%" }
--->
+![Tow force on the whole plough against horizontal travel through stages 2 and 3, with the 426 kN measured in the centrifuge.](../../img/Tutorial_4/plough_force.png){ #fig-plough-force width="50%" }
+
+While the plough is driven down in stage 2, the tow force rises steadily, to about $1600$ kN when it reaches its full depth after $15.9$ m. Much of this comes from forcing the plough down: the soil pushes up on it with a force between two and a half and three times the tow force, and the friction from that acts against the motion. Once the plough runs level in stage 3, the upward force falls away, to about $110$ kN, and over the next $8$ m the tow force drops to a steady value. Over the rest of the run it stays between $470$ and $535$ kN, with a mean of $500$ kN, $17\%$ above the $426$ kN measured in the centrifuge. Part of the measured force is friction from the model plough's weight, which the weightless plough here does not have.

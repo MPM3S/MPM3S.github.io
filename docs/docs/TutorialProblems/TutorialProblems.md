@@ -71,11 +71,11 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 
     ---
 
-    <span class="level level-advanced">Advanced</span> ~1 to 1.5 h work through · approx. run to be added (GPU)
+    <span class="level level-advanced">Advanced</span> ~1 to 1.5 h work through · approx. run 2 h (GPU)
 
-    A half-symmetric plough driven through dry sand on a prescribed path: down to 1.85 m over two plough lengths, then level for 25 m. A fully prescribed rigid body with frictional contact and a moving window of soil; the tow force is compared with 810 kN from centrifuge tests.
+    A half-symmetric plough driven through dry sand on a prescribed path: down to 1.85 m over two plough lengths, then level for 25 m. A fully prescribed rigid body with frictional contact and a moving window of soil; the tow force is compared with 426 kN measured in centrifuge tests.
 
-    [:octicons-arrow-right-24: Open the tutorial](Tutorial_4.md)
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_4.md) <img class="card-gif" src="../../../img/gifs/plough_dr44.gif" alt="The plough driven through the sand." loading="lazy">
     { .card-foot }
 
 -   :material-rotate-right:{ .lg .middle } __Tutorial 5 - Rolling sphere__
