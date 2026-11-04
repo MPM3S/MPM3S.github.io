@@ -32,7 +32,7 @@ window.MPM3S_TEMPLATES = [
       "thickness": 50.0,
       "material": {
        "type": "elastic",
-       "E": 1.0e4,
+       "E": 10000.0,
        "nu": 0.0,
        "density": 80.0
       }
@@ -422,7 +422,7 @@ window.MPM3S_TEMPLATES = [
   }
  },
  {
-  "name": "Tutorial 5 - Rolling sphere",
+  "name": "Tutorial 4 - Rolling sphere",
   "file": "input_data_sphere.json",
   "json": {
    "GPU": "off",
@@ -595,6 +595,319 @@ window.MPM3S_TEMPLATES = [
      "velocity",
      "acceleration",
      "angular velocity"
+    ]
+   }
+  }
+ },
+ {
+  "name": "Tutorial 5 - Plough",
+  "file": "input_data_plough_dr44.json",
+  "json": {
+   "GPU": "on",
+   "domain": {
+    "gravity": [
+     0.0,
+     0.0,
+     -9.81
+    ]
+   },
+   "material points": {
+    "extra capacity": 1.2,
+    "element size": 5.0,
+    "number of material points per element 1": 2,
+    "material size": {
+     "min": [
+      0.0,
+      0.0
+     ],
+     "max": [
+      100.0,
+      20.0
+     ]
+    },
+    "layers": [
+     {
+      "thickness": 20.0,
+      "material": {
+       "type": "willam warnke",
+       "E": 26400000.0,
+       "nu": 0.25,
+       "friction angle": 33.5,
+       "dilation angle": 3.5,
+       "cohesion": 300.0,
+       "density": 1676.0,
+       "E overburden": {
+        "reference stress": 223183.0,
+        "exponent": 0.5625
+       }
+      }
+     }
+    ]
+   },
+   "rigid bodies": [
+    {
+     "offset": [
+      5.0,
+      0.0,
+      20.0
+     ],
+     "points": [
+      {
+       "position": [
+        4.54906,
+        0.0,
+        1.244252
+       ],
+       "mass": 1.0,
+       "rotational inertia": [
+        1.0,
+        1.0,
+        1.0
+       ],
+       "boundary conditions": [
+        "fixed",
+        "fixed",
+        "fixed",
+        "fixed",
+        "fixed",
+        "fixed"
+       ]
+      }
+     ],
+     "stl files": [
+      {
+       "name": "plough",
+       "stl": "plough.stl",
+       "mesh cache": "plough_mesh.txt",
+       "point": 1
+      }
+     ]
+    }
+   ],
+   "contact": {
+    "friction coefficient": 0.3
+   },
+   "analysis": [
+    {
+     "type": "static",
+     "load steps": 5,
+     "load": "gravity ramp",
+     "rigid bodies": "off",
+     "adaptivity": {
+      "type": "uniform"
+     },
+     "boundary conditions": {
+      "min": [
+       "roller",
+       "roller",
+       "fixed"
+      ],
+      "max": [
+       "roller",
+       "roller",
+       "fixed"
+      ]
+     }
+    },
+    {
+     "type": "dynamic",
+     "dt": 0.05,
+     "final time": 79.3,
+     "beta": 0.5,
+     "gamma": 1.0,
+     "rigid bodies": "on",
+     "rigid body surface placement": "on",
+     "adaptivity": {
+      "type": "rigid body surface",
+      "element size": 0.05
+     },
+     "rigid body boundary conditions": [
+      {
+       "system": 1,
+       "point": 1,
+       "boundary conditions": [
+        {
+         "prescribed": 0.01
+        },
+        "fixed",
+        {
+         "prescribed": -0.0011664565
+        },
+        "fixed",
+        "fixed",
+        "fixed"
+       ]
+      }
+     ],
+     "boundary conditions": {
+      "min": [
+       "fixed",
+       "roller",
+       "fixed"
+      ],
+      "max": [
+       "roller",
+       "roller",
+       "fixed"
+      ]
+     },
+     "boundary track": {
+      "min": {
+       "type": [
+        "fixed",
+        "off",
+        "off"
+       ],
+       "distance": [
+        5.0,
+        0.0,
+        0.0
+       ],
+       "advance": [
+        "positive",
+        "positive",
+        "positive"
+       ],
+       "remove": [
+        "yes",
+        "no",
+        "no"
+       ]
+      },
+      "max": {
+       "type": [
+        "fixed",
+        "off",
+        "off"
+       ],
+       "distance": [
+        10.0,
+        0.0,
+        0.0
+       ],
+       "advance": [
+        "positive",
+        "positive",
+        "positive"
+       ],
+       "remove": [
+        "no",
+        "no",
+        "no"
+       ]
+      }
+     }
+    },
+    {
+     "type": "dynamic",
+     "dt": 0.05,
+     "final time": 250.0,
+     "beta": 0.5,
+     "gamma": 1.0,
+     "rigid bodies": "on",
+     "rigid body surface placement": "off",
+     "adaptivity": {
+      "type": "rigid body surface",
+      "element size": 0.05
+     },
+     "rigid body boundary conditions": [
+      {
+       "system": 1,
+       "point": 1,
+       "boundary conditions": [
+        {
+         "prescribed": 0.005
+        },
+        "fixed",
+        "fixed",
+        "fixed",
+        "fixed",
+        "fixed"
+       ]
+      }
+     ],
+     "boundary conditions": {
+      "min": [
+       "fixed",
+       "roller",
+       "fixed"
+      ],
+      "max": [
+       "roller",
+       "roller",
+       "fixed"
+      ]
+     },
+     "boundary track": {
+      "min": {
+       "type": [
+        "fixed",
+        "off",
+        "off"
+       ],
+       "distance": [
+        5.0,
+        0.0,
+        0.0
+       ],
+       "advance": [
+        "positive",
+        "positive",
+        "positive"
+       ],
+       "remove": [
+        "yes",
+        "no",
+        "no"
+       ]
+      },
+      "max": {
+       "type": [
+        "fixed",
+        "off",
+        "off"
+       ],
+       "distance": [
+        10.0,
+        0.0,
+        0.0
+       ],
+       "advance": [
+        "positive",
+        "positive",
+        "positive"
+       ],
+       "remove": [
+        "no",
+        "no",
+        "no"
+       ]
+      }
+     }
+    }
+   ],
+   "solver": {
+    "tolerance": 1e-06,
+    "max newton iterations": 20,
+    "poor factor": 0.25,
+    "ghost factor": 0.025,
+    "ghost factor mass": 0.25
+   },
+   "output": {
+    "vtk": "off",
+    "csv": "on",
+    "csv directory": "csv_plough_dr44",
+    "csv percent": 0.25,
+    "csv material point fields": [
+     "initial position",
+     "position",
+     "stress"
+    ],
+    "csv rigid body fields": [
+     "position",
+     "velocity",
+     "reaction force",
+     "reaction moment"
     ]
    }
   }
