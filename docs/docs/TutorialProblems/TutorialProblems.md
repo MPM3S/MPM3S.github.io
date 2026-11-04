@@ -59,16 +59,6 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
     [:octicons-arrow-right-24: Open the tutorial](Tutorial_3.md) <img class="card-gif" src="../../../img/gifs/CPT_dr32.gif" alt="The cone pushed into the sand." loading="lazy">
     { .card-foot }
 
--   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1 13.6 L2.4 12.2 L12.8 6 L12.8 8.4 Z"/><path fill="currentColor" d="M0.8 12.8 H2.5 V17 H0.8 Z"/><path fill="currentColor" d="M0.4 16 L13 11.4 L13.4 13.4 L1.2 17.9 L0.4 17.9 Z"/><path fill="currentColor" d="M8 14 L10.6 13 L9.4 19.6 Z"/><path fill="currentColor" d="M12.6 4.4 H17.6 V9.8 H12.6 Z"/><path fill="currentColor" d="M13.4 9.4 H15 V17.4 H13.4 Z M16 9.4 H17.6 V17.4 H16 Z"/><path fill="currentColor" d="M12 17 H21 L23 15 L24 15.9 L21.8 18.9 H12 Z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M17.6 6.6 L23.3 4.8"/></svg></span> __Tutorial 4 - Plough (horizontal penetration)__
-
-    ---
-
-    <span class="level level-advanced">Advanced</span> *coming soon*
-
-    A seabed cable plough dragged through dry sand: a non-convex rigid body, a Signorini exit-face condition, and refinement that travels with the plough across 20 m.
-
-    *Coming soon*
-
 </div>
 
 ## Dynamic
@@ -76,6 +66,17 @@ Quasi-static problems solved with Newton-Raphson over a sequence of load steps.
 Implicit dynamic problems using the same Newton-Raphson framework, with inertia and time integration.
 
 <div class="grid cards tutorial-cards" markdown>
+
+-   <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1 13.6 L2.4 12.2 L12.8 6 L12.8 8.4 Z"/><path fill="currentColor" d="M0.8 12.8 H2.5 V17 H0.8 Z"/><path fill="currentColor" d="M0.4 16 L13 11.4 L13.4 13.4 L1.2 17.9 L0.4 17.9 Z"/><path fill="currentColor" d="M8 14 L10.6 13 L9.4 19.6 Z"/><path fill="currentColor" d="M12.6 4.4 H17.6 V9.8 H12.6 Z"/><path fill="currentColor" d="M13.4 9.4 H15 V17.4 H13.4 Z M16 9.4 H17.6 V17.4 H16 Z"/><path fill="currentColor" d="M12 17 H21 L23 15 L24 15.9 L21.8 18.9 H12 Z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M17.6 6.6 L23.3 4.8"/></svg></span> __Tutorial 4 - Plough__
+
+    ---
+
+    <span class="level level-advanced">Advanced</span> ~1 to 1.5 h work through · approx. run to be added (GPU)
+
+    A half-symmetric plough driven through dry sand on a prescribed path: down to 1.85 m over two plough lengths, then level for 25 m. A fully prescribed rigid body with frictional contact and a moving window of soil; the tow force is compared with 810 kN from centrifuge tests.
+
+    [:octicons-arrow-right-24: Open the tutorial](Tutorial_4.md)
+    { .card-foot }
 
 -   :material-rotate-right:{ .lg .middle } __Tutorial 5 - Rolling sphere__
 
@@ -104,4 +105,4 @@ Implicit dynamic problems using the same Newton-Raphson framework, with inertia 
 ## Reference input data
 
 Every tutorial's complete `input_data.json`, with a clickable note on each part - copy one as the starting point for your own problem:
-[Tutorial 1](Tutorial_1_input_data.md) · [Tutorial 2](Tutorial_2_input_data.md) · [Tutorial 3](Tutorial_3_input_data.md) · [Tutorial 5](Tutorial_5_input_data.md) · [Tutorial 6](Tutorial_6_input_data.md)
+[Tutorial 1](Tutorial_1_input_data.md) · [Tutorial 2](Tutorial_2_input_data.md) · [Tutorial 3](Tutorial_3_input_data.md) · [Tutorial 4](Tutorial_4_input_data.md) · [Tutorial 5](Tutorial_5_input_data.md) · [Tutorial 6](Tutorial_6_input_data.md)
