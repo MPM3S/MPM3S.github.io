@@ -2392,6 +2392,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../Cite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cite this work
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../project/" class="md-nav__link">
         
   
@@ -2617,7 +2644,7 @@
 <p class="lead">MPM3S is software for large-deformation soil–structure interaction problems, using the Material Point Method (MPM).</p>
 
 <div class="hero-carousel">
-<a class="hero" href="../TutorialProblems/Tutorial_6/" title="Tutorial 6: Drag anchor"><img class="gif-box" src="../../img/gifs/AC14_dr32_hero_first.png" width="1000" height="372" alt="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."></a>
+<a class="hero" href="../TutorialProblems/Tutorial_6/"><img class="gif-box" src="../../img/gifs/AC14_dr32_hero_first.png" width="1000" height="372" alt="The AC-14 anchor dragged through sand, coloured by displacement magnitude (Tutorial 6)."><span class="hero-caption">AC14 embedment</span></a>
 <button class="hero-next" type="button" hidden><svg viewbox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg></button>
 </div>
 
@@ -2628,20 +2655,22 @@
    The page starts with a still of the anchor gif's first frame (*_first.png: the same pixels).
    - Where the browser can decode a gif itself (ImageDecoder: Chrome, Edge, Firefox), the frames are drawn
      on a canvas over the img, as they download, so a gif can be held on any frame and started again at will.
-   - Elsewhere (Safari) the img plays the gif, from a fresh blob: address of its bytes each time so that it
-     starts from its first frame, and drawImage copies the frame showing now (Safari draws that frame).
+   - Elsewhere (Safari) the img plays the gif: from its own address the first time, as it downloads, then
+     from a fresh blob: address of its bytes each time so that it starts from its first frame again; and
+     drawImage copies the frame showing now (Safari draws that frame).
    Each gif is downloaded once; the next one is fetched as soon as the one playing has arrived. */
 (function () {
   const box = document.querySelector(".md-typeset .hero-carousel");
   const link = box && box.querySelector(".hero");
   const img = link && link.querySelector("img");
   const next = box && box.querySelector(".hero-next");
-  if (!img || !next || !window.fetch || !window.URL || !window.Promise) return;   // the still stays
+  const cap = link && link.querySelector(".hero-caption");
+  if (!img || !next || !cap || !window.fetch || !window.URL || !window.Promise) return;   // the still stays
   const dir = "../../img/gifs/";
   const slides = [
-    { href: link.getAttribute("href"), title: link.title, alt: img.alt, first: img.getAttribute("src"),
+    { href: link.getAttribute("href"), title: "Tutorial 6: Drag anchor", alt: img.alt, caption: cap.textContent, first: img.getAttribute("src"),
       gif: dir + "AC14_dr32_hero.gif", ms: 16000 },
-    { href: "../TutorialProblems/Tutorial_5/", title: "Tutorial 5: Plough",
+    { href: "../TutorialProblems/Tutorial_5/", title: "Tutorial 5: Plough", caption: "cable burial plough",
       alt: "The plough driven through sand, coloured by displacement magnitude (Tutorial 5).",
       first: dir + "plough_dr44_hero_first.png", gif: dir + "plough_dr44_hero.gif", ms: 16080 },
   ];
@@ -2697,6 +2726,7 @@
     }
   }
   function playImg(s, me) {
+    if (!blobs[s.gif]) return playUrl(s, me);
     return blobOf(s.gif).then((b) => {
       if (me !== run) return;
       fetchAhead(slides[after(slides.indexOf(s))]);
@@ -2710,25 +2740,46 @@
       });
     }).catch(() => { if (me === run) { box.classList.remove("is-loading"); img.src = s.gif; } });
   }
+  function playUrl(s, me) {                       // a gif's first showing: from its address, so it plays as it
+    const loaded = new Promise((res) => {         // downloads (new to the page, so from its first frame), and is
+      const done = () => { img.removeEventListener("load", done); img.removeEventListener("error", done); res(); };
+      img.addEventListener("load", done); img.addEventListener("error", done);
+    });                                           // then copied from the browser's cache for showings after
+    img.src = s.gif;
+    box.classList.remove("is-loading");
+    loaded.then(() => {
+      if (me !== run) return;
+      blobOf(s.gif).catch(() => {});
+      fetchAhead(slides[after(slides.indexOf(s))]);
+    });
+    Promise.all([loaded, new Promise((res) => setTimeout(res, s.ms))]).then(() => ended(me));
+  }
   function play(i) {
     const me = ++run;
     current = i;
     onCanvas ? playCanvas(slides[i], me) : playImg(slides[i], me);
   }
 
-  function layer(el) { el.className = "hero-layer"; el.setAttribute("aria-hidden", "true"); return el; }
+  function layer(el, text) {                      // a picture with its caption, laid over the hero
+    const d = document.createElement("div"), c = document.createElement("span");
+    d.className = "hero-layer"; d.setAttribute("aria-hidden", "true");
+    el.className = "hero-fill";
+    c.className = "hero-caption"; c.textContent = text;
+    d.append(el, c);
+    return d;
+  }
   function frozen() {                             // the picture showing now, on a canvas laid over it
-    const c = layer(document.createElement("canvas"));
+    const c = document.createElement("canvas");
     c.width = view.width; c.height = view.height;
     const x = c.getContext("2d");
     try { x.drawImage(img, 0, 0, c.width, c.height); } catch (e) {}   // the still, or (Safari) the gif's frame now
     if (onCanvas) x.drawImage(view, 0, 0);
-    return c;
+    return layer(c, slides[current].caption);
   }
-  function still(src) {
-    const p = layer(new Image());
-    p.alt = ""; p.src = src;
-    return p.decode().catch(() => {}).then(() => p);
+  function still(s) {
+    const p = new Image();
+    p.alt = ""; p.src = s.first;
+    return p.decode().catch(() => {}).then(() => layer(p, s.caption));
   }
   function move(el, from, to) {
     if (!el.animate) return Promise.resolve();
@@ -2738,7 +2789,7 @@
       .finished.catch(() => {});
   }
   function label() {
-    next.setAttribute("aria-label", "Show the next animation: " + slides[after(current)].title);   // no title: its tooltip lingers
+    next.setAttribute("aria-label", "Show the next animation: " + slides[after(current)].title);   // no titles: their tooltips show under the hero
   }
   function go(i) {
     if (busy) return;
@@ -2747,10 +2798,10 @@
     const s = slides[i], out = frozen();
     link.appendChild(out);
     fetchAhead(s);
-    still(s.first).then((inc) => {
+    still(s).then((inc) => {
       link.appendChild(inc);
       current = i;
-      link.href = s.href; link.title = s.title; img.alt = s.alt;
+      link.href = s.href; img.alt = s.alt; cap.textContent = s.caption;
       label();
       return Promise.all(calm.matches ? [move(inc, 100, 0)] : [move(out, 0, -100), move(inc, 100, 0)])
         .then(() => { img.src = s.first; return img.decode().catch(() => {}); })
@@ -2771,7 +2822,7 @@
     ? ImageDecoder.isTypeSupported("image/gif").catch(() => false) : Promise.resolve(false);
   decodable.then((yes) => {
     onCanvas = !!yes;
-    if (onCanvas) link.appendChild(view);
+    if (onCanvas) link.insertBefore(view, cap);   // under the caption
     label();
     next.hidden = false;
     play(0);
