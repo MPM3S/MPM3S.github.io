@@ -178,9 +178,50 @@ body, input { font-family: var(--md-text-font-family); }
   max-width: min(48rem, 1000px);             /* no bigger than this (1000 px: the gif's own width), */
   margin: 0 auto;                            /* centred when the text is wider */
   aspect-ratio: auto;
+}
+/* the box round the hero, as wide as the gif, so the chevron sits on the gif's right edge */
+.md-typeset .hero-carousel { position: relative; max-width: min(48rem, 1000px); margin: 0 auto; }
+/* the link round the gif: the rounded frame, which clips the frozen frame and the next still as they slide */
+.md-typeset .hero-carousel > .hero {
+  display: block;
+  position: relative;
+  overflow: hidden;
   border-radius: 0.4rem;
   box-shadow: 0 0.2rem 1rem rgba(42, 14, 47, 0.15);
 }
+.md-typeset .hero-carousel .hero-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;                      /* a click still goes to the link */
+}
+.md-typeset .hero-carousel.is-loading .hero-next svg { animation: hero-wait 1s ease-in-out infinite; }
+@keyframes hero-wait { 50% { opacity: 0.3; } }
+.md-typeset .hero-next {
+  position: absolute;
+  top: 50%;
+  right: 0.6rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--durham-purple);
+  box-shadow: 0 0.1rem 0.5rem rgba(42, 14, 47, 0.3);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.md-typeset .hero-next[hidden] { display: none; }
+.md-typeset .hero-next:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
+.md-typeset .hero-next:focus-visible { outline: 2px solid var(--durham-purple); outline-offset: 2px; }
+.md-typeset .hero-next svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
 .md-typeset .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.2rem 0 0.4rem; }
 .md-typeset .cta p { display: contents; }
 .md-typeset .cta .md-button {
