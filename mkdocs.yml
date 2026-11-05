@@ -125,6 +125,7 @@ nav:
       # - Static weak form with normal contact: docs/TechnicalReferences/StaticWeakFormNormalContact.md
   - Understanding the software: docs/Understanding.md
   - Contributors: docs/Contributors.md
+  - Cite this work: docs/Cite.md
   - About the project: project.md
   - Partners: partners.md
   - Coming soon: docs/ComingSoon.md
