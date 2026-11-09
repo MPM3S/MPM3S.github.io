@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../img/mkdocs/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -2675,7 +2675,12 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <div class="tabbed-block">
 <p>Go to <a href="https://github.com/MPM3S/MPM3S.jl">github.com/MPM3S/MPM3S.jl</a>, use the green <em>Code</em> button and choose <em>Download ZIP</em>:</p>
 <p><figure id="_figure-1"><img alt="The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu." id="fig-github-zip" src="../../../img/install_and_run/git_download.png" width="70%"><figcaption>Figure 1: The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.</figcaption></figure></p>
-<p>Unzip it wherever you want to keep it and rename the folder to <code>MPM3S</code>.</p>
+<p>From the folder you saved it in (e.g. <code>cd ~/Downloads</code>, or <code>cd $HOME\Downloads</code> on Windows), unzip it and rename the folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>unzip<span class="w"> </span>MPM3S.jl-master.zip
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>mv<span class="w"> </span>MPM3S.jl-master<span class="w"> </span>MPM3S
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">cd</span><span class="w"> </span>MPM3S
+</code></pre></div>
+<p>On Windows, use <code>tar -xf MPM3S.jl-master.zip</code> in place of <code>unzip</code>.</p>
 </div>
 </div>
 </div>
@@ -2688,22 +2693,22 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 <h2 id="mpm3s-installation">MPM3S installation<a class="headerlink" href="#mpm3s-installation" title="Permanent link">¶</a></h2>
 <p><strong>1. Download the code</strong> from GitHub, as described above.</p>
 <p><strong>2. Start Julia and install the MPM3S package.</strong> Open a PowerShell (Windows) or terminal (Linux/macOS) window and start Julia with:</p>
-<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>julia<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>julia<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <code>-t 4</code> sets the number of CPU threads. Four threads is sufficient when the analysis is on a GPU; for a CPU run, set the number of threads to the number of physical cores minus 2. Julia runs on one thread if <code>-t</code> is omitted.
 <p>In the Julia REPL, change directory to <code>MPM3S</code> and install the MPM3S package. This installs the exact dependencies recorded in <code>Manifest.toml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/MPM3S"</span><span class="p">)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span><span class="p">;</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">instantiate</span><span class="p">()</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">cd</span><span class="p">(</span><span class="s">"path/to/MPM3S"</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span><span class="p">;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">Pkg</span><span class="o">.</span><span class="n">instantiate</span><span class="p">()</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
 </code></pre></div>
 <p>If everything succeeds the REPL prints the package versions being resolved.</p>
 <p><strong>3. Run a problem.</strong> Step 2 left Julia in the <code>MPM3S</code> folder with MPM3S loaded, and MPM3S is always run from there: every path is relative to the <code>MPM3S</code> folder. The tutorial input files are in <code>validation_data_and_jsons</code>, so Tutorial 1, for example, is run with:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">CPU</label><label for="__tabbed_4_2">GPU</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_gravity_column.json"</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_gravity_column.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li>The path to the input file is relative to the <code>MPM3S</code> folder.</li>
@@ -2712,7 +2717,7 @@ disappears when MPM3S.jl is made public. To make the token:</p>
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_CPT_dr32.json"</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_CPT_dr32.json"</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li>The path to the input file is relative to the <code>MPM3S</code> folder; Tutorial 3's input file has <code>"GPU": "on"</code>.</li>
@@ -2786,11 +2791,13 @@ disappears when MPM3S.jl is made public. To make the token:</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.path", "toc.follow", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/julia-repl-colors.js"></script>
+      
+        <script src="../../../javascripts/step_viewer.js"></script>
       
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       

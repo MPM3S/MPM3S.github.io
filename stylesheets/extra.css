@@ -1105,6 +1105,73 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
+   Step viewer (javascripts/step_viewer.js): one screenshot and
+   its explanation at a time, with back/next arrows below. The
+   steps share one grid cell, so the viewer is as tall as its
+   longest step and the arrows stay put. Without JavaScript the
+   steps are listed one under the other.
+   ============================================================ */
+.md-typeset .step-viewer { margin: 1.5rem 0; }
+.md-typeset .step-viewer .step > :first-child { margin-top: 0; }
+.md-typeset .step-viewer:not(.is-js) > .step + .step { margin-top: 2.5rem; }
+
+.md-typeset .step-viewer img.step-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+}
+
+.md-typeset .step-viewer.is-js {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.md-typeset .step-viewer.is-js > .step {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.md-typeset .step-viewer.is-js > .step.is-active { visibility: visible; }
+
+.md-typeset .step-nav {
+  grid-area: 2 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.md-typeset .step-nav__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--md-primary-fg-color);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.md-typeset .step-nav__btn:hover:not(:disabled) { background: var(--md-primary-fg-color--dark); }
+.md-typeset .step-nav__btn:focus-visible { outline: 2px solid var(--md-primary-fg-color); outline-offset: 3px; }
+.md-typeset .step-nav__btn:disabled {
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color--lighter);
+  cursor: default;
+}
+.md-typeset .step-nav__btn svg { width: 1.4rem; height: 1.4rem; fill: currentColor; }
+.md-typeset .step-nav__count {
+  min-width: 7em;
+  text-align: center;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--md-default-fg-color--light);
+}
+
+/* ============================================================
    Terminal-window styling for shell / console examples.
    Wrap a code block in `<div class="terminal" markdown>` to get
    a dark window with macOS-style traffic-light chrome. Pure

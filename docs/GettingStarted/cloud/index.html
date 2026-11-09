@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../img/mkdocs/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -728,10 +728,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#terminal-window" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command/terminal window
+        Before you start
       
     </span>
   </a>
@@ -739,10 +739,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cloud-set-up" class="md-nav__link">
+  <a href="#colab-set-up" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cloud set-up
+        Colab set-up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-own-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your own problems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-a-new-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting a new session
       
     </span>
   </a>
@@ -2509,10 +2531,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#terminal-window" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Command/terminal window
+        Before you start
       
     </span>
   </a>
@@ -2520,10 +2542,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cloud-set-up" class="md-nav__link">
+  <a href="#colab-set-up" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cloud set-up
+        Colab set-up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-own-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your own problems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-a-new-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting a new session
       
     </span>
   </a>
@@ -2557,33 +2601,88 @@
 
 
 <h1 id="cloud-computing">Cloud computing<a class="headerlink" href="#cloud-computing" title="Permanent link">¶</a></h1>
-<h2 id="terminal-window">Command/terminal window<a class="headerlink" href="#terminal-window" title="Permanent link">¶</a></h2>
-<p>Julia, MPM3S and the containers are all operated through the terminal (macOS/Linux) or command (Windows) window. To open one:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">Linux</label><label for="__tabbed_1_3">macOS</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>Press the <em>Windows</em> key, type <code>PowerShell</code> and select <em>Windows PowerShell</em>.</p>
+<p><a href="https://colab.research.google.com">Google Colab</a> runs MPM3S in your web browser on a Google machine with an NVIDIA GPU, so nothing has to be installed on your own computer. MPM3S is kept in your Google Drive, which Colab connects to.</p>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<ol>
+<li>Download the MPM3S ZIP from GitHub, as in <a href="../julia/#downloading-mpm3s-from-github">Downloading MPM3S from GitHub</a> (the <em>ZIP</em> tab). Leave it zipped.</li>
+<li>Upload <code>MPM3S.jl-master.zip</code> to <em>My Drive</em> in <a href="https://drive.google.com">Google Drive</a>: <em>New → File upload</em>. A single ZIP uploads much faster than the unzipped folder.</li>
+<li>Open <a href="https://colab.research.google.com">Google Colab</a>, signed in to the same Google account, and choose <em>New notebook</em>. Colab saves it in the <em>Colab Notebooks</em> folder of your Drive.</li>
+</ol>
+<h2 id="colab-set-up">Colab set-up<a class="headerlink" href="#colab-set-up" title="Permanent link">¶</a></h2>
+<p>Click a screenshot to open it full size.</p>
+<div class="step-viewer">
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_1.png"><img alt="Colab's Change runtime type window, with Python 3, T4 GPU and Save marked." class="step-img" src="../../../img/colab_tutorial/colab_step_1.png"></a></p>
+<p><strong>1. Start a Python runtime with a GPU.</strong> Choose <em>Runtime → Change runtime type</em>. Set <em>Runtime type</em> to <em>Python 3</em> (1) and <em>Hardware accelerator</em> to <em>T4 GPU</em> (2), then click <em>Save</em> (3). The notebook starts in Python because Google Drive can only be connected from Python; it is switched to Julia in step 5.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_2.png"><img alt="The first code cell mounting Google Drive, with its run button marked." class="step-img" src="../../../img/colab_tutorial/colab_step_2.png"></a></p>
+<p><strong>2. Connect your Google Drive.</strong> Paste this into the first code cell and click its run button (1):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">'/content/drive'</span><span class="p">)</span>
+</code></pre></div>
+<p>Allow Colab to access your Google Drive when asked. The cell prints <code>Mounted at /content/drive</code>: <em>My Drive</em> is now the folder <code>/content/drive/MyDrive</code>.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_3.png"><img alt="The Files panel open, with the Files icon and the drive folder marked." class="step-img" src="../../../img/colab_tutorial/colab_step_3.png"></a></p>
+<p><strong>3. Check that the drive is connected.</strong> Click the <em>Files</em> icon (1) in the left sidebar. A <code>drive</code> folder (2) is now listed; inside it, <code>MyDrive</code> holds the ZIP you uploaded. If <code>drive</code> is missing, click the refresh icon at the top of the panel.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_4.png"><img alt="The Colab terminal after unzipping MPM3S, with the Terminal button and the prompt marked." class="step-img" src="../../../img/colab_tutorial/colab_step_4.png"></a></p>
+<p><strong>4. Unzip MPM3S in the terminal.</strong> Click <em>Terminal</em> (1) at the bottom of the window. In the terminal (2), run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>/content/drive/MyDrive
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>unzip<span class="w"> </span>MPM3S.jl-master.zip
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>mv<span class="w"> </span>MPM3S.jl-master<span class="w"> </span>MPM3S
+</code></pre></div>
+<p><code>unzip</code> lists each file as it is extracted (<code>inflating: ...</code>). This leaves an <code>MPM3S</code> folder in your Drive, so it only has to be done once.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_5.png"><img alt="The Change runtime type window again, with Julia and Save marked." class="step-img" src="../../../img/colab_tutorial/colab_step_5.png"></a></p>
+<p><strong>5. Switch the runtime to Julia.</strong> Open <em>Runtime → Change runtime type</em> again, set <em>Runtime type</em> to <em>Julia</em> (1), keep <em>T4 GPU</em>, and click <em>Save</em> (2). Google Drive stays connected, and the runtime name at the bottom right of the window now ends in <em>(Julia)</em>.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_6.png"><img alt="A second code cell with the Julia commands to install MPM3S, with + Code and its run button marked." class="step-img" src="../../../img/colab_tutorial/colab_step_6.png"></a></p>
+<p><strong>6. Install MPM3S.</strong> Click <em>+ Code</em> (1) to add a cell, paste this into it and click its run button (2):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">Pkg</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="s">"/content/drive/MyDrive/MPM3S"</span><span class="p">);</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">cd</span><span class="p">(</span><span class="s">"/content/drive/MyDrive/MPM3S"</span><span class="p">);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">Pkg</span><span class="o">.</span><span class="n">instantiate</span><span class="p">();</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
+</code></pre></div>
+<p>Do not run the first cell again: it is Python, and the notebook now runs Julia.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_7.png"><img alt="The install cell running, with its stop button and the package list marked." class="step-img" src="../../../img/colab_tutorial/colab_step_7.png"></a></p>
+<p><strong>7. Wait for the packages to install.</strong> While the cell runs, its run button becomes a spinning stop button (1) and the bottom bar shows <em>Executing</em>. <code>Pkg.instantiate()</code> installs the packages MPM3S needs (2), which can take several minutes, and <code>using MPM3S</code> then loads it. When a green tick appears next to the cell, MPM3S is ready.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_8.png"><img alt="A third code cell running the Tutorial 3 analysis, with + Code, its run button and the Executing status marked." class="step-img" src="../../../img/colab_tutorial/colab_step_8.png"></a></p>
+<p><strong>8. Run a problem.</strong> Click <em>+ Code</em> (1) to add a cell, paste the command for the problem into it and click its run button (2). <a href="../../TutorialProblems/Tutorial_3/">Tutorial 3</a>, for example, is run with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">MPM3S</span><span class="o">.</span><span class="n">non_linear_solve</span><span class="p">(</span><span class="s">"validation_data_and_jsons/input_data_CPT_dr32.json"</span><span class="p">);</span>
+</code></pre></div>
+<p>Step 6 left Julia in the <code>MPM3S</code> folder, so the path is relative to it, as on your own computer. The input file must have <code>"GPU": "on"</code>, as Tutorial 3's does. The bottom bar shows <em>Executing</em> (3) until the analysis has finished.</p>
+</div>
+<div class="step">
+<p><a href="../../../img/colab_tutorial/colab_step_9.png"><img alt="The MPM3S folder in Google Drive, with the breadcrumb and the vtk_CPT_dr32 output folder marked." class="step-img" src="../../../img/colab_tutorial/colab_step_9.png"></a></p>
+<p><strong>9. Find the results in your Google Drive.</strong> The output files are saved in your Google Drive, in the <code>MPM3S</code> folder. Open <a href="https://drive.google.com">Google Drive</a> and go to <em>My Drive → MPM3S</em> (1): Tutorial 3 writes its output to <code>vtk_CPT_dr32</code> (2), which fills up while the analysis runs. To view the results, right-click the folder, choose <em>Download</em>, and open the files in ParaView, as in <a href="../viewing_output/">Viewing the output</a>.</p>
+</div>
+</div>
+<h2 id="your-own-problems">Your own problems<a class="headerlink" href="#your-own-problems" title="Permanent link">¶</a></h2>
+<p>Upload the problem's folder into <code>MPM3S</code> in your Drive, for example <code>MPM3S/my_runs/input_data.json</code>, and give that path in step 8: <code>MPM3S.non_linear_solve("my_runs/input_data.json");</code>. Set <code>"GPU": "on"</code> in the input file to use Colab's GPU.</p>
+<div class="admonition warning">
+<p class="admonition-title">STL files must be converted to a mesh text file first</p>
+<p>MPM3S meshes each <code>.stl</code> file with Gmsh and saves the mesh as the text file named in the input file's <a href="../../UsingTheSoftware/InputFormat/rigid_bodies/#stl-files"><code>"mesh cache"</code></a>. Gmsh does not run on Colab, so make the text file on your own computer, with MPM3S <a href="../julia/#mpm3s-installation">installed with Julia</a>, and upload it to the same folder as the <code>.stl</code> file. For the cone of <a href="../../TutorialProblems/Tutorial_3/">Tutorial 3</a>, from the <code>MPM3S</code> folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">MPM3S</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">MPM3S</span><span class="o">.</span><span class="n">RigidBodies</span><span class="o">.</span><span class="n">body_mesh</span><span class="p">(</span><span class="s">"validation_data_and_jsons/CPT.stl"</span><span class="p">,</span><span class="w"> </span><span class="s">"validation_data_and_jsons/CPT_mesh.txt"</span><span class="p">);</span>
+</code></pre></div>
 <ul>
-<li>To open it in a particular folder, open the folder in File Explorer, right-click an empty space and choose <em>Open in Terminal</em> (Windows 11), or hold <code>Shift</code> while right-clicking and choose <em>Open PowerShell window here</em> (Windows 10).</li>
+<li>The first path is the <code>.stl</code> file, and the second is the text file to write; give it the name used for <code>"mesh cache"</code> in the input file.</li>
+<li>If the text file already exists, it is read rather than made again, so delete it first whenever the <code>.stl</code> file changes.</li>
+<li>The tutorials' <code>.stl</code> files already come with their text files (e.g. <code>CPT_mesh.txt</code>), so they run on Colab as they are.</li>
 </ul>
 </div>
-<div class="tabbed-block">
-<p>Press <code>Ctrl</code> + <code>Alt</code> + <code>T</code>, or search for <em>Terminal</em> in your applications menu.</p>
-<ul>
-<li>To open it in a particular folder, right-click an empty space in the folder in your file manager and choose <em>Open in Terminal</em>.</li>
-</ul>
-</div>
-<div class="tabbed-block">
-<p>Press <code>Cmd</code> + <code>Space</code>, type <code>Terminal</code> and press <code>Return</code>. Terminal is also in <em>Applications → Utilities</em>.</p>
-<ul>
-<li>To open it in a particular folder, right-click the folder in Finder and choose <em>Services → New Terminal at Folder</em>.</li>
-</ul>
-</div>
-</div>
-</div>
-<p>Code snippets are provided throughout the documentation, these can be copied and pasted into the Terminal/Command window.</p>
-<h2 id="cloud-set-up">Cloud set-up<a class="headerlink" href="#cloud-set-up" title="Permanent link">¶</a></h2>
-<p>To do:</p>
+<h2 id="starting-a-new-session">Starting a new session<a class="headerlink" href="#starting-a-new-session" title="Permanent link">¶</a></h2>
+<p>Colab wipes its machine when a session ends, but the <code>MPM3S</code> folder stays in your Drive. To carry on, open the notebook again and repeat steps 1, 2, 5, 6 and 7: skip the unzip in step 4. The packages are installed again in step 7, as they are lost with the machine. The results from earlier runs stay in your Drive.</p>
 
 
 
@@ -2642,11 +2741,13 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.path", "toc.follow", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/julia-repl-colors.js"></script>
+      
+        <script src="../../../javascripts/step_viewer.js"></script>
       
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
