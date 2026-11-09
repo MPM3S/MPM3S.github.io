@@ -3420,116 +3420,62 @@ E = E^{ref} \left( \frac{K_0\, \sigma_v}{p^{ref}} \right)^{m} = E^{ref} \left( \
 <p>The vertical height of the cone tip is found from <code>body1_position_z</code>. The steps below show how to get the penetration depth into the sample.</p>
 <h4 id="tip-resistance-without-the-sleeve-friction">Tip resistance without the sleeve friction<a class="headerlink" href="#tip-resistance-without-the-sleeve-friction" title="Permanent link">¶</a></h4>
 <p>The reaction force in <code>rigid_body.csv</code> includes the friction along the sleeve. To find the force on the tip alone, sum the vertical contact force on the triangles of the conical tip in ParaView, and track the height of the tip:</p>
-<div class="walkthrough">
-<div>
+<div class="step-viewer">
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot1.png"><img alt="The cone surface after Apply." class="step-img" id="fig-cpt-tip-1" src="../../../img/Tutorial_3/CPT_plot1.png"></a></p>
 <p><strong>1. Open the cone.</strong> <em>File → Open</em>, go to <code>vtk_CPT_dr32</code>, select the <code>surface_..vtu</code> series on its own, click <em>OK</em> and then <em>Apply</em> (1). The cone appears in the render view.</p>
 </div>
-<div>
-<p><figure id="_figure-2"><img alt="The cone surface after Apply." id="fig-cpt-tip-1" src="../../../img/Tutorial_3/CPT_plot1.png"><figcaption>Figure 2: The cone surface after Apply.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot2.png"><img alt="The triangles of the conical tip selected and highlighted in pink." class="step-img" id="fig-cpt-tip-2" src="../../../img/Tutorial_3/CPT_plot2.png"></a></p>
 <p><strong>2. Select the triangles of the conical tip.</strong> Click <em>Select Cells On</em> (1) in the render-view toolbar (or press <code>S</code>) and drag a box around the conical tip (2), so that its triangles are highlighted in pink and the cylindrical sleeve is not. Hold <code>Ctrl</code> and drag again to add any triangles that were missed.</p>
 </div>
-<div>
-<p><figure id="_figure-3"><img alt="The triangles of the conical tip selected and highlighted in pink." id="fig-cpt-tip-2" src="../../../img/Tutorial_3/CPT_plot2.png"><figcaption>Figure 3: The triangles of the conical tip selected and highlighted in pink.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot3.png"><img alt="The Filters menu." class="step-img" id="fig-cpt-tip-3" src="../../../img/Tutorial_3/CPT_plot3.png"></a></p>
 <p><strong>3. Find the Extract Selection filter.</strong> Open the <em>Filters</em> menu and choose <em>Search...</em> (1). <code>Ctrl</code> + <code>Space</code> opens the same filter search from anywhere in ParaView.</p>
 </div>
-<div>
-<p><figure id="_figure-4"><img alt="The Filters menu." id="fig-cpt-tip-3" src="../../../img/Tutorial_3/CPT_plot3.png"><figcaption>Figure 4: The Filters menu.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot4.png"><img alt="The filter search with Extract Selection highlighted." class="step-img" id="fig-cpt-tip-4" src="../../../img/Tutorial_3/CPT_plot4.png"></a></p>
 <p><strong>4. Extract the selection.</strong> Type <code>extract sel</code> (1), choose <em>Extract Selection</em> (2) and press <code>Enter</code>.</p>
 </div>
-<div>
-<p><figure id="_figure-5"><img alt="The filter search with Extract Selection highlighted." id="fig-cpt-tip-4" src="../../../img/Tutorial_3/CPT_plot4.png"><figcaption>Figure 5: The filter search with Extract Selection highlighted.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot5.png"><img alt="ExtractSelection1 in the Pipeline Browser, with the tip point selected." class="step-img" id="fig-cpt-tip-5" src="../../../img/Tutorial_3/CPT_plot5.png"></a></p>
 <p><strong>5. Apply it, then select the tip point.</strong> <code>ExtractSelection1</code> appears in the <em>Pipeline Browser</em>; click <em>Apply</em>. It holds only the triangles of the tip. Then (1) click <em>Clear Selection</em> to remove the selected triangles, and (2) click <em>Select Points On</em> (or press <code>D</code>) and drag a small box around the very tip of the cone, which is highlighted as a single pink point.</p>
 </div>
-<div>
-<p><figure id="_figure-6"><img alt="ExtractSelection1 in the Pipeline Browser, with the tip point selected." id="fig-cpt-tip-5" src="../../../img/Tutorial_3/CPT_plot5.png"><figcaption>Figure 6: ExtractSelection1 in the Pipeline Browser, with the tip point selected.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot6.png"><img alt="Renaming the second extract in the Pipeline Browser." class="step-img" id="fig-cpt-tip-6" src="../../../img/Tutorial_3/CPT_plot6.png"></a></p>
 <p><strong>6. Extract the tip point and name the two extracts.</strong> Apply <em>Extract Selection</em> again to extract the tip point. Right-click each extract in the <em>Pipeline Browser</em> (1), choose <em>Rename</em> (2), and call the triangles <code>cone load</code> and the point <code>cone tip</code>.</p>
 </div>
-<div>
-<p><figure id="_figure-7"><img alt="Renaming the second extract in the Pipeline Browser." id="fig-cpt-tip-6" src="../../../img/Tutorial_3/CPT_plot6.png"><figcaption>Figure 7: Renaming the second extract in the Pipeline Browser.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot7.png"><img alt="The cone load and cone tip extracts, with the full surface hidden." class="step-img" id="fig-cpt-tip-7" src="../../../img/Tutorial_3/CPT_plot7.png"></a></p>
 <p><strong>7. Check the extracts.</strong> Hide <code>surface_..vtu</code> with its eye icon (1). Only the conical tip is left.</p>
 </div>
-<div>
-<p><figure id="_figure-8"><img alt="The cone load and cone tip extracts, with the full surface hidden." id="fig-cpt-tip-7" src="../../../img/Tutorial_3/CPT_plot7.png"><figcaption>Figure 8: The cone load and cone tip extracts, with the full surface hidden.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot8.png"><img alt="A new layout with the list of views." class="step-img" id="fig-cpt-tip-8" src="../../../img/Tutorial_3/CPT_plot8.png"></a></p>
 <p><strong>8. Open a layout for the plots.</strong> Click <code>+</code> (1) beside <em>Layout #1</em> to open <em>Layout #2</em> and choose <em>Line Chart View</em> (2).</p>
 </div>
-<div>
-<p><figure id="_figure-9"><img alt="A new layout with the list of views." id="fig-cpt-tip-8" src="../../../img/Tutorial_3/CPT_plot8.png"><figcaption>Figure 9: A new layout with the list of views.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot9.png"><img alt="The filter search with Plot Data Over Time highlighted." class="step-img" id="fig-cpt-tip-9" src="../../../img/Tutorial_3/CPT_plot9.png"></a></p>
 <p><strong>9. Plot the load on the tip over time.</strong> Select <code>cone load</code> (1), go to <code>Filters</code>, then <code>Search</code>, and then type <code>plot da</code> (2) and choose <em>Plot Data Over Time</em> (3).</p>
 </div>
-<div>
-<p><figure id="_figure-10"><img alt="The filter search with Plot Data Over Time highlighted." id="fig-cpt-tip-9" src="../../../img/Tutorial_3/CPT_plot9.png"><figcaption>Figure 10: The filter search with Plot Data Over Time highlighted.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot10.png"><img alt="Choosing Cells for the Field Association." class="step-img" id="fig-cpt-tip-10" src="../../../img/Tutorial_3/CPT_plot10.png"></a></p>
 <p><strong>10. Use the cell data.</strong> The contact force is stored on the triangles, so set <em>Field Association</em> to <em>Cells</em> (1). Keep <em>Only Report Selection Statistics</em> ticked and click <em>Apply</em> (2). ParaView reads every output step, which takes a moment, and draws a quartile chart.</p>
 </div>
-<div>
-<p><figure id="_figure-11"><img alt="Choosing Cells for the Field Association." id="fig-cpt-tip-10" src="../../../img/Tutorial_3/CPT_plot10.png"><figcaption>Figure 11: Choosing Cells for the Field Association.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot11.png"><img alt="The average vertical contact force on the tip triangles, with the quartiles shaded." class="step-img" id="fig-cpt-tip-11" src="../../../img/Tutorial_3/CPT_plot11.png"></a></p>
 <p><strong>11. Choose the vertical force.</strong> In <em>Series Parameters</em>, untick every series except <code>contact force (2) (stats)</code> (1), the <span class="arithmatex">\(z\)</span> component. The chart shows its average over the tip triangles, with the spread between them shaded.</p>
 </div>
-<div>
-<p><figure id="_figure-12"><img alt="The average vertical contact force on the tip triangles, with the quartiles shaded." id="fig-cpt-tip-11" src="../../../img/Tutorial_3/CPT_plot11.png"><figcaption>Figure 12: The average vertical contact force on the tip triangles, with the quartiles shaded.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot12.png"><img alt="The summed vertical contact force on the tip against output step." class="step-img" id="fig-cpt-tip-12" src="../../../img/Tutorial_3/CPT_plot12.png"></a></p>
 <p><strong>12. Show the total.</strong> Further down, untick <em>Show Quartiles</em> (1) and <em>Show Average</em> (2) and tick <em>Show Sum</em> (3). <code>sum contact force (2) (stats)</code> is the vertical force on the tip of the quarter cone, which grows steadily as the cone penetrates.</p>
 </div>
-<div>
-<p><figure id="_figure-13"><img alt="The summed vertical contact force on the tip against output step." id="fig-cpt-tip-12" src="../../../img/Tutorial_3/CPT_plot12.png"><figcaption>Figure 13: The summed vertical contact force on the tip against output step.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot13.png"><img alt="The Export View dialog, saving load_data.csv." class="step-img" id="fig-cpt-tip-13" src="../../../img/Tutorial_3/CPT_plot13.png"></a></p>
 <p><strong>13. Export the load.</strong> <em>File → Export View</em>, choose <em>Comma or Tab Delimited Files</em> (1) and save the chart in <code>vtk_CPT_dr32</code> (2) as <code>load_data.csv</code> (3), then click <em>OK</em> (4).</p>
 </div>
-<div>
-<p><figure id="_figure-14"><img alt="The Export View dialog, saving load_data.csv." id="fig-cpt-tip-13" src="../../../img/Tutorial_3/CPT_plot13.png"><figcaption>Figure 14: The Export View dialog, saving load_data.csv.</figcaption></figure></p>
-</div>
-</div>
-<div class="walkthrough">
-<div>
+<div class="step">
+<p><a href="../../../img/Tutorial_3/CPT_plot14.png"><img alt="The height of the cone tip against output step." class="step-img" id="fig-cpt-tip-14" src="../../../img/Tutorial_3/CPT_plot14.png"></a></p>
 <p><strong>14. Plot the tip height.</strong> Select <code>cone tip</code> (1) and apply <em>Plot Data Over Time</em> again, keeping <em>Field Association</em> as <em>Points</em> (2), and show only <code>Z (stats)</code> (3). The tip height is <span class="arithmatex">\(0\)</span> in stage 1, jumps to the soil surface at about <span class="arithmatex">\(19.85\)</span> m when the cone is placed at the start of stage 2, and then falls steadily as the cone is pushed down. Export it in the same way, as <code>position_data.csv</code> in <code>vtk_CPT_dr32</code>.</p>
-</div>
-<div>
-<p><figure id="_figure-15"><img alt="The height of the cone tip against output step." id="fig-cpt-tip-14" src="../../../img/Tutorial_3/CPT_plot14.png"><figcaption>Figure 15: The height of the cone tip against output step.</figcaption></figure></p>
 </div>
 </div>
 <p>With <span class="arithmatex">\(F_{tip}\)</span> the summed vertical contact force from <code>load_data.csv</code>, the tip resistance of the full cone is</p>
@@ -3561,7 +3507,7 @@ q_c = \frac{4\, F_{tip}}{\pi r^2}, \qquad r = 0.4 \text{ m},
 <a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="n">plot</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">,</span><span class="w"> </span><span class="n">yflip</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"MPM3S"</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">"tip resistance q_c (MPa)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">"normalised penetration depth (m/m)"</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:topright</span><span class="p">)</span>
 <a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="n">scatter!</span><span class="p">(</span><span class="n">qc_ref</span><span class="p">,</span><span class="w"> </span><span class="n">depth_ref</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">"centrifuge, D_r = 38%"</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </code></pre></div>
-<p><figure id="_figure-16"><img alt="Tip resistance against penetration depth normalised by the cone radius, from the script above, with the centrifuge data at a relative density of 38%." id="fig-cpt-qc" src="../../../img/Tutorial_3/cone_resistance.png" width="50%"><figcaption>Figure 16: Tip resistance against penetration depth normalised by the cone radius, from the script above, with the centrifuge data at a relative density of 38%.</figcaption></figure></p>
+<p><figure id="_figure-2"><img alt="Tip resistance against penetration depth normalised by the cone radius, from the script above, with the centrifuge data at a relative density of 38%." id="fig-cpt-qc" src="../../../img/Tutorial_3/cone_resistance.png" width="50%"><figcaption>Figure 2: Tip resistance against penetration depth normalised by the cone radius, from the script above, with the centrifuge data at a relative density of 38%.</figcaption></figure></p>
 <div class="footnote">
 <hr>
 <ol>
