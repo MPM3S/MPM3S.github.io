@@ -1082,34 +1082,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
-   Walkthrough rows: single column with the text block above and
-   the screenshot below. Used for screenshot-driven step-by-step
-   guides such as the ParaView walkthrough.
-   ============================================================ */
-.md-typeset .walkthrough {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  margin: 1.5rem 0;
-}
-
-.md-typeset .walkthrough > div > :first-child { margin-top: 0; }
-.md-typeset .walkthrough > div > :last-child  { margin-bottom: 0; }
-
-/* ParaView screenshots at 70% of the column width, centred */
-.md-typeset .walkthrough img {
-  display: block;
-  width: 70%;
-  height: auto;
-  margin: 0 auto;
-}
-
-/* ============================================================
-   Step viewer (javascripts/step_viewer.js): one screenshot and
-   its explanation at a time, with back/next arrows below. The
-   steps share one grid cell, so the viewer is as tall as its
-   longest step and the arrows stay put. Without JavaScript the
-   steps are listed one under the other.
+   Step viewer (javascripts/step_viewer.js), for screenshot-driven
+   guides such as the ParaView and Colab walkthroughs: one
+   screenshot and its explanation at a time, with back/next arrows
+   below. The steps share one grid cell, so the viewer is as tall
+   as its longest step and the arrows stay put. Without JavaScript
+   the steps are listed one under the other.
    ============================================================ */
 .md-typeset .step-viewer { margin: 1.5rem 0; }
 .md-typeset .step-viewer .step > :first-child { margin-top: 0; }

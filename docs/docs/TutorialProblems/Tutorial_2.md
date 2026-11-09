@@ -405,58 +405,56 @@ The simulation results appear as the simulation runs, so you do not need to wait
 
 The walkthrough below follows the same pattern as the [ParaView walkthrough from Tutorial 1](Tutorial_1.md#visualising-the-output-in-paraview), but also loads the surface of the rigid cube and makes it see-through, so that the soil beneath it can be inspected. The same [3D-navigation controls](Tutorial_1.md#visualising-the-output-in-paraview) (left-drag to rotate, scroll to zoom) apply throughout.
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step-viewer" markdown>
+
+<div class="step" markdown>
+
+[![ParaView on launch, with an empty render view.](../../img/Tutorial_2/Column_1.png){ #fig-paraview-1 .step-img }](../../img/Tutorial_2/Column_1.png)
+
 **1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
-</div>
-<div markdown>
-![ParaView on launch, with an empty render view.](../../img/Tutorial_2/Column_1.png){ #fig-paraview-1 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.](../../img/Tutorial_2/cube_2.png){ #fig-paraview-2 .step-img }](../../img/Tutorial_2/cube_2.png)
+
 **2. Open the output files.** Use *File → Open* and navigate to `vtk_cube`. ParaView groups the numbered files into three series: `body_..vtu`, `mps_1_..vtu` and `surface_..vtu`. Hold `Ctrl` and click `mps_1_..vtu` and `surface_..vtu` so both are highlighted (1), then click *OK* (2).
-</div>
-<div markdown>
-![The Open File dialog in vtk_cube, showing the body_..vtu, mps_1_..vtu and surface_..vtu series.](../../img/Tutorial_2/cube_2.png){ #fig-paraview-2 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.](../../img/Tutorial_2/cube_1.png){ #fig-paraview-3 .step-img }](../../img/Tutorial_2/cube_1.png)
+
 **3. Apply the readers.** Click *Apply* (1) in the Properties panel. Both series appear in the *Pipeline Browser*, and the render view shows the rigid cube resting on the soil. The rigid cube overhangs the soil and hides it from most directions, so zoom out and rotate the view to see both bodies.
-</div>
-<div markdown>
-![Both series in the Pipeline Browser after Apply, with the opaque rigid cube resting on the soil.](../../img/Tutorial_2/cube_1.png){ #fig-paraview-3 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The rigid cube with an opacity of 0.6, showing the soil beneath it.](../../img/Tutorial_2/cube_3.png){ #fig-paraview-4 .step-img }](../../img/Tutorial_2/cube_3.png)
+
 **4. Make the rigid cube see-through.** Select `surface_..vtu` in the *Pipeline Browser* (1) and set *Opacity*, under *Styling*, to `0.6` (2). The soil can now be seen through the rigid cube, which overhangs it on every side.
-</div>
-<div markdown>
-![The rigid cube with an opacity of 0.6, showing the soil beneath it.](../../img/Tutorial_2/cube_3.png){ #fig-paraview-4 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The soil coloured by displacement magnitude at the final step, under the see-through rigid cube.](../../img/Tutorial_2/cube_displacement.png){ #fig-paraview-5 .step-img }](../../img/Tutorial_2/cube_displacement.png)
+
 **5. Choose a field to colour the GIMPs by.** Select `mps_1_..vtu` (1) and open the *Coloring* menu (2), which lists the fields written to the VTK files: `displacement`, `strain` and `stress`. Choosing `displacement` → `Magnitude` and stepping through time shows the displacement of the GIMPs increasing evenly from the base to the top of the soil as the rigid cube moves $0.2$ m down.
-</div>
-<div markdown>
-![The soil coloured by displacement magnitude at the final step, under the see-through rigid cube.](../../img/Tutorial_2/cube_displacement.png){ #fig-paraview-5 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.](../../img/Tutorial_2/cube_stress.png){ #fig-paraview-6 .step-img }](../../img/Tutorial_2/cube_stress.png)
+
 **6. Inspect the final stress distribution.** Change the GIMPs' *Coloring* to `stress` → `ZZ` (1), click *Go to Last* (`▶|`) (2) and then *Rescale to Data Range* (3). The soil has been compressed to about $0.6$ m under the rigid cube. Additionally to inspect the contact force select `surface_..vtu` (4) and change its *Coloring* (1) to `contact force` → `Magnitude`. The force is zero over the sides and top of the rigid cube and is carried by the triangles of its base, which is in contact with the soil.
+
 </div>
-<div markdown>
-![The compressed soil at the final step, coloured by vertical stress, under the see-through rigid cube.](../../img/Tutorial_2/cube_stress.png){ #fig-paraview-6 }
-</div>
+
 </div>
 
 

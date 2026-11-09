@@ -602,40 +602,40 @@ stage 3/3 ██████░░░░░░  54.0% t 432.0/800.0 step 11117 �
 
 The VTK files are written to `vtk_AC14_dr32` (see [Output](#output)). The walkthrough below uses the same ParaView controls as [Tutorial 1](Tutorial_1.md#visualising-the-output-in-paraview). Only active material points are written, so once the anchor is on the soil the output shows the window of soil around it rather than the whole block.
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step-viewer" markdown>
+
+<div class="step" markdown>
+
+[![The soil, anchor surface and tracked-node series selected in the Open File dialog.](../../img/Tutorial_6/anchor_1.png){ #fig-anchor-pv-1 .step-img }](../../img/Tutorial_6/anchor_1.png)
+
 **1. Open the soil and the anchor.** *File → Open* and go to `vtk_AC14_dr32`. Hold `Ctrl` and select the `mps_1_..vtu` (soil), `surface_..vtu` (fluke and shank) and `tracked_..vtu` (the fluke-tip marker) series (1), then click *OK* (2).
-</div>
-<div markdown>
-![The soil, anchor surface and tracked-node series selected in the Open File dialog.](../../img/Tutorial_6/anchor_1.png){ #fig-anchor-pv-1 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The soil window and the anchor at the last output step.](../../img/Tutorial_6/anchor_2.png){ #fig-anchor-pv-2 .step-img }](../../img/Tutorial_6/anchor_2.png)
+
 **2. Go to the end of the drag.** Click *Apply*, then click *Last Frame* (`▶|`) (1) to go to the last output step. The soil shown is the window of active material points around the anchor, with the half anchor on the plane of symmetry.
-</div>
-<div markdown>
-![The soil window and the anchor at the last output step.](../../img/Tutorial_6/anchor_2.png){ #fig-anchor-pv-2 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![Colouring by displacement magnitude and setting a custom range.](../../img/Tutorial_6/anchor_3.png){ #fig-anchor-pv-3 .step-img }](../../img/Tutorial_6/anchor_3.png)
+
 **3. Colour by displacement.** With `mps_1_..vtu` selected in the *Pipeline Browser*, set *Coloring* to `displacement` and `Magnitude` (1). The full range, up to about $25$ m, leaves most of the soil the same colour, so click *Rescale to Custom Range* (2), enter `0` and `5` (3) and click *Ok*.
-</div>
-<div markdown>
-![Colouring by displacement magnitude and setting a custom range.](../../img/Tutorial_6/anchor_3.png){ #fig-anchor-pv-3 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![Soil displacement around the anchor at the end of the drag, on a 0 to 5 m scale.](../../img/Tutorial_6/anchor_4.png){ #fig-anchor-pv-4 .step-img }](../../img/Tutorial_6/anchor_4.png)
+
 **4. Play the drag.** The soil moves around the anchor and barely at all away from it. Click *First Frame* (`|◀`) and then *Play* (`▶`) to watch the anchor settle and drag, with the window of active soil moving with it.
+
 </div>
-<div markdown>
-![Soil displacement around the anchor at the end of the drag, on a 0 to 5 m scale.](../../img/Tutorial_6/anchor_4.png){ #fig-anchor-pv-4 }
-</div>
+
 </div>
 
 ### Anchor trajectory and holding force

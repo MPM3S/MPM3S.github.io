@@ -446,130 +446,120 @@ The vertical height of the cone tip is found from `body1_position_z`. The steps 
 
 The reaction force in `rigid_body.csv` includes the friction along the sleeve. To find the force on the tip alone, sum the vertical contact force on the triangles of the conical tip in ParaView, and track the height of the tip:
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step-viewer" markdown>
+
+<div class="step" markdown>
+
+[![The cone surface after Apply.](../../img/Tutorial_3/CPT_plot1.png){ #fig-cpt-tip-1 .step-img }](../../img/Tutorial_3/CPT_plot1.png)
+
 **1. Open the cone.** *File → Open*, go to `vtk_CPT_dr32`, select the `surface_..vtu` series on its own, click *OK* and then *Apply* (1). The cone appears in the render view.
-</div>
-<div markdown>
-![The cone surface after Apply.](../../img/Tutorial_3/CPT_plot1.png){ #fig-cpt-tip-1 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The triangles of the conical tip selected and highlighted in pink.](../../img/Tutorial_3/CPT_plot2.png){ #fig-cpt-tip-2 .step-img }](../../img/Tutorial_3/CPT_plot2.png)
+
 **2. Select the triangles of the conical tip.** Click *Select Cells On* (1) in the render-view toolbar (or press `S`) and drag a box around the conical tip (2), so that its triangles are highlighted in pink and the cylindrical sleeve is not. Hold `Ctrl` and drag again to add any triangles that were missed.
-</div>
-<div markdown>
-![The triangles of the conical tip selected and highlighted in pink.](../../img/Tutorial_3/CPT_plot2.png){ #fig-cpt-tip-2 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The Filters menu.](../../img/Tutorial_3/CPT_plot3.png){ #fig-cpt-tip-3 .step-img }](../../img/Tutorial_3/CPT_plot3.png)
+
 **3. Find the Extract Selection filter.** Open the *Filters* menu and choose *Search...* (1). `Ctrl` + `Space` opens the same filter search from anywhere in ParaView.
-</div>
-<div markdown>
-![The Filters menu.](../../img/Tutorial_3/CPT_plot3.png){ #fig-cpt-tip-3 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The filter search with Extract Selection highlighted.](../../img/Tutorial_3/CPT_plot4.png){ #fig-cpt-tip-4 .step-img }](../../img/Tutorial_3/CPT_plot4.png)
+
 **4. Extract the selection.** Type `extract sel` (1), choose *Extract Selection* (2) and press `Enter`.
-</div>
-<div markdown>
-![The filter search with Extract Selection highlighted.](../../img/Tutorial_3/CPT_plot4.png){ #fig-cpt-tip-4 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![ExtractSelection1 in the Pipeline Browser, with the tip point selected.](../../img/Tutorial_3/CPT_plot5.png){ #fig-cpt-tip-5 .step-img }](../../img/Tutorial_3/CPT_plot5.png)
+
 **5. Apply it, then select the tip point.** `ExtractSelection1` appears in the *Pipeline Browser*; click *Apply*. It holds only the triangles of the tip. Then (1) click *Clear Selection* to remove the selected triangles, and (2) click *Select Points On* (or press `D`) and drag a small box around the very tip of the cone, which is highlighted as a single pink point.
-</div>
-<div markdown>
-![ExtractSelection1 in the Pipeline Browser, with the tip point selected.](../../img/Tutorial_3/CPT_plot5.png){ #fig-cpt-tip-5 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![Renaming the second extract in the Pipeline Browser.](../../img/Tutorial_3/CPT_plot6.png){ #fig-cpt-tip-6 .step-img }](../../img/Tutorial_3/CPT_plot6.png)
+
 **6. Extract the tip point and name the two extracts.** Apply *Extract Selection* again to extract the tip point. Right-click each extract in the *Pipeline Browser* (1), choose *Rename* (2), and call the triangles `cone load` and the point `cone tip`.
-</div>
-<div markdown>
-![Renaming the second extract in the Pipeline Browser.](../../img/Tutorial_3/CPT_plot6.png){ #fig-cpt-tip-6 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The cone load and cone tip extracts, with the full surface hidden.](../../img/Tutorial_3/CPT_plot7.png){ #fig-cpt-tip-7 .step-img }](../../img/Tutorial_3/CPT_plot7.png)
+
 **7. Check the extracts.** Hide `surface_..vtu` with its eye icon (1). Only the conical tip is left.
-</div>
-<div markdown>
-![The cone load and cone tip extracts, with the full surface hidden.](../../img/Tutorial_3/CPT_plot7.png){ #fig-cpt-tip-7 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![A new layout with the list of views.](../../img/Tutorial_3/CPT_plot8.png){ #fig-cpt-tip-8 .step-img }](../../img/Tutorial_3/CPT_plot8.png)
+
 **8. Open a layout for the plots.** Click `+` (1) beside *Layout #1* to open *Layout #2* and choose *Line Chart View* (2).
-</div>
-<div markdown>
-![A new layout with the list of views.](../../img/Tutorial_3/CPT_plot8.png){ #fig-cpt-tip-8 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The filter search with Plot Data Over Time highlighted.](../../img/Tutorial_3/CPT_plot9.png){ #fig-cpt-tip-9 .step-img }](../../img/Tutorial_3/CPT_plot9.png)
+
 **9. Plot the load on the tip over time.** Select `cone load` (1), go to `Filters`, then `Search`, and then type `plot da` (2) and choose *Plot Data Over Time* (3).
-</div>
-<div markdown>
-![The filter search with Plot Data Over Time highlighted.](../../img/Tutorial_3/CPT_plot9.png){ #fig-cpt-tip-9 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![Choosing Cells for the Field Association.](../../img/Tutorial_3/CPT_plot10.png){ #fig-cpt-tip-10 .step-img }](../../img/Tutorial_3/CPT_plot10.png)
+
 **10. Use the cell data.** The contact force is stored on the triangles, so set *Field Association* to *Cells* (1). Keep *Only Report Selection Statistics* ticked and click *Apply* (2). ParaView reads every output step, which takes a moment, and draws a quartile chart.
-</div>
-<div markdown>
-![Choosing Cells for the Field Association.](../../img/Tutorial_3/CPT_plot10.png){ #fig-cpt-tip-10 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The average vertical contact force on the tip triangles, with the quartiles shaded.](../../img/Tutorial_3/CPT_plot11.png){ #fig-cpt-tip-11 .step-img }](../../img/Tutorial_3/CPT_plot11.png)
+
 **11. Choose the vertical force.** In *Series Parameters*, untick every series except `contact force (2) (stats)` (1), the $z$ component. The chart shows its average over the tip triangles, with the spread between them shaded.
-</div>
-<div markdown>
-![The average vertical contact force on the tip triangles, with the quartiles shaded.](../../img/Tutorial_3/CPT_plot11.png){ #fig-cpt-tip-11 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The summed vertical contact force on the tip against output step.](../../img/Tutorial_3/CPT_plot12.png){ #fig-cpt-tip-12 .step-img }](../../img/Tutorial_3/CPT_plot12.png)
+
 **12. Show the total.** Further down, untick *Show Quartiles* (1) and *Show Average* (2) and tick *Show Sum* (3). `sum contact force (2) (stats)` is the vertical force on the tip of the quarter cone, which grows steadily as the cone penetrates.
-</div>
-<div markdown>
-![The summed vertical contact force on the tip against output step.](../../img/Tutorial_3/CPT_plot12.png){ #fig-cpt-tip-12 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The Export View dialog, saving load_data.csv.](../../img/Tutorial_3/CPT_plot13.png){ #fig-cpt-tip-13 .step-img }](../../img/Tutorial_3/CPT_plot13.png)
+
 **13. Export the load.** *File → Export View*, choose *Comma or Tab Delimited Files* (1) and save the chart in `vtk_CPT_dr32` (2) as `load_data.csv` (3), then click *OK* (4).
-</div>
-<div markdown>
-![The Export View dialog, saving load_data.csv.](../../img/Tutorial_3/CPT_plot13.png){ #fig-cpt-tip-13 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The height of the cone tip against output step.](../../img/Tutorial_3/CPT_plot14.png){ #fig-cpt-tip-14 .step-img }](../../img/Tutorial_3/CPT_plot14.png)
+
 **14. Plot the tip height.** Select `cone tip` (1) and apply *Plot Data Over Time* again, keeping *Field Association* as *Points* (2), and show only `Z (stats)` (3). The tip height is $0$ in stage 1, jumps to the soil surface at about $19.85$ m when the cone is placed at the start of stage 2, and then falls steadily as the cone is pushed down. Export it in the same way, as `position_data.csv` in `vtk_CPT_dr32`.
+
 </div>
-<div markdown>
-![The height of the cone tip against output step.](../../img/Tutorial_3/CPT_plot14.png){ #fig-cpt-tip-14 }
-</div>
+
 </div>
 
 With $F_{tip}$ the summed vertical contact force from `load_data.csv`, the tip resistance of the full cone is

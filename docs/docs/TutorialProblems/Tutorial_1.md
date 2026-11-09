@@ -382,33 +382,6 @@ The results are written as the simulation runs, so you do not need to wait until
 
 The output files can be opened in [ParaView](https://www.paraview.org/) to inspect the deformed column and the data carried by the GIMPs. Each GIMP is drawn as a box the size of its domain. The walkthrough below opens the GIMP data, colours it by displacement and stress, and shows how the GIMP domains have deformed.
 
-<div class="walkthrough" markdown>
-<div markdown>
-**1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
-</div>
-<div markdown>
-![ParaView on launch, with an empty render view.](../../img/Tutorial_1/Column_1.png){ #fig-paraview-1 }
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it (1) and click *OK* (2).
-</div>
-<div markdown>
-![The Open File dialog with the mps_1_..vtu series selected.](../../img/Tutorial_1/Column_2.png){ #fig-paraview-2 }
-</div>
-</div>
-
-<div class="walkthrough" markdown>
-<div markdown>
-**3. Apply the reader.** Click *Apply* (1) in the Properties panel. The column of GIMPs appears at the first load step.
-</div>
-<div markdown>
-![The series in the Pipeline Browser, with Apply highlighted in the Properties panel.](../../img/Tutorial_1/Column_3.png){ #fig-paraview-3 }
-</div>
-</div>
-
 !!! tip "Navigating the 3D view"
     Once a dataset is rendered you can move the camera with the mouse inside the *RenderView*:
 
@@ -417,40 +390,64 @@ The output files can be opened in [ParaView](https://www.paraview.org/) to inspe
     - **Scroll wheel** (or right-click and drag) to zoom in and out.
     - Press `R` or use *View → Reset Camera* to reframe the scene if you get lost.
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step-viewer" markdown>
+
+<div class="step" markdown>
+
+[![ParaView on launch, with an empty render view.](../../img/Tutorial_1/Column_1.png){ #fig-paraview-1 .step-img }](../../img/Tutorial_1/Column_1.png)
+
+**1. Open ParaView.** Launch ParaView from your applications menu or terminal; you should see an empty render view.
+
+</div>
+
+<div class="step" markdown>
+
+[![The Open File dialog with the mps_1_..vtu series selected.](../../img/Tutorial_1/Column_2.png){ #fig-paraview-2 .step-img }](../../img/Tutorial_1/Column_2.png)
+
+**2. Open the output files.** *File → Open* and navigate to `vtk_column`. ParaView groups the numbered files into one series, `mps_1_..vtu`; select it (1) and click *OK* (2).
+
+</div>
+
+<div class="step" markdown>
+
+[![The series in the Pipeline Browser, with Apply highlighted in the Properties panel.](../../img/Tutorial_1/Column_3.png){ #fig-paraview-3 .step-img }](../../img/Tutorial_1/Column_3.png)
+
+**3. Apply the reader.** Click *Apply* (1) in the Properties panel. The column of GIMPs appears at the first load step.
+
+</div>
+
+<div class="step" markdown>
+
+[![The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.](../../img/Tutorial_1/Column_4.png){ #fig-paraview-4 .step-img }](../../img/Tutorial_1/Column_4.png)
+
 **4. Colour the GIMPs by displacement.** Change *Coloring* to `displacement` (1); the menu beside it shows `Magnitude`, which for this column is the vertical displacement. At the first load step the displacements are still small.
-</div>
-<div markdown>
-![The column of GIMPs at the first load step, with displacement chosen in the Coloring menu.](../../img/Tutorial_1/Column_4.png){ #fig-paraview-4 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The deformed column at the final load step, coloured by displacement.](../../img/Tutorial_1/column_v2_1.png){ #fig-paraview-5 .step-img }](../../img/Tutorial_1/column_v2_1.png)
+
 **5. Advance to the final step.** Click the *Go to Last* button (`▶|`) (1) in the time toolbar, then *Rescale to Visible Range* (2) in the colour-map toolbar so the colour scale matches the deformed column. The column has shortened from $50$ m to about $24$ m, so the top has moved down by about $26$ m.
-</div>
-<div markdown>
-![The deformed column at the final load step, coloured by displacement.](../../img/Tutorial_1/column_v2_1.png){ #fig-paraview-5 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![Choosing the ZZ component of stress in the Coloring menu.](../../img/Tutorial_1/column_v2_2.png){ #fig-paraview-6 .step-img }](../../img/Tutorial_1/column_v2_2.png)
+
 **6. Colour by vertical stress.** Change *Coloring* to `stress` (1) and `ZZ` (2), and rescale (3). The compressive stress increases steadily from zero at the top to its largest value at the base.
-</div>
-<div markdown>
-![Choosing the ZZ component of stress in the Coloring menu.](../../img/Tutorial_1/column_v2_2.png){ #fig-paraview-6 }
-</div>
+
 </div>
 
-<div class="walkthrough" markdown>
-<div markdown>
+<div class="step" markdown>
+
+[![The column drawn with Surface With Edges, coloured by vertical stress.](../../img/Tutorial_1/column_v2_3.png){ #fig-paraview-7 .step-img }](../../img/Tutorial_1/column_v2_3.png)
+
 **7. Look at the GIMP domains.** Change the *Representation* to *Surface With Edges* (1) and zoom in on the base and the top of the column. With `"domain update": "stretch"` the GIMPs near the base are squashed to about $30\%$ of their original height, while those near the top have shortened by only about $6\%$.
+
 </div>
-<div markdown>
-![The column drawn with Surface With Edges, coloured by vertical stress.](../../img/Tutorial_1/column_v2_3.png){ #fig-paraview-7 }
-</div>
+
 </div>
 
 ## Analysing the stress variation with height
