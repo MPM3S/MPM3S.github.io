@@ -144,7 +144,7 @@ plugins:
         color: "#ffffff"
   - caption:
       figure:
-        ignore_classes: ["gif-box", "card-gif"]   # the tutorial animations are not numbered figures
+        ignore_classes: ["gif-box", "card-gif", "step-img"]   # tutorial animations and step-viewer screenshots are not numbered figures
   - bibtex:
       bib_file: "docs/refs.bib"
   - redirects:
@@ -160,6 +160,7 @@ extra_css:
 extra_javascript:
   - javascripts/mathjax.js
   - javascripts/julia-repl-colors.js
+  - javascripts/step_viewer.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 # Extensions

@@ -54,7 +54,15 @@ Released versions of MPM3S are published at [github.com/MPM3S/MPM3S.jl](https://
 
     ![The green Code button on the MPM3S GitHub page, with Download ZIP at the bottom of the menu.](../../img/install_and_run/git_download.png){ #fig-github-zip width="70%" }
 
-    Unzip it wherever you want to keep it and rename the folder to `MPM3S`.
+    From the folder you saved it in (e.g. `cd ~/Downloads`, or `cd $HOME\Downloads` on Windows), unzip it and rename the folder:
+
+    ```bash
+    unzip MPM3S.jl-master.zip
+    mv MPM3S.jl-master MPM3S
+    cd MPM3S
+    ```
+
+    On Windows, use `tar -xf MPM3S.jl-master.zip` in place of `unzip`.
 
 --8<-- "rename_folder.md"
 
