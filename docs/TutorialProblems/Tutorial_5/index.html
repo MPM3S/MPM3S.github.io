@@ -29,7 +29,7 @@
     
     
       
-        <title>Plough - MPM3S</title>
+        <title>Cable burial plough - MPM3S</title>
       
     
     
@@ -67,7 +67,7 @@
     
   
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Plough - MPM3S" />
+<meta property="og:title" content="Cable burial plough - MPM3S" />
 <meta property="og:description" content="MPM3S: software for large-deformation soil-structure interaction using the Material Point Method" />
 <meta property="og:image" content="https://mpm3s.github.io/assets/images/social/docs/TutorialProblems/Tutorial_5.png" />
 <meta property="og:image:type" content="image/png" />
@@ -75,7 +75,7 @@
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://mpm3s.github.io/docs/TutorialProblems/Tutorial_5/" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Plough - MPM3S" />
+<meta property="twitter:title" content="Cable burial plough - MPM3S" />
 <meta property="twitter:description" content="MPM3S: software for large-deformation soil-structure interaction using the Material Point Method" />
 <meta property="twitter:image" content="https://mpm3s.github.io/assets/images/social/docs/TutorialProblems/Tutorial_5.png" />
 </head>
@@ -95,7 +95,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tutorial-5-plough" class="md-skip">
+        <a href="#tutorial-5-cable-burial-plough" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Plough
+              Cable burial plough
             
           </span>
         </div>
@@ -1038,7 +1038,7 @@
   <span class="md-ellipsis">
     
   
-    Plough
+    Cable burial plough
   
 
     
@@ -1056,7 +1056,7 @@
   <span class="md-ellipsis">
     
   
-    Plough
+    Cable burial plough
   
 
     
@@ -1534,7 +1534,7 @@
   <span class="md-ellipsis">
     
   
-    Plough
+    Cable burial plough
   
 
     
@@ -3031,7 +3031,7 @@
   
 
 
-<h1 id="tutorial-5-plough">Tutorial 5: Plough<a class="headerlink" href="#tutorial-5-plough" title="Permanent link">¶</a></h1>
+<h1 id="tutorial-5-cable-burial-plough">Tutorial 5: Cable burial plough<a class="headerlink" href="#tutorial-5-cable-burial-plough" title="Permanent link">¶</a></h1>
 <div class="tutorial-head">
 <div class="tutorial-facts level-advanced-strip">
 <span class="level level-advanced">Advanced</span>
@@ -3043,7 +3043,7 @@
 </div>
 
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h2>
-<p>This tutorial drives a plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with the <span class="arithmatex">\(426\)</span> kN measured in the centrifuge tests of Robinson et al. <sup id="fnref:robinson2021cone"><a class="footnote-ref" href="#fn:robinson2021cone">1</a></sup>.</p>
+<p>This tutorial drives a cable burial plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with the <span class="arithmatex">\(426\)</span> kN measured in the centrifuge tests of Robinson et al. <sup id="fnref:robinson2021cone"><a class="footnote-ref" href="#fn:robinson2021cone">1</a></sup>.</p>
 <p>The problem uses the gravity stage from <a href="../Tutorial_1/">Tutorial 1</a>, the displacement-controlled rigid body with contact from <a href="../Tutorial_2/">Tutorial 2</a>, the Willam-Warnke sand with depth-dependent stiffness from <a href="../Tutorial_3/">Tutorial 3</a>, and the dynamic time integration, frictional contact and moving boundaries from <a href="../Tutorial_4/">Tutorial 4</a>. Unlike the sphere of Tutorial 4, the plough is not free: its whole path is prescribed, so the soil only decides the force needed to move it. The contact between the GIMPs and the plough uses the dynamic implicit 3D material point-to-rigid body contact approach of Bird et al. <sup id="fnref:bird_dynamic_2025"><a class="footnote-ref" href="#fn:bird_dynamic_2025">2</a></sup>.</p>
 <p>This tutorial has four sections:</p>
 <ul>

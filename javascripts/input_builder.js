@@ -4,6 +4,8 @@
  * C conditional), kind, allowed values, default and, for conditional keys, when it applies (the note shown
  * under each key comes from input_builder_notes.js, by the key's place in the file); a
  * top-level key can also be `held` at a fixed value, and hidden from the form, while a condition lasts.
+ * A text key can also be set `from` another key beside it (the mesh cache, from the STL file's name): the form shows it
+ * greyed out and keeps it in step.
  * A number can also be given in other terms (`convert`, e.g. a von Mises yield stress from σy); the file keeps the key's own.
  * The numerical settings are marked `adv`: the form shows them, wherever they sit in the file, in one
  * "Advanced settings" box at the bottom.
@@ -24,6 +26,8 @@
   const is = (k, ...v) => (o) => v.includes(o[k]);
   const not = (k, ...v) => (o) => !v.includes(o[k]);
   const noBodies = (o) => !(Array.isArray(o["rigid bodies"]) && o["rigid bodies"].length);
+  // a rigid body's mesh cache is named after its STL file: cube.stl -> cube_mesh.txt
+  const meshCacheFor = (stl) => (typeof stl === "string" && stl ? stl.replace(/\.stl$/i, "") + "_mesh.txt" : "");
   const BC = ["free", "fixed", "prescribed"];
 
   const STAGE_TRACK = (def) => F(def.side, "obj", { fields: [
@@ -92,7 +96,7 @@
         F("stl files", "list", { status: "O", min: 0, itemName: "surface", ref: "rigid_bodies/#stl-files", item: [
           F("name", "text", { status: "O", def: "body" }),
           F("stl", "text", { def: "body.stl" }),
-          F("mesh cache", "text", { def: "body_mesh.txt" }),
+          F("mesh cache", "text", { def: "body_mesh.txt", from: { key: "stl", fn: meshCacheFor, why: "it is named after the STL file" } }),
           F("point", "int", { def: 1, min: 1 }),
         ] }),
         F("tracked nodes", "list", { status: "O", min: 0, itemName: "tracked node", ref: "rigid_bodies/#tracked-nodes", item: [
@@ -466,8 +470,19 @@
       case "num": return numberInput(get, set, path, false);
       case "int": return numberInput(get, set, path, true);
       case "text": {
+        if (f.from) return el("input", { type: "text", class: "ib-text ib-derived", id: pathId(path), value: get() === undefined ? "" : get(),
+          readonly: "", tabindex: "-1", title: `Set from "${f.from.key}": ${f.from.why}` });
+        const followers = siblingsOf(path).filter((x) => x.from && x.from.key === f.key);
         const inp = el("input", { type: "text", class: "ib-text", id: pathId(path), value: get() === undefined ? "" : get() });
-        inp.addEventListener("input", () => { set(inp.value); update(); });
+        inp.addEventListener("input", () => {
+          set(inp.value);
+          for (const d of followers) {                // keep the keys named after this one in step
+            obj[d.key] = d.from.fn(obj[f.key]);
+            const out = document.getElementById(pathId(path.slice(0, -1).concat(d.key)));
+            if (out) out.value = obj[d.key];
+          }
+          update();
+        });
         return inp;
       }
       case "vec": case "ivec": {
@@ -987,7 +1002,23 @@
         if (obj[f.key] !== undefined) notes.push(`"${f.key}" was ${inline(obj[f.key], f)}; it is ${inline(f.held.value, f)} as ${f.held.why}`);
         obj[f.key] = clone(f.held.value);
       }
+    deriveAll(SCHEMA, obj, notes);
     return notes.length ? notes.join(". ") : null;
+  }
+  // the keys set `from` another key beside them (the mesh cache, from the STL file), all through the file
+  function deriveAll(fields, obj, notes) {
+    if (!obj || typeof obj !== "object" || Array.isArray(obj)) return;
+    for (const f of fields) {
+      const v = obj[f.key];
+      if (f.from && obj[f.from.key] !== undefined) {
+        const want = f.from.fn(obj[f.from.key]);
+        if (v === want) continue;
+        if (v !== undefined) notes.push(`"${f.key}" was ${inline(v, f)}; it is ${inline(want, f)} as ${f.from.why}`);
+        obj[f.key] = want;
+      }
+      else if (f.kind === "obj") deriveAll(f.fields, v, notes);
+      else if (f.kind === "list" && Array.isArray(v)) v.forEach((item) => deriveAll(f.item, item, notes));
+    }
   }
   function load(obj, label) {
     const note = holdFixed(obj);

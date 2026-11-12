@@ -96,6 +96,9 @@
 }
 #input-builder input.ib-num { width: 7.5em; }
 #input-builder input.ib-text { width: 100%; max-width: 22em; }
+#input-builder input.ib-text.ib-derived {                 /* set from another key: shown, not edited */
+  color: var(--md-default-fg-color--light); background: var(--md-default-fg-color--lightest); cursor: default;
+}
 #input-builder .ib-bad { border-color: var(--ib-err) !important; background: rgba(198, 40, 40, 0.08) !important; }
 #input-builder .ib-flag { outline: 2px solid var(--ib-err); outline-offset: 1px; }
 #input-builder .ib-vec { display: flex; flex-wrap: wrap; gap: 0.3rem 0.6rem; }
