@@ -9,7 +9,7 @@ TEMPLATES = [
     ("Tutorial 2 - Compaction via a rigid body", "input_data_compress.json"),
     ("Tutorial 3 - Vertical penetration (CPT)", "input_data_CPT_dr32.json"),
     ("Tutorial 4 - Rolling sphere", "input_data_sphere.json"),
-    ("Tutorial 5 - Plough", "input_data_plough_dr44.json"),
+    ("Tutorial 5 - Cable burial plough", "input_data_plough_dr44.json"),
     ("Tutorial 6 - Drag anchor", "input_data_AC14_dr32.json"),
 ]
 folder = pathlib.Path(sys.argv[1])

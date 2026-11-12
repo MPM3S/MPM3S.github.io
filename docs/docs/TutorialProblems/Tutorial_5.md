@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-# Tutorial 5: Plough
+# Tutorial 5: Cable burial plough
 
 <div class="tutorial-head">
 <div class="tutorial-facts level-advanced-strip">
@@ -16,7 +16,7 @@ hide:
 </div>
 
 ## Introduction
-This tutorial drives a plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with the $426$ kN measured in the centrifuge tests of Robinson et al. [@robinson2021cone].
+This tutorial drives a cable burial plough through a bed of dry sand along a prescribed path and compares the force needed to tow it with the $426$ kN measured in the centrifuge tests of Robinson et al. [@robinson2021cone].
 
 The problem uses the gravity stage from [Tutorial 1](Tutorial_1.md), the displacement-controlled rigid body with contact from [Tutorial 2](Tutorial_2.md), the Willam-Warnke sand with depth-dependent stiffness from [Tutorial 3](Tutorial_3.md), and the dynamic time integration, frictional contact and moving boundaries from [Tutorial 4](Tutorial_4.md). Unlike the sphere of Tutorial 4, the plough is not free: its whole path is prescribed, so the soil only decides the force needed to move it. The contact between the GIMPs and the plough uses the dynamic implicit 3D material point-to-rigid body contact approach of Bird et al. [@bird_dynamic_2025].
 

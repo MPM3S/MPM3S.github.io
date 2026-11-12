@@ -33,7 +33,7 @@ description: MPM3S is software for large-deformation soil-structure interaction 
   const slides = [
     { href: link.getAttribute("href"), title: "Tutorial 6: Drag anchor", alt: img.alt, caption: cap.textContent, first: img.getAttribute("src"),
       gif: dir + "AC14_dr32_hero.gif", ms: 16000 },
-    { href: "../TutorialProblems/Tutorial_5/", title: "Tutorial 5: Plough", caption: "cable burial plough",
+    { href: "../TutorialProblems/Tutorial_5/", title: "Tutorial 5: Cable burial plough", caption: "cable burial plough",
       alt: "The plough driven through sand, coloured by displacement magnitude (Tutorial 5).",
       first: dir + "plough_dr44_hero_first.png", gif: dir + "plough_dr44_hero.gif", ms: 16080 },
   ];
@@ -266,7 +266,7 @@ Click an animation to open its tutorial.
 <figure><a href="../TutorialProblems/Tutorial_4/"><img src="../../img/gifs/sphere_mu0.2.gif" alt="The sphere rolling down the slope with μ = 0.2, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
 <figcaption><a href="../TutorialProblems/Tutorial_4/">Tutorial 4: Rolling sphere</a></figcaption></figure>
 <figure><a href="../TutorialProblems/Tutorial_5/"><img src="../../img/gifs/plough_dr44.gif" alt="The plough driven down into the sand and along it, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
-<figcaption><a href="../TutorialProblems/Tutorial_5/">Tutorial 5: Plough</a></figcaption></figure>
+<figcaption><a href="../TutorialProblems/Tutorial_5/">Tutorial 5: Cable burial plough</a></figcaption></figure>
 <figure><a href="../TutorialProblems/Tutorial_6/"><img src="../../img/gifs/AC14_dr32.gif" alt="The AC-14 anchor dragged through the sand, coloured by displacement magnitude." class="gif-box" loading="lazy"></a>
 <figcaption><a href="../TutorialProblems/Tutorial_6/">Tutorial 6: Drag anchor</a></figcaption></figure>
 </div>

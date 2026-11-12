@@ -48,7 +48,7 @@ window.MPM3S_NOTES = {
   "rigid bodies › stl files": "Surfaces welded to the points. Only surfaces touch the soil.",
   "rigid bodies › stl files › name": "A label for your own reference; never read.",
   "rigid bodies › stl files › stl": "Relative to the input file.",
-  "rigid bodies › stl files › mesh cache": "Written if missing; delete it when the STL changes.",
+  "rigid bodies › stl files › mesh cache": "MPM3S uses this file if it exists; if not, it makes it in the same folder as the STL. Delete it if you change the STL, so it is made again.",
   "rigid bodies › stl files › point": "The point the surface is welded to; a point may carry several surfaces.",
   "rigid bodies › tracked nodes": "Markers that move with a point and are written to the output. No effect on the analysis.",
   "rigid bodies › tracked nodes › position": "Global position at the start.",

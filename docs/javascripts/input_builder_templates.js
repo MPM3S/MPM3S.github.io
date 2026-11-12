@@ -600,7 +600,7 @@ window.MPM3S_TEMPLATES = [
   }
  },
  {
-  "name": "Tutorial 5 - Plough",
+  "name": "Tutorial 5 - Cable burial plough",
   "file": "input_data_plough_dr44.json",
   "json": {
    "GPU": "on",
